@@ -1,0 +1,19 @@
+{
+  "name": "@kgui/core-sub",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.tsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/knowgistics-coding/core-sub.git"
+  },
+  "author": "knowgistics-coding",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/knowgistics-coding/core-sub/issues"
+  },
+  "homepage": "https://github.com/knowgistics-coding/core-sub#readme"
+}
