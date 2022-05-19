@@ -4,9 +4,10 @@ import { useState } from 'react'
 import { useMC } from './ctx';
 import QRCode from 'react-qr-code';
 import { useCore } from '../context';
+import {Link} from 'react-router-dom';
 
 export const MCLine = () => {
-  const { onSettingChange, Link } = useCore()
+  const { onSettingChange } = useCore()
   const { user } = useMC()
   const [open,setOpen] = useState<boolean>(false);
   const line = null

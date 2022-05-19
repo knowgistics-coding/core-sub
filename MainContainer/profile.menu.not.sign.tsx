@@ -8,7 +8,7 @@ import { SignIn } from "../SignIn";
 interface ProfileMenuNotSignProps {
   onClose: () => void;
 }
-export const ProfileMenuNotSign = ({}: ProfileMenuNotSignProps) => {
+export const ProfileMenuNotSign = (_props: ProfileMenuNotSignProps) => {
   const { t } = useCore();
   const [open, setOpen] = useState(false);
 

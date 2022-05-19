@@ -34,7 +34,6 @@ export class SkeletonController {
 
   genKey = (): string => Math.floor(Math.random() * 1000000).toString();
   encodeBlurhash = (file: File) => {
-    // eslint-disable-next-line promise/param-names
     return new Promise((resolved) => {
       try {
         const url = URL.createObjectURL(file);

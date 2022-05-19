@@ -64,13 +64,13 @@ export interface StateTypes {
   focus: string | null
 }
 
-export interface CEContext extends ContentEditProps {
+export interface CEContextType extends ContentEditProps {
   state: StateTypes
   setState: Dispatch<SetStateAction<StateTypes>>
   getContentIndex: (key: string) => number
 }
 
-export const CEContext = createContext<CEContext>({
+export const CEContext = createContext<CEContextType>({
   loading: true,
   onSave: async () => false,
   data: {},

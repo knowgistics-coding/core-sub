@@ -16,7 +16,7 @@ import { Blocks } from './blocks'
 
 const genKey = (): string => Math.round(Math.random() * 1000000).toString()
 
-const FabStyled = styled(Fab)(({}) => ({
+const FabStyled = styled(Fab)(() => ({
   // position: 'fixed',
   // right: theme.spacing(2),
   // bottom: theme.spacing(2),

@@ -1,96 +1,96 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from "react";
 import {
   Box,
   Button,
   styled,
   Stack,
   Checkbox,
-  FormControlLabel
-} from '@mui/material'
-import { Panel } from '../panel'
-import { SelectType } from '../select.type'
-import { DialogRemove } from '../../DialogRemove'
-import { dataTypes, useQEC } from '../context'
-import update from 'react-addons-update'
-import { useCore } from '../../context'
-import { KuiButton } from '../../KuiButton'
+  FormControlLabel,
+} from "@mui/material";
+import { Panel } from "../panel";
+import { SelectType } from "../select.type";
+import { DialogRemove } from "../../DialogRemove";
+import { dataTypes, useQEC } from "../context";
+import update from "react-addons-update";
+import { useCore } from "../../context";
+import { KuiButton } from "../../KuiButton";
 
 const AnswerBox = styled(Box)(({ theme }) => ({
   border: `solid 1px ${theme.palette.grey[300]}`,
   padding: theme.spacing(2),
-  '&:not(:last-child)': {
-    marginBottom: theme.spacing(2)
-  }
-}))
+  "&:not(:last-child)": {
+    marginBottom: theme.spacing(2),
+  },
+}));
 
 export const OptionsMultiple = () => {
-  const { t } = useCore()
-  const { genKey, open, data, setData, onTabOpen } = useQEC()
-  const [del, setDel] = useState<number | null>(null)
+  const { t } = useCore();
+  const { genKey, open, data, setData, onTabOpen } = useQEC();
+  const [del, setDel] = useState<number | null>(null);
 
   const handleChangeOption =
-    (index: number, key: number) => (value: Omit<dataTypes, 'key'>) => {
+    (index: number, key: number) => (value: Omit<dataTypes, "key">) => {
       setData((d) =>
         update(d, {
-          multiple: { options: { [index]: { $set: { ...value, key } } } }
+          multiple: { options: { [index]: { $set: { ...value, key } } } },
         })
-      )
-    }
+      );
+    };
   const handleAddOption = () => {
     if (data?.multiple?.options?.length) {
       const options = data?.multiple?.options.concat({
         key: genKey(),
-        type: 'paragraph'
-      })
+        type: "paragraph",
+      });
       setData((d) =>
         update(d, {
           multiple: {
-            options: { $set: options }
-          }
+            options: { $set: options },
+          },
         })
-      )
+      );
     }
-  }
-  const handleDelete = (key: number | null) => () => setDel(key)
+  };
+  const handleDelete = (key: number | null) => () => setDel(key);
   const handleDeleteConfirm = () => {
     if (data?.multiple?.options) {
       const options = data?.multiple?.options.filter(
         (option) => option.key !== del
-      )
+      );
       setData((d) =>
         update(d, {
-          multiple: { options: { $set: options }, answer: { $set: undefined } }
+          multiple: { options: { $set: options }, answer: { $set: undefined } },
         })
-      )
+      );
     }
-  }
+  };
   const handleChangeShuffle = (
     _event: React.ChangeEvent<HTMLInputElement>,
     checked: boolean
   ) => {
-    setData((d) => ({ ...d, shuffle: checked }))
-  }
+    setData((d) => ({ ...d, shuffle: checked }));
+  };
 
   useEffect(() => {
-    if (!data?.multiple?.options && data?.type === 'multiple') {
+    if (!data?.multiple?.options && data?.type === "multiple") {
       const options: dataTypes[] = Array.from(Array(4).keys()).map(() => ({
         key: genKey(),
-        type: 'paragraph'
-      }))
+        type: "paragraph",
+      }));
       setData((d) =>
         update(d, { multiple: { $set: { options, answer: options[0].key } } })
-      )
+      );
     }
-  }, [data])
+  }, [data, genKey, setData]);
 
   return (
     <Panel
-      expanded={open['answer']}
-      title={t('Choice')}
+      expanded={open["answer"]}
+      title={t("Choice")}
       actions={
         <Fragment>
           <FormControlLabel
-            label={t('Shuffle')}
+            label={t("Shuffle")}
             control={
               <Checkbox
                 checked={Boolean(data.shuffle)}
@@ -98,15 +98,15 @@ export const OptionsMultiple = () => {
               />
             }
             componentsProps={{
-              typography: { variant: 'body2', color: 'textSecondary' }
+              typography: { variant: "body2", color: "textSecondary" },
             }}
           />
-          <Button color='primary' onClick={handleAddOption}>
-            {t('Add Choice')}
+          <Button color="primary" onClick={handleAddOption}>
+            {t("Add Choice")}
           </Button>
         </Fragment>
       }
-      onChange={onTabOpen('choice')}
+      onChange={onTabOpen("choice")}
     >
       {data?.multiple?.options?.map((item, index, options) => (
         <AnswerBox key={item.key}>
@@ -119,15 +119,15 @@ export const OptionsMultiple = () => {
           />
           {Boolean(options.length > 0) && (
             <Stack
-              direction={'row'}
-              justifyContent='space-between'
+              direction={"row"}
+              justifyContent="space-between"
               sx={{ mt: 1 }}
             >
               <FormControlLabel
-                label={t('Right Answer')}
+                label={t("Right Answer")}
                 control={
                   <Checkbox
-                    size='small'
+                    size="small"
                     checked={item.key === data?.multiple?.answer}
                     onChange={() =>
                       setData((d) =>
@@ -137,13 +137,13 @@ export const OptionsMultiple = () => {
                   />
                 }
                 componentsProps={{
-                  typography: { variant: 'body2', color: 'textSecondary' }
+                  typography: { variant: "body2", color: "textSecondary" },
                 }}
               />
               <KuiButton
-                variant='outlined'
-                size='small'
-                tx='remove'
+                variant="outlined"
+                size="small"
+                tx="remove"
                 onClick={handleDelete(item.key)}
               />
             </Stack>
@@ -151,12 +151,12 @@ export const OptionsMultiple = () => {
         </AnswerBox>
       ))}
       <DialogRemove
-        title='Remove'
-        label='Do you want to remove this option?'
+        title="Remove"
+        label="Do you want to remove this option?"
         open={Boolean(del)}
         onClose={handleDelete(null)}
         onConfirm={handleDeleteConfirm}
       />
     </Panel>
-  )
-}
+  );
+};

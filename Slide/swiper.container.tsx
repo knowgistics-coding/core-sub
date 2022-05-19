@@ -25,7 +25,7 @@ import Swiper, {
   ReactIdSwiperProps,
   ReactIdSwiperChildren
 } from 'react-id-swiper'
-import './style.css'
+import 'swiper/scss'
 
 SwiperCore.use([
   Virtual,

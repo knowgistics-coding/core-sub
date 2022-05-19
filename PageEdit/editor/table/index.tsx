@@ -28,7 +28,7 @@ export const PEEditorTable = ({ content, index }: PEEditorProps) => {
       )
       console.log(content.table)
     }
-  }, [content.table])
+  }, [content.table, index, setData])
 
   return (
     <PEPanel content={content} contentKey={content.key} index={index}>

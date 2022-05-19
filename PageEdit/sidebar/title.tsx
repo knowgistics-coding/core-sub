@@ -1,52 +1,53 @@
-import { ListItem, TextField } from '@mui/material'
-import React, { Fragment, useEffect, useState } from 'react'
-import { useCore } from '../../context'
-import debounce from 'lodash.debounce'
+import { ListItem, TextField } from "@mui/material";
+import React, { Fragment, useEffect, useState } from "react";
+import { useCore } from "../../context";
+import debounce from "lodash.debounce";
 
 interface PETitleProps {
-  value?: string
-  onChange: (value: string) => void
-  divider?: boolean
+  value?: string;
+  onChange: (value: string) => void;
+  divider?: boolean;
 }
 export const PETitle = ({
   value: defaultValue,
   onChange,
-  divider
+  divider,
 }: PETitleProps) => {
-  const { t } = useCore()
-  const [value, setValue] = useState<string>('')
+  const { t } = useCore();
+  const [value, setValue] = useState<string>("");
 
   const handleChange = ({
-    target: { value }
+    target: { value },
   }: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(value)
-    debouncedChangeHandler(value)
-  }
+    setValue(value);
+    debouncedChangeHandler()(value);
+  };
 
-  const debouncedChangeHandler = React.useCallback(
-    debounce((value: string) => onChange(value), 500),
-    []
-  )
+  const debouncedChangeHandler = React.useCallback(() => {
+    return debounce((value: string) => {
+      onChange(value);
+    }, 500);
+  }, [onChange]);
 
   useEffect(() => {
     if (defaultValue) {
-      setValue(defaultValue)
+      setValue(defaultValue);
     }
-  }, [defaultValue])
+  }, [defaultValue]);
 
   return (
     <Fragment>
       <ListItem divider={divider}>
         <TextField
-          size='small'
-          label={t('Title')}
+          size="small"
+          label={t("Title")}
           fullWidth
-          variant='outlined'
+          variant="outlined"
           value={value}
           onChange={handleChange}
-          sx={{mt:1}}
+          sx={{ mt: 1 }}
         />
       </ListItem>
     </Fragment>
-  )
-}
+  );
+};

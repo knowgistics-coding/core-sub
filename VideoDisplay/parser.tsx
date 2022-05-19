@@ -1,5 +1,5 @@
 export const facebook_parser = (url: string): string => {
-  const preg = /<iframe.*src=\"(.*)\"\ w.*><\/iframe>/
+  const preg = /<iframe.*src="(.*)" w.*><\/iframe>/
   let results = url.match(preg)
   if (results?.[1]) {
     return results[1]

@@ -113,7 +113,7 @@ export const CEImagePanel = ({ content, index }: CEImagePanelProps) => {
         )
       }
     }
-  }, [content.value])
+  }, [content, getContentIndex, setData])
 
   return (
     <CEPanel

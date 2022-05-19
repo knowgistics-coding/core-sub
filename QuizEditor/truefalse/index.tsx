@@ -21,7 +21,7 @@ export const OptionsTrueFalse = () => {
     ) {
       setData((d) => ({ ...d, truefalse: { answer: 'true' } }))
     }
-  }, [data?.truefalse?.answer])
+  }, [data?.truefalse?.answer, setData])
 
   return (
     <Panel

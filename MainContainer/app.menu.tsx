@@ -5,6 +5,7 @@ import {
 import { Box, Grid, IconButton, Menu, styled, Theme } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { MouseEvent, useState } from "react";
+import { Link } from "react-router-dom";
 import { useCore } from "../context";
 import { AppIcon } from "./app.icon";
 
@@ -46,7 +47,7 @@ const FAStyled = styled((props: FontAwesomeIconProps) => (
 }));
 
 export const MCAppMenu = () => {
-  const { appMenu, Link } = useCore();
+  const { appMenu } = useCore();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
 
   const handleOpen = ({ currentTarget }: MouseEvent<HTMLButtonElement>) => {

@@ -22,6 +22,7 @@ export const CreditDisplay = styled(
                   &nbsp;
                   <a
                     href={`https://mek.network/profile/view/${uid}`}
+                    rel="noreferrer"
                     target="_blank"
                   >
                     {value}

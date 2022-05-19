@@ -7,8 +7,8 @@ import {
 } from "@mui/material";
 import { Container } from "./container";
 import { BreadcrumbsStyled } from "./breadcrumbs.styled";
-import { useCore } from "../context";
 import React from "react";
+import { Link } from "react-router-dom";
 
 export interface ContentHeaderProps {
   label?: React.ReactNode;
@@ -31,8 +31,6 @@ export const ContentHeader = ({
   containerProps,
   breadcrumbsProps,
 }: ContentHeaderProps) => {
-  const { Link } = useCore();
-
   return (
     <Container mb={4} {...containerProps}>
       <Box flex={1}>

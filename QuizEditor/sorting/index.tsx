@@ -106,7 +106,7 @@ export const OptionsSorting = () => {
       const answers = options.map((opt) => opt.key);
       setData((d) => update(d, { sorting: { $set: { options, answers } } }));
     }
-  }, [data?.sorting?.options]);
+  }, [data, genKey, setData]);
 
   return (
     <Panel

@@ -41,7 +41,7 @@ export const QDSorting = () => {
       setAnswer({ sorting })
       onChange({ sorting })
     }
-  }, [quiz])
+  }, [quiz, onChange, setAnswer])
 
   return (
     <Fragment>

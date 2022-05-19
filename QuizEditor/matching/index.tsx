@@ -1,98 +1,98 @@
-import { ChangeEvent, useEffect, useState } from 'react'
-import { dataTypes, useQEC } from '../context'
-import { Panel } from '../panel'
+import { ChangeEvent, useEffect, useState } from "react";
+import { dataTypes, useQEC } from "../context";
+import { Panel } from "../panel";
 import {
   Box,
   Button,
   styled,
   TextField,
   Typography,
-  TypographyProps
-} from '@mui/material'
+  TypographyProps,
+} from "@mui/material";
 
-import { DialogRemove } from '../../DialogRemove'
-import { useCore } from '../../context'
-import { SelectType } from '../select.type'
-import update from 'react-addons-update'
-import { KuiButton } from '../../KuiButton'
+import { DialogRemove } from "../../DialogRemove";
+import { useCore } from "../../context";
+import { SelectType } from "../select.type";
+import update from "react-addons-update";
+import { KuiButton } from "../../KuiButton";
 
 const AnswerBox = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
   border: `solid 1px ${theme.palette.grey[300]}`,
-  '&:not(:last-child)': {
-    marginBottom: theme.spacing(2)
-  }
-}))
+  "&:not(:last-child)": {
+    marginBottom: theme.spacing(2),
+  },
+}));
 
 const Label = styled((props: TypographyProps) => (
-  <Typography variant='body1' {...props} />
+  <Typography variant="body1" {...props} />
 ))({
-  fontWeight: 'bold'
-})
+  fontWeight: "bold",
+});
 
 export const OptionsMatching = () => {
-  const { t } = useCore()
-  const { open, data, setData, onTabOpen, genKey } = useQEC()
-  const [del, setDel] = useState<number | null>(null)
+  const { t } = useCore();
+  const { open, data, setData, onTabOpen, genKey } = useQEC();
+  const [del, setDel] = useState<number | null>(null);
 
   const handleOptionChange =
-    (index: number) => (data: Omit<dataTypes, 'key'>) => {
+    (index: number) => (data: Omit<dataTypes, "key">) => {
       setData((d) => {
-        const newValue = Object.assign({}, d.matching?.options?.[index], data)
+        const newValue = Object.assign({}, d.matching?.options?.[index], data);
         return update(d, {
-          matching: { options: { [index]: { $set: newValue } } }
-        })
-      })
+          matching: { options: { [index]: { $set: newValue } } },
+        });
+      });
       // setData((d) =>
       //   update(d, {
       //     matching: { options: { [index]: { $set: { ...data, key } } } }
       //   })
       // )
-    }
+    };
   const handleChange =
     (index: number) =>
     ({ target: { value } }: ChangeEvent<HTMLInputElement>) =>
       setData((d) =>
         update(d, {
-          matching: { options: { [index]: { value: { $set: value } } } }
+          matching: { options: { [index]: { value: { $set: value } } } },
         })
-      )
+      );
   const handleAdd = () => {
     if (data?.matching?.options) {
       const options: dataTypes[] = data?.matching?.options.concat({
         key: genKey(),
-        type: 'paragraph'
-      })
-      setData((d) => update(d, { matching: { options: { $set: options } } }))
+        type: "paragraph",
+      });
+      setData((d) => update(d, { matching: { options: { $set: options } } }));
     }
-  }
-  const handleRemove = (key: number | null) => () => setDel(key)
+  };
+  const handleRemove = (key: number | null) => () => setDel(key);
   const handleRemoveConfirm = () => {
     if (data?.matching?.options) {
-      const options = data.matching.options.filter((opt) => opt.key !== del)
-      setData((d) => update(d, { matching: { options: { $set: options } } }))
-      setDel(null)
+      const options = data.matching.options.filter((opt) => opt.key !== del);
+      setData((d) => update(d, { matching: { options: { $set: options } } }));
+      setDel(null);
     }
-  }
+  };
 
   useEffect(() => {
     if (!data?.matching?.options || data?.matching?.options?.length < 1) {
       const options: dataTypes[] = Array.from(Array(2).keys()).map(() => ({
         key: genKey(),
-        type: 'paragraph'
-      }))
-      setData((d) => update(d, { matching: { $set: { options } } }))
+        type: "paragraph",
+      }));
+      setData((d) => update(d, { matching: { $set: { options } } }));
     }
-  }, [data?.matching?.options])
+  }, [data?.matching?.options, genKey, setData]);
 
   return (
     <Panel
-      expanded={open['answer']}
-      onChange={onTabOpen('answer')}
-      title={t('Answer')}
+      expanded={open["answer"]}
+      onChange={onTabOpen("answer")}
+      title={t("Answer")}
       actions={
-        <Button color='primary' onClick={handleAdd}>
-          {t('Add Matching')}
+        <Button color="primary" onClick={handleAdd}>
+          {t("Add Matching")}
         </Button>
       }
     >
@@ -102,25 +102,25 @@ export const OptionsMatching = () => {
             type={option.type}
             image={option.image}
             paragraph={option.paragraph}
-            title={t('Sub Question') + ` ${index + 1}`}
+            title={t("Sub Question") + ` ${index + 1}`}
             onChange={handleOptionChange(index)}
           />
           <Box pt={2} />
-          <Label paragraph>{t('Answer') + ` ` + (index + 1)}</Label>
+          <Label paragraph>{t("Answer") + ` ` + (index + 1)}</Label>
           <TextField
             fullWidth
-            label={t('Answer Text')}
-            variant='outlined'
+            label={t("Answer Text")}
+            variant="outlined"
             value={option.value}
             onChange={handleChange(index)}
           />
-          <Box display='flex' justifyContent={'space-between'} mt={2}>
+          <Box display="flex" justifyContent={"space-between"} mt={2}>
             <Box flex={1} />
             {(data?.matching?.options?.length || 0) > 2 && (
               <KuiButton
-                variant='outlined'
-                size='small'
-                tx='remove'
+                variant="outlined"
+                size="small"
+                tx="remove"
                 onClick={handleRemove(option.key)}
               />
             )}
@@ -133,5 +133,5 @@ export const OptionsMatching = () => {
         onConfirm={handleRemoveConfirm}
       />
     </Panel>
-  )
-}
+  );
+};

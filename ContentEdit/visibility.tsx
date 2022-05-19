@@ -21,7 +21,7 @@ export const CEVisibility = () => {
     if (!Boolean(data?.visibility)) {
       setData((d) => ({ ...d, visibility: 'private' }))
     }
-  }, [data?.visibility])
+  }, [data?.visibility, setData])
 
   return (
     <ListItem divider>

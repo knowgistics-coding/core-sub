@@ -91,7 +91,7 @@ export const HighlightItem = styled(
               {content()}
             </Grid>
           )}
-          {hasContent && variant == 'full' && (
+          {hasContent && variant === 'full' && (
             <AbsoluteContent>{content()}</AbsoluteContent>
           )}
         </GridFluid>
