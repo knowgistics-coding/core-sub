@@ -41,7 +41,6 @@ export type { DialogRemoveProps } from "./DialogRemove";
 export { DuotoneButton } from "./DuotoneButton";
 export type { DuotoneButtonProps } from "./DuotoneButton";
 export { IconStyled } from "./IconStyled";
-export type { IconStyledProps } from "./IconStyled";
 export { ImageDisplay } from "./ImageDisplay";
 export type { ImageDisplayProps, ImageTypes } from "./ImageDisplay";
 export { ImagePicker } from "./ImagePicker";

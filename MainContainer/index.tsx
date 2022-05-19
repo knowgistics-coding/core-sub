@@ -1,27 +1,28 @@
-import { Toolbar } from '@mui/material'
-import { useState } from 'react'
-import { Loading } from '../Loading'
-import { SignIn } from '../SignIn'
-import { MCAppbar } from './appbar'
-import { MCContent } from './content'
-import { MainContainerProps, MCContext, MCContextTypes } from './ctx'
-import { MCProfileMenu } from './profile.menu'
-import { MCSetting } from './setting'
-import { MCSidebar } from './sidebar'
-import { useCore } from '../context'
-import { MCRestrict } from './restrict'
+import { Toolbar } from "@mui/material";
+import { useState } from "react";
+import { Loading } from "../Loading";
+import { SignIn } from "../SignIn";
+import { MCAppbar } from "./appbar";
+import { MCContent } from "./content";
+import { MainContainerProps, MCContext, MCContextTypes } from "./ctx";
+import { MCProfileMenu } from "./profile.menu";
+import { MCSetting } from "./setting";
+import { MCSidebar } from "./sidebar";
+import { useCore } from "../context";
+import { MCRestrict } from "./restrict";
+import { ProfileMenuNotSign } from "./profile.menu.not.sign";
 
-export * from './ctx'
+export * from "./ctx";
 export const MainContainer = (props: MainContainerProps) => {
-  const { user } = useCore()
-  const [open, setOpen] = useState<MCContextTypes['open']>({
+  const { user } = useCore();
+  const [open, setOpen] = useState<MCContextTypes["open"]>({
     sidebar: true,
     setting: false,
-    signin: false
-  })
-  const [state, setState] = useState<MCContextTypes['state']>({
-    anchorProfile: null
-  })
+    signin: false,
+  });
+  const [state, setState] = useState<MCContextTypes["state"]>({
+    anchorProfile: null,
+  });
 
   const store = {
     ...props,
@@ -30,19 +31,19 @@ export const MainContainer = (props: MainContainerProps) => {
     handleOpen: (key: string, value: boolean) => () =>
       setOpen((o) => ({ ...o, [key]: value })),
     state,
-    setState
-  }
+    setState,
+  };
 
   if (props.signInOnly) {
     if (user.loading) {
-      return <Loading />
+      return <Loading />;
     } else if (!user.data) {
-      return <SignIn />
+      return <SignIn />;
     }
   }
 
   if (props.loading) {
-    return <Loading />
+    return <Loading />;
   }
 
   if (props.restrict) {
@@ -54,17 +55,19 @@ export const MainContainer = (props: MainContainerProps) => {
         </MCContent>
         <MCAppbar />
       </MCContext.Provider>
-    )
+    );
   }
 
   return (
     <MCContext.Provider value={store}>
-      <Toolbar />
-      <MCContent>{props.children}</MCContent>
-      <MCSidebar />
-      <MCAppbar />
-      <MCProfileMenu />
-      <MCSetting />
+      <ProfileMenuNotSign>
+        <Toolbar />
+        <MCContent>{props.children}</MCContent>
+        <MCSidebar />
+        <MCAppbar />
+        <MCProfileMenu />
+        <MCSetting />
+      </ProfileMenuNotSign>
     </MCContext.Provider>
-  )
-}
+  );
+};

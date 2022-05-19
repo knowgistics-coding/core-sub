@@ -2,7 +2,15 @@ import {
   FontAwesomeIcon,
   FontAwesomeIconProps,
 } from "@fortawesome/react-fontawesome";
-import { Box, Grid, IconButton, Menu, styled, Theme } from "@mui/material";
+import {
+  Box,
+  BoxProps,
+  Grid,
+  IconButton,
+  Menu,
+  styled,
+  Theme,
+} from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { MouseEvent, useState } from "react";
 import { Link } from "react-router-dom";
@@ -46,7 +54,7 @@ const FAStyled = styled((props: FontAwesomeIconProps) => (
   marginBottom: 4,
 }));
 
-export const MCAppMenu = () => {
+export const MCAppMenu = (props: BoxProps) => {
   const { appMenu } = useCore();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
 
@@ -56,7 +64,7 @@ export const MCAppMenu = () => {
   const handleClose = () => setAnchorEl(null);
 
   return appMenu?.length ? (
-    <div>
+    <Box {...props}>
       <IconButton color="primary" onClick={handleOpen}>
         <AppIcon open={Boolean(anchorEl)} />
       </IconButton>
@@ -107,6 +115,6 @@ export const MCAppMenu = () => {
           </Grid>
         </MenuContainer>
       </Menu>
-    </div>
+    </Box>
   ) : null;
 };

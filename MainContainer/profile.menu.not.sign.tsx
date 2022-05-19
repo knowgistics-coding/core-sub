@@ -1,26 +1,53 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
-import { Fragment, useState } from "react";
+import * as React from "react";
 
 import { useCore } from "../context";
 import { SignIn } from "../SignIn";
 
-interface ProfileMenuNotSignProps {
-  onClose: () => void;
-}
-export const ProfileMenuNotSign = (_props: ProfileMenuNotSignProps) => {
-  const { t } = useCore();
-  const [open, setOpen] = useState(false);
+const ProfileMenuNotSignContext = React.createContext<{
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}>({
+  open: false,
+  setOpen: () => {},
+});
+
+export const ProfileMenuNotSign = (
+  props: React.HTMLAttributes<React.ReactFragment>
+) => {
+  const { user } = useCore();
+  const [open, setOpen] = React.useState(false);
 
   return (
-    <Fragment>
-      <ListItemButton dense onClick={() => setOpen(true)}>
-        <ListItemIcon>
-          <FontAwesomeIcon icon={["fad", "sign-in"]} />
-        </ListItemIcon>
-        <ListItemText primary={t("Sign In")} />
-      </ListItemButton>
-      {open && <SignIn onClose={() => setOpen(false)} />}
-    </Fragment>
+    <ProfileMenuNotSignContext.Provider value={{ open, setOpen }}>
+      {props.children}
+      {open && !Boolean(user.data) && <SignIn onClose={() => setOpen(false)} />}
+    </ProfileMenuNotSignContext.Provider>
+  );
+};
+
+interface ProfileMenuNotSignListItemProps {
+  onClose: () => void;
+}
+export const ProfileMenuNotSignListItem = (
+  props: ProfileMenuNotSignListItemProps
+) => {
+  const { t } = useCore();
+  const { setOpen } = React.useContext(ProfileMenuNotSignContext);
+
+  return (
+    <ListItemButton
+      dense
+      onClick={() => {
+        setOpen(true);
+        props.onClose();
+      }}
+    >
+      <ListItemIcon>
+        <FontAwesomeIcon icon={["fad", "sign-in"]} />
+      </ListItemIcon>
+      <ListItemText primary={t("Sign In")} />
+    </ListItemButton>
   );
 };

@@ -11,7 +11,7 @@ import {
 import { useMC } from "./ctx";
 import { useCore } from "../context";
 import { signOut } from "firebase/auth";
-import { ProfileMenuNotSign } from "./profile.menu.not.sign";
+import { ProfileMenuNotSignListItem } from "./profile.menu.not.sign";
 import { Fragment } from "react";
 
 const ListItemButtonErrorStyled = styled(ListItemButton)(({ theme }) => ({
@@ -67,7 +67,7 @@ export const MCProfileMenu = () => {
             </ListItemButtonErrorStyled>
           </Fragment>
         ) : (
-          <ProfileMenuNotSign onClose={handleClose} />
+          <ProfileMenuNotSignListItem onClose={handleClose} />
         )}
       </List>
     </Menu>
