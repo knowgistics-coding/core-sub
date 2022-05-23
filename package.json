@@ -51,6 +51,7 @@
     "react-qr-code": "^2.0.7",
     "react-router-dom": "^6.3.0",
     "react-sortable-hoc": "^2.0.0",
+    "realm-web": "^1.7.0",
     "sass": "^1.51.0",
     "swiper": "^8.1.5",
     "video.js": "^7.18.1"
