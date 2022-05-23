@@ -1,96 +1,98 @@
-import { useEffect } from 'react'
-import { ImageDisplay, ImageDisplayProps } from '../../ImageDisplay'
-import { useCE } from '../ctx'
-import { imageTypes } from '../ctx.d'
-import update from 'react-addons-update'
-import { CEPanel } from './panel'
-import { cleanObject } from '../../func'
-import { Button, ButtonProps, styled } from '@mui/material'
-import { useCore } from '../../context'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { grey } from '@mui/material/colors'
-import { ImagePicker } from '../../ImagePicker'
-import { ImageDataMongoTypes } from '../../skeleton.controller'
+import { useEffect } from "react";
+import { ImageDisplay, ImageDisplayProps } from "../../ImageDisplay";
+import { useCE } from "../ctx";
+import { imageTypes } from "../ctx.d";
+import update from "react-addons-update";
+import { CEPanel } from "./panel";
+import { cleanObject } from "../../func";
+import { Button, ButtonProps, styled } from "@mui/material";
+import { useCore } from "../../context";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { grey } from "@mui/material/colors";
+import { ImagePicker } from "../../ImagePicker";
+import { ImageDataMongoTypes } from "../../skeleton.controller";
 
 const EditButton = styled(
-  (props: Omit<ButtonProps, 'variant' | 'startIcon' | 'children'>) => {
-    const { t } = useCore()
+  (props: Omit<ButtonProps, "variant" | "startIcon" | "children">) => {
+    const { t } = useCore();
     return (
       <Button
-        variant='contained'
-        color='light'
-        startIcon={<FontAwesomeIcon icon={['fad', 'edit']} />}
+        variant="contained"
+        color="light"
+        startIcon={<FontAwesomeIcon icon={["fad", "edit"]} />}
         {...props}
       >
-        {t('Change')}
+        {t("Change")}
       </Button>
-    )
+    );
   }
 )(({ theme }) => ({
-  position: 'absolute',
+  position: "absolute",
   bottom: theme.spacing(2),
-  left: theme.spacing(2)
-}))
+  left: theme.spacing(2),
+}));
 
 interface PlaceHolderProps {
-  ratio: number
+  ratio: number;
 }
-const PlaceHolder = styled('div')(({ ratio }: PlaceHolderProps) => ({
+const PlaceHolder = styled("div", {
+  shouldForwardProp: (prop) => prop !== "ratio",
+})<PlaceHolderProps>(({ ratio }) => ({
   backgroundColor: grey[200],
-  '&:after': {
+  "&:after": {
     content: "''",
-    display: 'block',
-    paddingTop: `calc(100% * ${ratio})`
-  }
-}))
+    display: "block",
+    paddingTop: `calc(100% * ${ratio})`,
+  },
+}));
 
 export interface CEImagePanelProps {
-  content: imageTypes
-  index: number
+  content: imageTypes;
+  index: number;
 }
 
 export const CEImagePanel = ({ content, index }: CEImagePanelProps) => {
-  const { getContentIndex, setData, post } = useCE()
+  const { getContentIndex, setData, post } = useCE();
 
   const handleChangeImage = (images: ImageDataMongoTypes[]) => {
     if (images.length) {
       const {
         blurhash,
         content: { thumbnail, original },
-        _id
-      } = images[0]
-      const newImage: ImageDisplayProps['image'] = {
+        _id,
+      } = images[0];
+      const newImage: ImageDisplayProps["image"] = {
         blurhash,
         thumbnail,
         original,
-        id: _id
-      }
+        id: _id,
+      };
       if (content?.value?.image) {
         setData((d) =>
           update(d, {
-            contents: { [index]: { value: { image: { $set: newImage } } } }
+            contents: { [index]: { value: { image: { $set: newImage } } } },
           })
-        )
+        );
       } else {
         setData((d) =>
           update(d, {
-            contents: { [index]: { $merge: { value: { image: newImage } } } }
+            contents: { [index]: { $merge: { value: { image: newImage } } } },
           })
-        )
+        );
       }
     }
-  }
+  };
 
   useEffect(() => {
     if (content.value && !Boolean(content.value?.image)) {
-      const { blurhash, id, medium, original, thumbnail } = content.value
+      const { blurhash, id, medium, original, thumbnail } = content.value;
       const pos = content?.pos
         ? { left: `${content?.pos.left}%`, top: `${content?.pos.top}%` }
-        : undefined
+        : undefined;
       const ratio = content?.ratio
         ? Number(content?.ratio.height) / Number(content?.ratio.width)
-        : undefined
-      const index = getContentIndex(content.key)
+        : undefined;
+      const index = getContentIndex(content.key);
       if (index > -1) {
         setData((d) =>
           cleanObject(
@@ -101,23 +103,23 @@ export const CEImagePanel = ({ content, index }: CEImagePanelProps) => {
                     $set: {
                       image: { blurhash, id, medium, original, thumbnail },
                       pos,
-                      ratio
-                    }
+                      ratio,
+                    },
                   },
                   pos: { $set: undefined },
-                  ratio: { $set: undefined }
-                }
-              }
+                  ratio: { $set: undefined },
+                },
+              },
             })
           )
-        )
+        );
       }
     }
-  }, [content, getContentIndex, setData])
+  }, [content, getContentIndex, setData]);
 
   return (
     <CEPanel
-      maxWidth={post ? 'post' : undefined}
+      maxWidth={post ? "post" : undefined}
       contentKey={content.key}
       index={index}
     >
@@ -134,5 +136,5 @@ export const CEImagePanel = ({ content, index }: CEImagePanelProps) => {
         <EditButton />
       </ImagePicker>
     </CEPanel>
-  )
-}
+  );
+};

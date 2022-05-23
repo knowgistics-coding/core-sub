@@ -1,6 +1,6 @@
 
 import { ListItemText, ListItemTextProps } from '@mui/material'
-import { merge } from 'lodash'
+import merge from 'lodash.merge'
 
 export interface KuiListItemTextProps extends ListItemTextProps {
   tx: 'sidebar' | 'body'

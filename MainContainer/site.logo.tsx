@@ -1,5 +1,4 @@
-import { Box, styled } from "@mui/material";
-import { BoxProps } from "@mui/system";
+import { Box, BoxProps, styled } from "@mui/material";
 import * as React from "react";
 import { CoreContextTypes } from "../context";
 
