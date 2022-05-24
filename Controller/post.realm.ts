@@ -3,8 +3,6 @@ import { PageDocument } from "../PageEdit";
 
 export interface PostRealmDocument extends Omit<PageDocument, "visibility"> {
   type: "post";
-  datecreate: Date;
-  datemodified: Date;
   user: string;
   visibility: "private" | "public" | "trash";
 }
@@ -24,68 +22,81 @@ export class PostRealm {
     this.collection = mongo.db("mek").collection("posts");
   }
 
-  private getUid = (): string | null =>
-    (this.user?.profile?.user_id as string) || null;
+  private appendId = (doc: PostRealmData): PostRealmData =>
+    Object.assign({}, doc, { id: doc._id.toString() });
 
-  async getMy(): Promise<PostRealmData[]> {
+  async list(): Promise<PostRealmData[]> {
     if (this.user && this.collection) {
       const docs = (
-        await this.collection.find({
-          user: this.user.id,
-        })
-      ).map((doc) =>
-        Object.assign({}, doc, { id: doc._id.toString() })
-      ) as PostRealmData[];
+        await this.user.callFunction<PostRealmData[]>("post_get_my")
+      ).map((doc: PostRealmData) => this.appendId(doc));
       return docs;
     }
     return [];
   }
 
-  async create(title: string): Promise<PostRealmData[]> {
-    if (this.getUid() && this.collection) {
-      await this.collection.insertOne({
-        title,
-        datecreate: new Date(),
-        datemodified: new Date(),
-        user: this.user.id,
-        user_id: this.getUid(),
-        visibility: "private",
-        type: "post",
-      } as PostRealmDocument);
-      return await this.getMy();
+  async create(title: string): Promise<PostRealmData | null> {
+    if (this.user) {
+      const result = await this.user.callFunction<PostRealmData>(
+        "post_create",
+        title
+      );
+      return this.appendId(result);
     }
-    return [];
+    return null;
   }
 
-  async remove(_id: PostRealmData["_id"]): Promise<PostRealmData[]> {
-    if (this.collection) {
-      const updateData: PostRealmDocumentOption = {
-        datemodified: new Date(),
-        visibility: "trash",
-      };
-      await this.collection.updateOne({ _id }, { $set: updateData });
-      return await this.getMy();
+  async update(
+    id: string,
+    field: string,
+    value: any
+  ): Promise<PostRealmData | null> {
+    if (this.user) {
+      const post = await this.user.callFunction<PostRealmData>(
+        "post_update",
+        id,
+        field,
+        value
+      );
+      return post;
     }
-    return [];
+    return null;
   }
 
-  async removeForever(_id: PostRealmData["_id"]): Promise<PostRealmData[]> {
-    if (this.collection) {
-      await this.collection.deleteOne({ _id });
-      return await this.getMy();
+  async remove(id: string): Promise<PostRealmData | null> {
+    if (this.user) {
+      const post = await this.user.callFunction<PostRealmData>(
+        "post_update",
+        id,
+        "visibility",
+        "trash"
+      );
+      return this.appendId(post);
     }
-    return [];
+    return null;
   }
 
-  async restore(_id: PostRealmData["_id"]): Promise<PostRealmData[]> {
+  async removeForever(id: string): Promise<boolean> {
     if (this.collection) {
-      const updateData: PostRealmDocumentOption = {
-        datemodified: new Date(),
-        visibility: "private",
-      };
-      await this.collection.updateOne({ _id }, { $set: updateData });
-      return await this.getMy();
+      const result = await this.user.callFunction<{ deletedCount: number }>(
+        "post_remove",
+        id
+      );
+      return Boolean(result.deletedCount);
     }
-    return [];
+    return false;
+  }
+
+  async restore(id: string): Promise<PostRealmData | null> {
+    if (this.collection) {
+      const post = await this.user.callFunction<PostRealmData>(
+        "post_update",
+        id,
+        "visibility",
+        "private"
+      );
+      return this.appendId(post);
+    }
+    return null;
   }
 }
