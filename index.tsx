@@ -115,4 +115,3 @@ export { getFirestore } from "firebase/firestore";
 
 export type { Breakpoint, Breakpoints } from "@mui/material";
 export * from "./app.menu";
-export * from "./Realm";
