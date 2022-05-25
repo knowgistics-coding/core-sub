@@ -5,7 +5,7 @@ import update from 'react-addons-update'
 import { useCore } from '../context'
 import { useSP } from './context'
 
-const UploadIcon = () => <FontAwesomeIcon icon={['fad', 'upload']} />
+const UploadIcon = () => <FontAwesomeIcon icon={['far', 'upload']} />
 
 export const SPUpload = () => {
   const { t } = useCore()

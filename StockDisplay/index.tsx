@@ -172,7 +172,7 @@ export const StockDisplay = ({
         setCState((s) => ({ ...s, loading: false, data: image.credit }));
       } else if (image?._id) {
         setCState((s) => ({ ...s, loading: true }));
-        return getCredit(image._id, (result) => {
+        getCredit(image._id, (result) => {
           setCState((s) => ({ ...s, loading: false, data: result }));
         });
       }

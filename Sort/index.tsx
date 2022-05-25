@@ -33,8 +33,8 @@ export interface SortListItemProps {
   children: React.ReactNode;
   listItemProps?: ListItemProps;
 }
-export const SortListItem = SortableElement(
-  ({ children, listItemProps }: SortListItemProps) => (
+export const SortListItem = SortableElement<SortListItemProps>(
+  ({ children, listItemProps }:SortListItemProps) => (
     <ListItem ContainerComponent="div" {...listItemProps}>
       <ListItemIcon>
         <SortHandle />
@@ -79,7 +79,7 @@ const SortList = SortableContainer<ListProps>((props: ListProps) => {
 export interface SortableProps {
   docs: any[];
   onSortEnd: (data: SortEnd, event: SortEvent) => void;
-  component: (doc: any, index: number) => JSX.Element;
+  component: (doc: any, index: number, docs:any[]) => JSX.Element;
   divider?: boolean;
 }
 export const Sortable = ({
@@ -91,7 +91,7 @@ export const Sortable = ({
   return (
     <SortList onSortEnd={onSortEnd} useDragHandle>
       {props.divider && <Divider />}
-      {docs.map((doc: any, index: number) => component(doc, index))}
+      {docs.map((doc, index, docs) => component(doc, index, docs))}
     </SortList>
   );
 };

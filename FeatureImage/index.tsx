@@ -82,7 +82,7 @@ export const FeatureImageEdit = ({
           </Typography>
           <Box flex={1} />
           <ActionIcon
-            icon={mobile ? ['fad', 'mobile'] : ['fad', 'tv']}
+            icon={mobile ? ['far', 'mobile'] : ['far', 'tv']}
             onClick={handleToggleMobile}
           />
           {data?.image && (
@@ -105,7 +105,7 @@ export const FeatureImageEdit = ({
                 fullWidth
                 variant='outlined'
                 onClick={() => setOpen(true)}
-                startIcon={<FontAwesomeIcon icon={['fad', 'folder-open']} />}
+                startIcon={<FontAwesomeIcon icon={['far', 'folder-open']} />}
               >
                 {t('Browse')}
               </Button>

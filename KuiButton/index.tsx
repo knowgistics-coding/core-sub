@@ -36,7 +36,7 @@ export const KuiButton = ({
     case "add":
       txProps = {
         variant: "outlined",
-        startIcon: <IconStyled icon={["fad", "plus"]} />,
+        startIcon: <IconStyled icon={["far", "plus"]} />,
         children: children || t("Add"),
         color: "neutral",
       };
@@ -44,7 +44,7 @@ export const KuiButton = ({
     case "bin":
       txProps = {
         variant: "outlined",
-        startIcon: <IconStyled icon={["fad", "trash"]} />,
+        startIcon: <IconStyled icon={["far", "trash"]} />,
         children: children || t("Trash"),
       };
       break;
@@ -52,7 +52,7 @@ export const KuiButton = ({
       txProps = {
         variant: "outlined",
         startIcon: (
-          <IconStyled icon={["fad", "folder-open"]} {...fontAwesomeIconProps} />
+          <IconStyled icon={["far", "folder-open"]} {...fontAwesomeIconProps} />
         ),
         component: "span",
         children: children || t("Browse"),
@@ -85,7 +85,7 @@ export const KuiButton = ({
     case "remove":
       txProps = {
         startIcon: (
-          <FontAwesomeIcon icon={["fad", "trash"]} {...fontAwesomeIconProps} />
+          <FontAwesomeIcon icon={["far", "trash"]} {...fontAwesomeIconProps} />
         ),
         color: "error",
         children: children || t("Remove"),
@@ -94,7 +94,7 @@ export const KuiButton = ({
     case "save":
       txProps = {
         startIcon: (
-          <FontAwesomeIcon icon={["fad", "save"]} {...fontAwesomeIconProps} />
+          <FontAwesomeIcon icon={["far", "save"]} {...fontAwesomeIconProps} />
         ),
         color: "primary",
         children: children || t("Save"),
@@ -104,7 +104,7 @@ export const KuiButton = ({
       txProps = {
         startIcon: (
           <FontAwesomeIcon
-            icon={["fad", "sign-out"]}
+            icon={["far", "sign-out"]}
             {...fontAwesomeIconProps}
           />
         ),
@@ -121,7 +121,7 @@ export const KuiButton = ({
         {...props}
         startIcon={
           <IconStyled
-            icon={["fad", "spinner"]}
+            icon={["far", "spinner"]}
             pulse
             {...fontAwesomeIconProps}
           />

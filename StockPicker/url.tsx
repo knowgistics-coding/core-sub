@@ -40,7 +40,8 @@ export const FromURL = (props: {
       >
         <Button
           variant='outlined'
-          startIcon={<FontAwesomeIcon icon={['fad', 'link']} />}
+          startIcon={<FontAwesomeIcon icon={['far', 'link']} />}
+          color="neutral"
         >
           From URL
         </Button>
