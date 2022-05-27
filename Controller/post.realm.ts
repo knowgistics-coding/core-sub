@@ -12,6 +12,10 @@ export type PostRealmDocumentOption = {
 export type PostRealmData = PostRealmDocument & Document
 
 export class PostRealm extends SkeMongo {
+  async getId(id:string): Promise<PostRealmData>{
+    return await this.get<PostRealmData>(`${this.baseUrl}/post/${id}`,'GET');
+  }
+
   async list(): Promise<PostRealmData[]> {
     const posts = await this.get<PostRealmData[]>(
       `${this.baseUrl}/post/my`,
