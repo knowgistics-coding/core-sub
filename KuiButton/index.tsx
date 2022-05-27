@@ -38,7 +38,7 @@ export const KuiButton = ({
         variant: "outlined",
         startIcon: <IconStyled icon={["far", "plus"]} />,
         children: children || t("Add"),
-        color: "neutral",
+        color: "info",
       };
       break;
     case "bin":
@@ -79,7 +79,7 @@ export const KuiButton = ({
     case "close":
       txProps = {
         children: children || t("Close"),
-        color: "error",
+        color: "neutral",
       };
       break;
     case "remove":

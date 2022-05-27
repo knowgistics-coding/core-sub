@@ -1,10 +1,9 @@
+import { DataGrid as DG, DataGridProps as DGP } from "@mui/x-data-grid";
+import { useCore } from "../context";
 
-import { DataGrid as DG, DataGridProps as DGP } from '@mui/x-data-grid'
-import { useCore } from '../context'
-
-export interface DataGridProps extends Omit<DGP, 'autoHeight'> {}
+export interface DataGridProps extends Omit<DGP, "autoHeight"> {}
 export const DataGrid = (props: DataGridProps) => {
-  const { t } = useCore()
+  const { t } = useCore();
 
   /**
    * LOCALE
@@ -12,17 +11,18 @@ export const DataGrid = (props: DataGridProps) => {
    */
   return (
     <DG
+      sx={{ backgroundColor: "background.default" }}
       autoHeight
       localeText={{
-        noRowsLabel: t('No rows'),
-        columnMenuShowColumns: t('Show columns'),
-        columnMenuFilter: t('Filter'),
-        columnMenuHideColumn: t('Hide'),
-        columnMenuUnsort: t('Unsort'),
-        columnMenuSortAsc: t('Sort by ASC'),
-        columnMenuSortDesc: t('Sort by DESC')
+        noRowsLabel: t("No rows"),
+        columnMenuShowColumns: t("Show columns"),
+        columnMenuFilter: t("Filter"),
+        columnMenuHideColumn: t("Hide"),
+        columnMenuUnsort: t("Unsort"),
+        columnMenuSortAsc: t("Sort by ASC"),
+        columnMenuSortDesc: t("Sort by DESC"),
       }}
       {...props}
     />
-  )
-}
+  );
+};

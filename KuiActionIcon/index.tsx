@@ -9,7 +9,15 @@ const IconXS = (props: FontAwesomeIconProps) => (
 );
 
 export interface KuiActionIconProps extends IconButtonProps {
-  tx: "add" | "cancel" | "check" | "copy" | "edit" | "info" | "remove";
+  tx:
+    | "add"
+    | "cancel"
+    | "check"
+    | "copy"
+    | "edit"
+    | "info"
+    | "remove"
+    | "restore";
 }
 export const KuiActionIcon = ({ tx, ...props }: KuiActionIconProps) => {
   let newProps = {};
@@ -18,6 +26,7 @@ export const KuiActionIcon = ({ tx, ...props }: KuiActionIconProps) => {
     case "add":
       newProps = {
         children: <IconXS icon={["far", "plus"]} />,
+        color: "info",
         ...props,
       };
       break;
@@ -57,6 +66,13 @@ export const KuiActionIcon = ({ tx, ...props }: KuiActionIconProps) => {
       newProps = {
         children: <IconXS icon={["far", "trash"]} />,
         color: "error",
+        ...props,
+      };
+      break;
+    case "restore":
+      newProps = {
+        children: <IconXS icon={["far", "redo"]} />,
+        color: "neutral",
         ...props,
       };
       break;

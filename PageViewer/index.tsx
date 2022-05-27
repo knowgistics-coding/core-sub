@@ -17,6 +17,7 @@ import {
 import { useCore } from '../context'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ShowTypes } from '../PageEdit/context'
+import moment from 'moment'
 
 const PageContainer = ({
   children,
@@ -52,6 +53,13 @@ export const PageViewer = (props: PageViewerProps) => {
               <ContentHeader
                 label={data.title}
                 breadcrumbs={props.breadcrumbs}
+                secondary={data.datemodified ? <>
+                <FontAwesomeIcon icon={["far","calendar"]} style={{marginRight:'0.5rem'}} />
+                {moment(data.datemodified).format("LL")}
+                <Box display="inline-block" sx={{px:1}}>|</Box>
+                <FontAwesomeIcon icon={["far","clock"]} style={{marginRight:'0.5rem'}} />
+                {moment(data.datemodified).format("LT")}
+                </> : undefined}
               />
             )}
           </Container>

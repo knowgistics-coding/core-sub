@@ -9,6 +9,7 @@ export type { CoreContextTypes } from "./context";
 export { ActionIcon } from "./ActionIcon";
 export type { ActionIconProps } from "./ActionIcon";
 export { BackLink } from "./BackLink";
+export * from './BookView'
 export { CardContainer, CardItem } from "./Card";
 export type { CardContainerProps, CardItemProps } from "./Card";
 export { Container } from "./Container";
@@ -87,6 +88,7 @@ export { StockPicker } from "./StockPicker";
 export type { StockImageTypes } from "./StockPicker";
 export { StockDisplay } from "./StockDisplay";
 export type { StockDisplayProps, StockDisplayImageTypes } from "./StockDisplay";
+export * from "./TitleDebounce";
 export { TitleEdit } from "./TitleEdit";
 export type { TitleEditProps } from "./TitleEdit";
 export { TitleSidebar } from "./TitleSidebar";
@@ -96,6 +98,7 @@ export type { UploadButtonProps } from "./UploadButton";
 export { useAlerts } from "./Alerts";
 export type { AlertType } from "./Alerts";
 export { VideoDisplay } from "./VideoDisplay";
+export * from "./Visibility";
 export type { VideoDisplayProps } from "./VideoDisplay";
 export { WebPageEdit } from "./WebPageEdit";
 export type { WebPageDocument } from "./WebPageEdit";
@@ -115,3 +118,4 @@ export { getFirestore } from "firebase/firestore";
 
 export type { Breakpoint, Breakpoints } from "@mui/material";
 export * from "./app.menu";
+export * from './Controller'

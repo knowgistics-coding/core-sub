@@ -8,7 +8,11 @@ import { SiteLogo } from "./site.logo";
 import { SiteHomeLink } from "./site.home.link";
 
 const AppBarStyled = styled(AppBar)(({ theme }) => ({
-  ...(theme.palette?.appbar || {}),
+  ...Object.assign(
+    {},
+    { backgroundColor: theme.palette.background.default },
+    theme.palette?.appbar
+  ),
 }));
 
 export const MCAppbar = () => {

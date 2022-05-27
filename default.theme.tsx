@@ -83,11 +83,12 @@ export const defaultTheme: ThemeOptions = {
       main: "#fff",
       contrastText: "#333",
     },
-    secondary: { main: "#C73D5D" },
-    error: { main: "#DC4E34" },
-    success: { main: "#6E953B" },
-    warning: { main: "#EEA320" },
     primary: { main: "#3C77AE" },
+    secondary: { main: "#C73D5D" },
+    success: { main: "#34A853" /*"#6E953B"*/ },
+    warning: { main: "#FBBC05" /*"#EEA320"*/ },
+    error: { main: "#EA4335" /*"#DC4E34"*/ },
+    info: { main: "#4285f4" },
     common: {
       black: "#2C261E",
     },
@@ -178,6 +179,13 @@ export const defaultTheme: ThemeOptions = {
         sizeSmall: {
           fontSize: 12,
         },
+        outlined: {
+          borderWidth: 2,
+          boxSizing: 'border-box',
+          "&:hover": {
+            borderWidth: 2,
+          }
+        }
       },
       defaultProps: {
         disableElevation: true,

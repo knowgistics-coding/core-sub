@@ -1,97 +1,103 @@
-import {DataGridEditorData} from '@caminkunick/data-grid-editor'
-import { ContainerProps } from '@mui/material'
-import React, { createContext, useContext } from 'react'
-import { ContentHeaderProps } from '../ContentHeader'
-import { MainContainerProps } from '../MainContainer'
-import { StockDisplayProps } from '../StockDisplay'
-import { VideoContent } from '../VideoDisplay'
+import { DataGridEditorData } from "@caminkunick/data-grid-editor";
+import { ContainerProps } from "@mui/material";
+import React, { createContext, useContext } from "react";
+import { ContentHeaderProps } from "../ContentHeader";
+import { MainContainerProps } from "../MainContainer";
+import { StockDisplayProps } from "../StockDisplay";
+import { VideoContent } from "../VideoDisplay";
 
 export type ShowTypes =
-  | 'title'
-  | 'feature'
-  | 'visibility'
-  | 'heading'
-  | 'paragraph'
-  | 'image'
-  | 'video'
-  | 'cover'
-  | 'slide'
-  | 'highlight'
-  | 'card'
-  | 'book'
-  | 'table'
-  | 'divider'
-  | 'file'
+  | "title"
+  | "feature"
+  | "visibility"
+  | "heading"
+  | "paragraph"
+  | "image"
+  | "video"
+  | "cover"
+  | "slide"
+  | "highlight"
+  | "card"
+  | "book"
+  | "table"
+  | "divider"
+  | "file";
 
 export type PostOptions = {
-  id: string
-  title: string
-  type: string
-  feature?: StockDisplayProps
-}
+  id: string;
+  title: string;
+  type: string;
+  feature?: StockDisplayProps;
+};
 
 export interface SlideItem {
-  feature?: StockDisplayProps
-  title?: string
-  id?: string
-  link?: { from?: 'url' | 'post' | 'book' | 'page'; value?: string }
+  feature?: StockDisplayProps;
+  title?: string;
+  id?: string;
+  link?: { from?: "url" | "post" | "book" | "page"; value?: string };
 }
 
 export interface PageContentTypes {
-  key: string
-  type: ShowTypes
+  key: string;
+  type: ShowTypes;
   heading?: {
-    variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
-    align?: 'left' | 'right' | 'center'
-    value?: string
-  }
+    variant?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+    align?: "left" | "right" | "center";
+    value?: string;
+  };
   paragraph?: {
-    value?: string
-  }
-  image?: StockDisplayProps
-  video?: VideoContent
-  cover?: StockDisplayProps
-  slide?: SlideItem[]
-  table?: DataGridEditorData
-  mt?: number
-  mb?: number
+    value?: string;
+  };
+  image?: StockDisplayProps;
+  video?: VideoContent;
+  cover?: StockDisplayProps;
+  slide?: SlideItem[];
+  table?: DataGridEditorData;
+  mt?: number;
+  mb?: number;
 }
 export interface PageDocument {
-  title?: string
-  feature?: StockDisplayProps
-  contents?: PageContentTypes[]
-  visibility?: 'private' | 'public'
-  user?: string
+  _id?: string
+  title?: string;
+  feature?: StockDisplayProps;
+  contents?: PageContentTypes[];
+  visibility?: "private" | "public" | "trash";
+  user?: string;
+  datecreate?: Date
+  datemodified?: Date
 }
 
 export interface PageEditProps {
-  data: PageDocument
-  show: ShowTypes[]
-  setData: React.Dispatch<React.SetStateAction<PageDocument>>
-  onSave: () => Promise<boolean> | boolean
+  data: PageDocument;
+  show: ShowTypes[];
+  setData: React.Dispatch<React.SetStateAction<PageDocument>>;
+  onSave: () => Promise<boolean> | boolean;
 
-  children?: React.ReactNode
-  back?: string
-  maxWidth?: ContainerProps['maxWidth']
-  breadcrumbs?: ContentHeaderProps['breadcrumbs']
-  mainContainerProps?: Omit<MainContainerProps, 'children' | 'sidebar'>
-  onPreview?: () => void
-  sidebarActions?: React.ReactNode
-  prefix?: string
-  linkRender?: (from: 'url' | 'post' | 'book' | 'page', value: string) => string
+  children?: React.ReactNode;
+  back?: string;
+  maxWidth?: ContainerProps["maxWidth"];
+  breadcrumbs?: ContentHeaderProps["breadcrumbs"];
+  mainContainerProps?: Omit<MainContainerProps, "children" | "sidebar">;
+  onPreview?: () => void;
+  sidebarActions?: React.ReactNode;
+  prefix?: string;
+  linkRender?: (
+    from: "url" | "post" | "book" | "page",
+    value: string
+  ) => string;
 }
 
 export interface PageEditStateTypes {
-  loading: boolean
-  focus: string | null
-  hideToolbar: boolean
-  remove: number
-  selected: string[]
+  loading: boolean;
+  focus: string | null;
+  hideToolbar: boolean;
+  remove: number;
+  selected: string[];
 }
 
-export interface PEContextTypes extends Omit<PageEditProps, 'postOptions'> {
-  state: PageEditStateTypes
-  setState: React.Dispatch<React.SetStateAction<PageEditStateTypes>>
+export interface PEContextTypes extends Omit<PageEditProps, "postOptions"> {
+  state: PageEditStateTypes;
+  setState: React.Dispatch<React.SetStateAction<PageEditStateTypes>>;
 }
 export const PEContext = createContext<PEContextTypes>({
   data: {},
@@ -103,9 +109,9 @@ export const PEContext = createContext<PEContextTypes>({
     focus: null,
     hideToolbar: false,
     remove: -1,
-    selected: []
+    selected: [],
   },
-  setState: () => {}
-})
+  setState: () => {},
+});
 
-export const usePE = () => useContext(PEContext)
+export const usePE = () => useContext(PEContext);

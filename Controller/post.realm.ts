@@ -1,5 +1,5 @@
 import { PageDocument } from "../PageEdit";
-import { SkeMongo } from "./ske";
+import { Document, SkeMongo } from "./ske";
 
 export interface PostRealmDocument extends Omit<PageDocument, "visibility"> {
   type: "post";
@@ -9,9 +9,7 @@ export interface PostRealmDocument extends Omit<PageDocument, "visibility"> {
 export type PostRealmDocumentOption = {
   [key in keyof PostRealmDocument]?: PostRealmDocument[key];
 };
-export interface PostRealmData extends PostRealmDocument {
-  _id: string;
-}
+export type PostRealmData = PostRealmDocument & Document
 
 export class PostRealm extends SkeMongo {
   async list(): Promise<PostRealmData[]> {

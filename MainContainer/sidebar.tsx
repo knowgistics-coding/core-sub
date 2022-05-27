@@ -28,6 +28,9 @@ export const MCSidebar = styled(({ className }: { className?: string }) => {
       open={open.sidebar}
       onClose={handleOpen("sidebar", false)}
       PaperProps={{ className }}
+      sx={{"& .MuiPaper-root": {
+        backgroundColor: 'background.default',
+      }}}
     >
       <Toolbar>
         <IconButton edge="start" onClick={handleOpen("sidebar", false)}>

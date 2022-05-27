@@ -106,6 +106,7 @@ export const FeatureImageEdit = ({
                 variant='outlined'
                 onClick={() => setOpen(true)}
                 startIcon={<FontAwesomeIcon icon={['far', 'folder-open']} />}
+                color="info"
               >
                 {t('Browse')}
               </Button>
