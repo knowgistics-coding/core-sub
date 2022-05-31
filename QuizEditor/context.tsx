@@ -1,60 +1,61 @@
-import { createContext, Dispatch, SetStateAction, useContext } from 'react'
-import { StockDisplayImageTypes } from '../StockDisplay'
+import { createContext, Dispatch, SetStateAction, useContext } from "react";
+import { StockDisplayImageTypes } from "../StockDisplay";
 
-export const genKey = () => Math.floor(Math.random() * 1000000)
+export const genKey = () => Math.floor(Math.random() * 1000000);
 
 interface openTypes {
-  [key: string]: boolean
+  [key: string]: boolean;
 }
 
-export type TypeTypes = 'paragraph' | 'image'
+export type TypeTypes = "paragraph" | "image";
 export type dataTypes = {
-  key: number
-  type: 'paragraph' | 'image'
-  paragraph?: string
-  image?: StockDisplayImageTypes
-}
+  key: number;
+  type: "paragraph" | "image";
+  paragraph?: string;
+  image?: StockDisplayImageTypes;
+};
 export type QuizDocument = {
-  type?: 'truefalse' | 'matching' | 'sorting' | 'multiple'
-  question?: Omit<dataTypes, 'key'>
+  id?: string;
+  type?: "truefalse" | "matching" | "sorting" | "multiple";
+  question?: Omit<dataTypes, "key">;
   truefalse?: {
-    answer: string
-  }
+    answer: string;
+  };
   matching?: {
-    options: (dataTypes & { value?: string })[]
-  }
+    options: (dataTypes & { value?: string })[];
+  };
   sorting?: {
-    options: dataTypes[]
-    answers: number[]
-  }
+    options: dataTypes[];
+    answers: number[];
+  };
   multiple?: {
-    options: dataTypes[]
-    answer: number
-  }
-  shuffle?: boolean
-}
+    options: dataTypes[];
+    answer: number;
+  };
+  shuffle?: boolean;
+};
 
 export interface QuizEditorContextTypes {
-  genKey: () => number
-  open: openTypes
-  setOpen: Dispatch<SetStateAction<openTypes>>
-  data: QuizDocument
-  setData: Dispatch<SetStateAction<QuizDocument>>
+  genKey: () => number;
+  open: openTypes;
+  setOpen: Dispatch<SetStateAction<openTypes>>;
+  data: QuizDocument;
+  setData: Dispatch<SetStateAction<QuizDocument>>;
   onTabOpen: (
     key: string
-  ) => (event: React.SyntheticEvent<Element, Event>, expanded: boolean) => void
+  ) => (event: React.SyntheticEvent<Element, Event>, expanded: boolean) => void;
 }
 export const QuizEditorContext = createContext<QuizEditorContextTypes>({
   genKey,
   open: {},
   setOpen: () => {},
   data: {
-    type: 'multiple',
+    type: "multiple",
     question: {
-      type: 'paragraph'
-    }
+      type: "paragraph",
+    },
   },
   setData: () => {},
-  onTabOpen: () => () => {}
-})
-export const useQEC = () => useContext(QuizEditorContext)
+  onTabOpen: () => () => {},
+});
+export const useQEC = () => useContext(QuizEditorContext);
