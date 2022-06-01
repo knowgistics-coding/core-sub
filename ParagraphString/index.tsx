@@ -121,7 +121,7 @@ export const Paragraph = ({
           padding: '4px 0'
         },
         '& .public-DraftStyleDefault-block': {
-          lineHeight: 1.2,
+          lineHeight: 1.25,
           margin: props.dense ? '0' : undefined
         }
       }}
