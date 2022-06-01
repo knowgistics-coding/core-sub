@@ -110,6 +110,7 @@ export {
   quizConvert,
   quizAnswerCheck,
   coverToStock,
+  timestampToDate
 } from "./func";
 
 export { initializeApp } from "firebase/app";
