@@ -73,6 +73,7 @@ export { QuizDisplay } from "./QuizDisplay";
 export type { QuizAnswerTypes } from "./QuizDisplay";
 export { QuizEditor } from "./QuizEditor";
 export type { QuizEditorProps, QuizDocument } from "./QuizEditor";
+export * from './react-popup'
 export { SaveButton } from "./SaveButton";
 export type { SaveButtonProps } from "./SaveButton";
 export { Schedule } from "./Schedule";

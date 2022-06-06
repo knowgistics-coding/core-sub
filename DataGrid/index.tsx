@@ -11,7 +11,9 @@ export const DataGrid = (props: DataGridProps) => {
    */
   return (
     <DG
-      sx={{ backgroundColor: "background.default" }}
+      sx={{
+        backgroundColor: "background.default",
+      }}
       autoHeight
       localeText={{
         noRowsLabel: t("No rows"),

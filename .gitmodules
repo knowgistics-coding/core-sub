@@ -1,0 +1,3 @@
+[submodule "react-popup"]
+	path = react-popup
+	url = https://github.com/caminkunick/react-popup.git

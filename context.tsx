@@ -32,6 +32,7 @@ import { library, IconProp, IconPack } from "@fortawesome/fontawesome-svg-core";
 import { fad } from "@fortawesome/pro-duotone-svg-icons";
 import { far } from "@fortawesome/pro-regular-svg-icons";
 import i18next from "i18next";
+import { PopupProvider } from "./react-popup";
 
 library.add(fad as IconPack, far as IconPack);
 
@@ -170,9 +171,11 @@ export const CoreProvider = (
   return (
     <ThemeProvider theme={theme}>
       <Alerts>
-        <CoreContext.Provider value={store}>
-          {props.children}
-        </CoreContext.Provider>
+        <PopupProvider>
+          <CoreContext.Provider value={store}>
+            {props.children}
+          </CoreContext.Provider>
+        </PopupProvider>
       </Alerts>
     </ThemeProvider>
   );

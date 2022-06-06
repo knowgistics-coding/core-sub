@@ -1,8 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  Avatar,
+  Divider,
   List,
+  ListItem,
   ListItemButton,
   ListItemIcon,
+  ListItemSecondaryAction,
   ListItemText,
   Menu,
   styled,
@@ -13,6 +17,8 @@ import { useCore } from "../context";
 import { signOut } from "firebase/auth";
 import { ProfileMenuNotSignListItem } from "./profile.menu.not.sign";
 import { Fragment } from "react";
+import { defaultTheme } from "../default.theme";
+import { KuiActionIcon } from "../KuiActionIcon";
 
 const ListItemButtonErrorStyled = styled(ListItemButton)(({ theme }) => ({
   color: theme.palette.error.main,
@@ -22,8 +28,8 @@ const FontAwesomeIconErrorStyled = styled(FontAwesomeIcon)(({ theme }) => ({
 }));
 
 export const MCProfileMenu = () => {
-  const { fb, t, profileMenu } = useCore();
-  const { handleOpen, user, state, setState, profileMenu: pfm } = useMC();
+  const { fb, t, user, profileMenu } = useCore();
+  const { handleOpen, state, setState, profileMenu: pfm } = useMC();
 
   const handleClose = () => setState((s) => ({ ...s, anchorProfile: null }));
   const handleSignOut = async () => {
@@ -47,21 +53,46 @@ export const MCProfileMenu = () => {
         horizontal: "right",
       }}
       disableEnforceFocus
+      sx={{
+        "& .MuiPaper-root": {
+          width: "100%",
+          maxWidth: defaultTheme.sidebarWidth,
+        },
+      }}
     >
       <List>
+        <ListItem sx={{ justifyContent: "center", pt: 3 }}>
+          <Avatar
+            src={user?.data?.photoURL || undefined}
+            sx={{ width: 128, height: 128 }}
+          />
+        </ListItem>
+        <ListItem dense sx={{ pb: 1 }}>
+          <ListItemIcon>
+            <FontAwesomeIcon icon={["far", "user"]} />
+          </ListItemIcon>
+          <ListItemText
+            primary={user?.data?.displayName}
+            primaryTypographyProps={{ noWrap: true }}
+          />
+          <ListItemSecondaryAction>
+            <KuiActionIcon tx="edit" />
+          </ListItemSecondaryAction>
+        </ListItem>
+        <Divider />
         {pfm}
         {profileMenu}
         {user.data ? (
           <Fragment>
-            <ListItemButton dense onClick={handleOpen("setting", true)}>
+            <ListItemButton dense divider onClick={handleOpen("setting", true)}>
               <ListItemIcon>
-                <FontAwesomeIcon icon={["fad", "cog"]} />
+                <FontAwesomeIcon icon={["far", "cog"]} />
               </ListItemIcon>
               <ListItemText primary={t("Setting")} />
             </ListItemButton>
             <ListItemButtonErrorStyled dense onClick={handleSignOut}>
               <ListItemIcon>
-                <FontAwesomeIconErrorStyled icon={["fad", "sign-in"]} />
+                <FontAwesomeIconErrorStyled icon={["far", "sign-in"]} />
               </ListItemIcon>
               <ListItemText primary={t("Sign out")} />
             </ListItemButtonErrorStyled>
