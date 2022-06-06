@@ -14,11 +14,13 @@ import {
 
 import { useMC } from "./ctx";
 import { useCore } from "../context";
-import { signOut } from "firebase/auth";
+import { signOut, updateProfile } from "firebase/auth";
 import { ProfileMenuNotSignListItem } from "./profile.menu.not.sign";
 import { Fragment } from "react";
 import { defaultTheme } from "../default.theme";
 import { KuiActionIcon } from "../KuiActionIcon";
+import { usePopup } from "../react-popup";
+import update from "react-addons-update";
 
 const ListItemButtonErrorStyled = styled(ListItemButton)(({ theme }) => ({
   color: theme.palette.error.main,
@@ -28,9 +30,24 @@ const FontAwesomeIconErrorStyled = styled(FontAwesomeIcon)(({ theme }) => ({
 }));
 
 export const MCProfileMenu = () => {
-  const { fb, t, user, profileMenu } = useCore();
+  const { fb, t, profileMenu, user, setUser } = useCore();
   const { handleOpen, state, setState, profileMenu: pfm } = useMC();
+  const { Popup } = usePopup();
 
+  const handleChangeDisplayName = () => {
+    Popup.prompt({
+      title: "Profile",
+      text: "Display Name",
+      icon: "user",
+      defaultValue: user?.data?.displayName || "",
+      onConfirm: async (value) => {
+        if (value && user.data) {
+          await updateProfile(user.data, { displayName: value });
+          setUser((u) => update(u, { data: { $set: user.data } }));
+        }
+      },
+    });
+  };
   const handleClose = () => setState((s) => ({ ...s, anchorProfile: null }));
   const handleSignOut = async () => {
     if (fb?.auth) {
@@ -41,7 +58,7 @@ export const MCProfileMenu = () => {
 
   return (
     <Menu
-      open={user.loading === false && Boolean(state.anchorProfile)}
+      open={Boolean(user.data && state.anchorProfile)}
       anchorEl={state.anchorProfile}
       onClose={handleClose}
       anchorOrigin={{
@@ -76,13 +93,13 @@ export const MCProfileMenu = () => {
             primaryTypographyProps={{ noWrap: true }}
           />
           <ListItemSecondaryAction>
-            <KuiActionIcon tx="edit" />
+            <KuiActionIcon tx="edit" onClick={handleChangeDisplayName} />
           </ListItemSecondaryAction>
         </ListItem>
         <Divider />
         {pfm}
         {profileMenu}
-        {user.data ? (
+        {user ? (
           <Fragment>
             <ListItemButton dense divider onClick={handleOpen("setting", true)}>
               <ListItemIcon>

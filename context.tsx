@@ -1,6 +1,8 @@
 import React, {
   createContext,
+  Dispatch,
   ReactNode,
+  SetStateAction,
   useContext,
   useEffect,
   useState,
@@ -40,6 +42,11 @@ console.log(`Document: https://phra-in.web.app`);
 
 initI18Next();
 
+export interface userTypes {
+  loading: boolean;
+    data: User | null;
+    claims: IdTokenResult | null;
+}
 export interface CoreProviderProps {
   theme?: ThemeOptions;
   firebaseConfig?: { [key: string]: string };
@@ -69,12 +76,8 @@ export interface CoreContextTypes
     auth: Auth;
     db: Firestore;
   };
-  user: {
-    loading: boolean;
-    data: User | null;
-    claims: IdTokenResult | null;
-  };
-  setUser: (data: User | null) => void;
+  user: userTypes;
+  setUser: Dispatch<SetStateAction<userTypes>>
 }
 
 const CoreContext = createContext<CoreContextTypes>({
@@ -122,7 +125,7 @@ export const CoreProvider = (
     theme,
     fb,
     user,
-    setUser: (data: User | null) => setUser((s) => ({ ...s, data })),
+    setUser,
     t,
   };
 
