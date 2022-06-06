@@ -1,4 +1,5 @@
 import draftToHtml from "draftjs-to-html";
+import { Timestamp } from "firebase/firestore";
 import { QuizAnswerTypes } from "./QuizDisplay";
 import { QuizDocument } from "./QuizEditor";
 import { dataTypes } from "./QuizEditor/context";
@@ -228,3 +229,12 @@ export const coverToStock = (id: string, prefix?: string) => {
       .catch((err) => reject(err));
   });
 };
+
+export const timestampToDate = (inputDate: Timestamp):Date => {
+  if(inputDate?.toMillis?.()){
+    const newDate = new Date(0)
+    newDate.setMilliseconds(inputDate.toMillis())
+    return newDate
+  }
+  return new Date()
+}

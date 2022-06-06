@@ -1,7 +1,7 @@
 # PageEdit
 
 ```jsx
-import { PageEdit } from '@kgui/core';
+import { PageEdit } from 'components/core-sub';
 
 export const Example = () => {
   return <PageEdit

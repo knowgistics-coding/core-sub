@@ -140,8 +140,18 @@ export const PageViewer = (props: PageViewerProps) => {
                           })) as GridColumns
                         }
                         disableColumnMenu
+                        disableSelectionOnClick
                         hideFooter
                         autoHeight
+                        sx={{
+                          "& .MuiDataGrid-columnHeaderTitle": {
+                            typography: 'body1',
+                            fontWeight: "bold",
+                          },
+                          "& .MuiDataGrid-cellContent": {
+                            color: 'text.secondary'
+                          }
+                        }}
                       />
                     </Wrapper>
                   )

@@ -2,7 +2,7 @@
 
 ```tsx
 import React, { useState } from 'react';
-import { StockPicker, StockImageTypes } from '@kgui/core';
+import { StockPicker, StockImageTypes } from 'components/core-sub';
 
 
 export Example = () => {
