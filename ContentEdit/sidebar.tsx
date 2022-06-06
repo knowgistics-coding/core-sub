@@ -19,6 +19,9 @@ export const CESidebar = () => {
   };
   const handleChangeCover = (cover: StockDisplayProps) =>
     setData((d) => ({ ...d, cover }));
+  const handleRemoveFeature = () => {
+    setData((d) => ({ ...d, cover: undefined }));
+  };
 
   return (
     <Fragment>
@@ -46,7 +49,11 @@ export const CESidebar = () => {
           </ListItem>
         )}
         {show.includes("feature") && (
-          <FeatureImageEdit value={data.cover} onChange={handleChangeCover} />
+          <FeatureImageEdit
+            value={data.cover}
+            onChange={handleChangeCover}
+            onRemove={handleRemoveFeature}
+          />
         )}
         {show.includes("visibility") && <CEVisibility />}
       </List>

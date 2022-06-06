@@ -6,7 +6,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import {Fragment} from "react";
+import { Fragment } from "react";
 
 import { BackLink } from "../BackLink";
 import { DebounceTextField } from "../DebounceTextField";
@@ -32,6 +32,7 @@ export const WebPESidebar = () => {
       <FeatureImageEdit
         value={data?.feature}
         onChange={(data) => setData((d) => ({ ...d, feature: data }))}
+        onRemove={() => setData((d) => ({ ...d, feature: undefined }))}
       />
       <List>
         <ListItemButton divider>

@@ -4,111 +4,99 @@ import {
   Grid,
   ListItem,
   ListItemProps,
-  Typography
-} from '@mui/material'
-import { useEffect, useState } from 'react'
-import { ActionIcon } from '../ActionIcon'
-import { useCore } from '../context'
-import { ImageDisplay, ImageDisplayProps } from '../ImageDisplay'
-import { FIEMove } from './edit/move'
-import { PosTypes } from '../DialogImagePosition'
-import { KuiButton } from '../KuiButton'
-import { StockImageTypes, StockPicker } from '../StockPicker'
+  Typography,
+} from "@mui/material";
+import { useState } from "react";
+import { ActionIcon } from "../ActionIcon";
+import { useCore } from "../context";
+import { ImageDisplay, ImageDisplayProps } from "../ImageDisplay";
+import { FIEMove } from "./edit/move";
+import { PosTypes } from "../DialogImagePosition";
+import { KuiButton } from "../KuiButton";
+import { StockImageTypes, StockPicker } from "../StockPicker";
 import {
   StockDisplay,
   StockDisplayImageTypes,
-  StockDisplayProps
-} from '../StockDisplay'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+  StockDisplayProps,
+} from "../StockDisplay";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import update from "react-addons-update";
 
-export interface FeatureImageProps extends Omit<ImageDisplayProps, 'ratio'> {}
+export interface FeatureImageProps extends Omit<ImageDisplayProps, "ratio"> {}
 export const FeatureImage = ({ image, pos }: FeatureImageProps) => {
-  const { isMobile } = useCore()
-  return <ImageDisplay image={image} pos={pos} ratio={isMobile ? 1 : 1 / 4} />
-}
+  const { isMobile } = useCore();
+  return <ImageDisplay image={image} pos={pos} ratio={isMobile ? 1 : 1 / 4} />;
+};
 
 export interface FeatureImageEditProps {
-  listItemProps?: ListItemProps
-  value?: StockDisplayProps
-  onChange: (data: StockDisplayProps) => void
-  onRemove?: () => void
+  listItemProps?: ListItemProps;
+  value?: StockDisplayProps;
+  onChange: (data: StockDisplayProps) => void;
+  onRemove: () => void;
 }
 export const FeatureImageEdit = ({
   listItemProps,
   value,
   onChange,
-  onRemove
+  onRemove,
 }: FeatureImageEditProps) => {
-  const { t } = useCore()
-  const [mobile, setMobile] = useState<boolean>(false)
-  const [data, setData] = useState<StockDisplayProps>({})
-  const [open, setOpen] = useState<boolean>(false)
+  const { t } = useCore();
+  const [mobile, setMobile] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
 
-  const handleToggleMobile = () => setMobile((m) => !m)
+  const handleToggleMobile = () => setMobile((m) => !m);
   const handleChangePos = (pos: PosTypes) =>
-    setData((d) => {
-      onChange?.({ ...d, pos })
-      return { ...d, pos }
-    })
+    onChange(update(value || {}, { pos: { $set: pos } }));
   const handleChangeImage = ([img]: StockImageTypes[]) => {
     if (img) {
-      const { blurhash, _id, width, height, credit } = img
+      const { blurhash, _id, width, height, credit } = img;
       const image: StockDisplayImageTypes = {
         blurhash,
         _id,
         width,
         height,
-        credit
-      }
-      setData((d) => {
-        onChange?.({ ...d, image })
-        return { ...d, image }
-      })
+        credit,
+      };
+      onChange(update(value || {}, { image: { $set: image } }));
     }
-  }
-
-  useEffect(() => {
-    if (value) {
-      setData(value)
-    }
-  }, [value])
+  };
 
   return (
     <ListItem divider {...listItemProps}>
-      <Box display={'flex'} flexDirection={'column'} flex={1}>
-        <Box display={'flex'} alignItems={'center'}>
-          <Typography variant='caption' color='textSecondary'>
-            {t('FeatureImage')}
+      <Box display={"flex"} flexDirection={"column"} flex={1}>
+        <Box display={"flex"} alignItems={"center"}>
+          <Typography variant="caption" color="textSecondary">
+            {t("FeatureImage")}
           </Typography>
           <Box flex={1} />
           <ActionIcon
-            icon={mobile ? ['far', 'mobile'] : ['far', 'tv']}
+            icon={mobile ? ["far", "mobile"] : ["far", "tv"]}
             onClick={handleToggleMobile}
           />
-          {data?.image && (
-            <FIEMove image={data.image} onChange={handleChangePos} />
+          {value?.image && (
+            <FIEMove image={value.image} onChange={handleChangePos} />
           )}
         </Box>
-        {data.image && (
+        {value?.image && (
           <Box py={1}>
             <StockDisplay
-              image={data.image}
-              pos={data.pos}
+              image={value?.image}
+              pos={value?.pos}
               ratio={mobile ? 1 : 0.25}
             />
           </Box>
         )}
         <Box flex={1}>
           <Grid container spacing={1}>
-            <Grid item xs={data.image ? 6 : 12}>
+            <Grid item xs={value?.image ? 6 : 12}>
               <Button
                 fullWidth
-                variant='outlined'
+                variant="outlined"
                 onClick={() => setOpen(true)}
-                startIcon={<FontAwesomeIcon icon={['far', 'folder-open']} />}
+                startIcon={<FontAwesomeIcon icon={["far", "folder-open"]} />}
                 color="info"
               >
-                {t('Browse')}
+                {t("Browse")}
               </Button>
               <StockPicker
                 open={open}
@@ -116,14 +104,14 @@ export const FeatureImageEdit = ({
                 onConfirm={handleChangeImage}
               />
             </Grid>
-            {data.image && (
+            {value?.image && (
               <Grid item xs={6} onClick={() => onRemove?.()}>
-                <KuiButton fullWidth variant='outlined' tx='remove' />
+                <KuiButton fullWidth variant="outlined" tx="remove" />
               </Grid>
             )}
           </Grid>
         </Box>
       </Box>
     </ListItem>
-  )
-}
+  );
+};

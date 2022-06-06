@@ -100,6 +100,7 @@ export { useAlerts } from "./Alerts";
 export type { AlertType } from "./Alerts";
 export { VideoDisplay } from "./VideoDisplay";
 export * from "./Visibility";
+export * from "./VisibilityTabs";
 export type { VideoDisplayProps } from "./VideoDisplay";
 export { WebPageEdit } from "./WebPageEdit";
 export type { WebPageDocument } from "./WebPageEdit";

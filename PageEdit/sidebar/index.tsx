@@ -69,6 +69,12 @@ export const PESidebar = () => {
         <FeatureImageEdit
           value={data.feature}
           onChange={(feature) => setData((d) => ({ ...d, feature }))}
+          onRemove={() =>
+            setData((d) => {
+              delete d.feature;
+              return d;
+            })
+          }
         />
       )}
       {show.includes("visibility") && (
