@@ -16,11 +16,11 @@ export const BackLink = ({ divider, to, target }: BackLinkProps) => {
     <List>
       <ListItem divider={Boolean(divider)}>
         <Button
-          size="small"
           component={Link}
           to={to}
           startIcon={<FontAwesomeIcon icon={["fad", "chevron-left"]} />}
           target={target || "_self"}
+          color="neutral"
         >
           {t("Back")}
         </Button>

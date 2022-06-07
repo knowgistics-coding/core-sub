@@ -108,6 +108,7 @@ const locale_en_th: { [key: string]: string[] } = {
   'Question Title': ['Question Title', 'ชื่อข้อสอบ'],
   'Question Type': ['Question Type', 'ประเภทคำถาม'],
   Quiz: ['Quiz', 'แบบทดสอบ'],
+  'Rows per page': ['Rows per page', 'จำนวนแถวต่อหน้า'],
   Read: ['Read', 'อ่าน'],
   Register: ['Register', 'สมัคร'],
   Remove: ['Remove', 'ลบ'],

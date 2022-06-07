@@ -24,6 +24,12 @@ export const DataGrid = (props: DataGridProps) => {
         columnMenuSortAsc: t("Sort by ASC"),
         columnMenuSortDesc: t("Sort by DESC"),
       }}
+      componentsProps={{
+        pagination: {
+          labelRowsPerPage: t("Rows per page"),
+        },
+      }}
+      rowsPerPageOptions={[10, 20, 50, 100, 200]}
       {...props}
     />
   );
