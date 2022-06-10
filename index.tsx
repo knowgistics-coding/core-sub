@@ -12,6 +12,7 @@ export { BackLink } from "./BackLink";
 export * from './BookView'
 export { CardContainer, CardItem } from "./Card";
 export type { CardContainerProps, CardItemProps } from "./Card";
+export * from './Chat'
 export { Container } from "./Container";
 export type { ContainerProps } from "./Container";
 export { ContentEdit } from "./ContentEdit";

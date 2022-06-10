@@ -37,7 +37,7 @@ export class SkeMongo {
     })
       .then((res) => res.json())
       .catch((reason) => {
-        throw new Error(reason.messa);
+        throw new Error(reason.message);
       })) as T;
   }
 }

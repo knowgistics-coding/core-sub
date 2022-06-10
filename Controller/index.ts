@@ -1,5 +1,6 @@
-export * from './ske'
+export * from './chat'
 export * from './course'
 export * from './book.realm'
 export * from './post.realm'
+export * from './ske'
 export * from './view'
