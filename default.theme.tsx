@@ -108,8 +108,6 @@ export const defaultTheme: ThemeOptions = {
       // primary: '#666'
     },
     appbar: {
-      backgroundColor: "white",
-      borderBottom: `solid 1px ${grey[300]}`,
       color: `#1d1d1f`,
     },
   },
