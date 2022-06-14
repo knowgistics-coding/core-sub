@@ -9,6 +9,7 @@ import React, {
 } from "react";
 import {
   createTheme,
+  CssBaseline,
   darken,
   Theme,
   ThemeOptions,
@@ -35,6 +36,7 @@ import { fad } from "@fortawesome/pro-duotone-svg-icons";
 import { far } from "@fortawesome/pro-regular-svg-icons";
 import i18next from "i18next";
 import { PopupProvider } from "./react-popup";
+import "./style.css";
 
 library.add(fad as IconPack, far as IconPack);
 
@@ -44,8 +46,8 @@ initI18Next();
 
 export interface userTypes {
   loading: boolean;
-    data: User | null;
-    claims: IdTokenResult | null;
+  data: User | null;
+  claims: IdTokenResult | null;
 }
 export interface CoreProviderProps {
   theme?: ThemeOptions;
@@ -77,7 +79,9 @@ export interface CoreContextTypes
     db: Firestore;
   };
   user: userTypes;
-  setUser: Dispatch<SetStateAction<userTypes>>
+  setUser: Dispatch<SetStateAction<userTypes>>;
+  open: Record<string, boolean>;
+  setOpen: Dispatch<SetStateAction<Record<string, boolean>>>;
 }
 
 const CoreContext = createContext<CoreContextTypes>({
@@ -93,6 +97,8 @@ const CoreContext = createContext<CoreContextTypes>({
   setUser: () => {},
   sitename: "",
   logo: "",
+  open: {},
+  setOpen: () => {},
 });
 
 export const CoreProvider = (
@@ -105,6 +111,7 @@ export const CoreProvider = (
     data: null,
     claims: null,
   });
+  const [open, setOpen] = useState<Record<string, boolean>>({});
 
   if (props?.theme?.palette?.primary) {
     const primary = props?.theme?.palette?.primary as any;
@@ -127,6 +134,8 @@ export const CoreProvider = (
     user,
     setUser,
     t,
+    open,
+    setOpen,
   };
 
   useEffect(() => {
@@ -173,6 +182,7 @@ export const CoreProvider = (
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <Alerts>
         <PopupProvider>
           <CoreContext.Provider value={store}>
