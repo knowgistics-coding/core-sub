@@ -15,7 +15,7 @@ export type Payload = {
   message: Message;
 };
 
-export type UserMini = {
+type UserMini = {
   email: string;
   photoURL?: string;
   displayName?: string;
@@ -37,6 +37,12 @@ export interface MessageDocument {
 }
 
 export class ChatSocket extends SkeMongo {
+  readonly room = {
+    list: () => {
+      
+    }
+  }
+
   async open(friendUid: string): Promise<string> {
     const chatId = await this.get<string>(
       `${this.baseUrl}/chat/open/${friendUid}`,
