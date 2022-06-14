@@ -9,6 +9,7 @@ export type { CoreContextTypes } from "./context";
 export { ActionIcon } from "./ActionIcon";
 export type { ActionIconProps } from "./ActionIcon";
 export { BackLink } from "./BackLink";
+export * from "./Badge";
 export * from './BookView'
 export { CardContainer, CardItem } from "./Card";
 export type { CardContainerProps, CardItemProps } from "./Card";
