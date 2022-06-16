@@ -1,50 +1,59 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { styled, lighten, IconButton, Box, Backdrop } from '@mui/material'
-import { useState } from 'react'
-import { EmailPass } from './email.pass'
-import { ForgetPassword } from './forget.pass'
-import { Register } from './register'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  styled,
+  lighten,
+  IconButton,
+  Box,
+  Backdrop,
+  darken,
+} from "@mui/material";
+import { useState } from "react";
+import { EmailPass } from "./email.pass";
+import { ForgetPassword } from "./forget.pass";
+import { Register } from "./register";
 
 const Root = styled(Box)<{ noBG?: boolean }>(({ theme, noBG }) => ({
-  position: 'fixed',
+  position: "fixed",
   top: 0,
   left: 0,
-  width: '100%',
-  height: '100%',
+  width: "100%",
+  height: "100%",
   backgroundColor: noBG
     ? `rgba(0,0,0,0.75)`
-    : lighten(theme.palette.primary.main, 0.75),
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center'
-}))
+    : theme.palette.mode === "light"
+    ? lighten(theme.palette.primary.main, 0.75)
+    : darken(theme.palette.primary.main, 0.75),
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+}));
 
-const Container = styled('div')(({ theme }) => ({
-  position: 'relative',
-  display: 'flex',
+const Container = styled("div")(({ theme }) => ({
+  position: "relative",
+  display: "flex",
   borderRadius: theme.spacing(1),
   padding: theme.spacing(4, 2),
-  backgroundColor: 'white',
-  width: '100%',
+  backgroundColor: theme.palette.background.default,
+  width: "100%",
   maxWidth: theme.sidebarWidth * 1.5,
-  overflow: 'auto'
-}))
+  overflow: "auto",
+}));
 
 const CloseButtom = styled(IconButton)(({ theme }) => ({
-  position: 'absolute',
+  position: "absolute",
   top: 8,
   right: 8,
   backgroundColor: theme.palette.error.main,
   color: theme.palette.error.contrastText,
-  '&:hover': {
-    backgroundColor: theme.palette.error.dark
-  }
-}))
+  "&:hover": {
+    backgroundColor: theme.palette.error.dark,
+  },
+}));
 
 export const SignIn = ({ onClose }: { onClose?: () => void }) => {
-  const [tab, setTab] = useState<string>('emailpass')
-  const handleChangeTab = (tab: string) => () => setTab(tab)
+  const [tab, setTab] = useState<string>("emailpass");
+  const handleChangeTab = (tab: string) => () => setTab(tab);
 
   if (onClose) {
     return (
@@ -55,12 +64,12 @@ export const SignIn = ({ onClose }: { onClose?: () => void }) => {
           <ForgetPassword tab={tab} onChangeTab={handleChangeTab} />
           {onClose && (
             <CloseButtom onClick={onClose}>
-              <FontAwesomeIcon icon={['fad', 'xmark']} />
+              <FontAwesomeIcon icon={["fad", "xmark"]} />
             </CloseButtom>
           )}
         </Container>
       </Backdrop>
-    )
+    );
   } else {
     return (
       <Root>
@@ -70,6 +79,6 @@ export const SignIn = ({ onClose }: { onClose?: () => void }) => {
           <ForgetPassword tab={tab} onChangeTab={handleChangeTab} />
         </Container>
       </Root>
-    )
+    );
   }
-}
+};

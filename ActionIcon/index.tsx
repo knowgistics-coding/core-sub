@@ -8,7 +8,7 @@ import { useCore } from '../context'
 
 export type ActionIconProps = IconButtonProps & {
   icon: IconProp
-  iconProps?: FontAwesomeIconProps
+  iconProps?: Omit<FontAwesomeIconProps, 'icon'>
 }
 export const ActionIcon = ({ icon, iconProps, ...props }: ActionIconProps) => {
   const { isMobile } = useCore()

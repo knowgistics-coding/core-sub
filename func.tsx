@@ -230,11 +230,20 @@ export const coverToStock = (id: string, prefix?: string) => {
   });
 };
 
-export const timestampToDate = (inputDate: Timestamp):Date => {
-  if(inputDate?.toMillis?.()){
-    const newDate = new Date(0)
-    newDate.setMilliseconds(inputDate.toMillis())
-    return newDate
+export const timestampToDate = (inputDate: Timestamp): Date => {
+  if (inputDate?.toMillis?.()) {
+    const newDate = new Date(0);
+    newDate.setMilliseconds(inputDate.toMillis());
+    return newDate;
   }
-  return new Date()
-}
+  return new Date();
+};
+
+export const darkModeListener = (callback: (isDarkMode: boolean) => void) => {
+  const elem = window.matchMedia("(prefers-color-scheme: dark)");
+  callback(elem.matches);
+  elem.addEventListener("change", (event) => {
+    callback(event.matches);
+  });
+  return () => elem.removeEventListener("change", () => {});
+};

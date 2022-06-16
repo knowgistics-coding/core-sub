@@ -1,9 +1,9 @@
-import { User } from "firebase/auth";
 import { io, Socket } from "socket.io-client";
-import { SkeMongo, Options } from "./ske";
+import { SkeMongo } from "./ske";
 
 export type Online = Record<string, boolean>;
 export interface UserMini {
+  _id?: string;
   uid: string;
   displayName?: string;
   photoURL?: string;
@@ -14,41 +14,91 @@ export interface RoomData {
   member: UserMini[];
   type: string;
 }
-export interface WhapaiCallBack {
-  online?: Online;
-  rooms?: RoomData[];
+export type WhapaiCallBack = Record<string, any>;
+
+export type ChatError = null | { message: string };
+
+export type WhapaiState = {
+  loading: boolean;
+  userdata?: {
+    aid: string;
+    uid: string;
+    displayName: string;
+    email: string;
+    photoURL: string;
+    friends?: UserMini[];
+  } | null;
+};
+
+export interface WhapaiMessage {
+  _id: string;
+  sender: UserMini
+  room: string;
+  timestamp: string;
+  content: {
+    type: string;
+    text?: string;
+  };
 }
 
 export class Whapai extends SkeMongo {
   socket?: Socket;
 
-  constructor(
-    user: User,
-    callback: (data: WhapaiCallBack) => void,
-    options: Options
-  ) {
-    super(user, options);
+  async init(callback: (socket: Socket) => void) {
+    const token = await this.user.getIdToken();
+    this.socket = io(`${this.baseUrl}`, {
+      path: "/chat/lobby",
+      extraHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    callback(this.socket);
+  }
 
-    user.getIdToken().then((token) => {
+  disconnect() {
+    return () => {
+      this.socket?.off();
+      this.socket?.disconnect();
+    };
+  }
+}
+
+export class WhapaiRoom extends SkeMongo {
+  socket?: Socket;
+
+  init(roomId: string, callback: (socket: Socket) => void) {
+    this.user.getIdToken().then((token) => {
       this.socket = io(`${this.baseUrl}`, {
+        path: "/chat/room",
         extraHeaders: {
           Authorization: `Bearer ${token}`,
         },
       });
-      this.socket.on("online", (online) => callback({ online }));
-      this.socket.on("rooms", (rooms) => callback({ rooms }));
+      this.socket.emit(`init`, roomId);
+      callback(this.socket);
     });
+    return () => {
+      this.socket?.off();
+      this.socket?.disconnect();
+    };
   }
 
-  watchMessage(
+  watch(
     roomId: string,
-    callback: (messages?: any[], message?: any) => void
+    callback: (err: ChatError, messages: WhapaiMessage[]) => void
   ) {
-    this.socket?.emit("watchroom", roomId);
-    this.socket?.on(`room-${roomId}`, (messages?: any[], message?: any) => {
-      callback(messages, message);
-    });
+    this.socket?.on(
+      `room-${roomId}`,
+      (err: ChatError, messages: WhapaiMessage[]) => {
+        callback(err, messages);
+        console.log(messages);
+      }
+    );
     return () => this.socket?.off(`room-${roomId}`);
+  }
+
+  send(roomId: string, message: string) {
+    this.socket?.emit("send", roomId, message);
   }
 
   disconnect() {

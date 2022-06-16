@@ -107,15 +107,7 @@ export type { VideoDisplayProps } from "./VideoDisplay";
 export { WebPageEdit } from "./WebPageEdit";
 export type { WebPageDocument } from "./WebPageEdit";
 
-export {
-  browserDetect,
-  cleanObject,
-  arrayShuffle,
-  quizConvert,
-  quizAnswerCheck,
-  coverToStock,
-  timestampToDate
-} from "./func";
+export * from "./func";
 
 export { initializeApp } from "firebase/app";
 export { getAuth } from "firebase/auth";
