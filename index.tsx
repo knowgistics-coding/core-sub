@@ -63,6 +63,7 @@ export { KuiButton } from "./KuiButton";
 export type { KuiButtonProps } from "./KuiButton";
 export { MainContainer } from "./MainContainer";
 export type { MainContainerProps } from "./MainContainer";
+export * from './Maps'
 export { NotFound } from "./NotFound";
 export type { NotFoundProps } from "./NotFound";
 export { PageEdit } from "./PageEdit";

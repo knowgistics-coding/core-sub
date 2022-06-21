@@ -28,7 +28,7 @@ export const MCContent = ({ children }: MCContentProps) => {
   return (
     <Box display={'flex'}>
       <LeftPad open={getLeftSidebarOpen()} />
-      <Box flex={1} pt={dense ? 0 : 6} pb={6}>
+      <Box flex={1} pt={dense ? 0 : 6} pb={dense ? 0 : 6}>
         {children}
       </Box>
     </Box>

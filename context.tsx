@@ -35,7 +35,7 @@ import { library, IconProp, IconPack } from "@fortawesome/fontawesome-svg-core";
 import { fad } from "@fortawesome/pro-duotone-svg-icons";
 import { far } from "@fortawesome/pro-regular-svg-icons";
 import i18next from "i18next";
-import { PopupProvider } from "./react-popup";
+import { PopupProvider, PopupTranslate } from "./react-popup";
 import "./style.css";
 
 library.add(fad as IconPack, far as IconPack);
@@ -180,11 +180,18 @@ export const CoreProvider = (
     }
   }, [props.firebaseConfig]);
 
+  const trans: PopupTranslate = {
+    confirm: t("Confirm"),
+    remove: t("Remove"),
+    cancel: t("Cancel"),
+    close: t("Close"),
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Alerts>
-        <PopupProvider>
+        <PopupProvider trans={trans}>
           <CoreContext.Provider value={store}>
             {props.children}
           </CoreContext.Provider>
