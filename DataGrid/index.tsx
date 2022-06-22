@@ -14,6 +14,11 @@ export const DataGrid = (props: DataGridProps) => {
       sx={{
         backgroundColor: "background.default",
       }}
+      initialState={{
+        pagination: {
+          pageSize: 10
+        }
+      }}
       autoHeight
       localeText={{
         noRowsLabel: t("No rows"),
