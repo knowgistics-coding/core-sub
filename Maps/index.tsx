@@ -1,5 +1,9 @@
 import * as React from "react";
-import { GoogleMap, GoogleMapProps, useJsApiLoader } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  GoogleMapProps,
+  useJsApiLoader,
+} from "@react-google-maps/api";
 import { minimalOptions } from "./set.minimal";
 import { CreateButton } from "./create.button";
 
@@ -18,7 +22,11 @@ const thailangBounds: MapPosition[] = [
   { lat: 5.6290204418308365, lng: 105.44833030052126 },
 ];
 
-export interface GoogleMapsProps extends Omit<GoogleMapProps, "mapContainerStyle" | "center" | "zoom" | "onLoad" | "onUnmount"> {
+export interface GoogleMapsProps
+  extends Omit<
+    GoogleMapProps,
+    "mapContainerStyle" | "center" | "zoom" | "onLoad" | "onUnmount"
+  > {
   children?: React.ReactNode;
   minimal?: boolean;
   onLoad?: (map: google.maps.Map) => void;
@@ -39,6 +47,7 @@ export const GoogleMaps = React.memo(
     onLoad: onMapLoad,
     searchRef,
     onSearchEnd,
+    children,
     ...props
   }: GoogleMapsProps) => {
     const { isLoaded } = useJsApiLoader({
@@ -104,8 +113,9 @@ export const GoogleMaps = React.memo(
         zoom={5}
         onLoad={onLoad}
         onUnmount={onUnmount}
+        {...props}
       >
-        {props.children}
+        {children}
         {/* Child components, such as markers, info windows, etc. */}
         <></>
       </GoogleMap>
