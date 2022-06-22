@@ -8,6 +8,8 @@ const containerStyle = {
   height: "100%",
 };
 
+export * from './maps.icon'
+
 export type MapPosition = { lat: number; lng: number };
 
 const center: MapPosition = { lat: 13.565438, lng: 100.578203 };
@@ -19,15 +21,16 @@ const thailangBounds: MapPosition[] = [
 export interface GoogleMapsProps {
   children?: React.ReactNode
   minimal?: boolean;
+  onLoad?: (map:google.maps.Map) => void
 }
 
-export const GoogleMaps = React.memo((props: GoogleMapsProps) => {
+export const GoogleMaps = React.memo(({onLoad:onMapLoad,...props}: GoogleMapsProps) => {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "***REMOVED***",
   });
 
-  const [map, setMap] = React.useState<google.maps.Map | null>(null);
+  const [, setMap] = React.useState<google.maps.Map | null>(null);
 
   const onLoad = React.useCallback(function callback(map: google.maps.Map) {
     // FIT BOUNDS
@@ -47,7 +50,11 @@ export const GoogleMaps = React.memo((props: GoogleMapsProps) => {
     const newbutton = CreateButton()
     newbutton.addEventListener('click', () => map.setMapTypeId(customMapTypeId))
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(newbutton)
-  }, []);
+
+    if(onMapLoad){
+      onMapLoad?.(map)
+    }
+  }, [onMapLoad]);
 
   const onUnmount = React.useCallback(function callback(map: google.maps.Map) {
     setMap(null);
