@@ -177,13 +177,19 @@ const RouteIconSVG = (color: string) => `<?xml version="1.0" encoding="utf-8"?>
 </g>
 </svg>`;
 
-export const getRouteIcon = (color: string) => ({
+export const getRouteIcon = (
+  color: string,
+  size: "small" | "medium" = "small"
+): any => ({
   url: `data:image/svg+xml;charset=UTF-8;base64,${window.btoa(
     RouteIconSVG(color)
   )}`,
-  scaledSize: { width: 20, height: 20, f: "px", b: "px" },
-  labelOrigin: { x: 10, y: 10 },
-  anchor: { x: 10, y: 10 },
+  scaledSize:
+    size === "small"
+      ? { width: 20, height: 20, f: "px", b: "px" }
+      : { width: 30, height: 30, f: "px", b: "px" },
+  labelOrigin: size === "small" ? { x: 10, y: 10 } : { x: 15, y: 15 },
+  anchor: size === "small" ? { x: 10, y: 10 } : { x: 15, y: 15 },
 });
 
 const MarkerIconSVG = (icon: MapCatItem) => {
@@ -244,17 +250,17 @@ ${
 </svg>`;
 };
 
-export const getMarkerIcon = (cat?: string): (any | undefined) => {
+export const getMarkerIcon = (cat?: string): any | undefined => {
   const IconMap = MarkerCat.find((icon) => icon.id === cat);
-  const icon:any = IconMap
+  const icon: any = IconMap
     ? {
         url: `data:image/svg+xml;charset=UTF-8;base64,${window.btoa(
           MarkerIconSVG(IconMap)
         )}`,
         scaledSize: { width: 40, height: 40, f: "px", b: "px" },
-        labelOrigin: { x:20, y:16 }
+        labelOrigin: { x: 20, y: 16 },
       }
     : null;
 
-  return icon || undefined
+  return icon || undefined;
 };
