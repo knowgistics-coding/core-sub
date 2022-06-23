@@ -113,10 +113,12 @@ export const defaultTheme: ThemeOptions = {
   },
   typography: {
     body1: {
+      fontFamily: `"Sarabun", "Roboto", "Helvetica", "Arial", sans-serif`,
       fontSize: 18,
       lineHeight: 1.5,
     },
     body2: {
+      fontFamily: `"Sarabun", "Roboto", "Helvetica", "Arial", sans-serif`,
       fontSize: 16,
       lineHeight: 1.5,
     },
