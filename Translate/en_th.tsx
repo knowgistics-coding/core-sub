@@ -46,6 +46,10 @@ const locale_en_th: { [key: string]: string[] } = {
     'Do you want to remove "{{name}}" ?',
     'คุณต้องการลบ "{{name}}" หรือไม่?',
   ],
+  DoYouWantToRemoveNameForever: [
+    `Do you want to remove "{{name}}" forever?`,
+    `คุณต้องการลบ "{{name}}" ถาวรใช่หรือไม่?`,
+  ],
   Download: ["Download", "ดาวน์โหลด"],
   Dmatching: [
     "Match the answers to the questions.",
