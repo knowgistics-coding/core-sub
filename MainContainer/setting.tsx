@@ -28,7 +28,6 @@ const GridName = ({ children }: { children?: React.ReactNode }) => {
 };
 const GridSet = ({
   children,
-  dense,
 }: {
   children?: React.ReactNode;
   dense?: boolean;
@@ -84,8 +83,8 @@ export const MCSetting = () => {
               size="small"
               value={systemState.mode}
               onChange={({ target: { value } }) => {
-                setSystemState((s) => ({ ...s, mode: value as SystemMode }))
-                localStorage.setItem("mode", value)
+                setSystemState((s) => ({ ...s, mode: value as SystemMode }));
+                localStorage.setItem("mode", value);
               }}
             >
               <MenuItem value="default">{t("SystemDefault")}</MenuItem>
