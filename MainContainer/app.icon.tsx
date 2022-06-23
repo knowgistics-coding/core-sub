@@ -1,10 +1,9 @@
 
 import { Box, styled } from '@mui/material'
-import { grey } from '@mui/material/colors'
 
 const Root = styled(Box, { shouldForwardProp: (props) => props !== 'open' })<{
   open: boolean
-}>(({ open }) => ({
+}>(({ theme, open }) => ({
   display: 'grid',
   width: '1em',
   height: '1em',
@@ -13,7 +12,7 @@ const Root = styled(Box, { shouldForwardProp: (props) => props !== 'open' })<{
   columnGap: '0.1em',
   rowGap: '0.1em',
   '&>div': {
-    backgroundColor: grey[500],
+    backgroundColor: theme.palette.text.primary,
     width: '100%',
     height: '100%',
     fontSize: '0.3rem',
