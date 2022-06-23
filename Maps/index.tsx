@@ -100,7 +100,7 @@ export const GoogleMaps = React.memo(
     );
 
     const onUnmount = React.useCallback(function callback(
-      map: google.maps.Map
+      _map: google.maps.Map
     ) {
       setMap(null);
     },
