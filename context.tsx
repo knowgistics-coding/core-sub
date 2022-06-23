@@ -3,6 +3,7 @@ import React, {
   Dispatch,
   ReactNode,
   SetStateAction,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -44,6 +45,10 @@ console.log(`Document: https://phra-in.web.app`);
 
 initI18Next();
 
+export type SystemMode = "default" | "dark" | "light";
+export type SystemState = {
+  mode: SystemMode;
+};
 export interface userTypes {
   loading: boolean;
   data: User | null;
@@ -82,6 +87,8 @@ export interface CoreContextTypes
   setUser: Dispatch<SetStateAction<userTypes>>;
   open: Record<string, boolean>;
   setOpen: Dispatch<SetStateAction<Record<string, boolean>>>;
+  systemState: SystemState;
+  setSystemState: Dispatch<SetStateAction<SystemState>>;
 }
 
 const CoreContext = createContext<CoreContextTypes>({
@@ -99,6 +106,10 @@ const CoreContext = createContext<CoreContextTypes>({
   logo: "",
   open: {},
   setOpen: () => {},
+  systemState: {
+    mode: "default",
+  },
+  setSystemState: () => {},
 });
 
 export const CoreProvider = (
@@ -112,6 +123,11 @@ export const CoreProvider = (
     claims: null,
   });
   const [open, setOpen] = useState<Record<string, boolean>>({});
+  const [systemState, setSystemState] = useState<{
+    mode: SystemMode;
+  }>({
+    mode: "default",
+  });
 
   if (props?.theme?.palette?.primary) {
     const primary = props?.theme?.palette?.primary as any;
@@ -123,19 +139,45 @@ export const CoreProvider = (
       };
     }
   }
-  const theme = createTheme(deepmerge(defaultTheme, props.theme));
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const getTheme = useCallback((): Theme => {
+    let mode = "light";
+    if (systemState.mode === "default") {
+      const elem = window.matchMedia("(prefers-color-scheme: dark)");
+      mode = elem.matches ? "dark" : "light";
+    } else {
+      mode = systemState.mode;
+    }
+    if (mode === "dark") {
+      return createTheme(
+        deepmerge(
+          deepmerge(defaultTheme, {
+            palette: {
+              text: { primary: "#FFF", secondary: "#FFF6" },
+              mode: "dark",
+            },
+          }),
+          props.theme
+        )
+      );
+    } else {
+      return createTheme(deepmerge(defaultTheme, props.theme));
+    }
+  }, [systemState, props.theme]);
+  const isMobile = useMediaQuery(getTheme().breakpoints.down("sm"));
 
   const store = {
     ...props,
     isMobile,
-    theme,
+    theme: getTheme(),
     fb,
     user,
     setUser,
     t,
     open,
     setOpen,
+    systemState,
+    setSystemState,
   };
 
   useEffect(() => {
@@ -180,6 +222,13 @@ export const CoreProvider = (
     }
   }, [props.firebaseConfig]);
 
+  useEffect(() => {
+    const mode = localStorage.getItem("mode");
+    if (mode) {
+      setSystemState((s) => ({ ...s, mode: mode as SystemMode }));
+    }
+  }, []);
+
   const trans: PopupTranslate = {
     confirm: t("Confirm"),
     remove: t("Remove"),
@@ -188,7 +237,7 @@ export const CoreProvider = (
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={store.theme}>
       <CssBaseline />
       <Alerts>
         <PopupProvider trans={trans}>

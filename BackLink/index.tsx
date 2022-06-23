@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, List, ListItem } from "@mui/material";
+import React from "react";
 import { Link } from "react-router-dom";
 
 import { useCore } from "../context";
@@ -9,7 +10,7 @@ export interface BackLinkProps {
   target?: string;
   divider?: boolean;
 }
-export const BackLink = ({ divider, to, target }: BackLinkProps) => {
+export const BackLink = React.memo(({ divider, to, target }: BackLinkProps) => {
   const { t } = useCore();
 
   return (
@@ -27,4 +28,4 @@ export const BackLink = ({ divider, to, target }: BackLinkProps) => {
       </ListItem>
     </List>
   );
-};
+});

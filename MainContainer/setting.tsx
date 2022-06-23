@@ -12,24 +12,17 @@ import {
 } from "@mui/material";
 import { KuiButton } from "../KuiButton";
 import { useMC } from "./ctx";
-import { QuickTextField } from "../QuickTextField";
-import { ProfileImage } from "../ProfileImage";
 import i18next from "i18next";
-import { useCore } from "../context";
-import { StockImageTypes } from "../StockPicker";
-import { updateProfile } from "firebase/auth";
-import { apiURL } from "../StockPicker/controller";
+import { SystemMode, useCore } from "../context";
 import { useTranslation } from "react-i18next";
 // import { MCLine } from './line'
 
 const GridName = ({ children }: { children?: React.ReactNode }) => {
-  const { isMobile } = useCore();
   return (
     <Grid item xs={12} sm={4}>
       <Typography variant="body1" color={"textSecondary"}>
         {children}
       </Typography>
-      {!isMobile && <Box mb={4} />}
     </Grid>
   );
 };
@@ -43,14 +36,13 @@ const GridSet = ({
   return (
     <Grid item xs={12} sm={8}>
       {children}
-      {!dense && <Box mb={4} />}
     </Grid>
   );
 };
 
 export const MCSetting = () => {
-  const { open, handleOpen, user } = useMC();
-  const { isMobile } = useCore();
+  const { open, handleOpen } = useMC();
+  const { isMobile, systemState, setSystemState } = useCore();
   const { t } = useTranslation();
   const lang = i18next.language;
 
@@ -59,53 +51,23 @@ export const MCSetting = () => {
     i18next.changeLanguage(value);
     window.localStorage.setItem("defaultLanguage", value);
   };
-  const handleChangeDisplayName = async (displayName: string) => {
-    if (user.data) {
-      await updateProfile(user.data, {
-        displayName,
-      });
-      await user.data.reload();
-    }
-  };
-  const handleChangePhotoURL = async ([img]: StockImageTypes[]) => {
-    if (img && user.data) {
-      await updateProfile(user.data, {
-        photoURL: `${apiURL}/file/id/${img._id}/thumbnail`,
-      });
-      await user.data.reload();
-    }
-  };
 
   return (
     <Dialog
       fullWidth
       fullScreen={isMobile}
-      maxWidth="sm"
+      maxWidth="xs"
       open={open.setting}
       onClose={handleOpen("setting", false)}
     >
       <DialogTitle>{t("Setting")}</DialogTitle>
       <DialogContent dividers={isMobile} style={{ paddingBottom: 0 }}>
         <Box pt={1} />
-        <Grid container alignItems={"center"} spacing={2}>
-          <GridName>{t("Display Name")}</GridName>
-          <GridSet>
-            <QuickTextField
-              showIcon
-              value={user.data?.displayName || ""}
-              onChange={handleChangeDisplayName}
-            />
-          </GridSet>
-          <GridName>{t("Profile Image")}</GridName>
-          <GridSet>
-            <ProfileImage
-              src={user.data?.photoURL || undefined}
-              onChange={handleChangePhotoURL}
-            />
-          </GridSet>
+        <Grid container spacing={2} sx={{ alignItems: "center" }}>
           <GridName>{t("Language")}</GridName>
           <GridSet dense>
             <Select
+              fullWidth
               size="small"
               variant="outlined"
               value={["en", "th"].includes(lang) ? lang : "en"}
@@ -113,6 +75,22 @@ export const MCSetting = () => {
             >
               <MenuItem value="en">English</MenuItem>
               <MenuItem value="th">ไทย</MenuItem>
+            </Select>
+          </GridSet>
+          <GridName>{t("DarkMode")}</GridName>
+          <GridSet dense>
+            <Select
+              fullWidth
+              size="small"
+              value={systemState.mode}
+              onChange={({ target: { value } }) => {
+                setSystemState((s) => ({ ...s, mode: value as SystemMode }))
+                localStorage.setItem("mode", value)
+              }}
+            >
+              <MenuItem value="default">{t("SystemDefault")}</MenuItem>
+              <MenuItem value="light">{t("Light")}</MenuItem>
+              <MenuItem value="dark">{t("Dark")}</MenuItem>
             </Select>
           </GridSet>
           {/* <GridName>{t('Line Application')}</GridName>
