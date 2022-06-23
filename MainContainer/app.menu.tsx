@@ -50,6 +50,7 @@ const FAStyled = styled((props: FontAwesomeIconProps) => (
   <FontAwesomeIcon size="4x" {...props} />
 ))(({ theme }) => ({
   "--fa-primary-color": theme.palette.primary.main,
+  "--fa-secondary-color": theme.palette.text.primary,
   "--fa-secondary-opacity": 0.25,
   marginBottom: 4,
 }));

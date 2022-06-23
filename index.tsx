@@ -61,6 +61,7 @@ export { KuiActionIcon } from "./KuiActionIcon";
 export type { KuiActionIconProps } from "./KuiActionIcon";
 export { KuiButton } from "./KuiButton";
 export type { KuiButtonProps } from "./KuiButton";
+export * from './KuiListItemButton'
 export { MainContainer } from "./MainContainer";
 export type { MainContainerProps } from "./MainContainer";
 export * from './Maps'
