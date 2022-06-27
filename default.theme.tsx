@@ -1,5 +1,6 @@
 import { darken, ThemeOptions } from "@mui/material";
 import { grey } from "@mui/material/colors";
+import { deepmerge } from "@mui/utils";
 
 declare module "@mui/material/styles" {
   /**
@@ -107,6 +108,9 @@ export const defaultTheme: ThemeOptions = {
       secondary: "#86868b",
       // primary: '#666'
     },
+    background: {
+      default: '#F6F6F6'
+    },
     appbar: {
       color: `#1d1d1f`,
     },
@@ -181,11 +185,11 @@ export const defaultTheme: ThemeOptions = {
         },
         outlined: {
           borderWidth: 2,
-          boxSizing: 'border-box',
+          boxSizing: "border-box",
           "&:hover": {
             borderWidth: 2,
-          }
-        }
+          },
+        },
       },
       defaultProps: {
         disableElevation: true,
@@ -213,3 +217,14 @@ export const defaultTheme: ThemeOptions = {
     },
   },
 };
+
+export const defaultDarkTheme: ThemeOptions = deepmerge(defaultTheme, {
+  palette: {
+    text: { primary: "#FFF", secondary: "#FFF6" },
+    background: {
+      default: "#222",
+      paper: "#000",
+    },
+    mode: "dark",
+  },
+});

@@ -11,7 +11,7 @@ import { deepmerge } from "@mui/utils";
 const AppBarStyled = styled(AppBar)(({ theme }) =>
   deepmerge(
     {
-      backgroundColor: theme.palette.background.default,
+      backgroundColor: theme.palette.background.paper,
       borderBottom: 'solid 1px',
       borderColor: theme.palette.divider,
     },
