@@ -52,13 +52,13 @@ export const MarkerCat: MapCatItem[] = [
     id: "cafe",
     label: "คาเฟ่",
     color: "#FF7BCB",
-    icon: "coffee",
+    icon: "mug-saucer",
   },
   {
     id: "shopping",
     label: "ที่ช้อป",
     color: "#0059B2",
-    icon: "shopping-bag",
+    icon: "bag-shopping",
   },
   {
     id: "show",
