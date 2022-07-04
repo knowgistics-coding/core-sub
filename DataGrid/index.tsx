@@ -12,7 +12,7 @@ export const DataGrid = (props: DataGridProps) => {
   return (
     <DG
       sx={{
-        backgroundColor: "background.default",
+        backgroundColor: "background.paper",
       }}
       initialState={{
         pagination: {

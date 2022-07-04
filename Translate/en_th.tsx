@@ -27,6 +27,10 @@ const locale_en_th: { [key: string]: string[] } = {
   Class: ["Class", "คาบเรียน"],
   Clear: ["Clear", "ล้าง"],
   Close: ["Close", "ปิด"],
+<<<<<<< HEAD
+=======
+  ClosePath: ["Close Path", "ปิดเส้นทาง"],
+>>>>>>> 70f06e81d8ff1092abe2696d3ebc6e9643065f9a
   Collection: ["Collection", "คอลเล็คชัน"],
   Component: ["Component", "ส่วนประกอบ"],
   Confirm: ["Confirm", "ยืนยัน"],
@@ -38,6 +42,10 @@ const locale_en_th: { [key: string]: string[] } = {
   Date: ["Date", "วันที่"],
   Detail: ["Detail", "รายละเอียด"],
   Description: ["Description", "รายละเอียด"],
+<<<<<<< HEAD
+=======
+  Deselect: ["Deselect", "ยกเลิกการเลือก"],
+>>>>>>> 70f06e81d8ff1092abe2696d3ebc6e9643065f9a
   DisplayName: ["Display Name", "ชื่อที่ใช้แสดง"],
   "Display Name": ["Display Name", "ชื่อที่แสดง"],
   Divider: ["Divider", "เส้นคั่น"],
@@ -124,6 +132,11 @@ const locale_en_th: { [key: string]: string[] } = {
   Register: ["Register", "สมัคร"],
   Remove: ["Remove", "ลบ"],
   Removed: ["Removed", "ลบแล้ว"],
+<<<<<<< HEAD
+=======
+  RemoveLastPoint: ["Remove Last Point", "ลบจุดสุดท้าย"],
+  Reverse: ["Reverse", "กลับด้าน"],
+>>>>>>> 70f06e81d8ff1092abe2696d3ebc6e9643065f9a
   "Right Answer": ["Right answer", "คำตอบที่ถูกต้อง"],
   RowPerPage: ["RowPerPage", "จำนวนแถวต่อหน้า"],
   Save: ["Save", "บันทึก"],

@@ -18,7 +18,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { deepmerge } from "@mui/utils";
-import { defaultTheme } from "./default.theme";
+import { defaultDarkTheme, defaultTheme } from "./default.theme";
 import { useTranslation } from "react-i18next";
 import { initI18Next, loadFromFB } from "./Translate";
 import { FirebaseApp } from "firebase/app";
@@ -149,6 +149,7 @@ export const CoreProvider = (
       mode = systemState.mode;
     }
     if (mode === "dark") {
+<<<<<<< HEAD
       return createTheme(
         deepmerge(
           deepmerge(defaultTheme, {
@@ -160,6 +161,9 @@ export const CoreProvider = (
           props.theme
         )
       );
+=======
+      return createTheme(deepmerge(defaultDarkTheme, props.theme));
+>>>>>>> 70f06e81d8ff1092abe2696d3ebc6e9643065f9a
     } else {
       return createTheme(deepmerge(defaultTheme, props.theme));
     }

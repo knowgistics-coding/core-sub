@@ -52,13 +52,21 @@ export const MarkerCat: MapCatItem[] = [
     id: "cafe",
     label: "คาเฟ่",
     color: "#FF7BCB",
+<<<<<<< HEAD
     icon: "coffee",
+=======
+    icon: "mug-saucer",
+>>>>>>> 70f06e81d8ff1092abe2696d3ebc6e9643065f9a
   },
   {
     id: "shopping",
     label: "ที่ช้อป",
     color: "#0059B2",
+<<<<<<< HEAD
     icon: "shopping-bag",
+=======
+    icon: "bag-shopping",
+>>>>>>> 70f06e81d8ff1092abe2696d3ebc6e9643065f9a
   },
   {
     id: "show",
@@ -177,6 +185,7 @@ const RouteIconSVG = (color: string):any => `<?xml version="1.0" encoding="utf-8
 </g>
 </svg>`;
 
+<<<<<<< HEAD
 export const getRouteIcon = (color: string) => ({
   url: `data:image/svg+xml;charset=UTF-8;base64,${window.btoa(
     RouteIconSVG(color)
@@ -184,6 +193,21 @@ export const getRouteIcon = (color: string) => ({
   scaledSize: { width: 20, height: 20, f: "px", b: "px" },
   labelOrigin: { x: 10, y: 10 },
   anchor: { x: 10, y: 10 },
+=======
+export const getRouteIcon = (
+  color: string,
+  size: "small" | "medium" = "small"
+): any => ({
+  url: `data:image/svg+xml;charset=UTF-8;base64,${window.btoa(
+    RouteIconSVG(color)
+  )}`,
+  scaledSize:
+    size === "small"
+      ? { width: 20, height: 20, f: "px", b: "px" }
+      : { width: 30, height: 30, f: "px", b: "px" },
+  labelOrigin: size === "small" ? { x: 10, y: 10 } : { x: 15, y: 15 },
+  anchor: size === "small" ? { x: 10, y: 10 } : { x: 15, y: 15 },
+>>>>>>> 70f06e81d8ff1092abe2696d3ebc6e9643065f9a
 });
 
 const MarkerIconSVG = (icon: MapCatItem) => {
@@ -244,17 +268,31 @@ ${
 </svg>`;
 };
 
+<<<<<<< HEAD
 export const getMarkerIcon = (cat?: string): (any | undefined) => {
   const IconMap = MarkerCat.find((icon) => icon.id === cat);
   const icon:any = IconMap
+=======
+export const getMarkerIcon = (cat?: string): any | undefined => {
+  const IconMap = MarkerCat.find((icon) => icon.id === cat);
+  const icon: any = IconMap
+>>>>>>> 70f06e81d8ff1092abe2696d3ebc6e9643065f9a
     ? {
         url: `data:image/svg+xml;charset=UTF-8;base64,${window.btoa(
           MarkerIconSVG(IconMap)
         )}`,
         scaledSize: { width: 40, height: 40, f: "px", b: "px" },
+<<<<<<< HEAD
         labelOrigin: { x:20, y:16 }
       }
     : null;
 
   return icon || undefined
+=======
+        labelOrigin: { x: 20, y: 16 },
+      }
+    : null;
+
+  return icon || undefined;
+>>>>>>> 70f06e81d8ff1092abe2696d3ebc6e9643065f9a
 };

@@ -1,9 +1,4 @@
-import {
-  Box,
-  styled,
-  ToggleButton,
-  ToggleButtonGroup,
-} from "@mui/material";
+import { Box, styled, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { useCore } from "../context";
 
 const ToggleButtonStyled = styled(ToggleButton)(({ theme }) => ({
@@ -18,7 +13,7 @@ const ToggleButtonStyled = styled(ToggleButton)(({ theme }) => ({
 
 export type VisibilityTabsValue = "public" | "private" | "trash";
 export type VisibilityTabsProps = {
-  value?: VisibilityTabsValue
+  value?: VisibilityTabsValue;
   count?: Record<VisibilityTabsValue, number>;
   onChange?: (value: VisibilityTabsValue) => void;
 };
@@ -37,7 +32,7 @@ export const VisibilityTabs = ({
         exclusive
         value={value}
         onChange={(_e, newvalue) => onChange?.(newvalue || value)}
-        sx={{ backgroundColor: "background.default" }}
+        sx={{ backgroundColor: "background.paper" }}
       >
         <ToggleButtonStyled value="public">
           {t("Public")} ({count?.public || "0"})
