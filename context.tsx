@@ -149,21 +149,7 @@ export const CoreProvider = (
       mode = systemState.mode;
     }
     if (mode === "dark") {
-<<<<<<< HEAD
-      return createTheme(
-        deepmerge(
-          deepmerge(defaultTheme, {
-            palette: {
-              text: { primary: "#FFF", secondary: "#FFF6" },
-              mode: "dark",
-            },
-          }),
-          props.theme
-        )
-      );
-=======
       return createTheme(deepmerge(defaultDarkTheme, props.theme));
->>>>>>> 70f06e81d8ff1092abe2696d3ebc6e9643065f9a
     } else {
       return createTheme(deepmerge(defaultTheme, props.theme));
     }
