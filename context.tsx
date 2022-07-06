@@ -112,7 +112,7 @@ const CoreContext = createContext<CoreContextTypes>({
   setSystemState: () => {},
 });
 
-export const CoreProvider = (
+export const CoreProvider = React.memo((
   props: { children: ReactNode } & CoreProviderProps
 ) => {
   const { t } = useTranslation();
@@ -238,6 +238,6 @@ export const CoreProvider = (
       </Alerts>
     </ThemeProvider>
   );
-};
+});
 
 export const useCore = () => useContext(CoreContext);

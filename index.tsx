@@ -91,8 +91,7 @@ export type {
 } from "./Sort";
 export { StockPicker } from "./StockPicker";
 export type { StockImageTypes } from "./StockPicker";
-export { StockDisplay } from "./StockDisplay";
-export type { StockDisplayProps, StockDisplayImageTypes } from "./StockDisplay";
+export * from "./StockDisplay";
 export * from "./TitleDebounce";
 export { TitleEdit } from "./TitleEdit";
 export type { TitleEditProps } from "./TitleEdit";

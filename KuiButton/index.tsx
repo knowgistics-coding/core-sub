@@ -72,7 +72,7 @@ export const KuiButton = ({
       break;
     case "confirm":
       txProps = {
-        color: "primary",
+        color: "info",
         children: children || t("Confirm"),
       };
       break;
@@ -96,7 +96,7 @@ export const KuiButton = ({
         startIcon: (
           <FontAwesomeIcon icon={["far", "save"]} {...fontAwesomeIconProps} />
         ),
-        color: "primary",
+        color: "success",
         children: children || t("Save"),
       };
       break;

@@ -6,18 +6,13 @@ import { MCAppMenu } from "./app.menu";
 import { SidebarToggleButton } from "./sidebar.toggle.button";
 import { SiteLogo } from "./site.logo";
 import { SiteHomeLink } from "./site.home.link";
-import { deepmerge } from "@mui/utils";
 
-const AppBarStyled = styled(AppBar)(({ theme }) =>
-  deepmerge(
-    {
-      backgroundColor: theme.palette.background.paper,
-      borderBottom: 'solid 1px',
-      borderColor: theme.palette.divider,
-    },
-    theme.palette.appbar
-  )
-);
+const AppBarStyled = styled(AppBar)(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  borderBottom: 'solid 1px',
+  borderColor: theme.palette.divider,
+  color: theme.palette.text.primary
+}));
 
 export const MCAppbar = () => {
   const {

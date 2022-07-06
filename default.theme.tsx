@@ -58,6 +58,13 @@ declare module "@mui/material/Button" {
   }
 }
 
+declare module "@mui/material/Checkbox" {
+  interface CheckboxPropsColorOverrides {
+    neutral: true;
+    light: true;
+  }
+}
+
 declare module "@mui/material/Container" {
   interface ContainerPropsMaxWidthOverrides {
     post: true;
@@ -109,7 +116,7 @@ export const defaultTheme: ThemeOptions = {
       // primary: '#666'
     },
     background: {
-      default: '#F6F6F6'
+      default: "#F6F6F6",
     },
     appbar: {
       color: `#1d1d1f`,
