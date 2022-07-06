@@ -116,7 +116,7 @@ export const defaultTheme: ThemeOptions = {
       // primary: '#666'
     },
     background: {
-      default: "#F6F6F6",
+      default: '#F6F6F6'
     },
     appbar: {
       color: `#1d1d1f`,

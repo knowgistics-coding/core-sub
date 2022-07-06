@@ -52,9 +52,11 @@ export const GoogleMaps = React.memo(
   }: GoogleMapsProps) => {
     const { isLoaded } = useJsApiLoader({
       id: "google-map-script",
-      googleMapsApiKey: "AIzaSyA7CwMnSzTDeJJreyBOEJ18VBKnO2St08k",
+      googleMapsApiKey: `${process.env.REACT_APP_MAP_API_KEY}`,
       libraries: libs,
     });
+
+    if(!Boolean(process.env.REACT_APP_MAP_API_KEY)){ console.warn(`Map API not found`) }
 
     const [, setMap] = React.useState<google.maps.Map | null>(null);
 
