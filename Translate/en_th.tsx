@@ -171,6 +171,7 @@ const locale_en_th: { [key: string]: string[] } = {
   SystemDefault: ["System Default", "ค่าเริ่มต้นของระบบ"],
   Table: ["Table", "ตาราง"],
   "Target Group": ["Target Group", "กลุ่มเป้าหมาย"],
+  Task: ["Task", "งาน"],
   Teacher: ["Teacher", "ผู้สอน"],
   Thumbnail: ["Thumbnail", "รูปขนาดย่อ"],
   Title: ["Title", "ชื่อเรื่อง"],
