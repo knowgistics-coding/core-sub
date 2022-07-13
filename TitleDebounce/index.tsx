@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ListItem, TextField } from "@mui/material";
+import { ListItem, TextField, TextFieldProps } from "@mui/material";
 import { useCore } from "../context";
 import debounce from "lodash.debounce";
 
@@ -8,6 +8,16 @@ const debounceValue = debounce((func: () => void) => func(), 500);
 export interface TitleDebounceProps {
   value?: string;
   onChange?: (value: string) => void;
+  textFieldProps?: Omit<
+    TextFieldProps,
+    | "fullWidth"
+    | "label"
+    | "InputLabelProps"
+    | "InputProps"
+    | "size"
+    | "value"
+    | "onChange"
+  >;
 }
 
 export const TitleDebounce = (props: TitleDebounceProps) => {
@@ -37,6 +47,7 @@ export const TitleDebounce = (props: TitleDebounceProps) => {
         size="small"
         value={value}
         onChange={handleChange}
+        {...props.textFieldProps}
       />
     </ListItem>
   );

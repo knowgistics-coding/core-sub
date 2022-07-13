@@ -70,7 +70,8 @@ export type { NotFoundProps } from "./NotFound";
 export { PageEdit } from "./PageEdit";
 export type { PageEditProps, PageDocument, PostOptions } from "./PageEdit";
 export { PageViewer } from "./PageViewer";
-export { Paragraph, parseParagraph } from "./Paragraph";
+// export { Paragraph, parseParagraph } from "./Paragraph";
+export * from './ParagraphString'
 export type { ParagraphProps } from "./Paragraph";
 export { QuizAnswer } from "./QuizAnswer";
 export { QuizDisplay } from "./QuizDisplay";

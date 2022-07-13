@@ -18,6 +18,7 @@ const locale_en_th: { [key: string]: string[] } = {
   Book: ["Book", "หนังสือ"],
   Browse: ["Browse", "เลือก"],
   Cancel: ["Cancel", "ยกเลิก"],
+  Categories: ["Categories","หมวดหมู่"],
   Card: ["Card", "การ์ด"],
   Change: ["Change", "เปลี่ยน"],
   ChangeLanguage: ["Change Language", "เปลี่ยนภาษา"],
@@ -105,6 +106,7 @@ const locale_en_th: { [key: string]: string[] } = {
   "My Course": ["My Course", "หลักสูตรของฉัน"],
   Name: ["Name", "ชื่อ"],
   NameHasRemoved: ["{{name}} has removed", "{{name}} ได้ถูกลบแล้ว"],
+  $NameNotFound: ["{{name}} not found", "ไม่พบ{{name}}"],
   $NameRemoved: ["{{name}} removed", "ลบ{{name}}แล้ว"],
   "No rows": ["No rows", "ไม่มีข้อมูล"],
   "No Title": ["No Title", "ไม่มีชื่อเรื่อง"],
@@ -187,6 +189,7 @@ const locale_en_th: { [key: string]: string[] } = {
   Video: ["Video", "วีดิโอ"],
   VDO: ["VDO", "วีดิโอ"],
   Visibility: ["Visibility", "การมองเห็น"],
+  Website: ["Website","เว็บไซต์"],
   Welcome: ["Welcome", "ยินดีต้อนรับ"],
   /**
    * QuizDisplay
