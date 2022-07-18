@@ -17,6 +17,7 @@ export type dataTypes = {
 export type QuizDocument = {
   id?: string;
   type?: "truefalse" | "matching" | "sorting" | "multiple";
+  title?: string;
   question?: Omit<dataTypes, "key">;
   truefalse?: {
     answer: string;
