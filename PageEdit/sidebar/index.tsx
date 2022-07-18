@@ -3,7 +3,6 @@ import { BackLink } from "../../BackLink";
 import { useCore } from "../../context";
 import { SaveButton } from "../../SaveButton";
 import { usePE } from "../context";
-import { PETitle } from "./title";
 import { FeatureImageEdit } from "../../FeatureImage";
 import {
   Button,
@@ -16,6 +15,8 @@ import {
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Fragment } from "react";
+import { TitleDebounce } from "components/core-sub/TitleDebounce";
+import update from "react-addons-update";
 
 export const PESidebar = () => {
   const { t } = useCore();
@@ -59,10 +60,11 @@ export const PESidebar = () => {
         </ListItem>
       )}
       {show.includes("title") && (
-        <PETitle
-          divider
+        <TitleDebounce
           value={data.title}
-          onChange={(title) => setData((d) => ({ ...d, title }))}
+          onChange={(value) =>
+            setData((d) => update(d, { title: { $set: value } }))
+          }
         />
       )}
       {show.includes("feature") && (
