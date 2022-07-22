@@ -1,13 +1,14 @@
-import { Box, styled, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { Box, styled, Tab, Tabs } from "@mui/material";
 import { useCore } from "../context";
 
-const ToggleButtonStyled = styled(ToggleButton)(({ theme }) => ({
+const TabsStyled = styled(Tabs)(({theme}) => ({
+  "& .MuiTabs-indicator": {
+    backgroundColor: theme.palette.info.main,
+  },
+}))
+const TabStyled = styled(Tab)(({ theme }) => ({
   "&.Mui-selected": {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.primary.contrastText,
-    "&:hover": {
-      backgroundColor: theme.palette.primary.dark,
-    },
+    color: theme.palette.info.main,
   },
 }));
 
@@ -26,24 +27,26 @@ export const VisibilityTabs = ({
   const { t } = useCore();
 
   return (
-    <Box sx={{ display: "flex", justifyContent: "flex-end", pb: 2 }}>
-      <ToggleButtonGroup
-        size="small"
-        exclusive
+    <Box sx={{ display: "flex", justifyContent: "center", pb: 2 }}>
+      <TabsStyled
         value={value}
-        onChange={(_e, newvalue) => onChange?.(newvalue || value)}
-        sx={{ backgroundColor: "background.paper" }}
+        onChange={(_e, newValue) => onChange?.(newValue || value)}
+        textColor="primary"
+        indicatorColor="primary"
       >
-        <ToggleButtonStyled value="public">
-          {t("Public")} ({count?.public || "0"})
-        </ToggleButtonStyled>
-        <ToggleButtonStyled value="private">
-          {t("Private")} ({count?.private || "0"})
-        </ToggleButtonStyled>
-        <ToggleButtonStyled value="trash">
-          {t("Trash")} ({count?.trash || "0"})
-        </ToggleButtonStyled>
-      </ToggleButtonGroup>
+        <TabStyled
+          label={`${t("Public")} (${count?.public || "0"})`}
+          value="public"
+        />
+        <TabStyled
+          label={`${t("Private")} (${count?.private || "0"})`}
+          value="private"
+        />
+        <TabStyled
+          label={`${t("Trash")} (${count?.trash || "0"})`}
+          value="trash"
+        />
+      </TabsStyled>
     </Box>
   );
 };
