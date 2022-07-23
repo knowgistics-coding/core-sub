@@ -66,7 +66,6 @@ export { MainContainer } from "./MainContainer";
 export type { MainContainerProps } from "./MainContainer";
 export * from './Maps'
 export { NotFound } from "./NotFound";
-export type { NotFoundProps } from "./NotFound";
 export { PageEdit } from "./PageEdit";
 export type { PageEditProps, PageDocument, PostOptions } from "./PageEdit";
 export { PageViewer } from "./PageViewer";
