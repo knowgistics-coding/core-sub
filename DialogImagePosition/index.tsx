@@ -55,7 +55,7 @@ export const DialogImagePosition = (props: DialogImagePositionProps) => {
       TransitionComponent={Slide}
       TransitionProps={{ direction: "right" } as SlideProps}
     >
-      <DialogTitle>Image Composition</DialogTitle>
+      <DialogTitle>Composition</DialogTitle>
       <DialogContent>
         <Grid container spacing={1} alignItems={"center"}>
           {props.cover ? (

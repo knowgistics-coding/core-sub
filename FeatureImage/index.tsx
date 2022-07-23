@@ -21,6 +21,7 @@ import {
 } from "../StockDisplay";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import update from "react-addons-update";
+import { cleanObject } from "../func";
 
 export interface FeatureImageProps extends Omit<ImageDisplayProps, "ratio"> {}
 export const FeatureImage = ({ image, pos }: FeatureImageProps) => {
@@ -50,13 +51,13 @@ export const FeatureImageEdit = ({
   const handleChangeImage = ([img]: StockImageTypes[]) => {
     if (img) {
       const { blurhash, _id, width, height, credit } = img;
-      const image: StockDisplayImageTypes = {
+      const image: StockDisplayImageTypes = cleanObject({
         blurhash,
         _id,
         width,
         height,
         credit,
-      };
+      }) as StockDisplayImageTypes;
       onChange(update(value || {}, { image: { $set: image } }));
     }
   };
