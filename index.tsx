@@ -10,10 +10,10 @@ export { ActionIcon } from "./ActionIcon";
 export type { ActionIconProps } from "./ActionIcon";
 export { BackLink } from "./BackLink";
 export * from "./Badge";
-export * from './BookView'
+export * from "./BookView";
 export { CardContainer, CardItem } from "./Card";
 export type { CardContainerProps, CardItemProps } from "./Card";
-export * from './Chat'
+export * from "./Chat";
 export { Container } from "./Container";
 export type { ContainerProps } from "./Container";
 export { ContentEdit } from "./ContentEdit";
@@ -61,23 +61,23 @@ export { KuiActionIcon } from "./KuiActionIcon";
 export type { KuiActionIconProps } from "./KuiActionIcon";
 export { KuiButton } from "./KuiButton";
 export type { KuiButtonProps } from "./KuiButton";
-export * from './KuiListItemButton'
+export * from "./KuiListItemButton";
 export { MainContainer } from "./MainContainer";
 export type { MainContainerProps } from "./MainContainer";
-export * from './Maps'
+export * from "./Maps";
 export { NotFound } from "./NotFound";
 export { PageEdit } from "./PageEdit";
 export type { PageEditProps, PageDocument, PostOptions } from "./PageEdit";
 export { PageViewer } from "./PageViewer";
 // export { Paragraph, parseParagraph } from "./Paragraph";
-export * from './ParagraphString'
+export * from "./ParagraphString";
 export type { ParagraphProps } from "./Paragraph";
 export { QuizAnswer } from "./QuizAnswer";
 export { QuizDisplay } from "./QuizDisplay";
 export type { QuizAnswerTypes } from "./QuizDisplay";
 export { QuizEditor } from "./QuizEditor";
 export type { QuizEditorProps, QuizDocument } from "./QuizEditor";
-export * from './react-popup'
+export * from "./react-popup";
 export { SaveButton } from "./SaveButton";
 export type { SaveButtonProps } from "./SaveButton";
 export { Schedule } from "./Schedule";
@@ -116,4 +116,4 @@ export { getFirestore } from "firebase/firestore";
 
 export type { Breakpoint, Breakpoints } from "@mui/material";
 export * from "./app.menu";
-export * from './Controller'
+export * from "./Controller";

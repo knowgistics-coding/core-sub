@@ -1,4 +1,4 @@
-export const timezone = [
+export const timezone:[string, string][] = [
   ['-11:00', 'International Date Line West, Midway Island, Samoa'],
   ['-10:00', 'Hawaii'],
   ['-09:00', 'Alaska'],

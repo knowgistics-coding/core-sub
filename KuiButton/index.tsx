@@ -56,6 +56,7 @@ export const KuiButton = ({
         ),
         component: "span",
         children: children || t("Browse"),
+        color: "neutral"
       } as any;
       break;
     case "cancel":

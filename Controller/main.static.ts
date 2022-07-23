@@ -6,7 +6,7 @@ export type BaseUrlOptions = {
 };
 export class MainStatic {
   static prefix?: string = process.env.REACT_APP_PREFIX;
-
+  static apiURL: string = "https://s1.phra.in:8086";
   static baseUrl(options?: BaseUrlOptions): string {
     return options?.local
       ? "http://localhost:8080"
@@ -42,5 +42,15 @@ export class MainStatic {
     doc: QueryDocumentSnapshot<DocumentData>
   ): T {
     return { ...doc.data(), id: doc.id } as T;
+  }
+
+  static imageSrcFromId(
+    imageId: string,
+    size: "" | "thumbnail" | "medium" | "large" = ""
+  ) {
+    if (imageId) {
+      return `${this.apiURL}/file/id/${imageId}/${size}`;
+    }
+    return undefined;
   }
 }
