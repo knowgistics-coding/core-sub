@@ -2,7 +2,7 @@ import { createContext, useContext } from 'react'
 import { CoreContextTypes } from '../context'
 
 export interface MainContainerProps {
-  children: React.ReactNode
+  children?: React.ReactNode
   loading?: boolean
   restrict?: boolean
   dense?: boolean

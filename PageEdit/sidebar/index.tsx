@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Fragment } from "react";
-import { TitleDebounce } from "components/core-sub/TitleDebounce";
+import { TitleDebounce } from "../../TitleDebounce";
 import update from "react-addons-update";
 
 export const PESidebar = () => {
