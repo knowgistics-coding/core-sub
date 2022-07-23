@@ -7,8 +7,8 @@ export type BaseUrlOptions = {
 export class MainStatic {
   static prefix?: string = process.env.REACT_APP_PREFIX;
 
-  static baseUrl(options: BaseUrlOptions): string {
-    return options.local
+  static baseUrl(options?: BaseUrlOptions): string {
+    return options?.local
       ? "http://localhost:8080"
       : "https://clownfish-app-rgti2.ondigitalocean.app";
   }
