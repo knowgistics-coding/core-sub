@@ -10,7 +10,7 @@ export class MainStatic {
   static baseUrl(options?: BaseUrlOptions): string {
     return options?.local
       ? "http://localhost:8080"
-      : "https://clownfish-app-rgti2.ondigitalocean.app";
+      : "https://nest.phra.in";
   }
 
   protected static token = async (user: User) =>

@@ -1,6 +1,7 @@
 const locale_en_th: { [key: string]: string[] } = {
   Add: ["Add", "เพิ่ม"],
   Added: ["Added", "เพิ่มแล้ว"],
+  AddedName: ["{{name}} Added", "เพิ่ม \"{{name}}\" แล้ว"],
   AddName: ["Add {{name}}", "เพิ่ม{{name}}"],
   "Add Answer": ["Add Answer", "เพิ่มคำตอบ"],
   "Add Choice": ["Add Choice", "เพิ่มตัวเลือก"],
@@ -16,6 +17,7 @@ const locale_en_th: { [key: string]: string[] } = {
   Answer: ["Answer", "คำตอบ"],
   "Answer Text": ["Answer Text", "ข้อความคำตอบ"],
   Assignment: ["Assignment", "งานที่มอบหมาย"],
+  AttachFiles: ["Attach Files", "แนบเอกสาร"],
   Attemps: ["Attemps", "ครั้งที่ทำได้"],
   Back: ["Back", "กลับ"],
   Book: ["Book", "หนังสือ"],
