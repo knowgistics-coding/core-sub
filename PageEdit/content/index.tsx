@@ -1,4 +1,4 @@
-import { Box, BoxProps, Stack, styled } from "@mui/material";
+import { Box, BoxProps, Snackbar, Stack } from "@mui/material";
 import { arrayMoveImmutable } from "array-move";
 import React, { useState } from "react";
 import update from "react-addons-update";
@@ -27,12 +27,6 @@ import { PEContentSpacingButton } from "./spacing.button";
 
 const SortableContainer = SC<BoxProps>(Box);
 const SortableElement = SE<BoxProps>(Box);
-
-const ActionContainer = styled(Box)(({ theme }) => ({
-  position: "fixed",
-  right: theme.spacing(2),
-  bottom: theme.spacing(2),
-}));
 
 export const PEContent = () => {
   const { isMobile } = useCore();
@@ -121,15 +115,20 @@ export const PEContent = () => {
           })}
         </SortableContainer>
       </Box>
-      <ActionContainer>
-        <Stack alignItems="flex-end" spacing={1}>
-          <PEContentSaveButton />
-          <PEContentAddButton />
-          <PEContentDeselectButton />
-          <PEContentSpacingButton />
-          <PEContentDeleteButton />
-        </Stack>
-      </ActionContainer>
+      <Snackbar
+        open={true}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Box>
+          <Stack spacing={1}>
+            <PEContentSaveButton />
+            <PEContentAddButton />
+            <PEContentDeselectButton />
+            <PEContentSpacingButton />
+            <PEContentDeleteButton />
+          </Stack>
+        </Box>
+      </Snackbar>
     </React.Fragment>
   );
 };

@@ -59,7 +59,7 @@ export interface PageContentTypes {
 export interface PageDocument {
   _id?: string
   title?: string;
-  feature?: StockDisplayProps;
+  feature?: StockDisplayProps | null;
   contents?: PageContentTypes[];
   visibility?: "private" | "public" | "trash";
   user?: string;

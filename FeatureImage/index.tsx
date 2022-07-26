@@ -31,7 +31,7 @@ export const FeatureImage = ({ image, pos }: FeatureImageProps) => {
 
 export interface FeatureImageEditProps {
   listItemProps?: ListItemProps;
-  value?: StockDisplayProps;
+  value?: StockDisplayProps | null;
   onChange: (data: StockDisplayProps) => void;
   onRemove: () => void;
 }

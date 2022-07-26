@@ -24,6 +24,7 @@ import { KuiActionIcon } from "../KuiActionIcon";
 import { usePopup } from "../react-popup";
 import update from "react-addons-update";
 import { StockImageTypes, StockPicker } from "../StockPicker";
+import { useNavigate } from "react-router-dom";
 
 const ListItemButtonErrorStyled = styled(ListItemButton)(({ theme }) => ({
   color: theme.palette.error.main,
@@ -37,6 +38,7 @@ export const MCProfileMenu = () => {
   const { handleOpen, state, setState, profileMenu: pfm } = useMC();
   const { Popup } = usePopup();
   const [open, setOpen] = useState<boolean>(false);
+  const nav = useNavigate();
 
   const handleChangeDisplayName = () => {
     Popup.prompt({
@@ -52,7 +54,7 @@ export const MCProfileMenu = () => {
       },
     });
   };
-  const handleChangePhotoURL = async (images:StockImageTypes[]) => {
+  const handleChangePhotoURL = async (images: StockImageTypes[]) => {
     if (images[0] && user.data) {
       const { _id } = images[0];
       await updateProfile(user.data, {
@@ -64,6 +66,7 @@ export const MCProfileMenu = () => {
   const handleClose = () => setState((s) => ({ ...s, anchorProfile: null }));
   const handleSignOut = async () => {
     if (fb?.auth) {
+      nav("/");
       await signOut(fb?.auth);
     }
     handleClose();

@@ -25,7 +25,7 @@ export const PageEdit = ({ children, ...props }: PageEditProps) => {
         setState,
       }}
     >
-      <MainContainer dense sidebar={<PESidebar />}>
+      <MainContainer dense {...props.mainContainerProps} sidebar={<PESidebar />}>
         <PEContent />
         {children}
       </MainContainer>

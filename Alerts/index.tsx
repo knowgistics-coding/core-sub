@@ -1,4 +1,4 @@
-import { Alert, styled } from "@mui/material";
+import { Alert, Box, Snackbar, Stack } from "@mui/material";
 import React, {
   createContext,
   useCallback,
@@ -9,17 +9,6 @@ import React, {
 import { AlertProps } from "@mui/material";
 import update from "react-addons-update";
 import { genKey } from "draft-js";
-
-const Root = styled("div")(({ theme }) => ({
-  position: "fixed",
-  bottom: theme.spacing(2),
-  right: theme.spacing(2),
-  maxWidth: theme.sidebarWidth,
-  zIndex: 1301,
-  "&>:not(:last-child)": {
-    marginBottom: theme.spacing(1),
-  },
-}));
 
 export interface AlertType {
   label: React.ReactNode;
@@ -78,11 +67,18 @@ export const Alerts = ({ children }: { children: React.ReactNode }) => {
   return (
     <AlertContext.Provider value={{ addAlert, removeAlert }}>
       {children}
-      <Root>
-        {items.map((item) => (
-          <AlertIitem {...item} key={item.aid} />
-        ))}
-      </Root>
+      <Snackbar
+        open={Boolean(items.length)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Box>
+          <Stack spacing={1}>
+            {items.map((item) => (
+              <AlertIitem {...item} key={item.aid} />
+            ))}
+          </Stack>
+        </Box>
+      </Snackbar>
     </AlertContext.Provider>
   );
 };

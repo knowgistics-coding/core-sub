@@ -55,11 +55,12 @@ export const PEContentAddButton = () => {
         <FontAwesomeIcon icon={['fad', 'plus']} size='2x' />
       </FabStyled>
       <Menu
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         open={Boolean(anchorEl)}
         onClose={handleClose}
         anchorEl={anchorEl}
+        sx={{zIndex:1401}}
       >
         <List dense>
           {Blocks.filter((block) => show.includes(block.key)).map((block) => (
