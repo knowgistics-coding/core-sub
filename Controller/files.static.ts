@@ -28,10 +28,24 @@ export class FileCtl extends MainStatic {
         body: data,
       })
         .then((res) => res.json())
-        .then((res:FileDocument) => {
+        .then((res: FileDocument) => {
           resolve(res);
         })
         .catch((err) => reject(err));
+    });
+  }
+  static downloadFromUrl(url: string, filename: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      fetch(url)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = filename;
+          link.click();
+          resolve(true);
+        })
+        .catch(reject);
     });
   }
 }

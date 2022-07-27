@@ -45,6 +45,10 @@ console.log(`Document: https://phra-in.web.app`);
 
 initI18Next();
 
+export type TFunction = (
+  text: string,
+  dict?: { [key: string]: string }
+) => string;
 export type SystemMode = "default" | "dark" | "light";
 export type SystemState = {
   mode: SystemMode;
@@ -78,7 +82,7 @@ export interface CoreContextTypes
   firebaseApp?: CoreProviderProps["firebaseApp"];
   isMobile: boolean;
   theme: Theme;
-  t: (text: string, dict?: { [key: string]: string }) => string;
+  t: TFunction;
   fb: null | {
     auth: Auth;
     db: Firestore;
@@ -112,132 +116,137 @@ const CoreContext = createContext<CoreContextTypes>({
   setSystemState: () => {},
 });
 
-export const CoreProvider = React.memo((
-  props: { children: ReactNode } & CoreProviderProps
-) => {
-  const { t } = useTranslation();
-  const [fb, setFB] = useState<CoreContextTypes["fb"]>(null);
-  const [user, setUser] = useState<CoreContextTypes["user"]>({
-    loading: true,
-    data: null,
-    claims: null,
-  });
-  const [open, setOpen] = useState<Record<string, boolean>>({});
-  const [systemState, setSystemState] = useState<{
-    mode: SystemMode;
-  }>({
-    mode: "default",
-  });
+export const CoreProvider = React.memo(
+  (props: { children: ReactNode } & CoreProviderProps) => {
+    const { t } = useTranslation();
+    const [fb, setFB] = useState<CoreContextTypes["fb"]>(null);
+    const [user, setUser] = useState<CoreContextTypes["user"]>({
+      loading: true,
+      data: null,
+      claims: null,
+    });
+    const [open, setOpen] = useState<Record<string, boolean>>({});
+    const [systemState, setSystemState] = useState<{
+      mode: SystemMode;
+    }>({
+      mode: "default",
+    });
 
-  if (props?.theme?.palette?.primary) {
-    const primary = props?.theme?.palette?.primary as any;
-    if (primary.main) {
-      props.theme.palette.gradient = {
-        main: `linear-gradient(45deg, ${darken(primary.main, 0.5)} 0%, ${
-          primary.main
-        } 100%)`,
-      };
-    }
-  }
-
-  const getTheme = useCallback((): Theme => {
-    let mode = "light";
-    if (systemState.mode === "default") {
-      const elem = window.matchMedia("(prefers-color-scheme: dark)");
-      mode = elem.matches ? "dark" : "light";
-    } else {
-      mode = systemState.mode;
-    }
-    if (mode === "dark") {
-      return createTheme(deepmerge(defaultDarkTheme, props.theme));
-    } else {
-      return createTheme(deepmerge(defaultTheme, props.theme));
-    }
-  }, [systemState, props.theme]);
-  const isMobile = useMediaQuery(getTheme().breakpoints.down("sm"));
-
-  const store = {
-    ...props,
-    isMobile,
-    theme: getTheme(),
-    fb,
-    user,
-    setUser,
-    t,
-    open,
-    setOpen,
-    systemState,
-    setSystemState,
-  };
-
-  useEffect(() => {
-    if (props.firebaseApp) {
-      const auth = getAuth(props.firebaseApp);
-      const db = getFirestore(props.firebaseApp);
-      if (auth && db) {
-        setFB((s) => ({ ...s, auth: auth, db: db }));
+    if (props?.theme?.palette?.primary) {
+      const primary = props?.theme?.palette?.primary as any;
+      if (primary.main) {
+        props.theme.palette.gradient = {
+          main: `linear-gradient(45deg, ${darken(primary.main, 0.5)} 0%, ${
+            primary.main
+          } 100%)`,
+        };
       }
+    }
 
-      loadFromFB(db).then((langs) => {
-        langs.forEach(({ name, value }) =>
-          i18next.addResourceBundle(name, "translation", value)
-        );
-        const current = i18next.language;
-        i18next.changeLanguage(current);
-      });
-      const unwatchIdTokenChanged = onIdTokenChanged(auth, async (data) => {
-        if (data) {
-          const claims = await data.getIdTokenResult(true);
-          setUser((s) => ({
-            ...s,
-            loading: false,
-            data: data,
-            claims: claims,
-          }));
-        } else {
-          setUser((s) => ({ ...s, loading: false, data: null, claims: null }));
+    const getTheme = useCallback((): Theme => {
+      let mode = "light";
+      if (systemState.mode === "default") {
+        const elem = window.matchMedia("(prefers-color-scheme: dark)");
+        mode = elem.matches ? "dark" : "light";
+      } else {
+        mode = systemState.mode;
+      }
+      if (mode === "dark") {
+        return createTheme(deepmerge(defaultDarkTheme, props.theme));
+      } else {
+        return createTheme(deepmerge(defaultTheme, props.theme));
+      }
+    }, [systemState, props.theme]);
+    const isMobile = useMediaQuery(getTheme().breakpoints.down("sm"));
+
+    const store = {
+      ...props,
+      isMobile,
+      theme: getTheme(),
+      fb,
+      user,
+      setUser,
+      t,
+      open,
+      setOpen,
+      systemState,
+      setSystemState,
+    };
+
+    useEffect(() => {
+      if (props.firebaseApp) {
+        const auth = getAuth(props.firebaseApp);
+        const db = getFirestore(props.firebaseApp);
+        if (auth && db) {
+          setFB((s) => ({ ...s, auth: auth, db: db }));
         }
-      });
-      return () => unwatchIdTokenChanged();
-    } else {
-      return () => {};
-    }
-  }, [props.firebaseApp]);
 
-  useEffect(() => {
-    if (props.firebaseConfig) {
-      console.warn(
-        "CoreProvider firebaseConfig is deprecated. please change to app"
-      );
-    }
-  }, [props.firebaseConfig]);
+        loadFromFB(db).then((langs) => {
+          langs.forEach(({ name, value }) =>
+            i18next.addResourceBundle(name, "translation", value)
+          );
+          const current = i18next.language;
+          i18next.changeLanguage(current);
+        });
+        const unwatchIdTokenChanged = onIdTokenChanged(auth, async (data) => {
+          if (data) {
+            const claims = await data.getIdTokenResult(true);
+            setUser((s) => ({
+              ...s,
+              loading: false,
+              data: data,
+              claims: claims,
+            }));
+          } else {
+            setUser((s) => ({
+              ...s,
+              loading: false,
+              data: null,
+              claims: null,
+            }));
+          }
+        });
+        return () => unwatchIdTokenChanged();
+      } else {
+        return () => {};
+      }
+    }, [props.firebaseApp]);
 
-  useEffect(() => {
-    const mode = localStorage.getItem("mode");
-    if (mode) {
-      setSystemState((s) => ({ ...s, mode: mode as SystemMode }));
-    }
-  }, []);
+    useEffect(() => {
+      if (props.firebaseConfig) {
+        console.warn(
+          "CoreProvider firebaseConfig is deprecated. please change to app"
+        );
+      }
+    }, [props.firebaseConfig]);
 
-  const trans: PopupTranslate = {
-    confirm: t("Confirm"),
-    remove: t("Remove"),
-    cancel: t("Cancel"),
-    close: t("Close"),
-  };
+    useEffect(() => {
+      const mode = localStorage.getItem("mode");
+      if (mode) {
+        setSystemState((s) => ({ ...s, mode: mode as SystemMode }));
+      }
+    }, []);
 
-  return (
-    <ThemeProvider theme={store.theme}>
-      <CssBaseline />
-      <Alerts>
-        <PopupProvider trans={trans}>
-          <CoreContext.Provider value={store}>
-            {props.children}
-          </CoreContext.Provider>
-        </PopupProvider>
-      </Alerts>
-    </ThemeProvider>
-  );
-});
+    const trans: PopupTranslate = {
+      confirm: t("Confirm"),
+      remove: t("Remove"),
+      cancel: t("Cancel"),
+      close: t("Close"),
+    };
+
+    return (
+      <ThemeProvider theme={store.theme}>
+        <CssBaseline />
+        <Alerts>
+          <PopupProvider trans={trans}>
+            <CoreContext.Provider value={store}>
+              {props.children}
+            </CoreContext.Provider>
+          </PopupProvider>
+        </Alerts>
+      </ThemeProvider>
+    );
+  }
+);
 
 export const useCore = () => useContext(CoreContext);

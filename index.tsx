@@ -5,7 +5,7 @@ declare module "@mui/material/styles" {
 }
 
 export { CoreProvider, useCore } from "./context";
-export type { CoreContextTypes } from "./context";
+export type { CoreContextTypes, TFunction } from "./context";
 export { ActionIcon } from "./ActionIcon";
 export type { ActionIconProps } from "./ActionIcon";
 export * from './AttachFile'
@@ -22,7 +22,7 @@ export type {
   ContentEditProps,
   dataTypes as ContentDataTypes,
 } from "./ContentEdit";
-export { ContentHeader } from "./ContentHeader";
+export * from "./ContentHeader";
 export type { ContentHeaderProps } from "./ContentHeader";
 export { DataGrid } from "./DataGrid";
 export type { DataGridProps } from "./DataGrid";

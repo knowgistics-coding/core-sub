@@ -10,13 +10,14 @@ import { BreadcrumbsStyled } from "./breadcrumbs.styled";
 import React from "react";
 import { Link } from "react-router-dom";
 
+export type Breadcrumb = {
+  label: React.ReactNode;
+  to?: string;
+  component?: React.ReactElement;
+};
 export interface ContentHeaderProps {
   label?: React.ReactNode;
-  breadcrumbs?: {
-    label: React.ReactNode;
-    to?: string;
-    component?: React.ReactElement;
-  }[];
+  breadcrumbs?: Breadcrumb[];
   actions?: React.ReactNode;
   secondary?: React.ReactNode;
   containerProps?: BoxProps;
