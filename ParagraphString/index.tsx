@@ -123,7 +123,21 @@ export const Paragraph = ({
         '& .public-DraftStyleDefault-block': {
           lineHeight: 1.25,
           margin: props.dense ? '0' : undefined
-        }
+        },
+        ...(!Boolean(editorProps?.toolbarHidden) ? {
+          "& .rdw-editor-toolbar": {
+            marginBottom: 0
+          },
+          "& .rdw-editor-main": {
+            backgroundColor: 'background.paper',
+            borderStyle: "solid",
+            borderWidth: 1,
+            borderColor: 'divider',
+            borderTopWidth: 0,
+            paddingLeft: 2,
+            paddingRight: 2
+          }
+        } : {})
       }}
     >
       <Typography

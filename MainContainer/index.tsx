@@ -11,7 +11,7 @@ import { MCSidebar } from "./sidebar";
 import { useCore } from "../context";
 import { MCRestrict } from "./restrict";
 import { ProfileMenuNotSign } from "./profile.menu.not.sign";
-import './style.css'
+import "./style.css";
 
 export * from "./ctx";
 export const MainContainer = (props: MainContainerProps) => {
@@ -52,7 +52,7 @@ export const MainContainer = (props: MainContainerProps) => {
       <MCContext.Provider value={store}>
         <Toolbar />
         <MCContent>
-          <MCRestrict />
+          <MCRestrict {...props.restrictProps} />
         </MCContent>
         <MCAppbar />
       </MCContext.Provider>

@@ -11,7 +11,8 @@ import { useCore } from "../context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const MCSidebar = styled(({ className }: { className?: string }) => {
-  const { sidebar, open, handleOpen, disableSidebarPadding } = useMC();
+  const { sidebar, open, handleOpen, disableSidebarPadding, restrict } =
+    useMC();
   const { isMobile } = useCore();
 
   const getVariant = (): Exclude<DrawerProps["variant"], undefined> => {
@@ -22,15 +23,17 @@ export const MCSidebar = styled(({ className }: { className?: string }) => {
     }
   };
 
-  return sidebar ? (
+  return sidebar && !Boolean(restrict) ? (
     <Drawer
       variant={getVariant()}
       open={open.sidebar}
       onClose={handleOpen("sidebar", false)}
       PaperProps={{ className }}
-      sx={{"& .MuiPaper-root": {
-        backgroundColor: 'background.paper',
-      }}}
+      sx={{
+        "& .MuiPaper-root": {
+          backgroundColor: "background.paper",
+        },
+      }}
     >
       <Toolbar>
         <IconButton edge="start" onClick={handleOpen("sidebar", false)}>

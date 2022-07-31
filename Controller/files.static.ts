@@ -15,6 +15,19 @@ export interface FileDocument {
 }
 
 export class FileCtl extends MainStatic {
+  static browse(accept?:string,multiple?:boolean): Promise<File[]> {
+    return new Promise((resolve) => {
+      const input = document.createElement("input");
+      input.type = "file";
+      input.multiple = Boolean(multiple)
+      input.accept = accept || ".doc,.docx,.xls,.xlsx,.pdf,.txt,image/*"
+      input.addEventListener("change", () => {
+        input.removeEventListener("change", () => {});
+        resolve(Array.from(input.files || []));
+      });
+      input.dispatchEvent(new MouseEvent("click"));
+    });
+  }
   static upload(user: User, file: File): Promise<FileDocument> {
     return new Promise(async (resolve, reject) => {
       var data = new FormData();

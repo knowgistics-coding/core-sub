@@ -1,10 +1,12 @@
 import { createContext, useContext } from 'react'
 import { CoreContextTypes } from '../context'
+import { RestrictProps } from './restrict'
 
 export interface MainContainerProps {
   children?: React.ReactNode
   loading?: boolean
   restrict?: boolean
+  restrictProps?: RestrictProps
   dense?: boolean
   sidebar?: React.ReactNode
   signInOnly?: boolean

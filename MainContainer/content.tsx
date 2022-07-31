@@ -14,14 +14,14 @@ interface MCContentProps {
   children: React.ReactNode
 }
 export const MCContent = ({ children }: MCContentProps) => {
-  const { dense, sidebar, disableSidebarPadding } = useMC()
+  const { dense, sidebar, disableSidebarPadding, restrict } = useMC()
   const { isMobile } = useCore()
 
   const getLeftSidebarOpen = (): boolean => {
     if (disableSidebarPadding) {
       return false
     } else {
-      return Boolean(sidebar && !isMobile)
+      return Boolean(sidebar && !isMobile && !Boolean(restrict))
     }
   }
 

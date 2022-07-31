@@ -7,8 +7,8 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useCore } from "components/core-sub/context";
-import { UserLists } from "components/core-sub/Controller";
+import { useCore } from "../../context";
+import { UserLists } from "../../Controller";
 
 export const ChatHead = (props: { users: UserLists; onClose: () => void }) => {
   const { user } = useCore();

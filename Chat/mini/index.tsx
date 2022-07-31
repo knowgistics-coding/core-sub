@@ -9,18 +9,18 @@ import {
   Slide,
   styled,
 } from "@mui/material";
-import { useCore } from "components/core-sub/context";
+import { useCore } from "../../context";
 import {
   ChatSocket,
   MessageDocument,
   UserLists,
-} from "components/core-sub/Controller";
+} from "../../Controller";
 import { Socket } from "socket.io-client";
 import { ChatContent, ChatItem, ChatItemTextPrimary } from "./content";
 import { Root } from "./root";
 import { ChatActions } from "./actions";
 import { TextFieldSmall } from "./field";
-import { ActionIcon } from "components/core-sub/ActionIcon";
+import { ActionIcon } from "../../ActionIcon";
 import { ChatHead } from "./head";
 
 export const ChatContainer = styled(Box)({
