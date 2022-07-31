@@ -247,3 +247,13 @@ export const darkModeListener = (callback: (isDarkMode: boolean) => void) => {
   });
   return () => elem.removeEventListener("change", () => {});
 };
+
+export const SpliceImmutable = <T extends unknown>(
+  docs: T[],
+  start: number,
+  deleteCount?: number
+): T[] => {
+  let newDocs = [...docs];
+  newDocs.splice(start, deleteCount);
+  return newDocs;
+};
