@@ -45,11 +45,11 @@ export const ListButton = styled(
     marginBottom: theme.spacing(1)
   },
   '&.Mui-selected': {
-    border: `solid 1px ${theme.palette.primary.dark}`,
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.primary.contrastText,
+    border: `solid 1px ${theme.palette.info.dark}`,
+    backgroundColor: theme.palette.info.main,
+    color: theme.palette.info.contrastText,
     '&:hover': {
-      backgroundColor: theme.palette.primary.dark
+      backgroundColor: theme.palette.info.dark
     },
     '& .MuiListItemIcon-root': {
       color: 'inherit'

@@ -6,6 +6,7 @@ declare module "@mui/material/styles" {
 
 export { CoreProvider, useCore } from "./context";
 export type { CoreContextTypes, TFunction } from "./context";
+export * from './Absatz'
 export { ActionIcon } from "./ActionIcon";
 export type { ActionIconProps } from "./ActionIcon";
 export * from './AttachFile'
@@ -52,6 +53,7 @@ export type { ImagePickerProps } from "./ImagePicker";
 export { FAIcon } from "./FAIcon";
 export { FeatureImage, FeatureImageEdit } from "./FeatureImage";
 export type { FeatureImageProps, FeatureImageEditProps } from "./FeatureImage";
+export * from './FileChip'
 export { FileDisplay } from "./FileDisplay";
 export type { FileDisplayProps } from "./FileDisplay";
 export { Heading } from "./Heading";

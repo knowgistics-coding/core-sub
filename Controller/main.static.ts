@@ -8,9 +8,7 @@ export class MainStatic {
   static prefix?: string = process.env.REACT_APP_PREFIX;
   static apiURL: string = "https://s1.phra.in:8086";
   static baseUrl(options?: BaseUrlOptions): string {
-    return options?.local
-      ? "http://localhost:8080"
-      : "https://nest.phra.in";
+    return options?.local ? "http://localhost:8080" : "https://nest.phra.in";
   }
 
   protected static token = async (user: User) =>
@@ -24,18 +22,27 @@ export class MainStatic {
     method: string,
     body?: string
   ): Promise<T> {
-    return (await fetch(input, {
-      method,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${await this.token(user)}`,
-      },
-      body,
-    })
-      .then((res) => res.json())
-      .catch((reason) => {
-        throw new Error(reason.message);
-      })) as T;
+    return new Promise(async (resolve, reject) => {
+      fetch(input, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${await this.token(user)}`,
+        },
+        body,
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res?.error) {
+            reject(res);
+          } else {
+            resolve(res as T);
+          }
+        })
+        .catch((reason) => {
+          reject(reason);
+        });
+    });
   }
 
   protected static parseDoc<T extends unknown>(

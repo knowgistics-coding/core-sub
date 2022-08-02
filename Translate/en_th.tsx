@@ -223,6 +223,7 @@ const locale_en_th: { [key: string]: string[] } = {
   Website: ["Website", "เว็บไซต์"],
   WeightedScore: ["Weighted Score", "น้ำหนักคะแนน"],
   Welcome: ["Welcome", "ยินดีต้อนรับ"],
+  "You've reached the maximum attempts": ["You've reached the maximum attempts", "ท่านทำถึงจำนวนครั้งสูงสุดที่ทำได้แล้ว"],
   /**
    * QuizDisplay
    */
