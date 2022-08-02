@@ -153,6 +153,7 @@ const locale_en_th: { [key: string]: string[] } = {
   ReadyToEdit: [`Ready to edit "{{name}}"?`, `เริ่มสร้าง "{{name}}" เลยไหม?`],
   "Rows per page": ["Rows per page", "จำนวนแถวต่อหน้า"],
   Read: ["Read", "อ่าน"],
+  Redo: ["Redo", "ทำอีกครั้ง"],
   Register: ["Register", "สมัคร"],
   Remove: ["Remove", "ลบ"],
   Removed: ["Removed", "ลบแล้ว"],
