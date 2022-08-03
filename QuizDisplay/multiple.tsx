@@ -1,34 +1,33 @@
-import { Fragment, useEffect, useState } from 'react'
-import { arrayShuffle } from '../func'
-import { dataTypes } from '../QuizEditor/context'
-import { QDImgDisplay } from '../QuizEditor/img'
-import { useQD } from './context'
-import { ListButton } from './list.button'
-import { QDParagraph } from './paragraph'
+import { Fragment, useEffect, useState } from "react";
+import { arrayShuffle } from "../func";
+import { dataTypes } from "../QuizEditor/context";
+import { QDImgDisplay } from "../QuizEditor/img";
+import { useQD } from "./context";
+import { ListButton } from "./list.button";
+import { QDParagraph } from "./paragraph";
 
 export const QDMultiple = () => {
-  const { answer, quiz, setAnswer, onChange } = useQD()
-  const [options, setOptions] = useState<dataTypes[]>([])
+  const { quiz, value, onChange } = useQD();
+  const [options, setOptions] = useState<dataTypes[]>([]);
 
   const handleChange = (key: number) => () => {
-    setAnswer({ multiple: key })
-    onChange({ multiple: key })
-  }
+    onChange({ multiple: key });
+  };
 
   useEffect(() => {
     if (quiz?.multiple?.options) {
       const options = quiz.shuffle
         ? arrayShuffle(quiz.multiple.options)
-        : quiz.multiple.options
-      setOptions(options)
+        : quiz.multiple.options;
+      setOptions(options);
     }
-  }, [quiz])
+  }, [quiz]);
 
   return (
     <Fragment>
       {options.map((option) => {
         switch (option.type) {
-          case 'image':
+          case "image":
             return (
               <ListButton
                 label={
@@ -37,11 +36,11 @@ export const QDMultiple = () => {
                   ) : null
                 }
                 onClick={handleChange(option.key)}
-                selected={answer?.multiple === option.key}
+                selected={value?.multiple === option.key}
                 key={option.key}
               />
-            )
-          case 'paragraph':
+            );
+          case "paragraph":
             return (
               <ListButton
                 label={
@@ -50,14 +49,14 @@ export const QDMultiple = () => {
                   ) : null
                 }
                 onClick={handleChange(option.key)}
-                selected={answer?.multiple === option.key}
+                selected={value?.multiple === option.key}
                 key={option.key}
               />
-            )
+            );
           default:
-            return null
+            return null;
         }
       })}
     </Fragment>
-  )
-}
+  );
+};

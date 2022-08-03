@@ -53,6 +53,7 @@ export type { ImagePickerProps } from "./ImagePicker";
 export { FAIcon } from "./FAIcon";
 export { FeatureImage, FeatureImageEdit } from "./FeatureImage";
 export type { FeatureImageProps, FeatureImageEditProps } from "./FeatureImage";
+export * from './Fenster'
 export * from './FileChip'
 export { FileDisplay } from "./FileDisplay";
 export type { FileDisplayProps } from "./FileDisplay";

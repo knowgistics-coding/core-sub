@@ -8,9 +8,7 @@ import { useCore } from "../context";
 const browseFile = (accept?: string, multiple?: boolean): Promise<File[]> => {
   return new Promise((resolved) => {
     const input = document.createElement("input");
-    if (accept) {
-      input.accept = accept;
-    }
+    input.accept = accept || ".doc,.docx,.xls,.xlsx,.pdf,.txt,image/*";
     if (multiple) {
       input.multiple = multiple;
     }

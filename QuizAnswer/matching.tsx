@@ -6,44 +6,50 @@ import {
   MenuItem,
   Select,
   styled,
-  Typography
-} from '@mui/material'
-import { grey, red } from '@mui/material/colors'
-import { Fragment, useEffect, useState } from 'react'
-import { useCore } from '../context'
-import { arrayShuffle } from '../func'
-import { QDImgDisplay } from '../QuizEditor/img'
-import { useQD } from './context'
-import { QDParagraph } from './paragraph'
+  Typography,
+} from "@mui/material";
+import { grey, red } from "@mui/material/colors";
+import { Fragment, useEffect, useState } from "react";
+import { useCore } from "../context";
+import { arrayShuffle } from "../func";
+import { QDImgDisplay } from "../QuizEditor/img";
+import { useQD } from "./context";
+import { QDParagraph } from "./paragraph";
 
-const Item = styled(Box, { shouldForwardProp: (prop) => prop !== 'correct' })<{
-  correct?: boolean
+const Item = styled(Box, { shouldForwardProp: (prop) => prop !== "correct" })<{
+  correct?: boolean;
 }>(({ theme, correct }) => ({
   padding: theme.spacing(1, 2),
   borderRadius: theme.shape.borderRadius,
   border: `solid 1px ${correct ? grey[300] : red[300]}`,
-  color: correct ? undefined : red[300],
-  backgroundColor: correct ? theme.palette.primary.main : undefined
-}))
+  color: correct ? theme.palette.info.contrastText : red[300],
+  backgroundColor: correct ? theme.palette.info.main : undefined,
+  "& .MuiInputLabel-root": {
+    color: correct ? theme.palette.info.contrastText : undefined,
+  },
+  "& .MuiSelect-select": {
+    color: correct ? theme.palette.info.contrastText : undefined,
+  },
+}));
 
 export const QDMatching = () => {
-  const { t } = useCore()
-  const { quiz, answer } = useQD()
-  const [options, setOptions] = useState<(string | undefined)[]>([])
+  const { t } = useCore();
+  const { quiz, answer } = useQD();
+  const [options, setOptions] = useState<(string | undefined)[]>([]);
 
   const getValue = (key: number) => {
-    const value = answer?.matching?.[key] || ''
-    return options.includes(value) ? value : ''
-  }
+    const value = answer?.matching?.[key] || "";
+    return options.includes(value) ? value : "";
+  };
 
   useEffect(() => {
-    if (quiz?.type === 'matching' && quiz?.matching?.options?.length) {
+    if (quiz?.type === "matching" && quiz?.matching?.options?.length) {
       const options = arrayShuffle(
         quiz.matching.options.map((opt) => opt.value)
-      )
-      setOptions(options)
+      );
+      setOptions(options);
     }
-  }, [quiz])
+  }, [quiz]);
 
   return (
     <Fragment>
@@ -51,36 +57,36 @@ export const QDMatching = () => {
         {quiz?.matching?.options?.map((option) => (
           <Grid item xs={12} key={option.key}>
             <Item correct={option.value === answer?.matching?.[option.key]}>
-              <Grid container alignItems='center' spacing={1}>
+              <Grid container alignItems="center" spacing={1}>
                 <Grid item xs={8}>
                   {(() => {
                     switch (option.type) {
-                      case 'image':
+                      case "image":
                         return option?.image?._id ? (
                           <QDImgDisplay id={option.image._id} />
-                        ) : null
-                      case 'paragraph':
+                        ) : null;
+                      case "paragraph":
                         return (
                           <QDParagraph
-                            color='inherit'
+                            color="inherit"
                             value={option.paragraph}
                           />
-                        )
+                        );
                       default:
-                        return null
+                        return null;
                     }
                   })()}
                 </Grid>
                 <Grid item xs={4}>
-                  <FormControl size='small' fullWidth>
-                    <InputLabel>{t('Answer')}</InputLabel>
+                  <FormControl size="small" fullWidth>
+                    <InputLabel>{t("Answer")}</InputLabel>
                     <Select
-                      label={t('Answer')}
+                      label={t("Answer")}
                       value={getValue(option.key)}
                       readOnly
                     >
-                      <MenuItem value='' disabled>
-                        -- {t('Select Answer')} --
+                      <MenuItem value="" disabled>
+                        -- {t("Select Answer")} --
                       </MenuItem>
                       {options.map((value) => (
                         <MenuItem value={value} key={value}>
@@ -89,7 +95,7 @@ export const QDMatching = () => {
                       ))}
                     </Select>
                     {option.value !== answer?.matching?.[option.key] && (
-                      <Typography variant='caption' sx={{ mt: 0.5 }}>
+                      <Typography variant="caption" sx={{ mt: 0.5 }}>
                         {option.value}
                       </Typography>
                     )}
@@ -101,5 +107,5 @@ export const QDMatching = () => {
         ))}
       </Grid>
     </Fragment>
-  )
-}
+  );
+};

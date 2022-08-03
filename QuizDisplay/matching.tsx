@@ -7,49 +7,50 @@ import {
   Select,
   SelectChangeEvent,
   styled,
-  Typography
-} from '@mui/material'
-import { grey } from '@mui/material/colors'
-import { Fragment, useEffect, useState } from 'react'
-import { useCore } from '../context'
-import { arrayShuffle } from '../func'
-import { QDImgDisplay } from '../QuizEditor/img'
-import { useQD } from './context'
-import { QDParagraph } from './paragraph'
+  Typography,
+} from "@mui/material";
+import { grey } from "@mui/material/colors";
+import { Fragment, useEffect, useState } from "react";
+import update from "react-addons-update";
+import { useCore } from "../context";
+import { arrayShuffle } from "../func";
+import { QDImgDisplay } from "../QuizEditor/img";
+import { useQD } from "./context";
+import { QDParagraph } from "./paragraph";
 
 const Item = styled(Box)(({ theme }) => ({
   border: `solid 1px ${grey[300]}`,
   padding: theme.spacing(1, 2),
-  borderRadius: theme.shape.borderRadius
-}))
+  borderRadius: theme.shape.borderRadius,
+}));
 
 export const QDMatching = () => {
-  const { t } = useCore()
-  const { quiz, answer, setAnswer, onChange } = useQD()
-  const [options, setOptions] = useState<(string | undefined)[]>([])
+  const { t } = useCore();
+  const { quiz, value, onChange } = useQD();
+  const [options, setOptions] = useState<(string | undefined)[]>([]);
 
   const getValue = (key: number) => {
-    const value = answer?.matching?.[key] || ''
-    return options.includes(value) ? value : ''
-  }
+    const newValue = value?.matching?.[key] || "";
+    return options.includes(newValue) ? newValue : "";
+  };
   const handleChange =
     (key: number) =>
-    ({ target: { value } }: SelectChangeEvent<string>) => {
-      setAnswer((a) => {
-        let matching = { ...(a.matching || {}), [key]: value }
-        onChange({ matching })
-        return { matching }
-      })
-    }
+    ({ target: { value:newValue } }: SelectChangeEvent<string>) => {
+      onChange(
+        update(value || { matching: {} }, {
+          matching: { [key]: { $set: newValue } },
+        })
+      );
+    };
 
   useEffect(() => {
-    if (quiz?.type === 'matching' && quiz?.matching?.options?.length) {
+    if (quiz?.type === "matching" && quiz?.matching?.options?.length) {
       const options = arrayShuffle(
         quiz.matching.options.map((opt) => opt.value)
-      )
-      setOptions(options)
+      );
+      setOptions(options);
     }
-  }, [quiz])
+  }, [quiz]);
 
   return (
     <Fragment>
@@ -57,35 +58,35 @@ export const QDMatching = () => {
         {quiz?.matching?.options?.map((option) => (
           <Grid item xs={12} key={option.key}>
             <Item>
-              <Grid container alignItems='center' spacing={1}>
+              <Grid container alignItems="center" spacing={1}>
                 <Grid item xs={8}>
                   {(() => {
                     switch (option.type) {
-                      case 'image':
+                      case "image":
                         return option?.image?._id ? (
                           <QDImgDisplay id={option.image._id} />
-                        ) : null
-                      case 'paragraph':
+                        ) : null;
+                      case "paragraph":
                         return (
-                          <Typography color='textSecondary' component='div'>
+                          <Typography color="textSecondary" component="div">
                             <QDParagraph value={option.paragraph} />
                           </Typography>
-                        )
+                        );
                       default:
-                        return null
+                        return null;
                     }
                   })()}
                 </Grid>
                 <Grid item xs={4}>
-                  <FormControl size='small' fullWidth>
-                    <InputLabel>{t('Answer')}</InputLabel>
+                  <FormControl size="small" fullWidth>
+                    <InputLabel>{t("Answer")}</InputLabel>
                     <Select
-                      label={t('Answer')}
+                      label={t("Answer")}
                       value={getValue(option.key)}
                       onChange={handleChange(option.key)}
                     >
-                      <MenuItem value='' disabled>
-                        -- {t('Select Answer')} --
+                      <MenuItem value="" disabled>
+                        -- {t("Select Answer")} --
                       </MenuItem>
                       {options.map((value) => (
                         <MenuItem value={value} key={value}>
@@ -101,5 +102,5 @@ export const QDMatching = () => {
         ))}
       </Grid>
     </Fragment>
-  )
-}
+  );
+};

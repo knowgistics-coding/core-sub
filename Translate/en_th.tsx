@@ -1,7 +1,7 @@
 const locale_en_th: { [key: string]: string[] } = {
   Add: ["Add", "เพิ่ม"],
   Added: ["Added", "เพิ่มแล้ว"],
-  AddedName: ["{{name}} Added", "เพิ่ม \"{{name}}\" แล้ว"],
+  AddedName: ["{{name}} Added", 'เพิ่ม "{{name}}" แล้ว'],
   AddName: ["Add {{name}}", "เพิ่ม{{name}}"],
   "Add Answer": ["Add Answer", "เพิ่มคำตอบ"],
   "Add Choice": ["Add Choice", "เพิ่มตัวเลือก"],
@@ -116,6 +116,7 @@ const locale_en_th: { [key: string]: string[] } = {
   "Match Item": ["Match Item", "คู่ที่"],
   Material: ["Material", "เนื้อหา"],
   Matching: ["Matching", "จับคู่"],
+  Message: ["Message", "ข้อความ"],
   More: ["More", "อื่น ๆ"],
   "Move Up": ["Move Up", "เลื่อนขึ้น"],
   "Move Down": ["Move Down", "เลื่อนลง"],
@@ -123,6 +124,7 @@ const locale_en_th: { [key: string]: string[] } = {
   "My $Name": ["My {{name}}", "{{name}}ของฉัน"],
   "My Course": ["My Course", "หลักสูตรของฉัน"],
   Name: ["Name", "ชื่อ"],
+  "$Name Added": ["{{name}} Added", "เพิ่ม{{name}}แล้ว"],
   $NameName: ["{{name}} name", "ชื่อ{{name}}"],
   NameHasRemoved: ["{{name}} has removed", "{{name}} ได้ถูกลบแล้ว"],
   $NameNotFound: ["{{name}} not found", "ไม่พบ{{name}}"],
@@ -191,6 +193,7 @@ const locale_en_th: { [key: string]: string[] } = {
   Sorting: ["Sorting", "เรียงลำดับ"],
   Spacing: ["Spacing", "ระยะห่าง"],
   Start: ["Start", "เริ่มต้น"],
+  Status: ["Status", "สถานะ"],
   Student: ["Student", "ผู้เรียน"],
   "Student List": ["Student List", "รายชื่อผู้เรียน"],
   "Sub Question": ["Sub Question", "คำถามย่อยที่"],
@@ -224,7 +227,10 @@ const locale_en_th: { [key: string]: string[] } = {
   Website: ["Website", "เว็บไซต์"],
   WeightedScore: ["Weighted Score", "น้ำหนักคะแนน"],
   Welcome: ["Welcome", "ยินดีต้อนรับ"],
-  "You've reached the maximum attempts": ["You've reached the maximum attempts", "ท่านทำถึงจำนวนครั้งสูงสุดที่ทำได้แล้ว"],
+  "You've reached the maximum attempts": [
+    "You've reached the maximum attempts",
+    "ท่านทำถึงจำนวนครั้งสูงสุดที่ทำได้แล้ว",
+  ],
   /**
    * QuizDisplay
    */
