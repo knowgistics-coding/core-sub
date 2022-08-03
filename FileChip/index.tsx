@@ -10,8 +10,8 @@ export const FileChip = (props: FileChipProps) => {
   return (
     <Chip
       avatar={
-        <Avatar sx={{ backgroundColor: "white" }}>
-          <FontAwesomeIcon icon={["far", "paperclip"]} />
+        <Avatar sx={{ backgroundColor: "white", color: "#333!important" }}>
+          <FontAwesomeIcon icon={["far", "paperclip"]} color="interit" />
         </Avatar>
       }
       color="info"
