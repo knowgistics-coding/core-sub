@@ -1,32 +1,42 @@
-import React, { Fragment } from 'react'
-import { MainContainer, MainContainerProps } from '../MainContainer'
-import { PageViewerContext, PageViewerProps } from './context'
-import { ContentHeader } from '../ContentHeader'
-import { Container } from '../Container'
-import { StockDisplay } from '../StockDisplay'
-import { Box, Button, Typography } from '@mui/material'
-import { Paragraph } from '../ParagraphString'
-import { VideoDisplay } from '../VideoDisplay'
-import { DataGrid, GridColumns } from '@mui/x-data-grid'
+import React, { Fragment } from "react";
+import { MainContainer, MainContainerProps } from "../MainContainer";
+import { PageViewerContext, PageViewerProps } from "./context";
+import { ContentHeader } from "../ContentHeader";
+import { Container } from "../Container";
+import { StockDisplay } from "../StockDisplay";
+import { Box, Button, Typography } from "@mui/material";
+import { Paragraph } from "../ParagraphString";
+import { VideoDisplay } from "../VideoDisplay";
+import { DataGrid, GridColumns } from "@mui/x-data-grid";
 import {
   SlideContainer,
   SlideItem,
   SlideItemContent,
-  SlideItemFeature
-} from '../Slide'
-import { useCore } from '../context'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { ShowTypes } from '../PageEdit/context'
-import moment from 'moment'
+  SlideItemFeature,
+} from "../Slide";
+import { useCore } from "../context";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ShowTypes } from "../PageEdit/context";
+import moment from "moment";
+
+const getDate = (date: any) => {
+  if (date?.toMillis?.()) {
+    return date?.toMillis?.();
+  } else if (date?.getTime?.()) {
+    return date.getTime();
+  } else {
+    return Date.now();
+  }
+};
 
 const PageContainer = ({
   children,
   noContainer,
-  mainContainerProps
+  mainContainerProps,
 }: {
-  children: React.ReactNode
-  noContainer?: boolean
-  mainContainerProps?: Omit<MainContainerProps, 'children'>
+  children: React.ReactNode;
+  noContainer?: boolean;
+  mainContainerProps?: Omit<MainContainerProps, "children">;
 }) =>
   noContainer ? (
     <Fragment>{children}</Fragment>
@@ -34,11 +44,11 @@ const PageContainer = ({
     <MainContainer dense {...mainContainerProps}>
       {children}
     </MainContainer>
-  )
+  );
 
 export const PageViewer = (props: PageViewerProps) => {
-  const { t, isMobile } = useCore()
-  const data = props.data
+  const { t, isMobile } = useCore();
+  const data = props.data;
 
   return (
     <PageViewerContext.Provider value={{ ...props }}>
@@ -48,18 +58,30 @@ export const PageViewer = (props: PageViewerProps) => {
       >
         {data.feature && <StockDisplay {...data.feature} ratio={1 / 4} />}
         <Box py={6}>
-          <Container maxWidth={props.maxWidth || 'post'}>
+          <Container maxWidth={props.maxWidth || "post"}>
             {data.title && (
               <ContentHeader
                 label={data.title}
                 breadcrumbs={props.breadcrumbs}
-                secondary={data.datemodified ? <>
-                <FontAwesomeIcon icon={["far","calendar"]} style={{marginRight:'0.5rem'}} />
-                {moment(data.datemodified).format("LL")}
-                <Box display="inline-block" sx={{px:1}}>|</Box>
-                <FontAwesomeIcon icon={["far","clock"]} style={{marginRight:'0.5rem'}} />
-                {moment(data.datemodified).format("LT")}
-                </> : undefined}
+                secondary={
+                  data.datemodified ? (
+                    <>
+                      <FontAwesomeIcon
+                        icon={["far", "calendar"]}
+                        style={{ marginRight: "0.5rem" }}
+                      />
+                      {moment(getDate(data.datemodified)).format("LL")}
+                      <Box display="inline-block" sx={{ px: 1 }}>
+                        |
+                      </Box>
+                      <FontAwesomeIcon
+                        icon={["far", "clock"]}
+                        style={{ marginRight: "0.5rem" }}
+                      />
+                      {moment(getDate(data.datemodified)).format("LT")}
+                    </>
+                  ) : undefined
+                }
               />
             )}
           </Container>
@@ -67,16 +89,16 @@ export const PageViewer = (props: PageViewerProps) => {
             const Wrapper = ({ children }: { children: React.ReactNode }) =>
               (
                 [
-                  'heading',
-                  'paragraph',
-                  'file',
-                  'image',
-                  'table',
-                  'video'
+                  "heading",
+                  "paragraph",
+                  "file",
+                  "image",
+                  "table",
+                  "video",
                 ] as ShowTypes[]
               ).includes(content.type) ? (
                 <Container
-                  maxWidth={props.maxWidth || 'post'}
+                  maxWidth={props.maxWidth || "post"}
                   key={content.key}
                 >
                   <Box pt={content?.mt} pb={content?.mb}>
@@ -87,9 +109,9 @@ export const PageViewer = (props: PageViewerProps) => {
                 <Box pt={content?.mt} pb={content?.mb}>
                   {children}
                 </Box>
-              )
+              );
             switch (content.type) {
-              case 'heading':
+              case "heading":
                 return (
                   <Wrapper key={content.key}>
                     <Paragraph
@@ -98,12 +120,12 @@ export const PageViewer = (props: PageViewerProps) => {
                       value={content?.heading?.value}
                       editorProps={{ toolbarHidden: true, readOnly: true }}
                       align={content.heading?.align}
-                      variant={content?.heading?.variant || 'h5'}
+                      variant={content?.heading?.variant || "h5"}
                       color="textPrimary"
                     />
                   </Wrapper>
-                )
-              case 'paragraph':
+                );
+              case "paragraph":
                 return (
                   <Wrapper key={content.key}>
                     <Paragraph
@@ -114,20 +136,20 @@ export const PageViewer = (props: PageViewerProps) => {
                       color="textSecondary"
                     />
                   </Wrapper>
-                )
-              case 'image':
+                );
+              case "image":
                 return (
                   <Wrapper key={content.key}>
                     <StockDisplay size="large" {...content?.image} />
                   </Wrapper>
-                )
-              case 'video':
+                );
+              case "video":
                 return (
                   <Wrapper key={content.key}>
                     <VideoDisplay content={content?.video} />
                   </Wrapper>
-                )
-              case 'table':
+                );
+              case "table":
                 if (content.table) {
                   return (
                     <Wrapper key={content.key}>
@@ -136,7 +158,7 @@ export const PageViewer = (props: PageViewerProps) => {
                         columns={
                           content.table.columns.map((column) => ({
                             ...column,
-                            sortable: false
+                            sortable: false,
                           })) as GridColumns
                         }
                         disableColumnMenu
@@ -145,20 +167,20 @@ export const PageViewer = (props: PageViewerProps) => {
                         autoHeight
                         sx={{
                           "& .MuiDataGrid-columnHeaderTitle": {
-                            typography: 'body1',
+                            typography: "body1",
                             fontWeight: "bold",
                           },
                           "& .MuiDataGrid-cellContent": {
-                            color: 'text.secondary'
-                          }
+                            color: "text.secondary",
+                          },
                         }}
                       />
                     </Wrapper>
-                  )
+                  );
                 } else {
-                  return null
+                  return null;
                 }
-              case 'slide':
+              case "slide":
                 return (
                   <Wrapper key={content.key}>
                     <SlideContainer>
@@ -166,25 +188,25 @@ export const PageViewer = (props: PageViewerProps) => {
                         <SlideItem key={sindex}>
                           <SlideItemFeature {...slide.feature} />
                           <SlideItemContent>
-                            <Typography variant='h3' paragraph>
+                            <Typography variant="h3" paragraph>
                               {slide.title}
                             </Typography>
                             <Button
-                              variant='outlined'
-                              color='light'
+                              variant="outlined"
+                              color="light"
                               startIcon={
-                                <FontAwesomeIcon icon={['fad', 'link']} />
+                                <FontAwesomeIcon icon={["fad", "link"]} />
                               }
                             >
-                              {t('Open')}
+                              {t("Open")}
                             </Button>
                           </SlideItemContent>
                         </SlideItem>
                       ))}
                     </SlideContainer>
                   </Wrapper>
-                )
-              case 'cover':
+                );
+              case "cover":
                 return (
                   <Wrapper key={content.key}>
                     <StockDisplay
@@ -192,18 +214,18 @@ export const PageViewer = (props: PageViewerProps) => {
                       ratio={isMobile ? 1 : 1 / 4}
                     />
                   </Wrapper>
-                )
+                );
               default:
-                return process.env.NODE_ENV === 'development' ? (
+                return process.env.NODE_ENV === "development" ? (
                   <pre key={content.key}>
                     {JSON.stringify(content, null, 2)}
                   </pre>
-                ) : null
+                ) : null;
             }
           })}
           <Container maxWidth={props.maxWidth}>{props.children}</Container>
         </Box>
       </PageContainer>
     </PageViewerContext.Provider>
-  )
-}
+  );
+};

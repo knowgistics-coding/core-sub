@@ -52,7 +52,7 @@ export const PEContentAddButton = () => {
   return (
     <React.Fragment>
       <FabStyled onClick={handleOpen}>
-        <FontAwesomeIcon icon={['fad', 'plus']} size='2x' />
+        <FontAwesomeIcon icon={['far', 'plus']} size='2x' />
       </FabStyled>
       <Menu
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}

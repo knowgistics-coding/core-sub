@@ -36,7 +36,7 @@ export const PanelMove = ({ index, onClose }: PanelMoveProps): JSX.Element => {
   const MoveUp = () => (
     <ListItemButton onClick={handleMoveUp}>
       <ListItemIcon>
-        <FontAwesomeIcon icon={['fad', 'chevron-up']} />
+        <FontAwesomeIcon icon={['far', 'chevron-up']} />
       </ListItemIcon>
       <ListItemText primary={t('Move Up')} />
     </ListItemButton>
@@ -44,7 +44,7 @@ export const PanelMove = ({ index, onClose }: PanelMoveProps): JSX.Element => {
   const MoveDown = () => (
     <ListItemButton onClick={handleMoveDown}>
       <ListItemIcon>
-        <FontAwesomeIcon icon={['fad', 'chevron-down']} />
+        <FontAwesomeIcon icon={['far', 'chevron-down']} />
       </ListItemIcon>
       <ListItemText primary={t('Move Down')} />
     </ListItemButton>

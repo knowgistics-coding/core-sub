@@ -52,8 +52,9 @@ export const PESidebar = () => {
             fullWidth
             variant="outlined"
             size="large"
-            startIcon={<FontAwesomeIcon icon={["fad", "eye"]} />}
+            startIcon={<FontAwesomeIcon icon={["far", "eye"]} />}
             onClick={onPreview}
+            color="neutral"
           >
             {t("Preview")}
           </Button>

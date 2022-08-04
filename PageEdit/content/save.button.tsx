@@ -21,7 +21,7 @@ export const PEContentSaveButton = () => {
 
   return (
     <Fab color="success" onClick={handleSave}>
-      <FontAwesomeIcon size="2x" icon={["fad", "save"]} />
+      <FontAwesomeIcon size="2x" icon={["far", "save"]} />
     </Fab>
   );
 };

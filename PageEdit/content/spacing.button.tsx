@@ -37,7 +37,7 @@ export const PEContentSpacingButton = React.forwardRef<
         <Button
           variant="contained"
           disableElevation
-          startIcon={<FontAwesomeIcon icon={["fad", "arrows-v"]} />}
+          startIcon={<FontAwesomeIcon icon={["far", "arrows-v"]} />}
           ref={ref}
           {...props}
           onClick={handleOpen(true)}

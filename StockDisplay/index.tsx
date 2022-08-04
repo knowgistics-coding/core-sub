@@ -1,5 +1,4 @@
 import { Box, BoxProps, Checkbox, styled } from "@mui/material";
-import { grey } from "@mui/material/colors";
 import React, {
   Fragment,
   HTMLAttributes,
@@ -12,7 +11,7 @@ import { apiURL } from "../StockPicker/controller";
 import { BlurhashImage } from "./blurhash.image";
 import { useOnScreen } from "./observ";
 
-export * from './blurhash.image'
+export * from "./blurhash.image";
 
 const getCredit = (
   imageId: string,
@@ -48,9 +47,9 @@ interface rootProps {
   ratio?: number;
   hover?: boolean;
 }
-const Root = styled(Box)<rootProps>(({ ratio, hover }) => ({
+const Root = styled(Box)<rootProps>(({ ratio, hover, theme }) => ({
   position: "relative",
-  backgroundColor: grey[100],
+  backgroundColor: theme.palette.neutral.main,
   "&:after": {
     content: "''",
     display: "block",

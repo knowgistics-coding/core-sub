@@ -135,6 +135,8 @@ export const Paragraph = ({
               }
             : {
                 border: "none",
+                padding: "0 !important",
+                overflow: 'hidden',
               }),
         },
         "& .public-DraftStyleDefault-block": {

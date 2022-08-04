@@ -42,7 +42,7 @@ export const PEEditorSlide = ({ content, index }: PEEditorProps) => {
       startActions={
         <PostSelect onChange={handleChangePost} clearValueAfterConfirm>
           <IconButton size='small'>
-            <FontAwesomeIcon icon={['fad', 'plus']} />
+            <FontAwesomeIcon icon={['far', 'plus']} />
           </IconButton>
         </PostSelect>
       }

@@ -77,7 +77,7 @@ export const PEEditorHeading = ({ index, content }: PEEditorProps) => {
       actions={
         <ListItemButton onClick={handleConvertToParagraph}>
           <ListItemIcon>
-            <FontAwesomeIcon icon={['fad', 'retweet']} />
+            <FontAwesomeIcon icon={['far', 'retweet']} />
           </ListItemIcon>
           <ListItemText primary='Convert to Paragraph' />
         </ListItemButton>

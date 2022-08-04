@@ -69,7 +69,7 @@ export const PEEditorVideo = ({ index, content }: PEEditorProps) => {
             <ChangeButton
               variant='outlined'
               color='light'
-              startIcon={<FontAwesomeIcon icon={['fad', 'cog']} />}
+              startIcon={<FontAwesomeIcon icon={['far', 'cog']} />}
               sx={{zIndex:1}}
             >
               {t('Setting')}

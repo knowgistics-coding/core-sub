@@ -39,7 +39,7 @@ export const PEContentDeleteButton = React.forwardRef<
         <Button
           variant="contained"
           disableElevation
-          startIcon={<FontAwesomeIcon icon={["fad", "trash"]} />}
+          startIcon={<FontAwesomeIcon icon={["far", "trash"]} />}
           color="error"
           ref={ref}
           {...props}

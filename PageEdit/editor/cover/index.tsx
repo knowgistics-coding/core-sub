@@ -73,7 +73,7 @@ export const PEEditorCover = ({ index, content }: PEEditorProps) => {
           {content?.cover?.image && (
             <ListItemButton onClick={handleOpen('pos', true)}>
               <ListItemIcon>
-                <FontAwesomeIcon icon={['fad', 'arrows']} />
+                <FontAwesomeIcon icon={['far', 'arrows']} />
               </ListItemIcon>
               <ListItemText primary={t('Position')} />
             </ListItemButton>
@@ -85,7 +85,7 @@ export const PEEditorCover = ({ index, content }: PEEditorProps) => {
         <StockDisplay {...content?.cover} size='large' ratio={1 / 4} />
         <ChangeButton
           variant='outlined'
-          startIcon={<FontAwesomeIcon icon={['fad', 'folder-open']} />}
+          startIcon={<FontAwesomeIcon icon={['far', 'folder-open']} />}
           onClick={handleOpen('stock', true)}
         >
           {t('Browse')}

@@ -46,7 +46,7 @@ export const PEContent = () => {
       {show.includes("feature") && data.feature && (
         <StockDisplay {...data.feature} ratio={isMobile ? 1 : 1 / 4} />
       )}
-      <Box py={6}>
+      <Box pt={6} pb={16}>
         <Container maxWidth={maxWidth || "post"}>
           {show.includes("title") && (
             <ContentHeader label={data.title} breadcrumbs={breadcrumbs} />
@@ -120,7 +120,7 @@ export const PEContent = () => {
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       >
         <Box>
-          <Stack spacing={1}>
+          <Stack alignItems={"flex-end"} spacing={1}>
             <PEContentSaveButton />
             <PEContentAddButton />
             <PEContentDeselectButton />
