@@ -165,9 +165,7 @@ export const PEPanel = ({
             </IconButton>
           </Action>
         )}
-        <Box py={1}>
-        {children}
-        </Box>
+        <Box>{children}</Box>
       </Wrapper>
       <Menu
         open={Boolean(anchorEl)}
