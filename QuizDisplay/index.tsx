@@ -20,7 +20,6 @@ export const QuizDisplay = ({
   value,
   onChange,
   containerProps,
-  ...props
 }: QuizDisplayProps) => {
   return (
     <QDContext.Provider value={{ quiz, value, onChange }}>
