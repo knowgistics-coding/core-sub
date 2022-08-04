@@ -30,7 +30,7 @@ const SortableElement = SE<BoxProps>(Box);
 
 export const PEContent = () => {
   const { isMobile } = useCore();
-  const { data, setData, show, maxWidth, breadcrumbs } = usePE();
+  const { data, setData, show, maxWidth, breadcrumbs, staticTitle } = usePE();
   const [isStart, setIsStart] = useState<boolean>(false);
 
   const handleSortEnd = ({ oldIndex, newIndex }: SortEnd) => {
@@ -48,8 +48,12 @@ export const PEContent = () => {
       )}
       <Box pt={6} pb={16}>
         <Container maxWidth={maxWidth || "post"}>
-          {show.includes("title") && (
-            <ContentHeader label={data.title} breadcrumbs={breadcrumbs} />
+          {staticTitle ? (
+            <ContentHeader label={staticTitle} breadcrumbs={breadcrumbs} />
+          ) : (
+            show.includes("title") && (
+              <ContentHeader label={data.title} breadcrumbs={breadcrumbs} />
+            )
           )}
         </Container>
         <SortableContainer

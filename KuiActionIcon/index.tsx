@@ -5,7 +5,7 @@ import {
 import { IconButton, IconButtonProps } from "@mui/material";
 
 const IconXS = (props: FontAwesomeIconProps) => (
-  <FontAwesomeIcon size="xs" {...props} />
+  <FontAwesomeIcon {...props} />
 );
 
 export interface KuiActionIconProps extends IconButtonProps {

@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, ButtonProps } from "@mui/material";
+import { useCore } from "components/core-sub/context";
 import React, { useState } from "react";
 import update from "react-addons-update";
 import { usePE } from "../context";
@@ -9,6 +10,7 @@ export const PEContentSpacingButton = React.forwardRef<
   HTMLButtonElement,
   ButtonProps
 >((props, ref) => {
+  const { t } = useCore()
   const [open, setOpen] = useState<boolean>(false);
   const {
     data,
@@ -42,7 +44,7 @@ export const PEContentSpacingButton = React.forwardRef<
           {...props}
           onClick={handleOpen(true)}
         >
-          Change Spacing
+          {t("Edit$Name", {name:t("Spacing")})}
         </Button>
       )}
       <PanelSpacing

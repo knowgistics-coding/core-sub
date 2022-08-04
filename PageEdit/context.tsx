@@ -1,6 +1,6 @@
 import { DataGridEditorData } from "@caminkunick/data-grid-editor";
 import { ContainerProps } from "@mui/material";
-import React, { createContext, useContext } from "react";
+import React, { createContext, ReactNode, useContext } from "react";
 import { ContentHeaderProps } from "../ContentHeader";
 import { MainContainerProps } from "../MainContainer";
 import { StockDisplayProps } from "../StockDisplay";
@@ -57,14 +57,14 @@ export interface PageContentTypes {
   mb?: number;
 }
 export interface PageDocument {
-  _id?: string
+  _id?: string;
   title?: string;
   feature?: StockDisplayProps | null;
   contents?: PageContentTypes[];
   visibility?: "private" | "public" | "trash";
   user?: string;
-  datecreate?: Date
-  datemodified?: Date
+  datecreate?: Date;
+  datemodified?: Date;
 }
 
 export interface PageEditProps {
@@ -85,6 +85,7 @@ export interface PageEditProps {
     from: "url" | "post" | "book" | "page",
     value: string
   ) => string;
+  staticTitle?: ReactNode;
 }
 
 export interface PageEditStateTypes {

@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, ButtonProps } from "@mui/material";
+import { useCore } from "../../context";
 import React, { useState } from "react";
 import update from "react-addons-update";
 import { DialogRemove } from "../../DialogRemove";
@@ -9,6 +10,7 @@ export const PEContentDeleteButton = React.forwardRef<
   HTMLButtonElement,
   ButtonProps
 >((props, ref) => {
+  const {t} = useCore()
   const [open, setOpen] = useState<boolean>(false);
   const {
     state: { selected },
@@ -45,7 +47,7 @@ export const PEContentDeleteButton = React.forwardRef<
           {...props}
           onClick={handleOpen(true)}
         >
-          Remove item(s)
+          {t("Remove$Name", {name:t("Selected")})}
         </Button>
       )}
       <DialogRemove

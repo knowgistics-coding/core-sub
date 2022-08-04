@@ -30,9 +30,10 @@ export const DataGrid = ({ height, searchable, rows, ...props }: DataGridProps) 
       {searchable && (
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
           <TextField
+            fullWidth
             size="small"
             placeholder={t("Search")}
-            sx={{ mb: 2 }}
+            sx={{ mb: 2, backgroundColor:'background.paper' }}
             onChange={({ target: { value } }) => setQ(value)}
           />
         </Box>

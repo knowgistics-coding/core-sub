@@ -76,10 +76,10 @@ export const defaultTheme: ThemeOptions = {
     values: {
       xs: 0,
       sm: 640,
+      post: 720,
       md: 960,
       lg: 1280,
       xl: 1920,
-      post: 704,
     },
   },
   palette: {
@@ -94,7 +94,7 @@ export const defaultTheme: ThemeOptions = {
     primary: { main: "#3C77AE" },
     secondary: { main: "#C73D5D" },
     success: { main: "#34A853" /*"#6E953B"*/ },
-    warning: { main: "#FBBC05" /*"#EEA320"*/ },
+    warning: { main: "#FBBC05", contrastText: "white" /*"#EEA320"*/ },
     error: { main: "#EA4335" /*"#DC4E34"*/ },
     info: { main: "#4285f4" },
     common: {
@@ -116,7 +116,7 @@ export const defaultTheme: ThemeOptions = {
       // primary: '#666'
     },
     background: {
-      default: '#F6F6F6'
+      default: "#F6F6F6",
     },
     appbar: {
       color: `#1d1d1f`,
@@ -170,6 +170,7 @@ export const defaultTheme: ThemeOptions = {
       lineHeight: 1.1,
     },
     caption: {
+      fontFamily: `"Helvetica", sans-serif`,
       fontSize: 12,
     },
     fontFamily: `"Sarabun", "Roboto", "Helvetica", "Arial", sans-serif`,
@@ -177,7 +178,7 @@ export const defaultTheme: ThemeOptions = {
     fontSize: 16,
   },
   toolbarHeight: 60,
-  sidebarWidth: 270,
+  sidebarWidth: 272,
   components: {
     MuiButton: {
       styleOverrides: {
@@ -185,7 +186,7 @@ export const defaultTheme: ThemeOptions = {
           fontSize: 16,
         },
         sizeMedium: {
-          fontSize: 14,
+          fontSize: 16,
         },
         sizeSmall: {
           fontSize: 12,
@@ -204,9 +205,19 @@ export const defaultTheme: ThemeOptions = {
     },
     MuiIconButton: {
       styleOverrides: {
+        sizeSmall: {
+          fontSize: 16,
+        },
         sizeMedium: {
           minWidth: 42,
           minHeight: 42,
+        },
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          fontSize: 16,
         },
       },
     },

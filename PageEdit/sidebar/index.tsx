@@ -1,7 +1,7 @@
-import { useAlerts } from "../../Alerts";
+// import { useAlerts } from "../../Alerts";
 import { BackLink } from "../../BackLink";
 import { useCore } from "../../context";
-import { SaveButton } from "../../SaveButton";
+// import { SaveButton } from "../../SaveButton";
 import { usePE } from "../context";
 import { FeatureImageEdit } from "../../FeatureImage";
 import {
@@ -25,32 +25,32 @@ export const PESidebar = () => {
     setData,
     show,
     back,
-    onSave,
-    state,
-    setState,
+    // onSave,
+    // state,
+    // setState,
     onPreview,
     sidebarActions,
   } = usePE();
-  const { addAlert } = useAlerts();
+  // const { addAlert } = useAlerts();
 
-  const handleSave = async () => {
-    setState((s) => ({ ...s, loading: true }));
-    const result = await onSave();
-    if (result) {
-      addAlert({ label: t("Saved") });
-    }
-    setState((s) => ({ ...s, loading: false }));
-  };
+  // const handleSave = async () => {
+  //   setState((s) => ({ ...s, loading: true }));
+  //   const result = await onSave();
+  //   if (result) {
+  //     addAlert({ label: t("Saved") });
+  //   }
+  //   setState((s) => ({ ...s, loading: false }));
+  // };
 
   return (
     <Fragment>
       {back && <BackLink to={back} divider />}
-      <SaveButton loading={state.loading} onSave={handleSave} />
+      {/* <SaveButton loading={state.loading} onSave={handleSave} /> */}
       {onPreview && (
         <ListItem divider>
           <Button
             fullWidth
-            variant="outlined"
+            variant="contained"
             size="large"
             startIcon={<FontAwesomeIcon icon={["far", "eye"]} />}
             onClick={onPreview}

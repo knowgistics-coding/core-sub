@@ -171,8 +171,12 @@ export const SPContent = () => {
                     }
                     componentsProps={{
                       typography: {
-                        variant: "caption",
+                        variant: "body2",
                       },
+                    }}
+                    sx={{
+                      backgroundColor: '#0006',
+                      pr: 1.5
                     }}
                   />
                 </CheckBoxContainer>

@@ -43,8 +43,6 @@ const Wrapper = ({
 const Action = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   color: theme.palette.text.primary,
-  border: `solid 1px ${theme.palette.text.secondary}`,
-  borderRadius: `4px 4px 0 0`,
   marginBottom: -1,
 }));
 
@@ -137,35 +135,43 @@ export const PEPanel = ({
       pb={typeof content?.mb === "number" ? content.mb : 0}
     >
       <Wrapper noContainer={noContainer} maxWidth={props?.maxWidth || maxWidth}>
-        {hideToolbar === false && (
-          <Action
-            display={"flex"}
-            flexDirection={"row"}
-            justifyContent={"space-between"}
-            alignItems="center"
-          >
-            <DragIcon />
-            <Checkbox
-              edge="start"
-              checked={selected.includes(contentKey)}
-              onChange={handleChangeChecked}
-              color="info"
-            />
-            {startActions}
-            <Box flex={1} />
-            {endActions}
-            <IconButton
-              onClick={({
-                currentTarget,
-              }: React.MouseEvent<HTMLButtonElement>) =>
-                setAnchorEl(currentTarget)
-              }
+        <Box
+          sx={{
+            borderStyle: "solid",
+            borderWidth: hideToolbar ? 0 : 1,
+            borderColor: "divider",
+          }}
+        >
+          {hideToolbar === false && (
+            <Action
+              display={"flex"}
+              flexDirection={"row"}
+              justifyContent={"space-between"}
+              alignItems="center"
             >
-              <FontAwesomeIcon size="xs" icon={["far", "ellipsis-v"]} />
-            </IconButton>
-          </Action>
-        )}
-        <Box>{children}</Box>
+              <DragIcon />
+              <Checkbox
+                edge="start"
+                checked={selected.includes(contentKey)}
+                onChange={handleChangeChecked}
+                color="info"
+              />
+              {startActions}
+              <Box flex={1} />
+              {endActions}
+              <IconButton
+                onClick={({
+                  currentTarget,
+                }: React.MouseEvent<HTMLButtonElement>) =>
+                  setAnchorEl(currentTarget)
+                }
+              >
+                <FontAwesomeIcon size="xs" icon={["far", "ellipsis-v"]} />
+              </IconButton>
+            </Action>
+          )}
+          <Box>{children}</Box>
+        </Box>
       </Wrapper>
       <Menu
         open={Boolean(anchorEl)}

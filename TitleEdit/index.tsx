@@ -18,7 +18,7 @@ export const TitleEdit = ({ value, onChange }: TitleEditProps) => {
 
   const handleEdit = () => {
     Popup.prompt({
-      title: "Change Title",
+      title: t("Edit$Name", { name: t("Title") }),
       text: t("Title"),
       icon: "edit",
       defaultValue: value,

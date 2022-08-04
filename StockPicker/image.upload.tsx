@@ -5,7 +5,7 @@ import update from 'react-addons-update'
 import { useCore } from '../context'
 import { useSP } from './context'
 
-const UploadIcon = () => <FontAwesomeIcon icon={['far', 'upload']} />
+const UploadIcon = () => <FontAwesomeIcon icon={['far', 'folder-open']} />
 
 export const SPUpload = () => {
   const { t } = useCore()
@@ -57,7 +57,7 @@ export const SPUpload = () => {
             component='span'
             startIcon={<UploadIcon />}
           >
-            {t('Upload')}
+            {t('Browse')}
           </Button>
         )}
       </label>

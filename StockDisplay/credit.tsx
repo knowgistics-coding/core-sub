@@ -18,7 +18,7 @@ export const CreditDisplay = styled(
             default:
               return (
                 <React.Fragment>
-                  <FontAwesomeIcon icon={["fad", "camera"]} />
+                  <FontAwesomeIcon icon={["far", "copyright"]} />
                   &nbsp;
                   <a
                     href={`https://mek.network/profile/view/${uid}`}

@@ -20,7 +20,7 @@ import { useTranslation } from "react-i18next";
 const GridName = ({ children }: { children?: React.ReactNode }) => {
   return (
     <Grid item xs={12} sm={4}>
-      <Typography variant="body1" color={"textSecondary"}>
+      <Typography variant="body2" color={"textSecondary"}>
         {children}
       </Typography>
     </Grid>
@@ -76,7 +76,7 @@ export const MCSetting = () => {
               <MenuItem value="th">ไทย</MenuItem>
             </Select>
           </GridSet>
-          <GridName>{t("DarkMode")}</GridName>
+          <GridName>{t("Appearance")}</GridName>
           <GridSet dense>
             <Select
               fullWidth

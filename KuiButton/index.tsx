@@ -37,7 +37,7 @@ export const KuiButton = ({
       txProps = {
         variant: "outlined",
         startIcon: <IconStyled icon={["far", "plus"]} />,
-        children: children || t("Add"),
+        children: children || t("Create"),
         color: "info",
       };
       break;

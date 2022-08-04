@@ -94,10 +94,10 @@ export const FeatureImageEdit = ({
                 fullWidth
                 variant="outlined"
                 onClick={() => setOpen(true)}
-                startIcon={<FontAwesomeIcon icon={["far", "folder-open"]} />}
+                startIcon={<FontAwesomeIcon icon={["far", "image"]} />}
                 color="info"
               >
-                {t("Browse")}
+                {t("Change")}
               </Button>
               <StockPicker
                 open={open}

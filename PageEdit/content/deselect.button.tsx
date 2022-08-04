@@ -3,11 +3,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, ButtonProps } from "@mui/material";
 
 import { usePE } from "../context";
+import { useCore } from "components/core-sub/context";
 
 export const PEContentDeselectButton = React.forwardRef<
   HTMLButtonElement,
   ButtonProps
 >((props, ref) => {
+  const { t } = useCore();
   const {
     state: { selected },
     setState,
@@ -27,7 +29,7 @@ export const PEContentDeselectButton = React.forwardRef<
           {...props}
           onClick={handleDeselect}
         >
-          Deselect
+          {t("Deselect")}
         </Button>
       )}
     </React.Fragment>

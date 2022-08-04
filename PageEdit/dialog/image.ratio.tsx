@@ -10,7 +10,9 @@ import {
 } from "@mui/material";
 import { useCore } from "components/core-sub/context";
 import { Fenster } from "components/core-sub/Fenster";
+import { KuiButton } from "components/core-sub/KuiButton";
 import { ChangeEvent, useEffect, useState } from "react";
+import update from "react-addons-update";
 import { usePE } from "../context";
 import { useDialog } from "../dialog.manager";
 
@@ -36,6 +38,7 @@ export const DialogImageRatio = () => {
   const { isOpen, setOpen, key } = useDialog();
   const {
     data: { contents },
+    setData,
   } = usePE();
   const [value, setValue] = useState<string>("1");
   const content = contents?.find((c) => c.key === key);
@@ -53,6 +56,19 @@ export const DialogImageRatio = () => {
   }: ChangeEvent<HTMLInputElement>) => {
     handleChangeValue(value);
   };
+  const handleConfirm = () => {
+    const index = contents?.findIndex((c) => c.key === key) || -1;
+    if (index > -1) {
+      setData((d) =>
+        update(d, {
+          contents: {
+            [index]: { image: { ratio: { $set: parseFloat(value) } } },
+          },
+        })
+      );
+      setOpen("", "image_ratio", false);
+    }
+  };
 
   useEffect(() => {
     if (open && typeof content?.image?.ratio !== "undefined") {
@@ -66,6 +82,7 @@ export const DialogImageRatio = () => {
       open={Boolean(isOpen("image_ratio") && content)}
       title={t("Ratio")}
       onClose={() => setOpen("", "image_ratio", false)}
+      actions={<KuiButton tx="confirm" onClick={handleConfirm} />}
     >
       <Stack spacing={2} sx={{ mt: 1 }}>
         <FormControl>

@@ -42,12 +42,12 @@ export const MCProfileMenu = () => {
 
   const handleChangeDisplayName = () => {
     Popup.prompt({
-      title: "Profile",
-      text: "Display Name",
-      icon: "user",
+      title: t("Edit$Name", { name: t("DisplayName") }),
+      text: t("DisplayName"),
+      icon: "edit",
       defaultValue: user?.data?.displayName || "",
       onConfirm: async (value) => {
-        if (value && user.data) {
+        if (typeof value === "string" && user.data) {
           await updateProfile(user.data, { displayName: value });
           setUser((u) => update(u, { data: { $set: user.data } }));
         }
@@ -94,7 +94,7 @@ export const MCProfileMenu = () => {
           },
         }}
       >
-        <List>
+        <List dense>
           <ListItem sx={{ justifyContent: "center", pt: 3 }}>
             <Badge
               overlap="circular"
@@ -103,9 +103,10 @@ export const MCProfileMenu = () => {
                 <IconButton
                   size="small"
                   sx={{
-                    backgroundColor: "#FFF8",
+                    color: "white",
+                    backgroundColor: "#0008",
                     transition: "background-color 0.25s ease-in-out",
-                    "&:hover": { backgroundColor: "#FFFD" },
+                    "&:hover": { backgroundColor: "#000D" },
                   }}
                   onClick={() => setOpen(true)}
                 >
@@ -119,13 +120,14 @@ export const MCProfileMenu = () => {
               />
             </Badge>
           </ListItem>
-          <ListItem dense sx={{ pb: 1 }}>
-            <ListItemIcon>
-              <FontAwesomeIcon icon={["far", "user"]} />
-            </ListItemIcon>
+          <ListItem sx={{ pb: 1 }}>
             <ListItemText
-              primary={user?.data?.displayName}
-              primaryTypographyProps={{ noWrap: true }}
+              primary={<>{user?.data?.displayName || ""}&nbsp;</>}
+              primaryTypographyProps={{
+                noWrap: true,
+                variant: "body1",
+                fontWeight: "bold",
+              }}
             />
             <ListItemSecondaryAction>
               <KuiActionIcon tx="edit" onClick={handleChangeDisplayName} />
