@@ -1,51 +1,60 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Box, Button } from '@mui/material'
-
-import { DialogPrompt } from '../DialogPrompt'
-import { useSP } from './context'
-import { useAlerts } from '../Alerts'
-import { StockImageTypes } from './controller'
-import {Fragment} from 'react'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Box, Button } from "@mui/material";
+import { useSP } from "./context";
+import { StockImageTypes } from "./controller";
+import { Fragment } from "react";
+import { useCore } from "../context";
+import { usePopup } from "../react-popup";
 
 export const FromURL = (props: {
-  onConfirm: (data: StockImageTypes) => void
+  onConfirm: (data: StockImageTypes) => void;
 }) => {
-  const { control } = useSP()
-  const { addAlert } = useAlerts()
+  const { t } = useCore();
+  const { control } = useSP();
+  const { Popup } = usePopup();
 
-  const handleConvert = async (value: string) => {
-    if (value && control) {
-      const file = await control.fromURL(value).catch((err) => {
-        addAlert({ label: err.message, severity: 'error' })
-      })
-      if (file) {
-        const result = await control.upload(file).catch((err) => {
-          addAlert({ label: err.message, severity: 'error' })
-        })
-        if (result) {
-          props.onConfirm(result)
+  const handleConvert = () => {
+    Popup.prompt({
+      title: t("From URL"),
+      text: "URL",
+      icon: "link",
+      onConfirm: async (value) => {
+        if (value && control) {
+          const file = await control.fromURL(value).catch((err) => {
+            Popup.alert({
+              title: t("Error"),
+              text: err.message,
+              icon: "exclamation-triangle",
+            });
+          });
+          if (file) {
+            const result = await control.upload(file).catch((err) => {
+              Popup.alert({
+                title: t("Error"),
+                text: err.message,
+                icon: "exclamation-triangle",
+              });
+            });
+            if (result) {
+              props.onConfirm(result);
+            }
+          }
         }
-      }
-    }
-  }
+      },
+    });
+  };
 
   return (
     <Fragment>
       <Box ml={2} />
-      <DialogPrompt
-        title='Import from URL'
-        label='URL'
-        onConfirm={handleConvert}
-        clearAfterConfirm
+      <Button
+        variant="outlined"
+        startIcon={<FontAwesomeIcon icon={["far", "link"]} />}
+        color="neutral"
+        onClick={handleConvert}
       >
-        <Button
-          variant='outlined'
-          startIcon={<FontAwesomeIcon icon={['far', 'link']} />}
-          color="neutral"
-        >
-          From URL
-        </Button>
-      </DialogPrompt>
+        {t("From URL")}
+      </Button>
     </Fragment>
-  )
-}
+  );
+};

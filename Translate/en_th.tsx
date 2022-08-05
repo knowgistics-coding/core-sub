@@ -68,6 +68,7 @@ const locale_en_th: { [key: string]: string[] } = {
     `คุณต้องการลบ "{{name}}" ถาวรใช่หรือไม่?`,
   ],
   Download: ["Download", "ดาวน์โหลด"],
+  DropFileHere: ["Drop file here !", "ลากไฟล์ลงที่นี่ !"],
   Dmatching: [
     "Match the answers to the questions.",
     "ให้จับคู่ตัวเลือกกับคำถามให้ถูกต้อง",
@@ -84,6 +85,7 @@ const locale_en_th: { [key: string]: string[] } = {
   Empty: ["Empty", "ว่างเปล่า"],
   End: ["End", "สิ้นสุด"],
   English: ["English", "อังกฤษ"],
+  Error: ["Error", "เกิดข้อผิดพลาด"],
   False: ["False", "ผิด"],
   FeatureImage: ["Feature Image", "ภาพปก"],
   Female: ["Female", "หญิง"],
