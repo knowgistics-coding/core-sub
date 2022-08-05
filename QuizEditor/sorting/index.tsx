@@ -8,7 +8,7 @@ import {
   styled,
   Typography,
 } from "@mui/material";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect } from "react";
 import { dataTypes, useQEC } from "../context";
 import { Panel } from "../panel";
 import { SelectType } from "../select.type";
@@ -24,8 +24,8 @@ import {
 } from "react-sortable-hoc";
 import { useCore } from "../../context";
 import update from "react-addons-update";
-import { DialogRemove } from "../../DialogRemove";
 import { KuiButton } from "../../KuiButton";
+import { usePopup } from "../../react-popup";
 
 const AnswerBox = styled(Box)(({ theme }) => ({
   border: `solid 1px ${theme.palette.grey[300]}`,
@@ -52,7 +52,7 @@ const SortList = SortableContainer<ListProps>((props: ListProps) => {
 export const OptionsSorting = () => {
   const { t } = useCore();
   const { genKey, open, data, setData, onTabOpen } = useQEC();
-  const [del, setDel] = useState<number | null>(null);
+  const { Popup } = usePopup();
 
   const handleChangeOption =
     (index: number, key: number) => (data: Omit<dataTypes, "key">) => {
@@ -77,14 +77,21 @@ export const OptionsSorting = () => {
       );
     }
   };
-  const handleRemove = (key: number | null) => () => setDel(key);
-  const handleRemoveConfirm = () => {
-    if (data?.sorting?.options) {
-      const options = data.sorting.options.filter((opt) => opt.key !== del);
-      const answers = options.map((opt) => opt.key);
-      setData((d) => update(d, { sorting: { $set: { options, answers } } }));
-      setDel(null);
-    }
+  const handleRemove = (key: number) => () => {
+    Popup.remove({
+      title: t("Remove"),
+      text: t("DoYouWantToRemove", { name: t("Choice") }),
+      icon: "trash",
+      onConfirm: () => {
+        if (data?.sorting?.options) {
+          const options = data.sorting.options.filter((opt) => opt.key !== key);
+          const answers = options.map((opt) => opt.key);
+          setData((d) =>
+            update(d, { sorting: { $set: { options, answers } } })
+          );
+        }
+      },
+    });
   };
   const handleAdd = () => {
     if (data?.sorting?.options) {
@@ -150,11 +157,6 @@ export const OptionsSorting = () => {
           {t("Add Answer")}
         </Button>
       </Box>
-      <DialogRemove
-        open={Boolean(del)}
-        onClose={handleRemove(null)}
-        onConfirm={handleRemoveConfirm}
-      />
     </Panel>
   );
 };

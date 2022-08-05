@@ -22,6 +22,7 @@ const locale_en_th: { [key: string]: string[] } = {
   Attemps: ["Attemps", "ครั้งที่ทำได้"],
   Back: ["Back", "กลับ"],
   Book: ["Book", "หนังสือ"],
+  Box: ["Box", "กล่อง"],
   Browse: ["Browse", "เลือกไฟล์"],
   Cancel: ["Cancel", "ยกเลิก"],
   Categories: ["Categories", "หมวดหมู่"],

@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect } from "react";
 import { dataTypes, useQEC } from "../context";
 import { Panel } from "../panel";
 import {
@@ -9,12 +9,11 @@ import {
   Typography,
   TypographyProps,
 } from "@mui/material";
-
-import { DialogRemove } from "../../DialogRemove";
 import { useCore } from "../../context";
 import { SelectType } from "../select.type";
 import update from "react-addons-update";
 import { KuiButton } from "../../KuiButton";
+import { usePopup } from "components/core-sub/react-popup";
 
 const AnswerBox = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -33,7 +32,7 @@ const Label = styled((props: TypographyProps) => (
 export const OptionsMatching = () => {
   const { t } = useCore();
   const { open, data, setData, onTabOpen, genKey } = useQEC();
-  const [del, setDel] = useState<number | null>(null);
+  const { Popup } = usePopup();
 
   const handleOptionChange =
     (index: number) => (data: Omit<dataTypes, "key">) => {
@@ -43,11 +42,6 @@ export const OptionsMatching = () => {
           matching: { options: { [index]: { $set: newValue } } },
         });
       });
-      // setData((d) =>
-      //   update(d, {
-      //     matching: { options: { [index]: { $set: { ...data, key } } } }
-      //   })
-      // )
     };
   const handleChange =
     (index: number) =>
@@ -66,13 +60,22 @@ export const OptionsMatching = () => {
       setData((d) => update(d, { matching: { options: { $set: options } } }));
     }
   };
-  const handleRemove = (key: number | null) => () => setDel(key);
-  const handleRemoveConfirm = () => {
-    if (data?.matching?.options) {
-      const options = data.matching.options.filter((opt) => opt.key !== del);
-      setData((d) => update(d, { matching: { options: { $set: options } } }));
-      setDel(null);
-    }
+  const handleRemove = (key: number) => () => {
+    Popup.remove({
+      title: t("Remove"),
+      text: t("DoYouWantToRemove", { name: t("Choice") }),
+      icon: "trash",
+      onConfirm: () => {
+        if (data.matching?.options) {
+          const options = data.matching.options.filter(
+            (opt) => opt.key !== key
+          );
+          setData((d) =>
+            update(d, { matching: { options: { $set: options } } })
+          );
+        }
+      },
+    });
   };
 
   useEffect(() => {
@@ -127,11 +130,6 @@ export const OptionsMatching = () => {
           </Box>
         </AnswerBox>
       ))}
-      <DialogRemove
-        open={Boolean(del)}
-        onClose={handleRemove(null)}
-        onConfirm={handleRemoveConfirm}
-      />
     </Panel>
   );
 };
