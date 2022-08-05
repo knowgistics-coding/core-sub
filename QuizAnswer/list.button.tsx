@@ -23,7 +23,7 @@ export const ListButton = styled(
             icon
           ) : (
             <FontAwesomeIcon
-              icon={correct ? ['fad', 'check-circle'] : ['fad', 'times-circle']}
+              icon={correct ? ['far', 'check-circle'] : ['far', 'times-circle']}
             />
           )}
         </ListItemIcon>
@@ -48,11 +48,11 @@ export const ListButton = styled(
     marginBottom: theme.spacing(1)
   },
   '&.Mui-selected': {
-    border: `solid 1px ${theme.palette.info.dark}`,
-    backgroundColor: theme.palette.info.main,
-    color: theme.palette.info.contrastText,
+    border: `solid 1px ${theme.palette.success.dark}`,
+    backgroundColor: theme.palette.success.main,
+    color: theme.palette.success.contrastText,
     '&:hover': {
-      backgroundColor: theme.palette.info.dark
+      backgroundColor: theme.palette.success.dark
     }
   }
 }))

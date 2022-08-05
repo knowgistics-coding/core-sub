@@ -41,7 +41,7 @@ export const QDSorting = () => {
                       return undefined
                   }
                 })()}
-                icon={<FontAwesomeIcon icon={['fad', 'arrows']} />}
+                icon={<FontAwesomeIcon icon={['far', 'arrows']} />}
                 correct={quiz.sorting?.answers?.[index] === key}
               />
             )

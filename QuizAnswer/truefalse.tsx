@@ -1,15 +1,19 @@
-import { Fragment } from 'react'
-import { useCore } from '../context'
-import { useQD } from './context'
-import { ListButton } from './list.button'
+import { Fragment } from "react";
+import { useCore } from "../context";
+import { useQD } from "./context";
+import { ListButton } from "./list.button";
 
 export const QDTrueFalse = () => {
-  const { t } = useCore()
-  const { quiz, answer } = useQD()
+  const { t } = useCore();
+  const { quiz, answer } = useQD();
 
   return (
     <Fragment>
-      {quiz.truefalse?.answer === answer?.truefalse ? (
+      <ListButton
+        label={t(answer?.truefalse ? "True" : "False")}
+        correct={Boolean(quiz.truefalse?.answer) === Boolean(answer?.truefalse)}
+      />
+      {/* {quiz.truefalse?.answer === answer?.truefalse ? (
         <ListButton label={t(answer?.truefalse ? 'True' : 'False')} correct />
       ) : (
         <Fragment>
@@ -22,7 +26,7 @@ export const QDTrueFalse = () => {
             correct={Boolean(quiz.truefalse?.answer) === false}
           />
         </Fragment>
-      )}
+      )} */}
     </Fragment>
-  )
-}
+  );
+};

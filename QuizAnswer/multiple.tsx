@@ -22,7 +22,7 @@ export const QDMultiple = () => {
   return (
     <Fragment>
       {options.map((option) => {
-        if(answer?.multiple === option.key || quiz.multiple?.answer === option.key){
+        if(answer?.multiple === option.key /*|| quiz.multiple?.answer === option.key*/){
           switch (option.type) {
             case 'image':
               return (
