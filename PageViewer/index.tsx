@@ -56,7 +56,9 @@ export const PageViewer = (props: PageViewerProps) => {
         noContainer={props.noContainer}
         mainContainerProps={props.mainContainerProps}
       >
-        {data.feature && <StockDisplay {...data.feature} ratio={1 / 4} />}
+        {data.feature && (
+          <StockDisplay {...data.feature} size="large" ratio={1 / 4} />
+        )}
         <Box py={6}>
           <Container maxWidth={props.maxWidth || "post"}>
             {data.title && (

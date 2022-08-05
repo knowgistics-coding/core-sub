@@ -6,7 +6,6 @@ import {
   MenuItem,
   Select,
   styled,
-  Typography,
 } from "@mui/material";
 import { grey, red } from "@mui/material/colors";
 import { Fragment, useEffect, useState } from "react";
@@ -22,13 +21,13 @@ const Item = styled(Box, { shouldForwardProp: (prop) => prop !== "correct" })<{
   padding: theme.spacing(1, 2),
   borderRadius: theme.shape.borderRadius,
   border: `solid 1px ${correct ? grey[300] : red[300]}`,
-  color: correct ? theme.palette.info.contrastText : red[300],
-  backgroundColor: correct ? theme.palette.info.main : undefined,
+  color: correct ? theme.palette.success.contrastText : red[300],
+  backgroundColor: correct ? theme.palette.success.main : undefined,
   "& .MuiInputLabel-root": {
-    color: correct ? theme.palette.info.contrastText : undefined,
+    color: correct ? theme.palette.success.contrastText : undefined,
   },
   "& .MuiSelect-select": {
-    color: correct ? theme.palette.info.contrastText : undefined,
+    color: correct ? theme.palette.success.contrastText : undefined,
   },
 }));
 
@@ -94,11 +93,11 @@ export const QDMatching = () => {
                         </MenuItem>
                       ))}
                     </Select>
-                    {option.value !== answer?.matching?.[option.key] && (
+                    {/* {option.value !== answer?.matching?.[option.key] && (
                       <Typography variant="caption" sx={{ mt: 0.5 }}>
                         {option.value}
                       </Typography>
-                    )}
+                    )} */}
                   </FormControl>
                 </Grid>
               </Grid>

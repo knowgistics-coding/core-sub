@@ -40,7 +40,6 @@ export const QDSorting = () => {
       Boolean(value?.sorting) === false
     ) {
       const sorting = arrayShuffle(quiz.sorting.options.map((opt) => opt.key));
-      console.log(sorting);
       onChange({ sorting });
     }
   }, [quiz, onChange, value]);
