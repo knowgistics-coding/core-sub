@@ -1,12 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  styled,
-  lighten,
-  IconButton,
-  Box,
-  Backdrop,
-  darken,
-} from "@mui/material";
+import { styled, IconButton, Box, Backdrop } from "@mui/material";
 import { useState } from "react";
 import { EmailPass } from "./email.pass";
 import { ForgetPassword } from "./forget.pass";
@@ -18,11 +11,7 @@ const Root = styled(Box)<{ noBG?: boolean }>(({ theme, noBG }) => ({
   left: 0,
   width: "100%",
   height: "100%",
-  backgroundColor: noBG
-    ? `rgba(0,0,0,0.75)`
-    : theme.palette.mode === "light"
-    ? lighten(theme.palette.primary.main, 0.75)
-    : darken(theme.palette.primary.main, 0.75),
+  backgroundColor: noBG ? `rgba(0,0,0,0.75)` : theme.palette.background.default,
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
@@ -34,7 +23,7 @@ const Container = styled("div")(({ theme }) => ({
   display: "flex",
   borderRadius: theme.spacing(1),
   padding: theme.spacing(4, 2),
-  backgroundColor: theme.palette.background.default,
+  backgroundColor: theme.palette.background.paper,
   width: "100%",
   maxWidth: theme.sidebarWidth * 1.5,
   overflow: "auto",
