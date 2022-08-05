@@ -128,7 +128,7 @@ export const Paragraph = ({
                 backgroundColor: "background.paper",
                 borderStyle: "solid",
                 borderWidth: 1,
-                borderColor: "text.secondary",
+                borderColor: "divider",
                 borderTopWidth: 0,
                 paddingLeft: 2,
                 paddingRight: 2,
@@ -149,7 +149,7 @@ export const Paragraph = ({
               "& .rdw-editor-toolbar": {
                 backgroundColor: "background.paper",
                 border: `solid 1px`,
-                borderColor: "text.secondary",
+                borderColor: "divider",
                 marginBottom: 0,
               },
             }

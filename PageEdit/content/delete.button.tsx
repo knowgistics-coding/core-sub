@@ -1,38 +1,43 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, ButtonProps } from "@mui/material";
 import { useCore } from "../../context";
-import React, { useState } from "react";
+import React from "react";
 import update from "react-addons-update";
-import { DialogRemove } from "../../DialogRemove";
 import { PageContentTypes, usePE } from "../context";
+import { usePopup } from "components/core-sub/react-popup";
 
 export const PEContentDeleteButton = React.forwardRef<
   HTMLButtonElement,
   ButtonProps
 >((props, ref) => {
-  const {t} = useCore()
-  const [open, setOpen] = useState<boolean>(false);
+  const { t } = useCore();
   const {
     state: { selected },
     setState,
     setData,
   } = usePE();
+  const { Popup } = usePopup();
 
-  const handleOpen = (open: boolean) => () => setOpen(open);
   const handleRemove = () => {
-    setData((d) =>
-      update(d, {
-        contents: {
-          $apply: (contents: PageContentTypes[]) => {
-            return contents.filter(
-              (content) => !selected.includes(content.key)
-            );
-          },
-        },
-      })
-    );
-    setState((s) => ({ ...s, selected: [] }));
-    setOpen(false);
+    Popup.remove({
+      title: t("Remove"),
+      text: t("DoYouWantToRemove", { name: t("Selected") }),
+      icon: "trash",
+      onConfirm: () => {
+        setData((d) =>
+          update(d, {
+            contents: {
+              $apply: (contents: PageContentTypes[]) => {
+                return contents.filter(
+                  (content) => !selected.includes(content.key)
+                );
+              },
+            },
+          })
+        );
+        setState((s) => ({ ...s, selected: [] }));
+      },
+    });
   };
 
   return (
@@ -45,17 +50,11 @@ export const PEContentDeleteButton = React.forwardRef<
           color="error"
           ref={ref}
           {...props}
-          onClick={handleOpen(true)}
+          onClick={handleRemove}
         >
-          {t("Remove$Name", {name:t("Selected")})}
+          {t("Remove$Name", { name: t("Selected") })}
         </Button>
       )}
-      <DialogRemove
-        open={open}
-        label="Do you want to remove selected item(s)?"
-        onClose={handleOpen(false)}
-        onConfirm={handleRemove}
-      />
     </React.Fragment>
   );
 });

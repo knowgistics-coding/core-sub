@@ -121,15 +121,24 @@ export const PEContent = () => {
       </Box>
       <Snackbar
         open={true}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+      >
+        <Box>
+          <Stack spacing={1}>
+            <PEContentSpacingButton />
+            <PEContentDeleteButton />
+            <PEContentDeselectButton />
+          </Stack>
+        </Box>
+      </Snackbar>
+      <Snackbar
+        open={true}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       >
         <Box>
           <Stack alignItems={"flex-end"} spacing={1}>
-            <PEContentSaveButton />
             <PEContentAddButton />
-            <PEContentDeselectButton />
-            <PEContentSpacingButton />
-            <PEContentDeleteButton />
+            <PEContentSaveButton />
           </Stack>
         </Box>
       </Snackbar>

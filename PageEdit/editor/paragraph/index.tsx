@@ -56,10 +56,12 @@ export const PEEditorParagraph = ({ index, content }: PEEditorProps) => {
   };
 
   useEffect(() => {
-    if(editorRef.current && focus === content.key){
-      editorRef.current?.focus()
+    if (editorRef.current && focus === content.key) {
+      setTimeout(() => {
+        editorRef.current?.focus();
+      }, 500);
     }
-  }, [editorRef, focus, content.key])
+  }, [editorRef, focus, content.key]);
 
   return (
     <PEPanel

@@ -20,8 +20,8 @@ export const PEContentSaveButton = () => {
   };
 
   return (
-    <Fab color="success" onClick={handleSave}>
-      <FontAwesomeIcon size="2x" icon={["far", "save"]} />
+    <Fab color="success" size="small" onClick={handleSave}>
+      <FontAwesomeIcon icon={["far", "save"]} />
     </Fab>
   );
 };

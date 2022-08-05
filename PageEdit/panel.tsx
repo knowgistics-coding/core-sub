@@ -24,6 +24,7 @@ import { PanelMove } from "./panels/move";
 import { PanelSpacing } from "./panels/spacing";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import update from "react-addons-update";
+import { usePopup } from "../react-popup";
 
 const Wrapper = ({
   children,
@@ -106,6 +107,7 @@ export const PEPanel = ({
   } = usePE();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [open, setOpen] = useState<string>("");
+  const { Popup } = usePopup();
 
   const handleOpen = (key: string) => () => {
     setOpen(key);
@@ -127,6 +129,16 @@ export const PEPanel = ({
         selected: selected.filter((key) => key !== contentKey),
       }));
     }
+  };
+  const handleRemove = () => {
+    Popup.remove({
+      title: t("Remove"),
+      text: t("DoYouWantToRemove", { name: t("Item") }),
+      icon: "trash",
+      onConfirm: () => {
+        setData((d) => update(d, { contents: { $splice: [[index, 1]] } }));
+      },
+    });
   };
 
   return (
@@ -189,7 +201,8 @@ export const PEPanel = ({
             onClick={handleOpen("spacing")}
           />
           <ListItemButton
-            onClick={() => setState((s) => ({ ...s, remove: index }))}
+            // onClick={() => setState((s) => ({ ...s, remove: index }))}
+            onClick={handleRemove}
           >
             <ListItemIcon>
               <Typography color="error">

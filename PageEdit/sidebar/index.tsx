@@ -6,9 +6,14 @@ import { usePE } from "../context";
 import { FeatureImageEdit } from "../../FeatureImage";
 import {
   Button,
+  Checkbox,
   FormControl,
   InputLabel,
+  List,
   ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
   MenuItem,
   Select,
   SelectChangeEvent,
@@ -22,6 +27,8 @@ export const PESidebar = () => {
   const { t } = useCore();
   const {
     data,
+    state: { hideToolbar },
+    setState,
     setData,
     show,
     back,
@@ -41,6 +48,8 @@ export const PESidebar = () => {
   //   }
   //   setState((s) => ({ ...s, loading: false }));
   // };
+  const handleChangeHideToolbar = (value: boolean) =>
+    setState((s) => ({ ...s, hideToolbar: value }));
 
   return (
     <Fragment>
@@ -96,6 +105,26 @@ export const PESidebar = () => {
           </FormControl>
         </ListItem>
       )}
+      <List>
+        <ListItemButton
+          divider
+          onClick={() => handleChangeHideToolbar(!hideToolbar)}
+        >
+          <ListItemIcon>
+            <Checkbox
+              edge="start"
+              size="small"
+              checked={hideToolbar}
+              color="info"
+              onChange={(_e, checked) => handleChangeHideToolbar(checked)}
+            />
+          </ListItemIcon>
+          <ListItemText
+            primary={t("Hide Toolbar")}
+            primaryTypographyProps={{ variant: "body2" }}
+          />
+        </ListItemButton>
+      </List>
       {sidebarActions}
     </Fragment>
   );
