@@ -34,7 +34,6 @@ export const QDSorting = () => {
   };
 
   useEffect(() => {
-    console.log(value?.sorting)
     if (
       quiz.type === "sorting" &&
       quiz.sorting?.options &&
