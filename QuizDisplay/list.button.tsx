@@ -6,7 +6,6 @@ import {
   ListItemText,
   styled
 } from '@mui/material'
-import { grey } from '@mui/material/colors'
 
 
 export const ListButton = styled(
@@ -39,7 +38,7 @@ export const ListButton = styled(
     )
   }
 )(({ theme }) => ({
-  border: `solid 1px ${grey[300]}`,
+  border: `solid 1px ${theme.palette.divider}`,
   borderRadius: theme.shape.borderRadius,
   '&:not(:last-child)': {
     marginBottom: theme.spacing(1)

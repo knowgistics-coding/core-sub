@@ -35,12 +35,11 @@ export const QDMatching = () => {
   };
   const handleChange =
     (key: number) =>
-    ({ target: { value:newValue } }: SelectChangeEvent<string>) => {
-      onChange(
-        update(value || { matching: {} }, {
-          matching: { [key]: { $set: newValue } },
-        })
-      );
+    ({ target: { value: newValue } }: SelectChangeEvent<string>) => {
+      onChange({
+        ...(value || {}),
+        matching: update(value?.matching || {}, { [key]: { $set: newValue } }),
+      });
     };
 
   useEffect(() => {

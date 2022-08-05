@@ -19,7 +19,7 @@ const SortContainer = SortableContainer<GridProps>((props: GridProps) => (
 ));
 
 const SortItem = SortableElement<GridProps>((props: GridProps) => (
-  <Grid item xs={12} {...props} />
+  <Grid item xs={12} {...props} sx={{zIndex:1300}} />
 ));
 
 export const QDSorting = () => {
@@ -34,12 +34,14 @@ export const QDSorting = () => {
   };
 
   useEffect(() => {
+    console.log(value?.sorting)
     if (
       quiz.type === "sorting" &&
       quiz.sorting?.options &&
-      Boolean(value) === false
+      Boolean(value?.sorting) === false
     ) {
       const sorting = arrayShuffle(quiz.sorting.options.map((opt) => opt.key));
+      console.log(sorting);
       onChange({ sorting });
     }
   }, [quiz, onChange, value]);
