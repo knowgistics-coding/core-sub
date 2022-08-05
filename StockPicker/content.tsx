@@ -139,7 +139,7 @@ export const SPContent = () => {
             <div>
               <input accept="image/*" {...getInputProps()} />
               <FontAwesomeIcon icon={["fad", "images"]} size="4x" />
-              <Typography variant="caption">Drop File Here</Typography>
+              <Typography variant="caption">{t("DropFileHere")}</Typography>
             </div>
           </DropHere>
         </Grid>
