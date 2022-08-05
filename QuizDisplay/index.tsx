@@ -11,6 +11,7 @@ import { QDTrueFalse } from "./truefalse";
 const Root = styled(Box)(({ theme }) => ({
   border: `solid 1px ${grey[300]}`,
   borderRadius: theme.shape.borderRadius,
+  backgroundColor: theme.palette.background.paper,
   padding: theme.spacing(2),
 }));
 

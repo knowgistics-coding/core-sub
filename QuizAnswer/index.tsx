@@ -2,7 +2,7 @@ import { Box, styled } from '@mui/material'
 import { grey } from '@mui/material/colors'
 
 import { QDContext, QuizDisplayProps } from './context'
-import { QDInstruction } from './instruction'
+// import { QDInstruction } from './instruction'
 import { QDMatching } from './matching'
 import { QDMultiple } from './multiple'
 import { QDQuestion } from './question'
@@ -12,6 +12,7 @@ import { QDTrueFalse } from './truefalse'
 const Root = styled(Box)(({ theme }) => ({
   border: `solid 1px ${grey[300]}`,
   borderRadius: theme.shape.borderRadius,
+  backgroundColor: theme.palette.background.paper,
   padding: theme.spacing(2)
 }))
 
@@ -24,7 +25,7 @@ export const QuizAnswer = ({
   return (
     <QDContext.Provider value={{ quiz, answer }}>
       <Box {...containerProps}>
-        <QDInstruction />
+        {/* <QDInstruction /> */}
         <Root>
           <QDQuestion />
           {quiz.type === 'truefalse' && <QDTrueFalse />}
