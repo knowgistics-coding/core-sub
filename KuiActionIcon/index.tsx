@@ -4,9 +4,7 @@ import {
 } from "@fortawesome/react-fontawesome";
 import { IconButton, IconButtonProps } from "@mui/material";
 
-const IconXS = (props: FontAwesomeIconProps) => (
-  <FontAwesomeIcon {...props} />
-);
+const IconXS = (props: FontAwesomeIconProps) => <FontAwesomeIcon {...props} />;
 
 export interface KuiActionIconProps extends IconButtonProps {
   tx:
@@ -17,7 +15,8 @@ export interface KuiActionIconProps extends IconButtonProps {
     | "edit"
     | "info"
     | "remove"
-    | "restore";
+    | "restore"
+    | "view";
 }
 export const KuiActionIcon = ({ tx, ...props }: KuiActionIconProps) => {
   let newProps = {};
@@ -72,6 +71,13 @@ export const KuiActionIcon = ({ tx, ...props }: KuiActionIconProps) => {
     case "restore":
       newProps = {
         children: <IconXS icon={["far", "redo"]} />,
+        color: "neutral",
+        ...props,
+      };
+      break;
+    case "view":
+      newProps = {
+        children: <IconXS icon={["far", "eye"]} />,
         color: "neutral",
         ...props,
       };

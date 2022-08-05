@@ -190,7 +190,7 @@ export const quizAnswerCheck = (
     data.truefalse?.answer !== undefined &&
     answer?.truefalse
   ) {
-    return data.truefalse.answer === answer.truefalse;
+    return Boolean(data.truefalse.answer) === Boolean(answer.truefalse);
   } else if (
     data.type === "multiple" &&
     data.multiple?.answer !== undefined &&

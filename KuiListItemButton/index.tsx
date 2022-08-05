@@ -1,6 +1,36 @@
-import { ListItemButton, styled } from "@mui/material";
+import {
+  Box,
+  ListItemButton,
+  ListItemButtonProps,
+  styled,
+} from "@mui/material";
 
-export const KuiListItemButton = styled(ListItemButton)(({ theme }) => ({
+export const KuiListItemButton = styled(
+  ({
+    children,
+    actions,
+    ...props
+  }: ListItemButtonProps & { actions?: React.ReactNode }) => (
+    <Box sx={{ position: "relative" }}>
+      <ListItemButton {...props}>{children}</ListItemButton>
+      {actions && (
+        <Box
+          sx={{
+            position: "absolute",
+            right: 0,
+            top: 0,
+            height: "100%",
+            display: "flex",
+            px: 2,
+            alignItems: "center",
+          }}
+        >
+          {actions}
+        </Box>
+      )}
+    </Box>
+  )
+)<ListItemButtonProps>(({ theme }) => ({
   "&.Mui-selected": {
     backgroundColor: theme.palette.info.main,
     color: theme.palette.info.contrastText,
@@ -12,6 +42,6 @@ export const KuiListItemButton = styled(ListItemButton)(({ theme }) => ({
     },
     "& .svg-inline--fa": {
       color: theme.palette.info.contrastText,
-    }
-  }
-}))
+    },
+  },
+}));
