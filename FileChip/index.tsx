@@ -1,12 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Avatar, Chip } from "@mui/material";
+import { Avatar, Chip, ChipProps } from "@mui/material";
 import { FileCtl } from "../Controller";
 
-export type FileChipProps = {
+export type FileChipProps = ChipProps & {
   name: string;
   url: string;
 };
-export const FileChip = (props: FileChipProps) => {
+export const FileChip = ({ url, name, ...props }: FileChipProps) => {
   return (
     <Chip
       avatar={
@@ -15,8 +15,9 @@ export const FileChip = (props: FileChipProps) => {
         </Avatar>
       }
       color="info"
-      label={props.name}
-      onClick={() => FileCtl.downloadFromUrl(props.url, props.name)}
+      label={name}
+      onClick={() => FileCtl.downloadFromUrl(url, name)}
+      {...props}
     />
   );
 };
