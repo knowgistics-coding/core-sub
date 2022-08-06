@@ -54,6 +54,7 @@ const locale_en_th: { [key: string]: string[] } = {
   "Course Manager": ["Course Manager", "จัดการหลักสูตร"],
   Cover: ["Cover", "ภาพปก"],
   "Create $Name": ["Create {{name}}", "สร้าง{{name}}"],
+  Created: ["Create Successful", "สร้างสำเร็จแล้ว"],
   Dark: ["Dark", "มืด"],
   DarkMode: ["Dark Mode", "ธีมสีเข้ม"],
   Date: ["Date", "วันที่"],
