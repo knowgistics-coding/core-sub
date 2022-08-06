@@ -57,8 +57,8 @@ export const DialogImageRatio = () => {
     handleChangeValue(value);
   };
   const handleConfirm = () => {
-    const index = contents?.findIndex((c) => c.key === key) || -1;
-    if (index > -1) {
+    const index = contents?.findIndex((c) => c.key === key);
+    if (typeof index === "number" && index > -1) {
       setData((d) =>
         update(d, {
           contents: {

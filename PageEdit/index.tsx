@@ -5,6 +5,7 @@ import { MainContainer } from "../MainContainer";
 import { PEContent } from "./content";
 import { PEContext, PageEditProps, PageEditStateTypes } from "./context";
 import { DialogManager } from "./dialog.manager";
+import { DialogImagePosition } from "./dialog/image.pos";
 import { DialogImageRatio } from "./dialog/image.ratio";
 import { PESidebar } from "./sidebar";
 
@@ -49,6 +50,7 @@ export const PageEdit = ({ children, ...props }: PageEditProps) => {
           }}
         />
         <DialogImageRatio />
+        <DialogImagePosition />
       </DialogManager>
     </PEContext.Provider>
   );

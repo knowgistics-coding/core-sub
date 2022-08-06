@@ -13,6 +13,10 @@ export const PEContentAddButton = () => {
       const contents = [...(d.contents || [])].concat({ type, key: genKey() });
       return { ...d, contents };
     });
+
+    setTimeout(() => {
+      window.scrollTo(0, document.body.scrollHeight);
+    }, 100)
   };
 
   return (

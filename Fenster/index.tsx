@@ -13,6 +13,7 @@ import {
   DialogProps,
   DialogTitle,
   DialogTitleProps,
+  Grow,
 } from "@mui/material";
 import * as React from "react";
 import { KuiButton } from "../KuiButton";
@@ -44,6 +45,7 @@ export const Fenster = (props: FensterProps) => {
       maxWidth={props.maxWidth || "sm"}
       open={props.open}
       onClose={props.onClose}
+      TransitionComponent={Grow}
       {...props.componentProps?.root}
     >
       <DialogTitle {...props.componentProps?.title}>

@@ -39,7 +39,7 @@ export const HeaderEditor = styled(
     className,
     value,
     onChange,
-    variant = "h5",
+    variant = "h6",
     onChangeOption,
     editorProps,
   }: HeaderEditorProps) => {

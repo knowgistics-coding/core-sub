@@ -25,6 +25,7 @@ export type {
 } from "./ContentEdit";
 export * from "./ContentHeader";
 export type { ContentHeaderProps } from "./ContentHeader";
+export * from './CourseViewer'
 export { DataGrid } from "./DataGrid";
 export type { DataGridProps } from "./DataGrid";
 export type {
@@ -83,6 +84,7 @@ export { QuizDisplay } from "./QuizDisplay";
 export type { QuizAnswerTypes } from "./QuizDisplay";
 export { QuizEditor } from "./QuizEditor";
 export type { QuizEditorProps, QuizDocument } from "./QuizEditor";
+export * from './Quizing'
 export * from "./react-popup";
 export { SaveButton } from "./SaveButton";
 export type { SaveButtonProps } from "./SaveButton";

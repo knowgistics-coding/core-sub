@@ -9,11 +9,11 @@ import {
 import { Container } from "./container";
 import { BreadcrumbsStyled } from "./breadcrumbs.styled";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, To } from "react-router-dom";
 
 export type Breadcrumb = {
   label: React.ReactNode;
-  to?: string;
+  to?: string | To;
   component?: React.ReactElement;
 };
 export interface ContentHeaderProps {

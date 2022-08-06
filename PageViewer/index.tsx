@@ -122,7 +122,7 @@ export const PageViewer = (props: PageViewerProps) => {
                       value={content?.heading?.value}
                       editorProps={{ toolbarHidden: true, readOnly: true }}
                       align={content.heading?.align}
-                      variant={content?.heading?.variant || "h5"}
+                      variant={content?.heading?.variant || "h6"}
                       color="textPrimary"
                     />
                   </Wrapper>

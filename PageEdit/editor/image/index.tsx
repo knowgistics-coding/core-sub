@@ -91,6 +91,11 @@ export const PEEditorImage = ({ index, content }: PEEditorProps) => {
               primary={t("Ratio")}
               onClick={() => setDialogOpen(content.key, "image_ratio", true)}
             />
+            <MenuListItem
+              icon={"arrows"}
+              primary={t("Composition")}
+              onClick={() => setDialogOpen(content.key, "image_pos", true)}
+            />
           </>
         }
       >
