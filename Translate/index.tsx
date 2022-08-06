@@ -24,7 +24,7 @@ export const initI18Next = () => {
         },
       },
       lng: window.localStorage.defaultLanguage,
-      fallbackLng: "en",
+      fallbackLng: "th",
     });
 };
 

@@ -69,11 +69,11 @@ export const MCSetting = () => {
               fullWidth
               size="small"
               variant="outlined"
-              value={["en", "th"].includes(lang) ? lang : "en"}
+              value={["en", "th"].includes(lang) ? lang : "th"}
               onChange={handleChangeLang}
             >
-              <MenuItem value="en">English</MenuItem>
               <MenuItem value="th">ไทย</MenuItem>
+              <MenuItem value="en">English</MenuItem>
             </Select>
           </GridSet>
           <GridName>{t("Appearance")}</GridName>

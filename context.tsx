@@ -41,7 +41,7 @@ import "./style.css";
 
 library.add(fad as IconPack, far as IconPack);
 
-console.log(`Document: https://phra-in.web.app`);
+// console.log(`Document: https://phra-in.web.app`);
 
 initI18Next();
 

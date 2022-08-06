@@ -7,8 +7,10 @@ import { genKey } from "../../genkey";
 import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef } from "react";
+import { useCore } from "components/core-sub/context";
 
 export const PEEditorParagraph = ({ index, content }: PEEditorProps) => {
+  const { t } = useCore();
   const {
     state: { focus },
     setState,
@@ -73,7 +75,9 @@ export const PEEditorParagraph = ({ index, content }: PEEditorProps) => {
           <ListItemIcon>
             <FontAwesomeIcon icon={["far", "retweet"]} />
           </ListItemIcon>
-          <ListItemText primary="Convert to Heading" />
+          <ListItemText
+            primary={t("Convert to $Name", { name: t("Heading") })}
+          />
         </ListItemButton>
       }
     >
