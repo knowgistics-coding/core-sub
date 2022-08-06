@@ -3,6 +3,7 @@ import {
   BoxProps,
   BreadcrumbsProps,
   Link as MLink,
+  Skeleton,
   Typography,
 } from "@mui/material";
 import { Container } from "./container";
@@ -50,6 +51,7 @@ export const ContentHeader = ({
                         variant="caption"
                         color="inherit"
                         style={{ fontWeight: "bold" }}
+                        sx={{ color: "info.main" }}
                       >
                         {item.label}
                       </Typography>
@@ -62,7 +64,7 @@ export const ContentHeader = ({
                       color="textSecondary"
                       key={index}
                     >
-                      {item.label}
+                      {item.label || <Skeleton width={"10ch"} />}
                     </Typography>
                   );
                 }
