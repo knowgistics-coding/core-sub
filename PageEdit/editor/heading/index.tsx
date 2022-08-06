@@ -1,22 +1,24 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { useCore } from "components/core-sub/context";
 
-import update from 'react-addons-update'
-import { HeaderEditor } from '../../../HeaderEditor'
-import { PageContentTypes, usePE } from '../../context'
-import { PEPanel } from '../../panel'
+import update from "react-addons-update";
+import { HeaderEditor } from "../../../HeaderEditor";
+import { PageContentTypes, usePE } from "../../context";
+import { PEPanel } from "../../panel";
 
 export interface PEEditorProps {
-  index: number
-  content: PageContentTypes
-  isDrag?: boolean
+  index: number;
+  content: PageContentTypes;
+  isDrag?: boolean;
 }
 export const PEEditorHeading = ({ index, content }: PEEditorProps) => {
+  const { t } = useCore();
   const {
     state: { focus },
     setState,
-    setData
-  } = usePE()
+    setData,
+  } = usePE();
 
   const handleChange = (value: string) => {
     setData((d) =>
@@ -24,50 +26,50 @@ export const PEEditorHeading = ({ index, content }: PEEditorProps) => {
         contents: {
           [index]: {
             heading: {
-              $apply: (heading: PageContentTypes['heading']) => {
+              $apply: (heading: PageContentTypes["heading"]) => {
                 if (heading) {
-                  return { ...heading, value }
+                  return { ...heading, value };
                 } else {
-                  return { value }
+                  return { value };
                 }
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       })
-    )
-  }
+    );
+  };
   const handleChangeOption = (key: string, value: any) => {
     setData((d) =>
       update(d, {
         contents: {
           [index]: {
             heading: {
-              $apply: (heading: PageContentTypes['heading']) => {
+              $apply: (heading: PageContentTypes["heading"]) => {
                 if (heading) {
-                  return { ...heading, [key]: value }
+                  return { ...heading, [key]: value };
                 } else {
-                  return { [key]: value }
+                  return { [key]: value };
                 }
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       })
-    )
-  }
+    );
+  };
   const handleFocus = (value: boolean) => () =>
-    setState((s) => ({ ...s, focus: value ? content.key : null }))
+    setState((s) => ({ ...s, focus: value ? content.key : null }));
   const handleConvertToParagraph = () => {
     const newContent: PageContentTypes = {
       key: content.key,
-      type: 'paragraph',
+      type: "paragraph",
       paragraph: {
-        value: content.heading?.value
-      }
-    }
-    setData((d) => update(d, { contents: { [index]: { $set: newContent } } }))
-  }
+        value: content.heading?.value,
+      },
+    };
+    setData((d) => update(d, { contents: { [index]: { $set: newContent } } }));
+  };
 
   return (
     <PEPanel
@@ -77,9 +79,11 @@ export const PEEditorHeading = ({ index, content }: PEEditorProps) => {
       actions={
         <ListItemButton onClick={handleConvertToParagraph}>
           <ListItemIcon>
-            <FontAwesomeIcon icon={['far', 'retweet']} />
+            <FontAwesomeIcon icon={["far", "retweet"]} />
           </ListItemIcon>
-          <ListItemText primary='Convert to Paragraph' />
+          <ListItemText
+            primary={t("Convert to $Name", { name: t("Paragraph") })}
+          />
         </ListItemButton>
       }
     >
@@ -87,7 +91,7 @@ export const PEEditorHeading = ({ index, content }: PEEditorProps) => {
         editorProps={{
           toolbarHidden: focus !== content.key,
           onFocus: handleFocus(true),
-          onBlur: handleFocus(false)
+          onBlur: handleFocus(false),
         }}
         value={content.heading?.value}
         onChange={handleChange}
@@ -95,5 +99,5 @@ export const PEEditorHeading = ({ index, content }: PEEditorProps) => {
         onChangeOption={handleChangeOption}
       />
     </PEPanel>
-  )
-}
+  );
+};

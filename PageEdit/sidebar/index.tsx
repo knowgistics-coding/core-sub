@@ -1,7 +1,4 @@
-// import { useAlerts } from "../../Alerts";
-import { BackLink } from "../../BackLink";
 import { useCore } from "../../context";
-// import { SaveButton } from "../../SaveButton";
 import { usePE } from "../context";
 import { FeatureImageEdit } from "../../FeatureImage";
 import {
@@ -22,6 +19,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Fragment } from "react";
 import { TitleDebounce } from "../../TitleDebounce";
 import update from "react-addons-update";
+import { usePopup } from "components/core-sub/react-popup";
+import { useAlerts } from "../../Alerts";
+import { useNavigate } from "react-router-dom";
 
 export const PESidebar = () => {
   const { t } = useCore();
@@ -30,15 +30,15 @@ export const PESidebar = () => {
     state: { hideToolbar },
     setState,
     setData,
+    onSave,
     show,
     back,
-    // onSave,
-    // state,
-    // setState,
     onPreview,
     sidebarActions,
   } = usePE();
-  // const { addAlert } = useAlerts();
+  const { Popup } = usePopup();
+  const { addAlert } = useAlerts();
+  const nav = useNavigate();
 
   // const handleSave = async () => {
   //   setState((s) => ({ ...s, loading: true }));
@@ -50,10 +50,37 @@ export const PESidebar = () => {
   // };
   const handleChangeHideToolbar = (value: boolean) =>
     setState((s) => ({ ...s, hideToolbar: value }));
+  const handleBack = () => {
+    Popup.confirm({
+      title: t("Confirm"),
+      text: t("SaveBeforeLeave"),
+      icon: "question-circle",
+      onConfirm: async () => {
+        setState((s) => ({ ...s, loading: true }));
+        const result = await onSave();
+        if (result) {
+          addAlert({ label: t("Saved") });
+        }
+        setState((s) => ({ ...s, loading: false }));
+        nav(back!);
+      },
+      onAbort: () => nav(back!)
+    });
+  };
 
   return (
     <Fragment>
-      {back && <BackLink to={back} divider />}
+      {back && (
+        <ListItem divider>
+          <Button
+            startIcon={<FontAwesomeIcon icon={["far", "chevron-left"]} />}
+            color="neutral"
+            onClick={handleBack}
+          >
+            {t("Back")}
+          </Button>
+        </ListItem>
+      )}
       {/* <SaveButton loading={state.loading} onSave={handleSave} /> */}
       {onPreview && (
         <ListItem divider>

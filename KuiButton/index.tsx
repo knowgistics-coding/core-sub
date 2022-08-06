@@ -16,6 +16,7 @@ export interface KuiButtonProps extends ButtonProps {
     | "clear"
     | "confirm"
     | "close"
+    | "import"
     | "remove"
     | "save"
     | "signout";
@@ -56,7 +57,7 @@ export const KuiButton = ({
         ),
         component: "span",
         children: children || t("Browse"),
-        color: "neutral"
+        color: "neutral",
       } as any;
       break;
     case "cancel":
@@ -81,6 +82,14 @@ export const KuiButton = ({
       txProps = {
         children: children || t("Close"),
         color: "neutral",
+      };
+      break;
+    case "import":
+      txProps = {
+        variant: "outlined",
+        children: children || t("Import"),
+        startIcon: <FontAwesomeIcon icon={["far", "download"]} />,
+        color: "info",
       };
       break;
     case "remove":

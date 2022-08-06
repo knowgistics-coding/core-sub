@@ -18,7 +18,12 @@ export const PEContentAddButton = () => {
   return (
     <React.Fragment>
       {Blocks.filter((block) => show.includes(block.key)).map((block) => (
-        <Fab size="small" key={block.key} onClick={handleAddContent(block.key)}>
+        <Fab
+          size="small"
+          color="info"
+          key={block.key}
+          onClick={handleAddContent(block.key)}
+        >
           <FontAwesomeIcon icon={block.icon} />
         </Fab>
       ))}

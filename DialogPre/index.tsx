@@ -71,7 +71,7 @@ export const DialogPre = forwardRef((props: DialogPreProps, ref) => {
           <Box flex={1} />
           {props.onConfirm && (
             <Button
-              color='primary'
+              color='info'
               children={t('Confirm')}
               {...props.confirmButtonProps}
               onClick={handleConfirm}
