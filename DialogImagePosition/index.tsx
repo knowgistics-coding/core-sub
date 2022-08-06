@@ -11,6 +11,7 @@ import { Fragment, useEffect, useState } from "react";
 import { KuiButton } from "../KuiButton";
 import { Slider } from "./slider";
 import { StockDisplay, StockDisplayImageTypes } from "../StockDisplay";
+import { useCore } from "../context";
 
 export interface PosTypes {
   left: string;
@@ -26,6 +27,7 @@ export interface DialogImagePositionProps {
   ratio?: number;
 }
 export const DialogImagePosition = (props: DialogImagePositionProps) => {
+  const { t } = useCore();
   const [pos, setPos] = useState<PosTypes>({
     left: "50%",
     top: "50%",
@@ -55,7 +57,7 @@ export const DialogImagePosition = (props: DialogImagePositionProps) => {
       TransitionComponent={Slide}
       TransitionProps={{ direction: "right" } as SlideProps}
     >
-      <DialogTitle>Composition</DialogTitle>
+      <DialogTitle>{t("Composition")}</DialogTitle>
       <DialogContent>
         <Grid container spacing={1} alignItems={"center"}>
           {props.cover ? (
@@ -78,14 +80,14 @@ export const DialogImagePosition = (props: DialogImagePositionProps) => {
           )}
           <Grid item xs={12}>
             <Slider
-              label="Horizontal"
+              label={t("Horizontal")}
               value={parseInt(pos.left)}
               onChange={handleChange("left")}
             />
           </Grid>
           <Grid item xs={12}>
             <Slider
-              label="Vertical"
+              label={t("Vertical")}
               value={parseInt(pos.top)}
               onChange={handleChange("top")}
             />
@@ -93,7 +95,7 @@ export const DialogImagePosition = (props: DialogImagePositionProps) => {
         </Grid>
       </DialogContent>
       <DialogActions>
-        <KuiButton tx="save" onClick={handleSave} />
+        <KuiButton tx="confirm" onClick={handleSave} />
         <KuiButton tx="close" onClick={props.onClose} />
       </DialogActions>
     </Dialog>

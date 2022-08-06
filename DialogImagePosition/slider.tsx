@@ -16,11 +16,15 @@ export const Slider = ({ label, value, onChange }: SliderProps) => {
         {label}
       </Typography>
       <Box display="flex">
-        <SLD value={value} onChange={handleChange} sx={{ mr: 1 }} />
+        <SLD
+          value={value}
+          onChange={handleChange}
+          sx={{ mr: 1, color: "info.main" }}
+        />
         <ActionIcon
-          icon={["fad", "redo"]}
-          color="error"
+          icon={["far", "redo"]}
           onClick={() => onChange(50)}
+          sx={{ color: "neutral.main" }}
         />
       </Box>
     </Fragment>
