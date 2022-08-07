@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 import moment from "moment";
 
 export type DateDisplayProps = {
-  date?: any;
+  date?: any
 };
 
 export const DateDisplay = (props: DateDisplayProps): JSX.Element => {
@@ -14,6 +14,8 @@ export const DateDisplay = (props: DateDisplayProps): JSX.Element => {
       return props.date;
     } else if (props.date?.toMillis) {
       return props.date.toMillis();
+    } else if(typeof props.date?._seconds === "number") {
+      return props.date?._seconds * 1000
     } else {
       return null;
     }
