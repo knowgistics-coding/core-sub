@@ -12,6 +12,7 @@ import { PageViewer } from "../PageViewer";
 import { useCore } from "../context";
 import { CourseAssignment, CourseAssignmentProps } from "./assignment";
 import { Breadcrumb } from "../ContentHeader";
+import { Timestamp } from "firebase/firestore";
 
 const icons: Record<string, IconName> = {
   lesson: "chalkboard",
@@ -34,6 +35,7 @@ export type CourseViewerData = {
   feature?: StockDisplayProps;
   material: MaterialDocument[];
   syllabus?: PageDocument;
+  datemodified?: Timestamp | Date;
 };
 
 export type CourseViewerProps = {
@@ -192,6 +194,7 @@ export const CourseViewer = (props: CourseViewerProps) => {
           data={
             Object.assign({}, props.data?.syllabus, {
               title: t("Syllabus"),
+              datemodified: props.data?.datemodified,
             }) as PageDocument
           }
         />
