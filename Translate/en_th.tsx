@@ -111,6 +111,7 @@ const locale_en_th: { [key: string]: string[] } = {
   Highlight: ["Highlight", "ไฮไลท์"],
   Home: ["Home", "หน้าแรก"],
   Horizontal: ["Horizontal", "แนวนอน"],
+  ID: ["ID", "รหัส"],
   Inbox: ["Inbox", "กล่องข้อความ"],
   Image: ["Image", "รูปภาพ"],
   Images: ["Images", "รูปภาพ"],
