@@ -74,6 +74,7 @@ const locale_en_th: { [key: string]: string[] } = {
     `คุณต้องการลบ "{{name}}" ถาวรใช่หรือไม่?`,
   ],
   Download: ["Download", "ดาวน์โหลด"],
+  "Due Date": ["Due Date", "กำหนดส่ง"],
   DropFileHere: ["Drop file here !", "ลากไฟล์ลงที่นี่ !"],
   Dmatching: [
     "Match the answers to the questions.",
@@ -122,6 +123,7 @@ const locale_en_th: { [key: string]: string[] } = {
   Language: ["Language", "ภาษา"],
   LastModified: ["Last Modified", "ปรับปรุงล่าสุด"],
   "Last Name": ["Last Name", "สกุล"],
+  Lated: ["Lated", "ล่าช้า"],
   Lesson: ["Lesson", "บทเรียน"],
   "Lesson Content": ["Lesson Content", "เนื้อหาบทเรียน"],
   Level: ["Level", "ระดับ"],

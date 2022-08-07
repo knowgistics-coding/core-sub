@@ -1,5 +1,6 @@
 import { DataGridEditorData } from "@caminkunick/data-grid-editor";
 import { ContainerProps } from "@mui/material";
+import { Timestamp } from "firebase/firestore";
 import React, { createContext, ReactNode, useContext } from "react";
 import { ContentHeaderProps } from "../ContentHeader";
 import { MainContainerProps } from "../MainContainer";
@@ -63,8 +64,8 @@ export interface PageDocument {
   contents?: PageContentTypes[];
   visibility?: "private" | "public" | "trash";
   user?: string;
-  datecreate?: Date;
-  datemodified?: Date;
+  datecreate?: Timestamp | Date | number;
+  datemodified?: Timestamp | Date | number;
 }
 
 export interface PageEditProps {

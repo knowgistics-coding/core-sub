@@ -15,8 +15,9 @@ import moment from "moment";
 import { useState } from "react";
 import { MaterialDocument } from ".";
 import { Breadcrumb, ContentHeader } from "../ContentHeader";
-import { useCore } from "../context";
+import { TFunction, useCore } from "../context";
 import { FileCtl } from "../Controller";
+import { DateDisplay } from "../DateDisplay";
 import { FileChip } from "../FileChip";
 import { SpliceImmutable } from "../func";
 import { KuiActionIcon } from "../KuiActionIcon";
@@ -34,11 +35,11 @@ export class AssignmentCtl {
     const now = current || new Date().getTime();
     return due < now;
   }
-  static dueDisplay(duedate: string, timezone?: string): string {
+  static dueDisplay(t: TFunction, duedate: string, timezone?: string): string {
     const due = new Date(`${duedate}:00.000${timezone || "+07:00"}`).getTime();
     return (
       moment(due).format("LLL") +
-      (this.isLated(duedate, timezone) ? " - Lated" : "")
+      (this.isLated(duedate, timezone) ? ` - ${t("Lated")}` : "")
     );
   }
 }
@@ -87,7 +88,11 @@ export const CourseAssignment = ({
   return (
     <Box py={6}>
       <Container maxWidth="post">
-        <ContentHeader label={item.title} breadcrumbs={props.breadcrumbs} />
+        <ContentHeader
+          label={item.title}
+          breadcrumbs={props.breadcrumbs}
+          secondary={<DateDisplay date={item.datemodified} />}
+        />
         <Paragraph
           value={item.content}
           editorProps={{ toolbarHidden: true, readOnly: true }}
@@ -97,15 +102,19 @@ export const CourseAssignment = ({
         ))}
         {item.datedue && (
           <Typography
-            variant="caption"
+            variant="body1"
             component="div"
-            color={
-              AssignmentCtl.isLated(item.datedue, item.schedule?.timezone)
-                ? "error"
-                : undefined
-            }
+            sx={{
+              color: AssignmentCtl.isLated(
+                item.datedue,
+                item.schedule?.timezone
+              )
+                ? "error.main"
+                : "success.main",
+            }}
           >
-            {AssignmentCtl.dueDisplay(item.datedue, item.schedule?.timezone)}
+            {t("Due Date")}&nbsp;:&nbsp;
+            {AssignmentCtl.dueDisplay(t, item.datedue, item.schedule?.timezone)}
           </Typography>
         )}
         {submit.loading ? (

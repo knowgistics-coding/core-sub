@@ -28,6 +28,7 @@ export type MaterialDocument = {
   files?: { name: string; url: string }[];
   datedue: string;
   schedule?: { start: string; end: string; timezone: string };
+  datemodified?: Timestamp
 };
 
 export type CourseViewerData = {
@@ -35,7 +36,7 @@ export type CourseViewerData = {
   feature?: StockDisplayProps;
   material: MaterialDocument[];
   syllabus?: PageDocument;
-  datemodified?: Timestamp | Date;
+  datemodified?: Timestamp | Date | number;
 };
 
 export type CourseViewerProps = {
@@ -155,7 +156,7 @@ export const CourseViewer = (props: CourseViewerProps) => {
                   <PageViewer
                     breadcrumbs={[
                       ...props.breadcrumbs,
-                      { label: props.data?.title },
+                      { label: props.data?.title, to: props.links.root },
                       { label: item.title },
                     ]}
                     noContainer
@@ -169,7 +170,7 @@ export const CourseViewer = (props: CourseViewerProps) => {
                     item={item}
                     breadcrumbs={[
                       ...props.breadcrumbs,
-                      { label: props.data?.title },
+                      { label: props.data?.title, to: props.links.root },
                       { label: item.title },
                     ]}
                     submit={props.submit}
@@ -186,11 +187,7 @@ export const CourseViewer = (props: CourseViewerProps) => {
       ) : (
         <PageViewer
           noContainer
-          breadcrumbs={[
-            ...props.breadcrumbs,
-            { label: props.data?.title },
-            { label: t("Syllabus") },
-          ]}
+          breadcrumbs={[...props.breadcrumbs, { label: props.data?.title }]}
           data={
             Object.assign({}, props.data?.syllabus, {
               title: t("Syllabus"),
