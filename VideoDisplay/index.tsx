@@ -2,10 +2,11 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, BoxProps, styled } from "@mui/material";
 import { YoutubeIframe } from "./youtube.iframe";
-import { facebook_parser, youtube_parser } from "./parser";
+import { facebook_parser, loom_parser, youtube_parser } from "./parser";
 import { FaceBookIframe } from "./facebook.iframe";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import VideoJS from "../VideoJS";
+import { LoomIframe } from "./loom.iframe";
 
 const icons: { [key: string]: IconProp } = {
   youtube: ["fab", "youtube"],
@@ -56,7 +57,7 @@ const VDRoot = styled(
 export interface VideoContent {
   value?: string;
   ratio?: number;
-  from?: "facebook" | "link" | "youtube";
+  from?: "facebook" | "link" | "youtube" | "loom";
 }
 export interface VideoDisplayProps {
   content?: VideoContent;
@@ -98,6 +99,11 @@ export const VideoDisplay = ({
                 return <YoutubeIframe yid={youtube_parser(content.value)} />;
               }
               return <Placeholder from={content.from} />;
+            case "loom":
+              if (loom_parser(content.value)) {
+                return <LoomIframe src={loom_parser(content.value)} />;
+              }
+              return <Placeholder from="link" />;
             default:
               return <Placeholder from={content.from} />;
           }

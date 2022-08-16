@@ -203,6 +203,15 @@ export const defaultTheme: ThemeOptions = {
         disableElevation: true,
       },
     },
+    MuiDialog: {
+      styleOverrides: {
+        root: {
+          "& .MuiBackdrop-root": {
+            WebkitBackdropFilter: 'blur(4px)',
+          }
+        }
+      }
+    },
     MuiIconButton: {
       styleOverrides: {
         sizeSmall: {
