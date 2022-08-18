@@ -15,12 +15,12 @@ export interface FileDocument {
 }
 
 export class FileCtl extends MainStatic {
-  static browse(accept?:string,multiple?:boolean): Promise<File[]> {
+  static browse(accept?: string, multiple?: boolean): Promise<File[]> {
     return new Promise((resolve) => {
       const input = document.createElement("input");
       input.type = "file";
-      input.multiple = Boolean(multiple)
-      input.accept = accept || ".doc,.docx,.xls,.xlsx,.pdf,.txt,image/*"
+      input.multiple = Boolean(multiple);
+      input.accept = accept || ".doc,.docx,.xls,.xlsx,.pdf,.txt,image/*";
       input.addEventListener("change", () => {
         input.removeEventListener("change", () => {});
         resolve(Array.from(input.files || []));
@@ -60,5 +60,10 @@ export class FileCtl extends MainStatic {
         })
         .catch(reject);
     });
+  }
+  static createDownloadFile(text: string):string {
+    var data = new Blob([text], { type: "text/plain" });
+    const url = window.URL.createObjectURL(data);
+    return url;
   }
 }
