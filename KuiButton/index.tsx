@@ -16,9 +16,11 @@ export interface KuiButtonProps extends ButtonProps {
     | "clear"
     | "confirm"
     | "close"
+    | "download"
     | "import"
     | "remove"
     | "save"
+    | "setting"
     | "signout";
   loading?: boolean;
   fontAwesomeIconProps?: Omit<FontAwesomeIconProps, "icon">;
@@ -84,6 +86,14 @@ export const KuiButton = ({
         color: "neutral",
       };
       break;
+    case "download":
+      txProps = {
+        variant: "outlined",
+        children: children || t("Download"),
+        startIcon: <IconStyled icon={["far", "download"]} />,
+        color: "neutral",
+      };
+      break;
     case "import":
       txProps = {
         variant: "outlined",
@@ -108,6 +118,16 @@ export const KuiButton = ({
         ),
         color: "success",
         children: children || t("Save"),
+      };
+      break;
+    case "setting":
+      txProps = {
+        variant: "outlined",
+        startIcon: (
+          <FontAwesomeIcon icon={["far", "cog"]} {...fontAwesomeIconProps} />
+        ),
+        color: "neutral",
+        children: children || t("Setting"),
       };
       break;
     case "signout":
