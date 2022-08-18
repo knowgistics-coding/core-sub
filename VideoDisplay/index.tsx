@@ -33,7 +33,7 @@ const Placeholder = styled(({ from, ...props }: { from: string }) => (
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
-  backgroundImage: theme.palette.gradient.main,
+  backgroundImage: theme.palette.neutral.main,
 }));
 
 const VDRoot = styled(
@@ -42,7 +42,7 @@ const VDRoot = styled(
   )
 )<VideoDisplayProps>(({ theme, content }) => ({
   position: "relative",
-  backgroundImage: content?.value ? "none" : theme.palette.gradient.main,
+  backgroundImage: content?.value ? "none" : theme.palette.neutral.main,
   "&:after": {
     content: '""',
     display: "block",

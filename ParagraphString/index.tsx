@@ -64,7 +64,7 @@ export const Paragraph = ({
   onEnter,
   ...props
 }: ParagraphProps) => {
-  const { isMobile } = useCore();
+  const { t, isMobile } = useCore();
   const [state, setState] = useState<StateTypes>({});
 
   const handleEditorStateChange = (editorState: EditorState) =>
@@ -136,7 +136,7 @@ export const Paragraph = ({
             : {
                 border: "none",
                 padding: "0 !important",
-                overflow: 'hidden',
+                overflow: "hidden",
               }),
         },
         "& .public-DraftStyleDefault-block": {
@@ -168,7 +168,7 @@ export const Paragraph = ({
           stripPastedStyles
           onEditorStateChange={handleEditorStateChange}
           onContentStateChange={handleContentStateChange}
-          placeholder={props.view ? undefined : "Start writting or type"}
+          placeholder={props.view ? undefined : t("Start writting or type")}
           onBlur={handleBlur}
           {...editorProps}
           key={`mobile-${isMobile}`}

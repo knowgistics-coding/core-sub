@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { Editor, EditorProps } from "react-draft-wysiwyg";
 import { variants, VariantSetting } from "./variant.setting";
 import draftToHTML from "draftjs-to-html";
+import { useCore } from "../context";
 
 export const toolbar = {
   options: ["history", "textAlign"],
@@ -43,6 +44,7 @@ export const HeaderEditor = styled(
     onChangeOption,
     editorProps,
   }: HeaderEditorProps) => {
+    const { t } = useCore();
     const [editorState, setEditorState] = useState<EditorState | undefined>();
 
     const handleSetVariant = (value: variants) =>
@@ -78,7 +80,7 @@ export const HeaderEditor = styled(
           editorState={editorState}
           onEditorStateChange={handleEditorStateChange}
           onContentStateChange={handleContentStateChange}
-          placeholder="Start writting or type"
+          placeholder={t("Start writting or type")}
           {...editorProps}
         />
       </Typography>

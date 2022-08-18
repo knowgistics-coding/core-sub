@@ -194,6 +194,23 @@ export const PEPanel = ({
       >
         <List dense>
           {actions}
+          <ListItemButton
+            onClick={() => {
+              setAnchorEl(null)
+              setState((s) => ({ ...s, insert: content.key }))
+            }}
+          >
+            <ListItemIcon>
+              <span className="fa-layers">
+                <FontAwesomeIcon icon={["far", "table-rows"]} />
+                <FontAwesomeIcon
+                  icon={["far", "plus"]}
+                  transform="shrink-3 up-9 right-10"
+                />
+              </span>
+            </ListItemIcon>
+            <ListItemText primary={t("Insert Before")} />
+          </ListItemButton>
           <PanelMove index={index} onClose={() => setAnchorEl(null)} />
           <ListItemButtonPre
             label="Spacing"

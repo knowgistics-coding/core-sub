@@ -95,6 +95,7 @@ export interface PageEditStateTypes {
   hideToolbar: boolean;
   remove: number;
   selected: string[];
+  insert: string | null
 }
 
 export interface PEContextTypes extends Omit<PageEditProps, "postOptions"> {
@@ -112,6 +113,7 @@ export const PEContext = createContext<PEContextTypes>({
     hideToolbar: false,
     remove: -1,
     selected: [],
+    insert: null,
   },
   setState: () => {},
 });

@@ -14,7 +14,12 @@ export const PEEditorVideo = ({ index, content }: PEEditorProps) => {
   const { setData } = usePE();
 
   const handleToggle = () =>
-    setOpen((o) => ({ ...o, videoSetting: !Boolean(o.videoSetting) }));
+    setOpen((o) => ({
+      ...o,
+      [`videoSetting-${content.key}`]: !Boolean(
+        o[`videoSetting-${content.key}`]
+      ),
+    }));
   const handleConfirm = (video: VideoContent) => {
     setData((d) =>
       update(d, { contents: { [index]: { video: { $set: video } } } })
@@ -40,7 +45,7 @@ export const PEEditorVideo = ({ index, content }: PEEditorProps) => {
         <VideoDisplay content={content?.video} />
       </Box>
       <SettingDialog
-        open={Boolean(open.videoSetting)}
+        open={Boolean(open[`videoSetting-${content.key}`])}
         onClose={handleToggle}
         value={content.video}
         onChange={handleConfirm}

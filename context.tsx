@@ -11,7 +11,6 @@ import React, {
 import {
   createTheme,
   CssBaseline,
-  darken,
   Theme,
   ThemeOptions,
   ThemeProvider,
@@ -133,17 +132,6 @@ export const CoreProvider = React.memo(
       darkmode: false,
       mode: "default",
     });
-
-    if (props?.theme?.palette?.primary) {
-      const primary = props?.theme?.palette?.primary as any;
-      if (primary.main) {
-        props.theme.palette.gradient = {
-          main: `linear-gradient(45deg, ${darken(primary.main, 0.5)} 0%, ${
-            primary.main
-          } 100%)`,
-        };
-      }
-    }
 
     const getTheme = useCallback((): Theme => {
       const mode: "dark" | "light" =

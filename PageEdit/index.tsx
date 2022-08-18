@@ -7,6 +7,7 @@ import { PEContext, PageEditProps, PageEditStateTypes } from "./context";
 import { DialogManager } from "./dialog.manager";
 import { DialogImagePosition } from "./dialog/image.pos";
 import { DialogImageRatio } from "./dialog/image.ratio";
+import { DialogInsert } from "./dialog/insert";
 import { PESidebar } from "./sidebar";
 
 export * from "./context";
@@ -18,6 +19,7 @@ export const PageEdit = ({ children, ...props }: PageEditProps) => {
     hideToolbar: false,
     remove: -1,
     selected: [],
+    insert: null,
   });
 
   return (
@@ -51,6 +53,7 @@ export const PageEdit = ({ children, ...props }: PageEditProps) => {
         />
         <DialogImageRatio />
         <DialogImagePosition />
+        <DialogInsert />
       </DialogManager>
     </PEContext.Provider>
   );
