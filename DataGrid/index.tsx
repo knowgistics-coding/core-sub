@@ -1,13 +1,28 @@
-import { Box, TextField } from "@mui/material";
+import { Box, styled, TextField } from "@mui/material";
+import { deepmerge } from "@mui/utils";
 import { DataGrid as DG, DataGridProps as DGP } from "@mui/x-data-grid";
 import { useState } from "react";
 import { useCore } from "../context";
+
+const DataGridStyled = styled(DG)(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  "& .Mui-checked": {
+    color: theme.palette.info.main,
+  },
+}));
 
 export interface DataGridProps extends Omit<DGP, "autoHeight"> {
   height?: number;
   searchable?: boolean;
 }
-export const DataGrid = ({ height, searchable, rows, ...props }: DataGridProps) => {
+export const DataGrid = ({
+  height,
+  searchable,
+  rows,
+  initialState,
+  componentsProps,
+  ...props
+}: DataGridProps) => {
   const { t } = useCore();
   const [q, setQ] = useState<string>("");
 
@@ -33,24 +48,21 @@ export const DataGrid = ({ height, searchable, rows, ...props }: DataGridProps) 
             fullWidth
             size="small"
             placeholder={t("Search")}
-            sx={{ mb: 2, backgroundColor:'background.paper' }}
+            sx={{ mb: 2, backgroundColor: "background.paper" }}
             onChange={({ target: { value } }) => setQ(value)}
           />
         </Box>
       )}
       <Box sx={{ height }}>
-        <DG
-          sx={{
-            backgroundColor: "background.paper",
-            "& .Mui-checked": {
-              color: "info.main",
+        <DataGridStyled
+          initialState={deepmerge(
+            {
+              pagination: {
+                pageSize: 10,
+              },
             },
-          }}
-          initialState={{
-            pagination: {
-              pageSize: 10,
-            },
-          }}
+            initialState
+          )}
           autoHeight
           localeText={{
             noRowsLabel: t("No rows"),
@@ -60,16 +72,22 @@ export const DataGrid = ({ height, searchable, rows, ...props }: DataGridProps) 
             columnMenuUnsort: t("Unsort"),
             columnMenuSortAsc: t("Sort by ASC"),
             columnMenuSortDesc: t("Sort by DESC"),
+            footerRowSelected: (count) =>
+              t("$Name Selected", { name: String(count) }),
           }}
-          componentsProps={{
-            pagination: {
-              labelRowsPerPage: t("Rows per page"),
+          componentsProps={deepmerge(
+            {
+              baseCheckbox: { color: "info" },
+              pagination: {
+                labelRowsPerPage: t("Rows per page"),
+              },
             },
-          }}
+            componentsProps
+          )}
           rowsPerPageOptions={[10, 20, 50, 100, 200]}
           disableSelectionOnClick
-          rows={searchFilter()}
           {...props}
+          rows={searchFilter()}
         />
       </Box>
     </>
