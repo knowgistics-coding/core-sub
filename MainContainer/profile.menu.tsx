@@ -19,7 +19,6 @@ import { useCore } from "../context";
 import { signOut, updateProfile } from "firebase/auth";
 import { ProfileMenuNotSignListItem } from "./profile.menu.not.sign";
 import { Fragment, useState } from "react";
-import { defaultTheme } from "../default.theme";
 import { KuiActionIcon } from "../KuiActionIcon";
 import { usePopup } from "../react-popup";
 import update from "react-addons-update";
@@ -87,12 +86,12 @@ export const MCProfileMenu = () => {
           horizontal: "right",
         }}
         disableEnforceFocus
-        sx={{
+        sx={(theme) => ({
           "& .MuiPaper-root": {
             width: "100%",
-            maxWidth: defaultTheme.sidebarWidth,
+            maxWidth: theme.sidebarWidth,
           },
-        }}
+        })}
       >
         <List dense>
           <ListItem sx={{ justifyContent: "center", pt: 3 }}>

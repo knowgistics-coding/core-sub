@@ -18,7 +18,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { deepmerge } from "@mui/utils";
-import { defaultDarkTheme, defaultTheme } from "./default.theme";
+import { defaultTheme } from "./default.theme";
 import { useTranslation } from "react-i18next";
 import { initI18Next, loadFromFB } from "./Translate";
 import { FirebaseApp } from "firebase/app";
@@ -38,6 +38,7 @@ import { far } from "@fortawesome/pro-regular-svg-icons";
 import i18next from "i18next";
 import { PopupProvider, PopupTranslate } from "./react-popup";
 import "./style.css";
+import { watchDarkmode } from "./watch.darkmode";
 
 library.add(fad as IconPack, far as IconPack);
 
@@ -51,6 +52,7 @@ export type TFunction = (
 ) => string;
 export type SystemMode = "default" | "dark" | "light";
 export type SystemState = {
+  darkmode: boolean;
   mode: SystemMode;
 };
 export interface userTypes {
@@ -111,6 +113,7 @@ const CoreContext = createContext<CoreContextTypes>({
   open: {},
   setOpen: () => {},
   systemState: {
+    darkmode: false,
     mode: "default",
   },
   setSystemState: () => {},
@@ -126,9 +129,8 @@ export const CoreProvider = React.memo(
       claims: null,
     });
     const [open, setOpen] = useState<Record<string, boolean>>({});
-    const [systemState, setSystemState] = useState<{
-      mode: SystemMode;
-    }>({
+    const [systemState, setSystemState] = useState<SystemState>({
+      darkmode: false,
       mode: "default",
     });
 
@@ -144,18 +146,13 @@ export const CoreProvider = React.memo(
     }
 
     const getTheme = useCallback((): Theme => {
-      let mode = "light";
-      if (systemState.mode === "default") {
-        const elem = window.matchMedia("(prefers-color-scheme: dark)");
-        mode = elem.matches ? "dark" : "light";
-      } else {
-        mode = systemState.mode;
-      }
-      if (mode === "dark") {
-        return createTheme(deepmerge(defaultDarkTheme, props.theme));
-      } else {
-        return createTheme(deepmerge(defaultTheme, props.theme));
-      }
+      const mode: "dark" | "light" =
+        systemState.mode === "default"
+          ? systemState.darkmode
+            ? "dark"
+            : "light"
+          : (systemState.mode as "dark" | "light");
+      return createTheme(deepmerge(defaultTheme(mode === "dark"), props.theme));
     }, [systemState, props.theme]);
     const isMobile = useMediaQuery(getTheme().breakpoints.down("sm"));
 
@@ -225,6 +222,18 @@ export const CoreProvider = React.memo(
       if (mode) {
         setSystemState((s) => ({ ...s, mode: mode as SystemMode }));
       }
+    }, []);
+
+    useEffect(() => {
+      if (localStorage.getItem("mode")) {
+        setSystemState((s) => ({
+          ...s,
+          mode: localStorage.getItem("mode") as SystemMode,
+        }));
+      }
+      return watchDarkmode((darkmode) => {
+        setSystemState((s) => ({ ...s, darkmode }));
+      });
     }, []);
 
     const trans: PopupTranslate = {

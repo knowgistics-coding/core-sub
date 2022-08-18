@@ -1,6 +1,5 @@
 import { darken, ThemeOptions } from "@mui/material";
 import { grey } from "@mui/material/colors";
-import { deepmerge } from "@mui/utils";
 
 declare module "@mui/material/styles" {
   /**
@@ -71,7 +70,7 @@ declare module "@mui/material/Container" {
   }
 }
 
-export const defaultTheme: ThemeOptions = {
+export const defaultTheme = (darkmode: boolean = false): ThemeOptions => ({
   breakpoints: {
     values: {
       xs: 0,
@@ -110,17 +109,16 @@ export const defaultTheme: ThemeOptions = {
       "--fa-primary-color": "#3C77AE",
       "--fa-secondary-color": "#EEA320",
     },
-    text: {
-      primary: "#1d1d1f",
-      secondary: "#86868b",
-      // primary: '#666'
-    },
-    background: {
-      default: "#F6F6F6",
-    },
+    text: darkmode
+      ? { primary: "#FFF", secondary: "#FFF6" }
+      : { primary: "#1d1d1f", secondary: "#86868b" },
+    background: darkmode
+      ? { default: "#222", paper: "#000" }
+      : { default: "#F6F6F6" },
     appbar: {
       color: `#1d1d1f`,
     },
+    mode: darkmode ? "dark" : "light",
   },
   typography: {
     body1: {
@@ -207,10 +205,10 @@ export const defaultTheme: ThemeOptions = {
       styleOverrides: {
         root: {
           "& .MuiBackdrop-root": {
-            WebkitBackdropFilter: 'blur(4px)',
-          }
-        }
-      }
+            WebkitBackdropFilter: "blur(4px)",
+          },
+        },
+      },
     },
     MuiIconButton: {
       styleOverrides: {
@@ -242,16 +240,5 @@ export const defaultTheme: ThemeOptions = {
         },
       },
     },
-  },
-};
-
-export const defaultDarkTheme: ThemeOptions = deepmerge(defaultTheme, {
-  palette: {
-    text: { primary: "#FFF", secondary: "#FFF6" },
-    background: {
-      default: "#222",
-      paper: "#000",
-    },
-    mode: "dark",
   },
 });
