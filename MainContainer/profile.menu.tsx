@@ -24,6 +24,7 @@ import { usePopup } from "../react-popup";
 import update from "react-addons-update";
 import { StockImageTypes, StockPicker } from "../StockPicker";
 import { useNavigate } from "react-router-dom";
+import { UserStatic } from "../Controller";
 
 const ListItemButtonErrorStyled = styled(ListItemButton)(({ theme }) => ({
   color: theme.palette.error.main,
@@ -47,7 +48,7 @@ export const MCProfileMenu = () => {
       defaultValue: user?.data?.displayName || "",
       onConfirm: async (value) => {
         if (typeof value === "string" && user.data) {
-          await updateProfile(user.data, { displayName: value });
+          await UserStatic.changeDisplayName(user.data, value);
           setUser((u) => update(u, { data: { $set: user.data } }));
         }
       },

@@ -1,4 +1,4 @@
-import { User } from "firebase/auth";
+import { updateProfile, User } from "firebase/auth";
 import { validateEmail } from "../func";
 import { MainStatic } from "./main.static";
 
@@ -23,5 +23,15 @@ export class UserStatic extends MainStatic {
         .then((docs) => resolve(docs))
         .catch((err) => reject(new Error(err.message)));
     });
+  }
+  static async changeDisplayName(user: User, displayName: string) {
+    await updateProfile(user, { displayName });
+    const result = await this.get(
+      user,
+      `${this.baseUrl()}/user/name`,
+      "PATCH",
+      JSON.stringify({ displayName })
+    );
+    return result;
   }
 }
