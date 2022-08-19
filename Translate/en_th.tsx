@@ -121,6 +121,7 @@ const locale_en_th: { [key: string]: string[] } = {
   "Invalid Email": ["Invalid E-mail", "รูปแบบอีเมลไม่ถูกต้อง"],
   Invite: ["Invite", "เชิญ"],
   "Invite $Name": ["Invite {{name}}", "เชิญ{{name}}"],
+  "Regardless Real Score": ["Regardless Real Score", "ไม่พิจารณาคะแนนจริง"],
   Language: ["Language", "ภาษา"],
   LastModified: ["Last Modified", "ปรับปรุงล่าสุด"],
   "Last Name": ["Last Name", "สกุล"],
@@ -158,6 +159,7 @@ const locale_en_th: { [key: string]: string[] } = {
   "$Name Selected": ["{{name}} rows selected", "เลือกจำนวน {{name}} แถว"],
   NameTitle: ["Title", "คำนำหน้า"],
   Next: ["Next", "ต่อไป"],
+  No: ["No", "ไม่ใช่"],
   "No Data": ["No Data", "ไม่พบข้อมูล"],
   "No rows": ["No rows", "ไม่มีข้อมูล"],
   "No Title": ["No Title", "ไม่มีชื่อเรื่อง"],
@@ -180,7 +182,7 @@ const locale_en_th: { [key: string]: string[] } = {
   "Question Bank": ["Question Bank", "คลังแบบทดสอบ"],
   "Question Title": ["Question Title", "ชื่อข้อสอบ"],
   "Question Type": ["Question Type", "ประเภทคำถาม"],
-  Quiz: ["Quiz", "แบบทดสอบ"],
+  Quiz: ["Online Quiz", "แบบทดสอบออนไลน์"],
   Ratio: ["Ratio", "สัดส่วน"],
   ReadyToEdit: [`Ready to edit "{{name}}"?`, `เริ่มสร้าง "{{name}}" เลยไหม?`],
   "Rows per page": ["Rows per page", "จำนวนแถวต่อหน้า"],
@@ -276,6 +278,7 @@ const locale_en_th: { [key: string]: string[] } = {
     "You've reached the maximum attempts",
     "ท่านทำถึงจำนวนครั้งสูงสุดที่ทำได้แล้ว",
   ],
+  Yes: ["Yes", "ใช่"],
   You: ["You", "คุณ"],
   /**
    * QuizDisplay
