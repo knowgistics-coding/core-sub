@@ -1,4 +1,13 @@
-import { Box, BoxProps, Snackbar, Stack } from "@mui/material";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  Box,
+  BoxProps,
+  Fab,
+  Slide,
+  SlideProps,
+  Snackbar,
+  Stack,
+} from "@mui/material";
 import { arrayMoveImmutable } from "array-move";
 import React, { useState } from "react";
 import update from "react-addons-update";
@@ -32,6 +41,7 @@ export const PEContent = () => {
   const { isMobile } = useCore();
   const { data, setData, show, maxWidth, breadcrumbs, staticTitle } = usePE();
   const [isStart, setIsStart] = useState<boolean>(false);
+  const [addOpen, setAddOpen] = useState<boolean>(true);
 
   const handleSortEnd = ({ oldIndex, newIndex }: SortEnd) => {
     if (data.contents) {
@@ -46,7 +56,7 @@ export const PEContent = () => {
       {show.includes("feature") && data.feature && (
         <StockDisplay {...data.feature} ratio={isMobile ? 1 : 1 / 4} />
       )}
-      <Box pt={6} pb={16}>
+      <Box pt={6} pb={12}>
         <Container maxWidth={maxWidth || "post"}>
           {staticTitle ? (
             <ContentHeader label={staticTitle} breadcrumbs={breadcrumbs} />
@@ -134,6 +144,29 @@ export const PEContent = () => {
       <Snackbar
         open={true}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        TransitionComponent={Slide}
+        TransitionProps={{ direction: "left" } as SlideProps}
+      >
+        <Box>
+          <Fab size="small" onClick={() => setAddOpen((o) => !o)}>
+            <FontAwesomeIcon
+              icon={["far", "chevron-left"]}
+              rotation={addOpen ? 180 : undefined}
+              style={{ transition: "all 0.5s cubic-bezier(0.25,0,0,1.75) 0s" }}
+            />
+          </Fab>
+        </Box>
+      </Snackbar>
+      <Snackbar
+        open={addOpen}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        TransitionComponent={Slide}
+        TransitionProps={{ direction: "left" } as SlideProps}
+        sx={{
+          "&.MuiSnackbar-root": {
+            bottom: 72,
+          },
+        }}
       >
         <Box>
           <Stack alignItems={"flex-end"} spacing={1}>
