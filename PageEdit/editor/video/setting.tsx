@@ -83,7 +83,7 @@ export const SettingDialog = ({ value, ...props }: SettingDialogProps) => {
         </FormControl>
         <TextField
           fullWidth
-          label="URL"
+          label="URL / Code"
           value={data?.value || ""}
           multiline
           onChange={handleChangeURL}
