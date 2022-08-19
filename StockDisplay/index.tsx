@@ -10,6 +10,7 @@ import { CreditDisplay, CreditDisplayProps } from "./credit";
 import { apiURL } from "../StockPicker/controller";
 import { BlurhashImage } from "./blurhash.image";
 import { useOnScreen } from "./observ";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export * from "./blurhash.image";
 
@@ -35,13 +36,30 @@ const getCredit = (
   return () => controller.abort();
 };
 
-const TransImg = styled("img")({
-  position: "absolute",
-  top: 0,
-  left: 0,
-  width: "100%",
-  height: "100%",
-});
+const TransImg = styled("img")(({ theme }) => theme.mixins.absoluteFluid);
+
+const LinkStyled = styled("a")(({ theme }) => ({
+  display: "block",
+  "& .link-icon": {
+    ...theme.mixins.absoluteFluid,
+    ...theme.mixins.flexMiddle,
+    color: "white",
+    fontSize: theme.typography.h2.fontSize,
+    filter: "opacity(0)",
+    transition: "all 0.25s",
+  },
+  "& img": {
+    transition: "all 0.25s",
+  },
+  "&:hover": {
+    "& .link-icon": {
+      filter: "opacity(1)",
+    },
+    "& img": {
+      filter: "brightness(0.7)",
+    },
+  },
+}));
 
 interface rootProps {
   ratio?: number;
@@ -157,9 +175,12 @@ export const StockDisplay = ({
   const Wrapper = useCallback(
     (p: HTMLAttributes<HTMLDivElement>) => {
       return props.url ? (
-        <a href={props.url} rel="noreferrer" target="_blank">
+        <LinkStyled href={props.url} rel="noreferrer" target="_blank">
           {p.children}
-        </a>
+          <Box className="link-icon">
+            <FontAwesomeIcon icon={["far", "link"]} />
+          </Box>
+        </LinkStyled>
       ) : (
         <Fragment>{p.children}</Fragment>
       );
