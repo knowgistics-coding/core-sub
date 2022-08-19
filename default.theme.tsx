@@ -70,7 +70,29 @@ declare module "@mui/material/Container" {
   }
 }
 
+declare module "@mui/material/styles/createMixins" {
+  interface Mixins {
+    absoluteFluid: CSSProperties;
+    flexMiddle: CSSProperties;
+  }
+}
+
 export const defaultTheme = (darkmode: boolean = false): ThemeOptions => ({
+  mixins: {
+    absoluteFluid: {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+    },
+    flexMiddle: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+  },
   breakpoints: {
     values: {
       xs: 0,
@@ -90,7 +112,7 @@ export const defaultTheme = (darkmode: boolean = false): ThemeOptions => ({
       main: "#fff",
       contrastText: "#333",
     },
-    primary: { main: "#3C77AE" },
+    primary: { main: "#4285f4" /*"#3C77AE"*/ },
     secondary: { main: "#C73D5D" },
     success: { main: "#34A853" /*"#6E953B"*/ },
     warning: { main: "#FBBC05", contrastText: "white" /*"#EEA320"*/ },

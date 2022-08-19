@@ -23,11 +23,7 @@ export const StatusBadge = styled(
     color: online ? theme.palette.success.main : grey[400],
     boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
     "&::after": {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
+      ...theme.mixins.absoluteFluid,
       borderRadius: "50%",
       border: "1px solid currentColor",
       content: '""',

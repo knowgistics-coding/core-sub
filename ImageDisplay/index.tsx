@@ -21,12 +21,8 @@ type ImageStyledProps = React.ImgHTMLAttributes<HTMLImageElement> & {
 };
 const ImageStyled = styled(({ pos, hover, ...props }: ImageStyledProps) => (
   <img {...props} alt="root" />
-))(({ pos, hover }) => ({
-  position: "absolute",
-  top: 0,
-  left: 0,
-  width: "100%",
-  height: "100%",
+))(({ theme, pos, hover }) => ({
+  ...theme.mixins.absoluteFluid,
   objectFit: "cover",
   objectPosition: pos ? `${pos.left} ${pos.top}` : `50% 50%`,
   "&:hover": {

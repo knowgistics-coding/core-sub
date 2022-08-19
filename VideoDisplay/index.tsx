@@ -22,11 +22,7 @@ const Placeholder = styled(({ from, ...props }: { from: string }) => (
     />
   </Box>
 ))(({ theme }) => ({
-  position: "absolute",
-  top: 0,
-  left: 0,
-  width: "100%",
-  height: "100%",
+  ...theme.mixins.absoluteFluid,
   border: "none",
   color: "white",
   display: "flex",

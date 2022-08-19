@@ -2,7 +2,7 @@ import { Box, ListItem, Stack, styled, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import moment from "moment";
 
-export const ChatContent = styled(Box)(() => ({
+export const ChatContent = styled(Box)(({ theme }) => ({
   position: "relative",
   border: `solid 1px ${grey[300]}`,
   borderRight: "none",
@@ -13,11 +13,7 @@ export const ChatContent = styled(Box)(() => ({
     paddingTop: "calc(100%)",
   },
   "&>*": {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
+    ...theme.mixins.absoluteFluid,
     overflow: "auto",
     boxSizing: "border-box",
     display: "flex",
@@ -42,14 +38,14 @@ export const ChatItem = styled(ListItem)(() => ({
 }));
 
 export const ChatItemTextPrimary = (props: {
-  uid: string,
+  uid: string;
   displayName?: string;
   timestamp: number;
 }) => {
   return (
     <Stack direction="row" spacing={1}>
       <Typography variant="inherit" fontWeight="bold">
-        {props.displayName || `@${props.uid.slice(0,8)}...`}
+        {props.displayName || `@${props.uid.slice(0, 8)}...`}
       </Typography>
       <Typography variant="inherit" color="textSecondary">
         {moment(props.timestamp).format("L")}

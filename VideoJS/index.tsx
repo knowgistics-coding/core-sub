@@ -3,17 +3,13 @@ import React, { useState } from "react";
 import videojs, { VideoJsPlayer, VideoJsPlayerOptions } from "video.js";
 import "video.js/dist/video-js.css";
 
-const Root = styled(Box)({
-  position: "absolute",
-  top: 0,
-  left: 0,
-  width: "100%",
-  height: "100%",
+const Root = styled(Box)(({ theme }) => ({
+  ...theme.mixins.absoluteFluid,
   "&>div": {
     width: "100%",
     height: "100%",
   },
-});
+}));
 
 export interface VideoJSProps {
   options: VideoJsPlayerOptions;

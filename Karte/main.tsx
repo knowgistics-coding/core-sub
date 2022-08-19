@@ -24,26 +24,18 @@ const Root = styled(Box)<{ disabled?: boolean }>(({ theme, disabled }) => ({
   overflow: "hidden",
 }));
 
-const Absolute = styled(Box)({
-  position: "absolute",
-  top: 0,
-  left: 0,
-  width: "100%",
-  height: "100%",
+const Absolute = styled(Box)(({ theme }) => ({
+  ...theme.mixins.absoluteFluid,
   display: "flex",
   flexDirection: "column",
-});
+}));
 
 const ContentBox = styled(Box)(({ theme }) => ({
   position: "relative",
   flex: 1,
   "& .inner-content": {
+    ...theme.mixins.absoluteFluid,
     padding: theme.spacing(2),
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
     overflow: "hidden",
   },
 }));
@@ -85,12 +77,8 @@ const LoadingBox = styled((props: BoxProps) => (
     {props.children || <CircularProgress size={64} color="inherit" />}
   </Box>
 ))<{ children?: React.ReactNode }>(({ theme }) => ({
-  position: "absolute",
+  ...theme.mixins.absoluteFluid,
   color: theme.palette.divider,
-  top: 0,
-  left: 0,
-  width: "100%",
-  height: "100%",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
