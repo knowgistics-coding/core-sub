@@ -1,9 +1,11 @@
 import { Box, Typography, LinearProgress } from "@mui/material";
 
 export const Progress = ({
+  loading,
   step,
   length,
 }: {
+  loading?: boolean;
   step: number;
   length?: number;
 }) => {
@@ -27,7 +29,7 @@ export const Progress = ({
       <LinearProgress
         color="warning"
         value={Math.round((step / ((length || 1) - 1)) * 100)}
-        variant="determinate"
+        variant={loading ? "indeterminate" : "determinate"}
         sx={{ height: 8, borderRadius: 4 }}
       />
     </Box>

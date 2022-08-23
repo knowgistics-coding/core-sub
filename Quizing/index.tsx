@@ -16,6 +16,7 @@ import { ReactMaxAttemps } from "./reach.max.attemps";
 import { ScoreDisplay } from "./score";
 import { Breadcrumb } from "../ContentHeader";
 import { QuizDocument } from "../QuizEditor";
+import { LoadingBox } from "./loading.box";
 
 export type QuizingDataType = {
   title?: string;
@@ -23,6 +24,7 @@ export type QuizingDataType = {
 };
 
 export type QuizingProps = {
+  loading?: boolean;
   data?: QuizingDataType;
   breadcrumbs?: Breadcrumb[];
   onConfirm: (answers: Record<string, QuizAnswerTypes>) => Promise<void>;
@@ -87,7 +89,11 @@ export const Quizing = ({ data, ...props }: QuizingProps) => {
 
   return (
     <>
-      <ContentHeader label={data?.title} breadcrumbs={props.breadcrumbs} />
+      <ContentHeader
+        loading={props.loading}
+        label={data?.title}
+        breadcrumbs={props.breadcrumbs}
+      />
       {state.submit ? (
         <>
           <ScoreDisplay questions={data?.questions || []} answers={answers} />
@@ -120,35 +126,43 @@ export const Quizing = ({ data, ...props }: QuizingProps) => {
         </>
       ) : Boolean(props.limit) === false ? (
         <>
-          <Progress step={step} length={data?.questions.length} />
-          {data?.questions.map((question, index, array) => (
-            <div hidden={index !== step} key={question.id}>
-              <QuizDisplay
-                quiz={question}
-                value={answers[question.id]}
-                onChange={(value) =>
-                  setAnswers((s) => ({ ...s, [question.id]: value }))
-                }
-                containerProps={{ sx: { my: 2 } }}
-              />
-              <Box display={"flex"}>
-                {index !== 0 && <PrevButton onClick={handleBack} />}
-                <Box flex={1} />
-                {array.length - 1 !== index && (
-                  <NextButton
-                    onClick={handleNext}
-                    disabled={!Boolean(answers[question.id])}
-                  />
-                )}
-                {array.length - 1 === index && (
-                  <SendButton
-                    disabled={!isComplete()}
-                    onClick={handleConfirm}
-                  />
-                )}
-              </Box>
-            </div>
-          ))}
+          <Progress
+            loading={props.loading}
+            step={step}
+            length={data?.questions.length}
+          />
+          {props.loading ? (
+            <LoadingBox />
+          ) : (
+            data?.questions.map((question, index, array) => (
+              <div hidden={index !== step} key={question.id}>
+                <QuizDisplay
+                  quiz={question}
+                  value={answers[question.id]}
+                  onChange={(value) =>
+                    setAnswers((s) => ({ ...s, [question.id]: value }))
+                  }
+                  containerProps={{ sx: { my: 2 } }}
+                />
+                <Box display={"flex"}>
+                  {index !== 0 && <PrevButton onClick={handleBack} />}
+                  <Box flex={1} />
+                  {array.length - 1 !== index && (
+                    <NextButton
+                      onClick={handleNext}
+                      disabled={!Boolean(answers[question.id])}
+                    />
+                  )}
+                  {array.length - 1 === index && (
+                    <SendButton
+                      disabled={!isComplete()}
+                      onClick={handleConfirm}
+                    />
+                  )}
+                </Box>
+              </div>
+            ))
+          )}
         </>
       ) : (
         <ReactMaxAttemps back={props.back} />

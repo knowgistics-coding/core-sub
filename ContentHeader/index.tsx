@@ -17,6 +17,7 @@ export type Breadcrumb = {
   component?: React.ReactElement;
 };
 export interface ContentHeaderProps {
+  loading?: boolean;
   label?: React.ReactNode;
   breadcrumbs?: Breadcrumb[];
   actions?: React.ReactNode;
@@ -32,51 +33,58 @@ export const ContentHeader = ({
   secondary,
   containerProps,
   breadcrumbsProps,
+  ...props
 }: ContentHeaderProps) => {
   return (
     <Container mb={4} {...containerProps}>
       <Box flex={1}>
-        {breadcrumbs && (
-          <Box mb={1}>
-            <BreadcrumbsStyled separator="|" {...breadcrumbsProps}>
-              {breadcrumbs.map((item, index) => {
-                if (item.component) {
-                  return React.cloneElement(item.component, {
-                    key: index,
-                  });
-                } else if (item.to) {
-                  return (
-                    <MLink component={Link} to={item.to} key={index}>
+        {props.loading ? (
+          <Typography variant="caption">
+            <Skeleton width={"25%"} />
+          </Typography>
+        ) : (
+          breadcrumbs && (
+            <Box mb={1}>
+              <BreadcrumbsStyled separator="|" {...breadcrumbsProps}>
+                {breadcrumbs.map((item, index) => {
+                  if (item.component) {
+                    return React.cloneElement(item.component, {
+                      key: index,
+                    });
+                  } else if (item.to) {
+                    return (
+                      <MLink component={Link} to={item.to} key={index}>
+                        <Typography
+                          variant="caption"
+                          color="inherit"
+                          style={{ fontWeight: "bold" }}
+                          sx={{ color: "info.main" }}
+                        >
+                          {item.label}
+                        </Typography>
+                      </MLink>
+                    );
+                  } else {
+                    return (
                       <Typography
                         variant="caption"
-                        color="inherit"
-                        style={{ fontWeight: "bold" }}
-                        sx={{ color: "info.main" }}
+                        color="textSecondary"
+                        key={index}
                       >
-                        {item.label}
+                        {item.label || <Skeleton width={"10ch"} />}
                       </Typography>
-                    </MLink>
-                  );
-                } else {
-                  return (
-                    <Typography
-                      variant="caption"
-                      color="textSecondary"
-                      key={index}
-                    >
-                      {item.label || <Skeleton width={"10ch"} />}
-                    </Typography>
-                  );
-                }
-              })}
-            </BreadcrumbsStyled>
-          </Box>
+                    );
+                  }
+                })}
+              </BreadcrumbsStyled>
+            </Box>
+          )
         )}
         <Typography
           variant="h3"
           color={label ? "textPrimary" : "textSecondary"}
         >
-          {label || "No title"}
+          {props.loading ? <Skeleton width={"50%"} /> : label || "No title"}
         </Typography>
         {secondary && (
           <Typography
