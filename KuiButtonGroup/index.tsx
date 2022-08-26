@@ -114,10 +114,14 @@ const lists = (
     startIcon: <FontAwesomeIcon icon={["far", "sign-out"]} />,
     color: "error",
   },
+  upload: {
+    children: t("Upload"),
+    startIcon: <FontAwesomeIcon icon={["far", "upload"]} />,
+  },
 });
 
 export type KuiButtonGroupProps = {
-  list: KuiButtonItemProps[];
+  list: (KuiButtonItemProps | null)[];
 };
 export const KuiButtonGroup = (props: KuiButtonGroupProps) => {
   const { t, isMobile } = useCore();
@@ -147,45 +151,51 @@ export const KuiButtonGroup = (props: KuiButtonGroupProps) => {
         transformOrigin={{ vertical: "top", horizontal: "right" }}
         onClose={handleClose}
       >
-        {props.list.map(({ tx, ...item }, index) => {
-          return tx ? (
-            <ListItemButtonStyled
-              key={index}
-              color={item.color || lists(t)[tx].color}
-              onClick={item.onClick}
-            >
-              <ListItemIcon>
-                {item.startIcon ||
-                  item.endIcon ||
-                  lists(t)[tx].startIcon ||
-                  lists(t)[tx].endIcon}
-              </ListItemIcon>
-              <ListItemText primary={item.children || lists(t)[tx].children} />
-            </ListItemButtonStyled>
-          ) : (
-            <ListItemButtonStyled
-              key={index}
-              color={item.color}
-              onClick={item.onClick}
-            >
-              {(item.startIcon || item.endIcon) && (
-                <ListItemIcon>{item.startIcon || item.endIcon}</ListItemIcon>
-              )}
-              <ListItemText primary={item.children} />
-            </ListItemButtonStyled>
-          );
-        })}
+        {props.list
+          .filter((list): list is KuiButtonItemProps => !!list)
+          .map(({ tx, ...item }, index) => {
+            return tx ? (
+              <ListItemButtonStyled
+                key={index}
+                color={item.color || lists(t)[tx].color}
+                onClick={item.onClick}
+              >
+                <ListItemIcon>
+                  {item.startIcon ||
+                    item.endIcon ||
+                    lists(t)[tx].startIcon ||
+                    lists(t)[tx].endIcon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={item.children || lists(t)[tx].children}
+                />
+              </ListItemButtonStyled>
+            ) : (
+              <ListItemButtonStyled
+                key={index}
+                color={item.color}
+                onClick={item.onClick}
+              >
+                {(item.startIcon || item.endIcon) && (
+                  <ListItemIcon>{item.startIcon || item.endIcon}</ListItemIcon>
+                )}
+                <ListItemText primary={item.children} />
+              </ListItemButtonStyled>
+            );
+          })}
       </Menu>
     </>
   ) : (
     <Stack direction="row" spacing={1}>
-      {props.list.map(({ tx, ...item }, index) => {
-        return tx ? (
-          <ButtonStyled {...lists(t)[tx]} {...item} key={index} />
-        ) : (
-          <ButtonStyled {...item} key={index} />
-        );
-      })}
+      {props.list
+        .filter((list): list is KuiButtonItemProps => !!list)
+        .map(({ tx, ...item }, index) => {
+          return tx ? (
+            <ButtonStyled {...lists(t)[tx]} {...item} key={index} />
+          ) : (
+            <ButtonStyled {...item} key={index} />
+          );
+        })}
     </Stack>
   );
 };

@@ -120,7 +120,7 @@ export const Paragraph = ({
 
   return (
     <Box
-      sx={{
+      sx={theme => ({
         "& .rdw-editor-main": {
           padding: "4px 0",
           ...(!Boolean(editorProps?.toolbarHidden)
@@ -140,9 +140,13 @@ export const Paragraph = ({
               }),
         },
         "& .public-DraftStyleDefault-block": {
-          lineHeight: 1.25,
+          ...theme.typography.body2,
+          lineHeight: 1.5,
           margin: props.dense ? "0" : undefined,
           height: "auto",
+          "&>p": {
+            margin: `0 0 1rem`
+          }
         },
         ...(!Boolean(editorProps?.toolbarHidden)
           ? {
@@ -154,7 +158,7 @@ export const Paragraph = ({
               },
             }
           : {}),
-      }}
+      })}
     >
       <Typography
         variant={props.variant || "body2"}

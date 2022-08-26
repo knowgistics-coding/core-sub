@@ -21,7 +21,8 @@ export interface KuiButtonProps extends ButtonProps {
     | "remove"
     | "save"
     | "setting"
-    | "signout";
+    | "signout"
+    | "upload";
   loading?: boolean;
   fontAwesomeIconProps?: Omit<FontAwesomeIconProps, "icon">;
 }
@@ -140,6 +141,13 @@ export const KuiButton = ({
         ),
         color: "error",
         children: children || t("Sign Out"),
+      };
+      break;
+    case "upload":
+      txProps = {
+        startIcon: <FontAwesomeIcon icon={["far", "upload"]} />,
+        variant: "outlined",
+        children: children || t("Upload")
       };
       break;
   }

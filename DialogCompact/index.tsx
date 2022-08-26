@@ -3,6 +3,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  DialogContentProps,
   DialogProps,
   DialogTitle,
   Grow,
@@ -18,7 +19,8 @@ export type DialogCompactProps = {
   actions?: React.ReactNode;
   onClose?: () => void;
   componentProps?: {
-    dialog: Omit<DialogProps, "maxWidth" | "children">;
+    dialog?: Omit<DialogProps, "open" | "maxWidth" | "children">;
+    dialogContent?: Omit<DialogContentProps, "children">;
   };
 };
 
@@ -33,7 +35,9 @@ export const DialogCompact = (props: DialogCompactProps) => {
       {...props.componentProps?.dialog}
     >
       <DialogTitle>{props.title}</DialogTitle>
-      <DialogContent>{props.children}</DialogContent>
+      <DialogContent {...props.componentProps?.dialogContent}>
+        {props.children}
+      </DialogContent>
       <DialogActions>
         {props.actions}
         <KuiButton tx="close" onClick={props.onClose} />

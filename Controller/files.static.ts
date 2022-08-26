@@ -14,6 +14,12 @@ export interface FileDocument {
   user: string;
 }
 
+export type ExcelData = {
+  mimetype: string;
+  data: { name: string; data: ExcelRowData[] }[];
+};
+export type ExcelRowData = (string | number)[]
+
 export class FileCtl extends MainStatic {
   static browse(accept?: string, multiple?: boolean): Promise<File[]> {
     return new Promise((resolve) => {
@@ -61,9 +67,29 @@ export class FileCtl extends MainStatic {
         .catch(reject);
     });
   }
-  static createDownloadFile(text: string):string {
-    var data = new Blob([text], { type: "text/plain" });
+  static createDownloadFile(text: string): string {
+    const data = new Blob([text], { type: "text/plain" });
     const url = window.URL.createObjectURL(data);
     return url;
+  }
+  static async fileReader(file: File): Promise<ExcelData> {
+    return new Promise((resolve, reject) => {
+      var data = new FormData();
+      data.append("file", file);
+
+      fetch(`${this.baseUrl()}/file/reader/`, {
+        method: "POST",
+        body: data,
+      })
+        .then((res) => res.json())
+        .then((res: any) => {
+          if (res.error) {
+            reject(new Error(res.message));
+          } else {
+            resolve(res as ExcelData);
+          }
+        })
+        .catch((err) => reject(err));
+    });
   }
 }

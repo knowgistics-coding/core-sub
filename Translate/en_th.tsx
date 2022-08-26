@@ -173,6 +173,7 @@ const locale_en_th: { [key: string]: string[] } = {
   Password: ["Password", "รหัสผ่าน"],
   photos: ["photos", "รูป"],
   Preview: ["Preview", "ดูตัวอย่าง"],
+  Prev: ["Previous", "ย้อนกลับ"],
   PleaseWait: ["Please wait", "กรุณารอสักครู่"],
   Private: ["Private", "ส่วนตัว"],
   "Profile Image": ["Profile Image", "รูปประจำตัว"],

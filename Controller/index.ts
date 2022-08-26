@@ -1,5 +1,6 @@
 export * from './chat'
 export * from './course'
+export * from './date.ctl'
 export * from './book.realm'
 export * from './files.static'
 export * from './main.static'

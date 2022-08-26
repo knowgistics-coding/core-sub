@@ -20,7 +20,7 @@ export class MainStatic {
     user: User,
     input: RequestInfo,
     method: string,
-    body?: string
+    body?: FormData | string
   ): Promise<T> {
     return new Promise(async (resolve, reject) => {
       fetch(input, {
