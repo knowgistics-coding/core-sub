@@ -1,8 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
-import { useCore } from "components/core-sub/context";
 
 import update from "react-addons-update";
+import { useCore } from "../../../context";
 import { HeaderEditor } from "../../../HeaderEditor";
 import { PageContentTypes, usePE } from "../../context";
 import { PEPanel } from "../../panel";

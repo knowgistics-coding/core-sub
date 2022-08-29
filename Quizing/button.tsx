@@ -1,7 +1,7 @@
 import { IconName } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { styled, Button, ButtonProps } from "@mui/material";
-import { useCore } from "components/core-sub";
+import { useCore } from "../context";
 
 type SimpleButtonProps = ButtonProps & { icon: IconName };
 const SimpleButton = styled(({ icon, ...props }: SimpleButtonProps) => (

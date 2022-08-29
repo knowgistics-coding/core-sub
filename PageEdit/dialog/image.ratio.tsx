@@ -8,11 +8,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useCore } from "components/core-sub/context";
-import { Fenster } from "components/core-sub/Fenster";
-import { KuiButton } from "components/core-sub/KuiButton";
 import { ChangeEvent, useEffect, useState } from "react";
 import update from "react-addons-update";
+import { useCore } from "../../context";
+import { Fenster } from "../../Fenster";
+import { KuiButton } from "../../KuiButton";
 import { usePE } from "../context";
 import { useDialog } from "../dialog.manager";
 

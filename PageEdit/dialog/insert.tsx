@@ -1,4 +1,3 @@
-import { DialogCompact } from "components/core-sub/DialogCompact";
 import { ShowTypes, usePE } from "../context";
 import { Blocks } from "../content/blocks";
 import {
@@ -9,8 +8,9 @@ import {
   ListItemText,
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useCore } from "components/core-sub/context";
 import update from "react-addons-update";
+import { useCore } from "../../context";
+import { DialogCompact } from "../../DialogCompact";
 
 const genKey = (): string => Math.round(Math.random() * 1000000).toString();
 

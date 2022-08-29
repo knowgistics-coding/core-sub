@@ -1,13 +1,13 @@
 import { Grid } from "@mui/material";
-import { useCore } from "components/core-sub/context";
-import { Fenster } from "components/core-sub/Fenster";
-import { StockDisplay } from "components/core-sub/StockDisplay";
 import { usePE } from "../context";
 import { useDialog } from "../dialog.manager";
 import { Slider } from "../../DialogImagePosition/slider";
 import { useState } from "react";
-import { KuiButton } from "components/core-sub/KuiButton";
 import update from "react-addons-update";
+import { useCore } from "../../context";
+import { Fenster } from "../../Fenster";
+import { KuiButton } from "../../KuiButton";
+import { StockDisplay } from "../../StockDisplay";
 
 export interface PosTypes {
   left: string;

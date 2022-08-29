@@ -19,9 +19,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Fragment } from "react";
 import { TitleDebounce } from "../../TitleDebounce";
 import update from "react-addons-update";
-import { usePopup } from "components/core-sub/react-popup";
 import { useAlerts } from "../../Alerts";
 import { useNavigate } from "react-router-dom";
+import { usePopup } from "../../react-popup";
 
 export const PESidebar = () => {
   const { t } = useCore();
@@ -64,7 +64,7 @@ export const PESidebar = () => {
         setState((s) => ({ ...s, loading: false }));
         nav(back!);
       },
-      onAbort: () => nav(back!)
+      onAbort: () => nav(back!),
     });
   };
 

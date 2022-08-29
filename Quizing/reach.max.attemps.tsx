@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Typography, Box, Button } from "@mui/material";
-import { useCore } from "components/core-sub";
 import { useNavigate } from "react-router-dom";
+import { useCore } from "../context";
 
 export const ReactMaxAttemps = (props: { back: string }) => {
   const { t } = useCore();

@@ -1,8 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, ButtonProps } from "@mui/material";
-import { useCore } from "components/core-sub/context";
 import React, { useState } from "react";
 import update from "react-addons-update";
+import { useCore } from "../../context";
 import { usePE } from "../context";
 import { PanelSpacing } from "../panels/spacing";
 

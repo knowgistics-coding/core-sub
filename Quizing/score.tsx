@@ -1,10 +1,8 @@
 import { Typography } from "@mui/material";
-import {
-  quizAnswerCheck,
-  QuizAnswerTypes,
-  QuizDocument,
-  useCore,
-} from "components/core-sub";
+import { useCore } from '../context'
+import { quizAnswerCheck } from "../func";
+import { QuizAnswerTypes } from "../QuizAnswer";
+import { QuizDocument } from "../QuizEditor";
 
 export const ScoreDisplay = ({
   questions,

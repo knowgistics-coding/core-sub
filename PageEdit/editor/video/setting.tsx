@@ -13,7 +13,7 @@ import {
 import { VideoContent } from "../../../VideoDisplay";
 import { useCore } from "../../../context";
 import { useEffect, useState } from "react";
-import { KuiButton } from "components/core-sub/KuiButton";
+import { KuiButton } from "../../../KuiButton";
 
 const fromList: VideoContent["from"][] = [
   "link",

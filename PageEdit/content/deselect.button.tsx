@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, ButtonProps } from "@mui/material";
 
 import { usePE } from "../context";
-import { useCore } from "components/core-sub/context";
+import { useCore } from "../../context";
 
 export const PEContentDeselectButton = React.forwardRef<
   HTMLButtonElement,

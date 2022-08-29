@@ -1,22 +1,18 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, Stack } from "@mui/material";
-import {
-  ContentHeader,
-  QuizAnswer,
-  QuizAnswerTypes,
-  QuizDisplay,
-  useAlerts,
-  useCore,
-} from "components/core-sub";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PrevButton, NextButton, SendButton } from "./button";
 import { Progress } from "./progress";
 import { ReactMaxAttemps } from "./reach.max.attemps";
 import { ScoreDisplay } from "./score";
-import { Breadcrumb } from "../ContentHeader";
+import { Breadcrumb, ContentHeader } from "../ContentHeader";
 import { QuizDocument } from "../QuizEditor";
 import { LoadingBox } from "./loading.box";
+import { QuizAnswer, QuizAnswerTypes } from "../QuizAnswer";
+import { useCore } from "../context";
+import { useAlerts } from "../Alerts";
+import { QuizDisplay } from "../QuizDisplay";
 
 export type QuizingDataType = {
   title?: string;

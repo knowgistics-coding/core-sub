@@ -7,8 +7,8 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useCore } from "components/core-sub/context";
 import { Fragment, useEffect, useState } from "react";
+import { useCore } from "../../context";
 import { KuiButton } from "../../KuiButton";
 
 interface PanelSpacingProps {
