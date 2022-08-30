@@ -24,7 +24,7 @@ const Container = styled("div")(({ theme }) => ({
   borderRadius: theme.spacing(1),
   padding: theme.spacing(4, 2),
   backgroundColor: theme.palette.background.paper,
-  width: "100%",
+  width: "calc(100% - 36px)",
   maxWidth: theme.sidebarWidth * 1.5,
   overflow: "auto",
 }));

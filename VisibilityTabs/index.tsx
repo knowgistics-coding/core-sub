@@ -1,11 +1,11 @@
 import { Box, styled, Tab, Tabs } from "@mui/material";
 import { useCore } from "../context";
 
-const TabsStyled = styled(Tabs)(({theme}) => ({
+const TabsStyled = styled(Tabs)(({ theme }) => ({
   "& .MuiTabs-indicator": {
     backgroundColor: theme.palette.info.main,
   },
-}))
+}));
 const TabStyled = styled(Tab)(({ theme }) => ({
   "&.Mui-selected": {
     color: theme.palette.info.main,
@@ -17,12 +17,14 @@ export type VisibilityTabsProps = {
   value?: VisibilityTabsValue;
   count?: Record<VisibilityTabsValue, number>;
   onChange?: (value: VisibilityTabsValue) => void;
+  items?: { visibility: VisibilityTabsValue }[];
 };
 
 export const VisibilityTabs = ({
   value,
   onChange,
   count,
+  items,
 }: VisibilityTabsProps) => {
   const { t } = useCore();
 
@@ -35,15 +37,27 @@ export const VisibilityTabs = ({
         indicatorColor="primary"
       >
         <TabStyled
-          label={`${t("Public")} (${count?.public || "0"})`}
+          label={`${t("Public")} (${
+            count?.public ||
+            items?.filter((i) => i.visibility === "public").length ||
+            "0"
+          })`}
           value="public"
         />
         <TabStyled
-          label={`${t("Private")} (${count?.private || "0"})`}
+          label={`${t("Private")} (${
+            count?.private ||
+            items?.filter((i) => i.visibility === "private").length ||
+            "0"
+          })`}
           value="private"
         />
         <TabStyled
-          label={`${t("Trash")} (${count?.trash || "0"})`}
+          label={`${t("Trash")} (${
+            count?.trash ||
+            items?.filter((i) => i.visibility === "trash").length ||
+            "0"
+          })`}
           value="trash"
         />
       </TabsStyled>
