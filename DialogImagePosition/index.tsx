@@ -1,17 +1,17 @@
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Grid,
-  Slide,
-  SlideProps,
-} from "@mui/material";
+import { Grid, Slide, SlideProps, styled } from "@mui/material";
 import { Fragment, useEffect, useState } from "react";
 import { KuiButton } from "../KuiButton";
 import { Slider } from "./slider";
 import { StockDisplay, StockDisplayImageTypes } from "../StockDisplay";
 import { useCore } from "../context";
+import { DialogCompact } from "../DialogCompact";
+
+const Item = styled(Grid)({});
+Item.defaultProps = {
+  item: true,
+  xs: 12,
+  sm: 6,
+};
 
 export interface PosTypes {
   left: string;
@@ -49,55 +49,53 @@ export const DialogImagePosition = (props: DialogImagePositionProps) => {
   }, [props.open, props.value]);
 
   return props.image ? (
-    <Dialog
-      fullWidth
+    <DialogCompact
       maxWidth="sm"
       open={props.open}
       onClose={props.onClose}
-      TransitionComponent={Slide}
-      TransitionProps={{ direction: "right" } as SlideProps}
+      componentProps={{
+        dialog: {
+          TransitionComponent: Slide,
+          TransitionProps: { direction: "right" } as SlideProps,
+        },
+      }}
+      title={t("Composition")}
+      actions={<KuiButton tx="confirm" onClick={handleSave} />}
     >
-      <DialogTitle>{t("Composition")}</DialogTitle>
-      <DialogContent>
-        <Grid container spacing={1} alignItems={"center"}>
-          {props.cover ? (
-            <Fragment>
-              <Grid item xs={12} md={6}>
-                <StockDisplay image={props.image} ratio={1 / 4} pos={pos} />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <StockDisplay image={props.image} ratio={1} pos={pos} />
-              </Grid>
-            </Fragment>
-          ) : (
-            <Grid item xs={12}>
-              <StockDisplay
-                image={props.image}
-                ratio={props.ratio || 1}
-                pos={pos}
-              />
-            </Grid>
-          )}
+      <Grid container spacing={2} alignItems={"center"}>
+        {props.cover ? (
+          <Fragment>
+            <Item>
+              <StockDisplay image={props.image} ratio={1 / 4} pos={pos} />
+            </Item>
+            <Item>
+              <StockDisplay image={props.image} ratio={1} pos={pos} />
+            </Item>
+          </Fragment>
+        ) : (
           <Grid item xs={12}>
-            <Slider
-              label={t("Horizontal")}
-              value={parseInt(pos.left)}
-              onChange={handleChange("left")}
+            <StockDisplay
+              image={props.image}
+              ratio={props.ratio || 1}
+              pos={pos}
             />
           </Grid>
-          <Grid item xs={12}>
-            <Slider
-              label={t("Vertical")}
-              value={parseInt(pos.top)}
-              onChange={handleChange("top")}
-            />
-          </Grid>
-        </Grid>
-      </DialogContent>
-      <DialogActions>
-        <KuiButton tx="confirm" onClick={handleSave} />
-        <KuiButton tx="close" onClick={props.onClose} />
-      </DialogActions>
-    </Dialog>
+        )}
+        <Item>
+          <Slider
+            label={t("Horizontal")}
+            value={parseInt(pos.left)}
+            onChange={handleChange("left")}
+          />
+        </Item>
+        <Item>
+          <Slider
+            label={t("Vertical")}
+            value={parseInt(pos.top)}
+            onChange={handleChange("top")}
+          />
+        </Item>
+      </Grid>
+    </DialogCompact>
   ) : null;
 };

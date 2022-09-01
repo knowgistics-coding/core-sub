@@ -11,7 +11,7 @@ import {
 import { ChangeEvent, useEffect, useState } from "react";
 import update from "react-addons-update";
 import { useCore } from "../../context";
-import { Fenster } from "../../Fenster";
+import { DialogCompact } from "../../DialogCompact";
 import { KuiButton } from "../../KuiButton";
 import { usePE } from "../context";
 import { useDialog } from "../dialog.manager";
@@ -77,12 +77,13 @@ export const DialogImageRatio = () => {
   }, [open, content?.image?.ratio]);
 
   return (
-    <Fenster
+    <DialogCompact
       maxWidth="xs"
       open={Boolean(isOpen("image_ratio") && content)}
       title={t("Ratio")}
       onClose={() => setOpen("", "image_ratio", false)}
       actions={<KuiButton tx="confirm" onClick={handleConfirm} />}
+      icon="crop"
     >
       <Stack spacing={2} sx={{ mt: 1 }}>
         <FormControl>
@@ -109,6 +110,6 @@ export const DialogImageRatio = () => {
           onChange={handleChangeInput}
         />
       </Stack>
-    </Fenster>
+    </DialogCompact>
   );
 };

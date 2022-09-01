@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, ButtonProps } from "@mui/material";
+import { IconButton, IconButtonProps, Tooltip } from "@mui/material";
 import React, { useState } from "react";
 import update from "react-addons-update";
 import { useCore } from "../../context";
@@ -8,9 +8,9 @@ import { PanelSpacing } from "../panels/spacing";
 
 export const PEContentSpacingButton = React.forwardRef<
   HTMLButtonElement,
-  ButtonProps
+  IconButtonProps
 >((props, ref) => {
-  const { t } = useCore()
+  const { t } = useCore();
   const [open, setOpen] = useState<boolean>(false);
   const {
     data,
@@ -36,16 +36,19 @@ export const PEContentSpacingButton = React.forwardRef<
   return (
     <React.Fragment>
       {selected.length > 0 && (
-        <Button
-          variant="contained"
-          disableElevation
-          startIcon={<FontAwesomeIcon icon={["far", "arrows-v"]} />}
-          ref={ref}
-          {...props}
-          onClick={handleOpen(true)}
-        >
-          {t("Edit$Name", {name:t("Spacing")})}
-        </Button>
+        <Tooltip title={t("Edit$Name", { name: t("Spacing") })}>
+          <IconButton size="small" ref={ref} onClick={handleOpen(true)}>
+            <FontAwesomeIcon icon={["far", "arrows-v"]} />
+          </IconButton>
+        </Tooltip>
+        // <Button
+        //   variant="contained"
+        //   disableElevation
+        //   startIcon={}
+        //   {...props}
+        // >
+        //   {t("Edit$Name", {name:t("Spacing")})}
+        // </Button>
       )}
       <PanelSpacing
         open={open}

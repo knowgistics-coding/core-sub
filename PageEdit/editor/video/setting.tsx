@@ -5,15 +5,12 @@ import {
   MenuItem,
   TextField,
   SelectChangeEvent,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
 } from "@mui/material";
 import { VideoContent } from "../../../VideoDisplay";
 import { useCore } from "../../../context";
 import { useEffect, useState } from "react";
 import { KuiButton } from "../../../KuiButton";
+import { DialogCompact } from "../../../DialogCompact";
 
 const fromList: VideoContent["from"][] = [
   "link",
@@ -59,53 +56,48 @@ export const SettingDialog = ({ value, ...props }: SettingDialogProps) => {
   }, [props.open, value]);
 
   return (
-    <Dialog
-      fullWidth
+    <DialogCompact
       maxWidth="xs"
       open={props.open}
       onClose={props.onClose}
+      title={t("Setting")}
+      actions={<KuiButton tx="confirm" onClick={handleConfirm} />}
+      icon="cog"
     >
-      <DialogTitle>{t("Setting")}</DialogTitle>
-      <DialogContent>
-        <FormControl fullWidth sx={{ mt: 1, mb: 2 }}>
-          <InputLabel>{t("From")}</InputLabel>
-          <Select
-            label={t("From")}
-            value={data?.from || ""}
-            onChange={handleChangeFrom}
-          >
-            {fromList.map((value) => (
-              <MenuItem value={value} key={value}>
-                {value?.toUpperCase()}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <TextField
-          fullWidth
-          label="URL / Code"
-          value={data?.value || ""}
-          multiline
-          onChange={handleChangeURL}
-          sx={{ mb: 2 }}
-        />
-        <FormControl fullWidth>
-          <InputLabel>{t("Ratio")}</InputLabel>
-          <Select
-            label={t("Ratio")}
-            value={data?.ratio || 9 / 16}
-            onChange={handleChangeRatio}
-          >
-            <MenuItem value={9 / 16}>16:9</MenuItem>
-            <MenuItem value={3 / 4}>4:3</MenuItem>
-            <MenuItem value={1}>1:1</MenuItem>
-          </Select>
-        </FormControl>
-      </DialogContent>
-      <DialogActions>
-        <KuiButton tx="confirm" onClick={handleConfirm} />
-        <KuiButton tx="close" onClick={props.onClose} />
-      </DialogActions>
-    </Dialog>
+      <FormControl fullWidth sx={{ mt: 1, mb: 2 }}>
+        <InputLabel>{t("From")}</InputLabel>
+        <Select
+          label={t("From")}
+          value={data?.from || ""}
+          onChange={handleChangeFrom}
+        >
+          {fromList.map((value) => (
+            <MenuItem value={value} key={value}>
+              {value?.toUpperCase()}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      <TextField
+        fullWidth
+        label="URL / Code"
+        value={data?.value || ""}
+        multiline
+        onChange={handleChangeURL}
+        sx={{ mb: 2 }}
+      />
+      <FormControl fullWidth>
+        <InputLabel>{t("Ratio")}</InputLabel>
+        <Select
+          label={t("Ratio")}
+          value={data?.ratio || 9 / 16}
+          onChange={handleChangeRatio}
+        >
+          <MenuItem value={9 / 16}>16:9</MenuItem>
+          <MenuItem value={3 / 4}>4:3</MenuItem>
+          <MenuItem value={1}>1:1</MenuItem>
+        </Select>
+      </FormControl>
+    </DialogCompact>
   );
 };

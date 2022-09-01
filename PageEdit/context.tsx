@@ -1,4 +1,4 @@
-import { DataGridEditorData } from "@caminkunick/data-grid-editor";
+import { DataGridEditorData } from "../DataGridEditor";
 import { ContainerProps } from "@mui/material";
 import { Timestamp } from "firebase/firestore";
 import React, { createContext, ReactNode, useContext } from "react";

@@ -12,6 +12,7 @@ import { useCore } from "../context";
 import { MCRestrict } from "./restrict";
 import { ProfileMenuNotSign } from "./profile.menu.not.sign";
 import "./style.css";
+import { MCSignInBox } from "./signin.box";
 
 export * from "./ctx";
 export const MainContainer = (props: MainContainerProps) => {
@@ -69,6 +70,7 @@ export const MainContainer = (props: MainContainerProps) => {
         <MCProfileMenu />
         <MCSetting />
       </ProfileMenuNotSign>
+      <MCSignInBox />
     </MCContext.Provider>
   );
 };

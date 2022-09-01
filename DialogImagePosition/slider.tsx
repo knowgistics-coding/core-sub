@@ -12,7 +12,7 @@ export const Slider = ({ label, value, onChange }: SliderProps) => {
     onChange(Array.isArray(n) ? n[0] : n);
   return (
     <Fragment>
-      <Typography variant="caption" color="textSecondary">
+      <Typography variant="body2" color="textSecondary">
         {label}
       </Typography>
       <Box display="flex">

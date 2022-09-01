@@ -6,6 +6,7 @@ import {
   Slide,
   SlideProps,
   Snackbar,
+  SnackbarContent,
   Stack,
 } from "@mui/material";
 import { arrayMoveImmutable } from "array-move";
@@ -39,7 +40,15 @@ const SortableElement = SE<BoxProps>(Box);
 
 export const PEContent = () => {
   const { isMobile } = useCore();
-  const { data, setData, show, maxWidth, breadcrumbs, staticTitle } = usePE();
+  const {
+    data,
+    setData,
+    state: { selected },
+    show,
+    maxWidth,
+    breadcrumbs,
+    staticTitle,
+  } = usePE();
   const [isStart, setIsStart] = useState<boolean>(false);
   const [addOpen, setAddOpen] = useState<boolean>(true);
 
@@ -130,16 +139,20 @@ export const PEContent = () => {
         </SortableContainer>
       </Box>
       <Snackbar
-        open={true}
+        open={Boolean(selected.length)}
         anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
       >
-        <Box>
-          <Stack spacing={1}>
-            <PEContentSpacingButton />
-            <PEContentDeleteButton />
-            <PEContentDeselectButton />
-          </Stack>
-        </Box>
+        <SnackbarContent
+          message={`${selected.length} items selected`}
+          action={
+            <>
+              <PEContentSpacingButton />
+              <PEContentDeleteButton />
+              <PEContentDeselectButton />
+            </>
+          }
+          sx={{ backgroundColor: "info.main", color: "info.contrastText" }}
+        />
       </Snackbar>
       <Snackbar
         open={true}

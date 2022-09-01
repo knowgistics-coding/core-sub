@@ -5,9 +5,9 @@ import { Slider } from "../../DialogImagePosition/slider";
 import { useState } from "react";
 import update from "react-addons-update";
 import { useCore } from "../../context";
-import { Fenster } from "../../Fenster";
 import { KuiButton } from "../../KuiButton";
 import { StockDisplay } from "../../StockDisplay";
+import { DialogCompact } from "../../DialogCompact";
 
 export interface PosTypes {
   left: string;
@@ -44,7 +44,7 @@ export const DialogImagePosition = () => {
   };
 
   return (
-    <Fenster
+    <DialogCompact
       title={t("Composition")}
       open={Boolean(isOpen("image_pos") && content)}
       onClose={() => setOpen("", "image_pos", false)}
@@ -71,6 +71,6 @@ export const DialogImagePosition = () => {
           />
         </Grid>
       </Grid>
-    </Fenster>
+    </DialogCompact>
   );
 };

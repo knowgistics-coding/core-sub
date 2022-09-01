@@ -1,13 +1,13 @@
 import * as React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, ButtonProps } from "@mui/material";
+import { IconButton, IconButtonProps, Tooltip } from "@mui/material";
 
 import { usePE } from "../context";
 import { useCore } from "../../context";
 
 export const PEContentDeselectButton = React.forwardRef<
   HTMLButtonElement,
-  ButtonProps
+  IconButtonProps
 >((props, ref) => {
   const { t } = useCore();
   const {
@@ -20,17 +20,16 @@ export const PEContentDeselectButton = React.forwardRef<
   return (
     <React.Fragment>
       {selected.length > 0 && (
-        <Button
-          variant="contained"
-          disableElevation
-          startIcon={<FontAwesomeIcon icon={["fad", "square"]} />}
-          ref={ref}
-          color="neutral"
-          {...props}
-          onClick={handleDeselect}
-        >
-          {t("Deselect")}
-        </Button>
+        <Tooltip title={t("Deselect")}>
+          <IconButton
+            ref={ref}
+            size="small"
+            {...props}
+            onClick={handleDeselect}
+          >
+            <FontAwesomeIcon icon={["far", "xmark"]} />
+          </IconButton>
+        </Tooltip>
       )}
     </React.Fragment>
   );
