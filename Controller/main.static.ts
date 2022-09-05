@@ -1,5 +1,6 @@
 import { User } from "firebase/auth";
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
+import { VisibilityValue } from "../Visibility";
 
 export type BaseUrlOptions = {
   local?: boolean;
@@ -59,5 +60,13 @@ export class MainStatic {
       return `${this.apiURL}/file/id/${imageId}/${size}`;
     }
     return undefined;
+  }
+
+  static docsFilter<T extends { visibility: VisibilityValue }>(
+    docs: T[],
+    visibility: VisibilityValue
+  ): T[] {
+    const filtered = docs.filter((doc) => doc.visibility === visibility);
+    return filtered;
   }
 }

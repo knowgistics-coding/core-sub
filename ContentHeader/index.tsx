@@ -10,6 +10,7 @@ import { Container } from "./container";
 import { BreadcrumbsStyled } from "./breadcrumbs.styled";
 import React from "react";
 import { Link, To } from "react-router-dom";
+import { useCore } from "../context";
 
 export type Breadcrumb = {
   label: React.ReactNode;
@@ -35,6 +36,8 @@ export const ContentHeader = ({
   breadcrumbsProps,
   ...props
 }: ContentHeaderProps) => {
+  const { t } = useCore();
+  
   return (
     <Container mb={4} {...containerProps}>
       <Box flex={1}>
@@ -84,7 +87,7 @@ export const ContentHeader = ({
           variant="h3"
           color={label ? "textPrimary" : "textSecondary"}
         >
-          {props.loading ? <Skeleton width={"50%"} /> : label || "No title"}
+          {props.loading ? <Skeleton width={"50%"} /> : label || t("No title")}
         </Typography>
         {secondary && (
           <Typography
