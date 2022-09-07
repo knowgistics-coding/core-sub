@@ -51,13 +51,7 @@ export type { DuotoneButtonProps } from "./DuotoneButton";
 export { IconStyled } from "./IconStyled";
 export { ImageDisplay } from "./ImageDisplay";
 export type { ImageDisplayProps, ImageTypes } from "./ImageDisplay";
-<<<<<<< HEAD
 export * from "./ImagePicker";
-=======
-export { ImagePicker } from "./ImagePicker";
-export type { ImagePickerProps } from "./ImagePicker";
-export * from './FabGroup'
->>>>>>> 4907d97101abc549e7399eb326ee5ac39cabb4d4
 export { FAIcon } from "./FAIcon";
 export { FeatureImage, FeatureImageEdit } from "./FeatureImage";
 export type { FeatureImageProps, FeatureImageEditProps } from "./FeatureImage";
