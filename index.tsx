@@ -43,6 +43,7 @@ export { DialogPre } from "./DialogPre";
 export type { DialogPreProps } from "./DialogPre";
 export { DialogPrompt } from "./DialogPrompt";
 export type { DialogPromptProps } from "./DialogPrompt";
+export * from './DialogPopup'
 export { DialogRemove } from "./DialogRemove";
 export type { DialogRemoveProps } from "./DialogRemove";
 export { DuotoneButton } from "./DuotoneButton";
@@ -50,7 +51,13 @@ export type { DuotoneButtonProps } from "./DuotoneButton";
 export { IconStyled } from "./IconStyled";
 export { ImageDisplay } from "./ImageDisplay";
 export type { ImageDisplayProps, ImageTypes } from "./ImageDisplay";
+<<<<<<< HEAD
 export * from "./ImagePicker";
+=======
+export { ImagePicker } from "./ImagePicker";
+export type { ImagePickerProps } from "./ImagePicker";
+export * from './FabGroup'
+>>>>>>> 4907d97101abc549e7399eb326ee5ac39cabb4d4
 export { FAIcon } from "./FAIcon";
 export { FeatureImage, FeatureImageEdit } from "./FeatureImage";
 export type { FeatureImageProps, FeatureImageEditProps } from "./FeatureImage";
@@ -114,6 +121,7 @@ export { useAlerts } from "./Alerts";
 export type { AlertType } from "./Alerts";
 export { VideoDisplay } from "./VideoDisplay";
 export * from "./Visibility";
+export * from "./VisibilityEdit";
 export * from "./VisibilityTabs";
 export type { VideoDisplayProps } from "./VideoDisplay";
 export { WebPageEdit } from "./WebPageEdit";

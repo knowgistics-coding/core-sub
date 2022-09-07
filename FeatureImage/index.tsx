@@ -70,10 +70,12 @@ export const FeatureImageEdit = ({
             {t("FeatureImage")}
           </Typography>
           <Box flex={1} />
-          <ActionIcon
-            icon={mobile ? ["far", "mobile"] : ["far", "tv"]}
-            onClick={handleToggleMobile}
-          />
+          {value && (
+            <ActionIcon
+              icon={mobile ? ["far", "mobile"] : ["far", "tv"]}
+              onClick={handleToggleMobile}
+            />
+          )}
           {value?.image && (
             <FIEMove image={value.image} onChange={handleChangePos} />
           )}
@@ -94,10 +96,10 @@ export const FeatureImageEdit = ({
                 fullWidth
                 variant="outlined"
                 onClick={() => setOpen(true)}
-                startIcon={<FontAwesomeIcon icon={["far", "image"]} />}
+                startIcon={<FontAwesomeIcon icon={["far", "folder-open"]} />}
                 color="info"
               >
-                {t("Change")}
+                {t("Choose")}
               </Button>
               <StockPicker
                 open={open}
