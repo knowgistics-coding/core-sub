@@ -269,6 +269,7 @@ export const locale_en_th: Record<string, [string, string]> = {
   True: ["True", "ถูก"],
   "True / False": ["True / False", "ถูก / ผิด"],
   Type: ["Type", "ประเภท"],
+  TypeHere: ["Type Here", "พิมพ์ทีั่นี่"],
   Undefined: ["Undefined", "ไม่ได้กำหนด"],
   Unsort: ["Unsort", "ยกเลิกการเรียง"],
   Unsubmit: ["Unsubmit", "ยกเลิกการส่ง"],
