@@ -1,4 +1,4 @@
-const locale_en_th: { [key: string]: string[] } = {
+export const locale_en_th: Record<string, [string, string]> = {
   Add: ["Add", "เพิ่ม"],
   Added: ["Added", "เพิ่มแล้ว"],
   AddedName: ["{{name}} Added", 'เพิ่ม "{{name}}" แล้ว'],
@@ -97,6 +97,7 @@ const locale_en_th: { [key: string]: string[] } = {
   Error: ["Error", "เกิดข้อผิดพลาด"],
   False: ["False", "ผิด"],
   FeatureImage: ["Feature Image", "ภาพปก"],
+  FEEDS: ["FEEDS", "ฟีดส์"],
   Female: ["Female", "หญิง"],
   File: ["File", "ไฟล์"],
   Filter: ["Filter", "ตัวกรอง"],
@@ -240,6 +241,7 @@ const locale_en_th: { [key: string]: string[] } = {
   Start: ["Start", "เริ่มต้น"],
   "Start writting or type": ["Start writting or type", "เริ่มการพิมพ์"],
   Status: ["Status", "สถานะ"],
+  STUDY: ["STUDY", "เรียน"],
   Student: ["Student", "ผู้เรียน"],
   "Student List": ["Student List", "รายชื่อผู้เรียน"],
   "Sub Question": ["Sub Question", "คำถามย่อยที่"],
@@ -254,6 +256,7 @@ const locale_en_th: { [key: string]: string[] } = {
   Table: ["Table", "ตาราง"],
   "Target Group": ["Target Group", "กลุ่มเป้าหมาย"],
   Task: ["Task", "งาน"],
+  TEACH: ["TEACH", "สอน"],
   Teacher: ["Teacher", "ผู้สอน"],
   "Teacher List": ["Teacher List", "รายชื่อผู้สอน"],
   Test: ["Test", "ทดสอบ"],
@@ -307,6 +310,13 @@ const locale_en_th: { [key: string]: string[] } = {
     "Sorting the answer options.",
     "ให้เรียงลำดับตัวเลือกให้ถูกต้อง",
   ],
+  POST: ["POST", "โพสต์"],
+  BOOK: ["BOOK", "บุ๊ค"],
+  SLIDESHOW: ["SLIDESHOW", "สไลด์โชว์"],
+  PROFILE: ["PROFILE", "โปรไฟล์"],
+  IMAGES: ["IMAGES", "ภาพ"],
+  FILES: ["FILES", "ไฟล์"],
+  MAPS: ["MAPS", "แผนที่"],
 };
 
 export const getLocale = (lang: string): { [key: string]: string } => {
@@ -314,8 +324,8 @@ export const getLocale = (lang: string): { [key: string]: string } => {
   if (index > -1) {
     return Object.assign(
       {},
-      ...Object.keys(locale_en_th).map((key) => ({
-        [key]: locale_en_th[key][index] || null,
+      ...Object.entries(locale_en_th).map(([key, value]) => ({
+        [key]: value[index],
       }))
     );
   }

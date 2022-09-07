@@ -45,7 +45,7 @@ export const MainContainer = (props: MainContainerProps) => {
   }
 
   if (props.loading) {
-    return <Loading />;
+    return <Loading maxWidth={props.maxWidth} />;
   }
 
   if (props.restrict) {

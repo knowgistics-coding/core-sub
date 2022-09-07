@@ -23,16 +23,14 @@ export const initI18Next = () => {
           translation: getLocale("th"),
         },
       },
-      lng: window.localStorage.defaultLanguage,
+      lng: window.localStorage.defaultLanguage || "th",
       fallbackLng: "th",
     });
 };
 
 interface langTypes {
   name: string;
-  value: {
-    [key: string]: string | { [key: string]: string };
-  };
+  value: Record<string, string | Record<string, string>>;
 }
 
 export const loadFromFB = async (db: Firestore): Promise<langTypes[]> => {
