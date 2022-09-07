@@ -131,7 +131,7 @@ export const Absatz = React.memo((props: AbsatzProps) => {
         onContentStateChange={handleContentStateChange}
         toolbarHidden={view}
         readOnly={props.view}
-        placeholder={props.view ? undefined : t("Start writting or type")}
+        placeholder={props.view ? undefined : t("TypeHere")}
         onBlur={() => setFocus(false)}
         onFocus={() => setFocus(true)}
         stripPastedStyles

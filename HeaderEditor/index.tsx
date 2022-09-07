@@ -80,7 +80,7 @@ export const HeaderEditor = styled(
           editorState={editorState}
           onEditorStateChange={handleEditorStateChange}
           onContentStateChange={handleContentStateChange}
-          placeholder={t("Start writting or type")}
+          placeholder={t("TypeHere")}
           {...editorProps}
         />
       </Typography>

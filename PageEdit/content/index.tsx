@@ -23,6 +23,7 @@ import { useCore } from "../../context";
 import { StockDisplay } from "../../StockDisplay";
 import { usePE } from "../context";
 import { PEEditorCover } from "../editor/cover";
+import { PEEditorDivider } from "../editor/divider";
 import { PEEditorHeading } from "../editor/heading";
 import { PEEditorImage } from "../editor/image";
 import { PEEditorParagraph } from "../editor/paragraph";
@@ -33,6 +34,7 @@ import { PEContentAddButton } from "./add.button";
 import { PEContentDeleteButton } from "./delete.button";
 import { PEContentDeselectButton } from "./deselect.button";
 import { PEContentSaveButton } from "./save.button";
+import { PEContentSelectAll } from "./select.all";
 import { PEContentSpacingButton } from "./spacing.button";
 
 const SortableContainer = SC<BoxProps>(Box);
@@ -128,6 +130,12 @@ export const PEContent = () => {
                     <PEEditorTable content={content} index={index} />
                   </SortableElement>
                 );
+              case "divider":
+                return (
+                  <SortableElement index={index} key={content.key}>
+                    <PEEditorDivider content={content} index={index} />
+                  </SortableElement>
+                );
               default:
                 return process.env.NODE_ENV === "development" ? (
                   <pre key={content.key}>
@@ -146,6 +154,7 @@ export const PEContent = () => {
           message={`${selected.length} items selected`}
           action={
             <>
+              <PEContentSelectAll />
               <PEContentSpacingButton />
               <PEContentDeleteButton />
               <PEContentDeselectButton />

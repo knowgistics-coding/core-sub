@@ -172,7 +172,7 @@ export const Paragraph = ({
           stripPastedStyles
           onEditorStateChange={handleEditorStateChange}
           onContentStateChange={handleContentStateChange}
-          placeholder={props.view ? undefined : t("Start writting or type")}
+          placeholder={props.view ? undefined : t("TypeHere")}
           onBlur={handleBlur}
           {...editorProps}
           key={`mobile-${isMobile}`}

@@ -28,7 +28,7 @@ export const VariantSetting = ({
         className="rdw-dropdown-wrapper"
         aria-label="rdw-dropdown"
         aria-expanded="true"
-        style={{ width: 60 }}
+        style={{ width: 60, color: "#333" }}
       >
         <Typography
           className="rdw-dropdown-selectedtext"
@@ -36,7 +36,7 @@ export const VariantSetting = ({
           onMouseDown={handleOpen}
           variant="caption"
         >
-          {value.toLocaleUpperCase()}
+          {(value || "h6").toLocaleUpperCase()}
           <div
             className={
               Boolean(anchorEl)
@@ -49,7 +49,11 @@ export const VariantSetting = ({
       <Menu open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={handleClose}>
         {(["h1", "h2", "h3", "h4", "h5", "h6"] as variants[]).map(
           (val: variants) => (
-            <MenuItem key={val} onClick={handleChange(val)}>
+            <MenuItem
+              key={val}
+              onClick={handleChange(val)}
+              selected={value === val}
+            >
               {val.toUpperCase()}
             </MenuItem>
           )

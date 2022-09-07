@@ -139,7 +139,7 @@ export const defaultTheme = (darkmode: boolean = false): ThemeOptions => ({
       "--fa-secondary-color": "#EEA320",
     },
     text: darkmode
-      ? { primary: "#FFF", secondary: "#FFF6" }
+      ? { primary: "#FFF", secondary: grey[600] /* "#FFF6" */ }
       : { primary: "#1d1d1f", secondary: "#86868b" },
     background: darkmode
       ? { default: "#222", paper: "#000" }
