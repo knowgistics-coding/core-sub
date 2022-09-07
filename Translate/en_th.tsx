@@ -65,7 +65,7 @@ export const locale_en_th: Record<string, [string, string]> = {
   Deselect: ["Deselect", "ยกเลิกการเลือก"],
   DisplayName: ["Display Name", "ชื่อที่ใช้แสดง"],
   "Display Name": ["Display Name", "ชื่อที่แสดง"],
-  Divider: ["Divider", "เส้นคั่น"],
+  Divider: ["Divider", "เส้นแบ่ง"],
   "Do you want to remove?": ["Do you want to remove ?", "คุณต้องการลบหรือไม่?"],
   DoYouWantToRemove: [
     'Do you want to remove "{{name}}" ?',

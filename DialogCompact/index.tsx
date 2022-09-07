@@ -69,7 +69,7 @@ export const DialogCompact = (props: DialogCompactProps) => {
       <DialogTitleStyled>
         {props.icon && (
           <Typography variant="h4" component="div" sx={{ mb: 2 }}>
-            <FontAwesomeIcon icon={["far", props.icon]} />
+            <FontAwesomeIcon icon={["far", props.icon as IconName]} />
           </Typography>
         )}
         <TitleStyled>{props.title}</TitleStyled>
