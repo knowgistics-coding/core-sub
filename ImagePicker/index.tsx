@@ -3,7 +3,7 @@ import { useCore } from "../context";
 import { DialogCompact } from "../DialogCompact";
 import { ImageItem } from "./image.item";
 
-export const ImagePicker = (props: any) => {
+export const ImagePicker = (_props: any) => {
   const { t } = useCore();
 
   return (

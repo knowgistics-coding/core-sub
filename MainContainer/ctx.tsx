@@ -10,6 +10,7 @@ export interface MainContainerProps {
   restrictProps?: RestrictProps
   dense?: boolean
   sidebar?: React.ReactNode
+  rightbar?: React.ReactNode
   signInOnly?: boolean
   maxWidth?: Breakpoint
   // PROFILE

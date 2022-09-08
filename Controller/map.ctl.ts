@@ -91,7 +91,7 @@ export class Route {
       (snapshot) => {
         const docs = snapshot.docs.map(
           (doc) => ({ ...doc.data(), id: doc.id } as RouteDocument)
-        );
+        ).filter(doc => doc.user===user.uid);
         callback(docs);
       },
       (err) => console.log(err.message)

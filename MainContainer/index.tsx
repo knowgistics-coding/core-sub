@@ -13,6 +13,7 @@ import { MCRestrict } from "./restrict";
 import { ProfileMenuNotSign } from "./profile.menu.not.sign";
 import "./style.css";
 import { MCSignInBox } from "./signin.box";
+import { MCRightbar } from "./rightbar";
 
 export * from "./ctx";
 export const MainContainer = (props: MainContainerProps) => {
@@ -66,6 +67,7 @@ export const MainContainer = (props: MainContainerProps) => {
         <Toolbar />
         <MCContent>{props.children}</MCContent>
         <MCSidebar />
+        <MCRightbar />
         <MCAppbar />
         <MCProfileMenu />
         <MCSetting />

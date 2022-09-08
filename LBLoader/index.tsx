@@ -16,7 +16,7 @@ const Container = styled(Box)(({ theme }) => ({
   padding: theme.spacing(0, 3),
 }));
 
-const Root = styled(Box)(({ theme }) => ({
+const Root = styled(Box)(() => ({
   display: "inline-block",
   position: "relative",
   width: 80,
