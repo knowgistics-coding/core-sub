@@ -56,6 +56,7 @@ export class MainStatic {
     size: "" | "thumbnail" | "medium" | "large" = ""
   ) {
     if (imageId) {
+      console.log(imageId)
       return `${this.apiURL}/file/id/${imageId}/${size}`;
     }
     return undefined;
