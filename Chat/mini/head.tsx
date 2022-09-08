@@ -12,8 +12,8 @@ import { UserLists } from "../../Controller";
 
 export const ChatHead = (props: { users: UserLists; onClose: () => void }) => {
   const { user } = useCore();
-  const usersArray = Object.keys(props.users)
-    .map((key) => ({ ...props.users[key], uid: key }))
+  const usersArray = Object.entries(props.users)
+    .map(([key, value]) => ({ ...value, uid: key }))
     .filter((u) => u.uid !== user.data?.uid);
 
   return (

@@ -104,7 +104,7 @@ export const Paragraph = ({
           toolbarHidden={isReadOnly()}
           readOnly={isReadOnly()}
           onBlur={handleBlur}
-          placeholder='Start writting or type'
+          placeholder='TypeHere'
         />
       </Typography>
     </div>

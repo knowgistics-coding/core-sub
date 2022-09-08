@@ -6,6 +6,7 @@ import {
   Select,
   SelectProps
 } from '@mui/material'
+import { useEffect } from 'react'
 
 import { useCore } from '../context'
 
@@ -18,6 +19,10 @@ export const SelectVisibility = ({
   ...props
 }: SelectVisibilityProps) => {
   const { t } = useCore()
+
+  useEffect(() => {
+    console.error('SelectVisibility is deprecated. please change to VisibilitySelect or VisibilityEdit')
+  }, [])
 
   return (
     <FormControl {...formControlProps}>

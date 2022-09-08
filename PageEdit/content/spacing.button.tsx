@@ -9,7 +9,7 @@ import { PanelSpacing } from "../panels/spacing";
 export const PEContentSpacingButton = React.forwardRef<
   HTMLButtonElement,
   IconButtonProps
->((props, ref) => {
+>((_props, ref) => {
   const { t } = useCore();
   const [open, setOpen] = useState<boolean>(false);
   const {

@@ -3,7 +3,7 @@ import { PEPanel } from "../../panel";
 import { StockImageTypes, StockPicker } from "../../../StockPicker";
 import { PEEditorProps } from "../heading/index";
 import { ImageContainer } from "./img.container";
-import { Box, Button, styled } from "@mui/material";
+import { alpha, Box, Button, styled } from "@mui/material";
 import { useCore } from "../../../context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { StockDisplay, StockDisplayProps } from "../../../StockDisplay";
@@ -15,11 +15,12 @@ import { usePopup } from "../../../react-popup";
 
 const BrowseButton = styled(Button)(({ theme }) => ({
   position: "absolute",
-  background: "white",
+  background: alpha(theme.palette.background.default, 0.75),
   bottom: theme.spacing(1),
   left: theme.spacing(1),
+  WebkitBackdropFilter: 'blur(2px)',
   "&:hover": {
-    background: "white",
+    background: theme.palette.background.default,
   },
 }));
 

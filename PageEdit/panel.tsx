@@ -196,18 +196,12 @@ export const PEPanel = ({
           {actions}
           <ListItemButton
             onClick={() => {
-              setAnchorEl(null)
-              setState((s) => ({ ...s, insert: content.key }))
+              setAnchorEl(null);
+              setState((s) => ({ ...s, insert: content.key }));
             }}
           >
             <ListItemIcon>
-              <span className="fa-layers">
-                <FontAwesomeIcon icon={["far", "table-rows"]} />
-                <FontAwesomeIcon
-                  icon={["far", "plus"]}
-                  transform="shrink-3 up-9 right-10"
-                />
-              </span>
+              <FontAwesomeIcon icon={["far", "diagram-predecessor"]} />
             </ListItemIcon>
             <ListItemText primary={t("Insert Before")} />
           </ListItemButton>

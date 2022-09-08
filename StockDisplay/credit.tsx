@@ -34,7 +34,9 @@ export const CreditDisplay = styled(
       </Box>
     );
   }
-)<CreditDisplayProps>(({ theme, isAbsolute }) => ({
+,{
+  shouldForwardProp: prop => prop !== "isAbsolute"
+})<CreditDisplayProps>(({ theme, isAbsolute }) => ({
   ...theme.typography.caption,
   color: "white",
   padding: theme.spacing(0, 0.5),

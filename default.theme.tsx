@@ -57,6 +57,13 @@ declare module "@mui/material/Button" {
   }
 }
 
+declare module "@mui/material/Fab" {
+  interface FabPropsColorOverrides {
+    neutral: true;
+    light: true;
+  }
+}
+
 declare module "@mui/material/Checkbox" {
   interface CheckboxPropsColorOverrides {
     neutral: true;
@@ -132,7 +139,7 @@ export const defaultTheme = (darkmode: boolean = false): ThemeOptions => ({
       "--fa-secondary-color": "#EEA320",
     },
     text: darkmode
-      ? { primary: "#FFF", secondary: "#FFF6" }
+      ? { primary: "#FFF", secondary: grey[600] /* "#FFF6" */ }
       : { primary: "#1d1d1f", secondary: "#86868b" },
     background: darkmode
       ? { default: "#222", paper: "#000" }
@@ -190,7 +197,7 @@ export const defaultTheme = (darkmode: boolean = false): ThemeOptions => ({
       lineHeight: 1.1,
     },
     caption: {
-      fontFamily: `"Helvetica", sans-serif`,
+      fontFamily: `"Helvetica", "Tahoma", sans-serif`,
       fontSize: 12,
     },
     fontFamily: `"Sarabun", "Roboto", "Helvetica", "Arial", sans-serif`,
@@ -231,6 +238,16 @@ export const defaultTheme = (darkmode: boolean = false): ThemeOptions => ({
           },
         },
       },
+    },
+    MuiFab: {
+      styleOverrides: {
+        root: {
+          "&.MuiFab-neutral": {
+            color: grey[700],
+            backgroundColor: grey[400]
+          }
+        }
+      }
     },
     MuiIconButton: {
       styleOverrides: {

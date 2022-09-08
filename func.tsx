@@ -35,28 +35,27 @@ export const browserDetect = () => {
   return browserName;
 };
 
-type dataObject = { [key: string]: any };
-export function cleanObject<T>(data: T | T[]): T | T[] | null {
-  if (data) {
-    if (Array.isArray(data)) {
-      return data.map((d: any) => cleanObject(d));
-    } else if (typeof data === "object") {
-      const newData: dataObject = data;
-      Object.keys(newData).forEach((key) => {
-        if (typeof newData[key] === "undefined") {
-          delete newData[key];
-        } else {
-          newData[key] = cleanObject(newData[key]);
-        }
-      });
-      return newData as T;
-    } else {
-      return data;
-    }
-  } else {
+export const cleanObject = <T extends unknown>(data: T): T | null => {
+  if (Array.isArray(data)) {
+    return data.map((item) => cleanObject(item)) as T;
+  } else if (data instanceof Date) {
+    return data;
+  } else if (typeof data === "object") {
+    let newData = { ...data } as Record<string, unknown>;
+    Object.entries(data as Object).forEach(([key, value]) => {
+      if (typeof value === "undefined") {
+        delete newData[key];
+      } else {
+        newData[key] = cleanObject(value);
+      }
+    });
+    return newData as T;
+  } else if (typeof data === "undefined") {
     return null;
+  } else {
+    return data;
   }
-}
+};
 
 export function arrayShuffle<T>(oldArray: T[]): T[] {
   const array = oldArray.slice();

@@ -1,3 +1,4 @@
+import { Breakpoint } from '@mui/material'
 import { createContext, useContext } from 'react'
 import { CoreContextTypes } from '../context'
 import { RestrictProps } from './restrict'
@@ -9,7 +10,9 @@ export interface MainContainerProps {
   restrictProps?: RestrictProps
   dense?: boolean
   sidebar?: React.ReactNode
+  rightbar?: React.ReactNode
   signInOnly?: boolean
+  maxWidth?: Breakpoint
   // PROFILE
   profileMenu?: React.ReactNode
   startActions?: React.ReactNode

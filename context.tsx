@@ -45,10 +45,7 @@ library.add(fad as IconPack, far as IconPack);
 
 initI18Next();
 
-export type TFunction = (
-  text: string,
-  dict?: { [key: string]: string }
-) => string;
+export type TFunction = (text: string, dict?: Record<string, string>) => string;
 export type SystemMode = "default" | "dark" | "light";
 export type SystemState = {
   darkmode: boolean;
@@ -233,14 +230,12 @@ export const CoreProvider = React.memo(
 
     return (
       <ThemeProvider theme={store.theme}>
-        <CssBaseline />
-        <Alerts>
-          <PopupProvider trans={trans}>
-            <CoreContext.Provider value={store}>
-              {props.children}
-            </CoreContext.Provider>
-          </PopupProvider>
-        </Alerts>
+        <CoreContext.Provider value={store}>
+          <CssBaseline />
+          <Alerts>
+            <PopupProvider trans={trans}>{props.children}</PopupProvider>
+          </Alerts>
+        </CoreContext.Provider>
       </ThemeProvider>
     );
   }

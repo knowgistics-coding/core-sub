@@ -1,4 +1,4 @@
-const locale_en_th: { [key: string]: string[] } = {
+export const locale_en_th: Record<string, [string, string]> = {
   Add: ["Add", "เพิ่ม"],
   Added: ["Added", "เพิ่มแล้ว"],
   AddedName: ["{{name}} Added", 'เพิ่ม "{{name}}" แล้ว'],
@@ -32,6 +32,7 @@ const locale_en_th: { [key: string]: string[] } = {
   Card: ["Card", "การ์ด"],
   Center: ["Center", "กลาง"],
   Change: ["Change", "เปลี่ยน"],
+  Chapter: ["Chapter", "บท"],
   "Change $Name": ["Change {{name}}", "เปลี่ยน{{name}}"],
   ChangeLanguage: ["Change Language", "เปลี่ยนภาษา"],
   "Change title": ["Change title", "แก้ไขชื่อ"],
@@ -65,7 +66,7 @@ const locale_en_th: { [key: string]: string[] } = {
   Deselect: ["Deselect", "ยกเลิกการเลือก"],
   DisplayName: ["Display Name", "ชื่อที่ใช้แสดง"],
   "Display Name": ["Display Name", "ชื่อที่แสดง"],
-  Divider: ["Divider", "เส้นคั่น"],
+  Divider: ["Divider", "เส้นแบ่ง"],
   "Do you want to remove?": ["Do you want to remove ?", "คุณต้องการลบหรือไม่?"],
   DoYouWantToRemove: [
     'Do you want to remove "{{name}}" ?',
@@ -97,6 +98,7 @@ const locale_en_th: { [key: string]: string[] } = {
   Error: ["Error", "เกิดข้อผิดพลาด"],
   False: ["False", "ผิด"],
   FeatureImage: ["Feature Image", "ภาพปก"],
+  FEEDS: ["FEEDS", "ฟีดส์"],
   Female: ["Female", "หญิง"],
   File: ["File", "ไฟล์"],
   Filter: ["Filter", "ตัวกรอง"],
@@ -218,6 +220,7 @@ const locale_en_th: { [key: string]: string[] } = {
   "Select right answer": ["Select right answer", "เลือกคำตอบที่ถูกต้อง"],
   Section: ["Section", "ตอนเรียน"],
   Select: ["Select", "เลือก"],
+  "Select $Name": ["Select {{name}}", "เลือก{{name}}"],
   Selected: ["Selected", "ที่เลือก"],
   "Select?": ["Select {{name}}", "เลือก{{name}}"],
   "Select Answer": ["Select Answer", "เลือกคำตอบ"],
@@ -240,6 +243,7 @@ const locale_en_th: { [key: string]: string[] } = {
   Start: ["Start", "เริ่มต้น"],
   "Start writting or type": ["Start writting or type", "เริ่มการพิมพ์"],
   Status: ["Status", "สถานะ"],
+  STUDY: ["STUDY", "เรียน"],
   Student: ["Student", "ผู้เรียน"],
   "Student List": ["Student List", "รายชื่อผู้เรียน"],
   "Sub Question": ["Sub Question", "คำถามย่อยที่"],
@@ -254,6 +258,7 @@ const locale_en_th: { [key: string]: string[] } = {
   Table: ["Table", "ตาราง"],
   "Target Group": ["Target Group", "กลุ่มเป้าหมาย"],
   Task: ["Task", "งาน"],
+  TEACH: ["TEACH", "สอน"],
   Teacher: ["Teacher", "ผู้สอน"],
   "Teacher List": ["Teacher List", "รายชื่อผู้สอน"],
   Test: ["Test", "ทดสอบ"],
@@ -266,6 +271,7 @@ const locale_en_th: { [key: string]: string[] } = {
   True: ["True", "ถูก"],
   "True / False": ["True / False", "ถูก / ผิด"],
   Type: ["Type", "ประเภท"],
+  TypeHere: ["Type Here", "พิมพ์ทีั่นี่"],
   Undefined: ["Undefined", "ไม่ได้กำหนด"],
   Unsort: ["Unsort", "ยกเลิกการเรียง"],
   Unsubmit: ["Unsubmit", "ยกเลิกการส่ง"],
@@ -307,6 +313,13 @@ const locale_en_th: { [key: string]: string[] } = {
     "Sorting the answer options.",
     "ให้เรียงลำดับตัวเลือกให้ถูกต้อง",
   ],
+  POST: ["POST", "โพสต์"],
+  BOOK: ["BOOK", "บุ๊ค"],
+  SLIDESHOW: ["SLIDESHOW", "สไลด์โชว์"],
+  PROFILE: ["PROFILE", "โปรไฟล์"],
+  IMAGES: ["IMAGES", "ภาพ"],
+  FILES: ["FILES", "ไฟล์"],
+  MAPS: ["MAPS", "แผนที่"],
 };
 
 export const getLocale = (lang: string): { [key: string]: string } => {
@@ -314,8 +327,8 @@ export const getLocale = (lang: string): { [key: string]: string } => {
   if (index > -1) {
     return Object.assign(
       {},
-      ...Object.keys(locale_en_th).map((key) => ({
-        [key]: locale_en_th[key][index] || null,
+      ...Object.entries(locale_en_th).map(([key, value]) => ({
+        [key]: value[index],
       }))
     );
   }

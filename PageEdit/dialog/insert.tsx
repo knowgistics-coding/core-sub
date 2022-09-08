@@ -44,6 +44,7 @@ export const DialogInsert = () => {
       open={Boolean(insert)}
       title={t("Insert Before")}
       onClose={handleClose}
+      icon="diagram-predecessor"
     >
       <List>
         <Divider />
@@ -56,7 +57,7 @@ export const DialogInsert = () => {
             <ListItemIcon>
               <FontAwesomeIcon icon={block.icon} />
             </ListItemIcon>
-            <ListItemText primary={block.title} />
+            <ListItemText primary={t(block.title)} />
           </ListItemButton>
         ))}
       </List>

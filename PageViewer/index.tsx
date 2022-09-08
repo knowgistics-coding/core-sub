@@ -4,7 +4,7 @@ import { PageViewerContext, PageViewerProps } from "./context";
 import { ContentHeader } from "../ContentHeader";
 import { Container } from "../Container";
 import { StockDisplay } from "../StockDisplay";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Divider, Typography } from "@mui/material";
 import { Paragraph } from "../ParagraphString";
 import { VideoDisplay } from "../VideoDisplay";
 import { DataGrid, GridColumns } from "@mui/x-data-grid";
@@ -18,6 +18,7 @@ import { useCore } from "../context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ShowTypes } from "../PageEdit/context";
 import moment from "moment";
+import { Absatz } from "../Absatz";
 
 const getDate = (date: any) => {
   if (date?.toMillis?.()) {
@@ -116,7 +117,12 @@ export const PageViewer = (props: PageViewerProps) => {
               case "heading":
                 return (
                   <Wrapper key={content.key}>
-                    <Paragraph
+                    <Absatz
+                      value={content?.heading?.value}
+                      view
+                      variant={content.heading?.variant || "h6"}
+                    />
+                    {/* <Paragraph
                       dense
                       view
                       value={content?.heading?.value}
@@ -124,7 +130,7 @@ export const PageViewer = (props: PageViewerProps) => {
                       align={content.heading?.align}
                       variant={content?.heading?.variant || "h6"}
                       color="textPrimary"
-                    />
+                    /> */}
                   </Wrapper>
                 );
               case "paragraph":
@@ -216,6 +222,12 @@ export const PageViewer = (props: PageViewerProps) => {
                       ratio={isMobile ? 1 : 1 / 4}
                     />
                   </Wrapper>
+                );
+              case "divider":
+                return (
+                  <Container maxWidth="post" key={content.key}>
+                    <Divider />
+                  </Container>
                 );
               default:
                 return process.env.NODE_ENV === "development" ? (

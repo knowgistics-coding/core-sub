@@ -10,23 +10,48 @@ import {
   Menu,
   styled,
   Theme,
+  Typography,
 } from "@mui/material";
-import { grey } from "@mui/material/colors";
-import { MouseEvent, useState } from "react";
+import { MouseEvent, SVGProps, useState } from "react";
 import { Link } from "react-router-dom";
 import { useCore } from "../context";
-import { AppIcon } from "./app.icon";
+import { ReactComponent as Icon } from "./logo.svg";
+import clsx from "clsx";
+import Icons from "./icons";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 const MenuContainer = styled(Box)(({ theme }) => ({
   width: theme.sidebarWidth * 1.25,
   maxWidth: "75vw",
   padding: theme.spacing(3, 2),
   ...theme.typography.caption,
-  // textTransform: 'uppercase',
   boxSizing: "border-box",
 }));
 
-const Divider = styled(Box)({ borderBottom: `solid 1px ${grey[300]}` });
+const MenuIcon = styled(IconButton, {
+  shouldForwardProp: (prop) => prop !== "open",
+})<{ open: boolean }>(({ theme }) => ({
+  "--cl-base": theme.palette.divider, //#E0E0E0
+  "--cl-blue": theme.palette.info.main,
+  color: theme.palette.info.main,
+  "&>svg": {
+    width: 30,
+    height: 30,
+    "& .cl-change": {
+      transition: "fill 1s",
+    },
+    "& .cl2": { fill: "var(--cl-base)" },
+    "& .cl8": { fill: "var(--cl-blue)" },
+    "&.icon-open": {
+      "& .cl2": { fill: "var(--cl-blue)" },
+      "& .cl8": { fill: "var(--cl-base)" },
+    },
+  },
+}));
+
+const Divider = styled(Box)(({ theme }) => ({
+  borderBottom: `solid 1px ${theme.palette.divider}`,
+}));
 
 const getTheme = (theme: Theme): any => ({
   color: "inherit",
@@ -55,8 +80,26 @@ const FAStyled = styled((props: FontAwesomeIconProps) => (
   marginBottom: 4,
 }));
 
+type MekIconProps = SVGProps<any> & {
+  icon?: IconProp;
+};
+const MekIcon = styled(({ icon, ...props }: MekIconProps) => {
+  const key = Array.isArray(icon) ? icon[1] : null;
+  if (key && Icons?.[key]) {
+    const Comp = Icons[key];
+    return <Comp {...props} />;
+  } else if(icon) {
+    return <FAStyled icon={icon} />;
+  } else {
+    return <FAStyled icon={["far", "question"]} />;
+  }
+})({
+  height: 48,
+  marginBottom: 4,
+});
+
 export const MCAppMenu = (props: BoxProps) => {
-  const { appMenu } = useCore();
+  const { appMenu, t } = useCore();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
 
   const handleOpen = ({ currentTarget }: MouseEvent<HTMLButtonElement>) => {
@@ -66,9 +109,13 @@ export const MCAppMenu = (props: BoxProps) => {
 
   return appMenu?.length ? (
     <Box {...props}>
-      <IconButton color="primary" onClick={handleOpen}>
-        <AppIcon open={Boolean(anchorEl)} />
-      </IconButton>
+      <MenuIcon open={Boolean(anchorEl)} onClick={handleOpen}>
+        <Icon
+          className={clsx("menu-icon", {
+            "icon-open": Boolean(anchorEl),
+          })}
+        />
+      </MenuIcon>
       <Menu
         open={Boolean(anchorEl)}
         anchorEl={anchorEl}
@@ -84,8 +131,9 @@ export const MCAppMenu = (props: BoxProps) => {
                 return (
                   <Grid item xs={4} key={index}>
                     <ALink href={href}>
-                      <FAStyled icon={icon || ["fad", "question"]} />
-                      {label}
+                      <MekIcon icon={icon} />
+                      {/* <FAStyled icon={icon || ["fad", "question"]} /> */}
+                      <Typography variant="body2">{t(String(label))}</Typography>
                     </ALink>
                   </Grid>
                 );
