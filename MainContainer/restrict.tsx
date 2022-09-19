@@ -1,4 +1,3 @@
-import { IconStyled } from "../IconStyled";
 import { Box, Button, Typography } from "@mui/material";
 import { Container } from "../Container";
 import { useMC } from "./ctx";
@@ -21,7 +20,7 @@ export const MCRestrict = (props: RestrictProps) => {
   return (
     <Container maxWidth="xs">
       <Box py={dense ? 6 : 0} textAlign={"center"}>
-        <IconStyled icon={["fad", props.icon || "ban"]} size="8x" />
+        <FontAwesomeIcon icon={["far", props.icon || "ban"]} size="8x" />
         <Typography mt={2} color="textSecondary">
           {props.message || "You don't have permission to view this page"}
         </Typography>

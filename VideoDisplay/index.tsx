@@ -1,12 +1,13 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, BoxProps, styled } from "@mui/material";
 import { YoutubeIframe } from "./youtube.iframe";
 import { facebook_parser, loom_parser, youtube_parser } from "./parser";
 import { FaceBookIframe } from "./facebook.iframe";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import VideoJS from "../VideoJS";
 import { LoomIframe } from "./loom.iframe";
+
+const VideoJS = lazy(() => import("../VideoJS"));
 
 const icons: { [key: string]: IconProp } = {
   youtube: ["fab", "youtube"],
@@ -18,7 +19,7 @@ const Placeholder = styled(({ from, ...props }: { from: string }) => (
     <FontAwesomeIcon
       size="4x"
       color="inherit"
-      icon={icons[from] || ["fad", "video"]}
+      icon={icons[from] || ["far", "video"]}
     />
   </Box>
 ))(({ theme }) => ({
@@ -77,16 +78,18 @@ export const VideoDisplay = ({
             case "link":
               if (content.value) {
                 return (
-                  <VideoJS
-                    options={{
-                      sources: [
-                        {
-                          src: content.value,
-                          type: "video/mp4",
-                        },
-                      ],
-                    }}
-                  />
+                  <Suspense fallback={<div>Loading...</div>}>
+                    <VideoJS
+                      options={{
+                        sources: [
+                          {
+                            src: content.value,
+                            type: "video/mp4",
+                          },
+                        ],
+                      }}
+                    />
+                  </Suspense>
                 );
               }
               return <Placeholder from={content.from} />;

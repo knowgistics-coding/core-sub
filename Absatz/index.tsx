@@ -2,11 +2,18 @@ import { Box, BoxProps, styled } from "@mui/material";
 import { Variant } from "@mui/material/styles/createTypography";
 import { EditorState, RawDraftContentState } from "draft-js";
 import draftToHtml from "draftjs-to-html";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  startTransition,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Editor, EditorProps } from "react-draft-wysiwyg";
 import { useCore } from "../context";
 import { AbsatzCtl } from "./ctl";
 import { toolbar } from "./toolbar";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 const Root = styled(Box, {
   shouldForwardProp: (prop) => !["view", "variant"].includes(String(prop)),
@@ -29,7 +36,7 @@ const Root = styled(Box, {
     height: "100%",
     overflow: "auto",
   },
-  "& .rdw-editor-main": {
+  "& .rdw-editor-main, .public-DraftEditor-content": {
     ...theme.typography[variant || "body2"],
     border: view ? undefined : `solid 1px ${theme.palette.divider}`,
     borderTop: "none",
@@ -71,7 +78,11 @@ export const Absatz = React.memo((props: AbsatzProps) => {
     editorState: EditorState;
     contentState: RawDraftContentState;
   }>(defaultState());
-  const view:boolean = props.view ? true : props.autoHideToolbar ? !focus : false
+  const view: boolean = props.view
+    ? true
+    : props.autoHideToolbar
+    ? !focus
+    : false;
 
   useEffect(() => {
     if (props.value) {
@@ -99,13 +110,15 @@ export const Absatz = React.memo((props: AbsatzProps) => {
   const handleEditorStateChange = (editorState: EditorState) =>
     setState((s) => ({ ...s, editorState }));
   const handleContentStateChange = (contentState: RawDraftContentState) => {
-    setState((s) => ({ ...s, contentState, html: draftToHtml(contentState) }));
-    AbsatzCtl.paragraphSplit(contentState);
-    props.onChange?.(draftToHtml(contentState));
-    const paragraphs = AbsatzCtl.paragraphSplit(contentState);
-    if(paragraphs.length > 1){
-      props.onEnter?.(paragraphs);
-    }
+    setState((s) => ({ ...s, contentState }));
+    startTransition(() => {
+      setState((s) => ({ ...s, html: draftToHtml(contentState) }));
+      props.onChange?.(draftToHtml(contentState));
+      const paragraphs = AbsatzCtl.paragraphSplit(contentState);
+      if (paragraphs.length > 1) {
+        props.onEnter?.(paragraphs);
+      }
+    });
   };
 
   useEffect(() => {

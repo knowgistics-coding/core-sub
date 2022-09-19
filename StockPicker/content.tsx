@@ -138,7 +138,7 @@ export const SPContent = () => {
           <DropHere isDragActive={isDragActive} {...getRootProps()}>
             <div>
               <input accept="image/*" {...getInputProps()} />
-              <FontAwesomeIcon icon={["fad", "images"]} size="4x" />
+              <FontAwesomeIcon icon={["far", "images"]} size="4x" />
               <Typography variant="caption">{t("DropFileHere")}</Typography>
             </div>
           </DropHere>

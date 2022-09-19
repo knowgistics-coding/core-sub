@@ -5,9 +5,9 @@ import React, { MouseEvent, useState } from "react";
 
 export type alignType = "left" | "center" | "right";
 const icons: { [key in alignType]: IconProp } = {
-  left: ["fad", "align-left"],
-  center: ["fad", "align-center"],
-  right: ["fad", "align-right"],
+  left: ["far", "align-left"],
+  center: ["far", "align-center"],
+  right: ["far", "align-right"],
 };
 
 interface AlignSettingProps {
@@ -40,7 +40,7 @@ export const AlignSetting = ({ value, onAlignChange }: AlignSettingProps) => {
           onMouseDown={handleOpen}
           variant="caption"
         >
-          <FontAwesomeIcon icon={icons[value] || ["fad", "align-left"]} />
+          <FontAwesomeIcon icon={icons[value] || ["far", "align-left"]} />
           <div
             className={
               Boolean(anchorEl)
@@ -52,13 +52,13 @@ export const AlignSetting = ({ value, onAlignChange }: AlignSettingProps) => {
       </div>
       <Menu open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={handleClose}>
         <MenuItem onClick={handleChange("left")}>
-          <FontAwesomeIcon icon={["fad", "align-left"]} />
+          <FontAwesomeIcon icon={["far", "align-left"]} />
         </MenuItem>
         <MenuItem onClick={handleChange("center")}>
-          <FontAwesomeIcon icon={["fad", "align-center"]} />
+          <FontAwesomeIcon icon={["far", "align-center"]} />
         </MenuItem>
         <MenuItem onClick={handleChange("right")}>
-          <FontAwesomeIcon icon={["fad", "align-right"]} />
+          <FontAwesomeIcon icon={["far", "align-right"]} />
         </MenuItem>
       </Menu>
     </React.Fragment>

@@ -45,7 +45,7 @@ export const ProfileMenuNotSignListItem = (
       }}
     >
       <ListItemIcon>
-        <FontAwesomeIcon icon={["fad", "sign-in"]} />
+        <FontAwesomeIcon icon={["far", "sign-in"]} />
       </ListItemIcon>
       <ListItemText primary={t("Sign In")} />
     </ListItemButton>

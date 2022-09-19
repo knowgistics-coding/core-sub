@@ -37,7 +37,7 @@ export const MCSidebar = styled(({ className }: { className?: string }) => {
     >
       <Toolbar>
         <IconButton edge="start" onClick={handleOpen("sidebar", false)}>
-          <FontAwesomeIcon icon={["fad", "bars"]} />
+          <FontAwesomeIcon icon={["far", "bars"]} />
         </IconButton>
       </Toolbar>
       <Divider />

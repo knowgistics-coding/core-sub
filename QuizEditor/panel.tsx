@@ -14,7 +14,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const ExpandIcon = () => (
-  <FontAwesomeIcon size='xs' icon={['fad', 'chevron-down']} />
+  <FontAwesomeIcon size='xs' icon={['far', 'chevron-down']} />
 )
 
 const AccordionSummary = styled(MuiAccordionSummary)({

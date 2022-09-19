@@ -144,6 +144,7 @@ export const toolbar = (
     "textAlign",
     "remove",
     "history",
+    "link",
   ],
   inline: {
     inDropdown,

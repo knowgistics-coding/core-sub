@@ -8,7 +8,7 @@ import { BookRawData } from "../Controller";
 import { FabGroup, FabIcon } from "../FabGroup";
 import { FeatureImageEdit } from "../FeatureImage";
 import { MainContainer, MainContainerProps } from "../MainContainer";
-import { usePopup } from "../react-popup";
+import { usePopup } from "../Popup";
 import { TitleEdit } from "../TitleEdit";
 import { VisibilityEdit } from "../VisibilityEdit";
 import { BookEditContents } from "./contents";

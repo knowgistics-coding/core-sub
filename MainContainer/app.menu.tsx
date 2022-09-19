@@ -132,7 +132,7 @@ export const MCAppMenu = (props: BoxProps) => {
                   <Grid item xs={4} key={index}>
                     <ALink href={href}>
                       <MekIcon icon={icon} />
-                      {/* <FAStyled icon={icon || ["fad", "question"]} /> */}
+                      {/* <FAStyled icon={icon || ["far", "question"]} /> */}
                       <Typography variant="body2">{t(String(label))}</Typography>
                     </ALink>
                   </Grid>
@@ -146,7 +146,7 @@ export const MCAppMenu = (props: BoxProps) => {
                       onClick={handleClose}
                     >
                       <ASpan>
-                        <FAStyled icon={icon || ["fad", "question"]} />
+                        <FAStyled icon={icon || ["far", "question"]} />
                         {label}
                       </ASpan>
                     </Link>

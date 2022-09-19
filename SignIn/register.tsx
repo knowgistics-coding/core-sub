@@ -51,7 +51,7 @@ export const Register = ({
       <div>
         <Button
           size='small'
-          startIcon={<FontAwesomeIcon icon={['fad', 'chevron-left']} />}
+          startIcon={<FontAwesomeIcon icon={['far', 'chevron-left']} />}
           onClick={onChangeTab('emailpass')}
         >
           {t('Sign In')}
@@ -85,7 +85,7 @@ export const Register = ({
             fullWidth
             variant='outlined'
             size='large'
-            startIcon={<FontAwesomeIcon icon={['fad', 'user-plus']} />}
+            startIcon={<FontAwesomeIcon icon={['far', 'user-plus']} />}
             onClick={handleRegister}
           >
             {t('Register')}

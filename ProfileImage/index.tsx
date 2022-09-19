@@ -17,7 +17,7 @@ const Root = styled(Box)({
 
 const CameraIcon = styled((props) => (
   <IconButton size='small' {...props}>
-    <FontAwesomeIcon icon={["fad","camera"]} />
+    <FontAwesomeIcon icon={["far","camera"]} />
   </IconButton>
 ))<IconButtonProps>({
   position: 'absolute',

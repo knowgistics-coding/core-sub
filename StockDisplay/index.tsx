@@ -7,10 +7,10 @@ import React, {
   useState,
 } from "react";
 import { CreditDisplay, CreditDisplayProps } from "./credit";
-import { apiURL } from "../StockPicker/controller";
 import { BlurhashImage } from "./blurhash.image";
 import { useOnScreen } from "./observ";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { apiURL } from "../Controller";
 
 export * from "./blurhash.image";
 

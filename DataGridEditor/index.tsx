@@ -14,7 +14,7 @@ import { DataGridController as DC } from "./data.grid.controller";
 import { Box, Typography } from "@mui/material";
 import { IconButton } from "./icon.button";
 import { useCore } from "../context";
-import { usePopup } from "../react-popup";
+import { usePopup } from "../Popup";
 import { ColAction, ColMenu } from "./col.menu";
 import { ColEdit } from "./col.edit";
 import { RowAction, RowMenu } from "./row.menu";

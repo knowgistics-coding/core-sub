@@ -11,7 +11,7 @@ import { PageDocument, usePE } from "../../context";
 import update from "react-addons-update";
 import { useDialog } from "../../dialog.manager";
 import { MenuListItem } from "../../menu.list.item";
-import { usePopup } from "../../../react-popup";
+import { usePopup } from "../../../Popup";
 
 const BrowseButton = styled(Button)(({ theme }) => ({
   position: "absolute",

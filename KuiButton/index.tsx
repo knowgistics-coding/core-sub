@@ -1,6 +1,4 @@
 import { Button, ButtonProps } from "@mui/material";
-
-import { IconStyled } from "../IconStyled";
 import {
   FontAwesomeIcon,
   FontAwesomeIconProps,
@@ -40,7 +38,7 @@ export const KuiButton = ({
     case "add":
       txProps = {
         variant: "outlined",
-        startIcon: <IconStyled icon={["far", "plus"]} />,
+        startIcon: <FontAwesomeIcon icon={["far", "plus"]} />,
         children: children || t("Create"),
         color: "info",
       };
@@ -48,7 +46,7 @@ export const KuiButton = ({
     case "bin":
       txProps = {
         variant: "outlined",
-        startIcon: <IconStyled icon={["far", "trash"]} />,
+        startIcon: <FontAwesomeIcon icon={["far", "trash"]} />,
         children: children || t("Trash"),
       };
       break;
@@ -56,7 +54,7 @@ export const KuiButton = ({
       txProps = {
         variant: "outlined",
         startIcon: (
-          <IconStyled icon={["far", "folder-open"]} {...fontAwesomeIconProps} />
+          <FontAwesomeIcon icon={["far", "folder-open"]} {...fontAwesomeIconProps} />
         ),
         component: "span",
         children: children || t("Browse"),
@@ -91,7 +89,7 @@ export const KuiButton = ({
       txProps = {
         variant: "outlined",
         children: children || t("Download"),
-        startIcon: <IconStyled icon={["far", "download"]} />,
+        startIcon: <FontAwesomeIcon icon={["far", "download"]} />,
         color: "neutral",
       };
       break;
@@ -158,7 +156,7 @@ export const KuiButton = ({
         {...txProps}
         {...props}
         startIcon={
-          <IconStyled
+          <FontAwesomeIcon
             icon={["far", "spinner"]}
             pulse
             {...fontAwesomeIconProps}

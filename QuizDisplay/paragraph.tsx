@@ -1,17 +1,13 @@
 import { Box, styled } from '@mui/material'
-
-import { Paragraph, ParagraphProps } from '../ParagraphString'
+import { Absatz, AbsatzProps } from '../Absatz'
 
 export const QDParagraph = styled(
-  ({ className, ...props }: { className?: string } & ParagraphProps) => (
+  ({ className, ...props }: { className?: string } & AbsatzProps) => (
     <Box className={className}>
-      <Paragraph
-        editorProps={{ toolbarHidden: true, readOnly: true }}
-        {...props}
-      />
+      <Absatz view {...props} />
     </Box>
   )
-)<{ paragraph?: boolean } & ParagraphProps>(({ theme, paragraph }) => ({
+)<{ paragraph?: boolean } & AbsatzProps>(({ theme, paragraph }) => ({
   '& .public-DraftStyleDefault-block': {
     marginTop: `0px !important`,
     marginBottom: `${paragraph ? theme.spacing(2) : `0px`} !important`

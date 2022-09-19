@@ -5,7 +5,6 @@ import { ContentHeader } from "../ContentHeader";
 import { Container } from "../Container";
 import { StockDisplay } from "../StockDisplay";
 import { Box, Button, Divider, Typography } from "@mui/material";
-import { Paragraph } from "../ParagraphString";
 import { VideoDisplay } from "../VideoDisplay";
 import { DataGrid, GridColumns } from "@mui/x-data-grid";
 import {
@@ -118,30 +117,19 @@ export const PageViewer = (props: PageViewerProps) => {
                 return (
                   <Wrapper key={content.key}>
                     <Absatz
-                      value={content?.heading?.value}
                       view
+                      value={content?.heading?.value}
                       variant={content.heading?.variant || "h6"}
                     />
-                    {/* <Paragraph
-                      dense
-                      view
-                      value={content?.heading?.value}
-                      editorProps={{ toolbarHidden: true, readOnly: true }}
-                      align={content.heading?.align}
-                      variant={content?.heading?.variant || "h6"}
-                      color="textPrimary"
-                    /> */}
                   </Wrapper>
                 );
               case "paragraph":
                 return (
                   <Wrapper key={content.key}>
-                    <Paragraph
-                      dense
+                    <Absatz
                       view
-                      value={content?.paragraph?.value}
-                      editorProps={{ toolbarHidden: true, readOnly: true }}
-                      color="textSecondary"
+                      value={content.paragraph?.value}
+                      sx={{ color: "text.secondary" }}
                     />
                   </Wrapper>
                 );
@@ -203,7 +191,7 @@ export const PageViewer = (props: PageViewerProps) => {
                               variant="outlined"
                               color="light"
                               startIcon={
-                                <FontAwesomeIcon icon={["fad", "link"]} />
+                                <FontAwesomeIcon icon={["far", "link"]} />
                               }
                             >
                               {t("Open")}

@@ -26,7 +26,7 @@ export const MCIconProfile = (props: Omit<BoxProps, "children">) => {
         </IconButton>
       ) : (
         <IconButton edge="end" color="inherit" onClick={handleOpen}>
-          <FontAwesomeIcon icon={["fad", "sign-in"]} />
+          <FontAwesomeIcon icon={["far", "sign-in"]} />
         </IconButton>
       )}
     </Box>

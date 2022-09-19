@@ -9,10 +9,10 @@ import { ScoreDisplay } from "./score";
 import { Breadcrumb, ContentHeader } from "../ContentHeader";
 import { QuizDocument } from "../QuizEditor";
 import { LoadingBox } from "./loading.box";
-import { QuizAnswer, QuizAnswerTypes } from "../QuizAnswer";
+import { QuizAnswer } from "../QuizAnswer";
 import { useCore } from "../context";
 import { useAlerts } from "../Alerts";
-import { QuizDisplay } from "../QuizDisplay";
+import { QuizDisplay, QuizAnswerTypes } from "../QuizDisplay";
 
 export type QuizingDataType = {
   title?: string;

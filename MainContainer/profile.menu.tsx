@@ -20,7 +20,7 @@ import { signOut, updateProfile } from "firebase/auth";
 import { ProfileMenuNotSignListItem } from "./profile.menu.not.sign";
 import { Fragment, useState } from "react";
 import { KuiActionIcon } from "../KuiActionIcon";
-import { usePopup } from "../react-popup";
+import { usePopup } from "../Popup";
 import update from "react-addons-update";
 import { StockImageTypes, StockPicker } from "../StockPicker";
 import { useNavigate } from "react-router-dom";

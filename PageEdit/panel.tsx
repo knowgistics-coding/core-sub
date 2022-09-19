@@ -24,7 +24,7 @@ import { PanelMove } from "./panels/move";
 import { PanelSpacing } from "./panels/spacing";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import update from "react-addons-update";
-import { usePopup } from "../react-popup";
+import { usePopup } from "../Popup";
 
 const Wrapper = ({
   children,
@@ -76,7 +76,7 @@ const ListItemButtonPre = ({
   );
 };
 
-interface PEPanelProps {
+export type PEPanelProps = {
   contentKey: string;
   content: PageContentTypes;
   index: number;
@@ -86,7 +86,7 @@ interface PEPanelProps {
   startActions?: React.ReactNode;
   endActions?: React.ReactNode;
   maxWidth?: Breakpoint;
-}
+};
 export const PEPanel = ({
   contentKey,
   content,
@@ -121,6 +121,7 @@ export const PEPanel = ({
     setOpen("");
   };
   const handleChangeChecked = (_event: any, checked: boolean) => {
+    console.log(checked);
     if (checked) {
       setState((s) => ({ ...s, selected: selected.concat(contentKey) }));
     } else {

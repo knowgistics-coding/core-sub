@@ -13,7 +13,7 @@ export const NotFound = () => {
         <Box textAlign="center" flex={1}>
           <FontAwesomeIcon
             size="6x"
-            icon={["fad", "cactus"]}
+            icon={["far", "cactus"]}
             style={{ color: green[500] }}
           />
           <Box mb={2} />
@@ -34,7 +34,7 @@ export const NotFound = () => {
           <Box mb={6} />
           <Button
             variant="outlined"
-            startIcon={<FontAwesomeIcon icon={["fad", "chevron-left"]} />}
+            startIcon={<FontAwesomeIcon icon={["far", "chevron-left"]} />}
             color="info"
             onClick={() => nav("/")}
           >

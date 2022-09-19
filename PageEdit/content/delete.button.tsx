@@ -4,7 +4,7 @@ import { useCore } from "../../context";
 import React from "react";
 import update from "react-addons-update";
 import { PageContentTypes, usePE } from "../context";
-import { usePopup } from "../../react-popup";
+import { usePopup } from "../../Popup";
 
 export const PEContentDeleteButton = React.forwardRef<
   HTMLButtonElement,

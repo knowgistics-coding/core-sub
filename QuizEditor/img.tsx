@@ -1,6 +1,5 @@
 import { styled } from '@mui/material'
-
-import { apiURL } from '../StockPicker/controller'
+import { apiURL } from '../Controller'
 
 export interface QDImgDisplayProps {
   id: string

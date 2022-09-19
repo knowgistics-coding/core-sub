@@ -31,7 +31,7 @@ export const FileDisplay = ({ content }: FileDisplayProps) => {
       {" "}
       <ListItemBlock divider>
         <ListItemIcon>
-          <FontAwesomeIcon icon={["fad", "file-alt"]} size="2x" />
+          <FontAwesomeIcon icon={["far", "file-alt"]} size="2x" />
         </ListItemIcon>
         <ListItemText
           primary={content.value.name || "Untitled"}
@@ -54,7 +54,7 @@ export const FileDisplay = ({ content }: FileDisplayProps) => {
             href={content.value.original}
             target="_blank"
           >
-            <FontAwesomeIcon size="1x" icon={["fad", "download"]} />
+            <FontAwesomeIcon size="1x" icon={["far", "download"]} />
           </IconButton>
         )}
       </ListItemBlock>

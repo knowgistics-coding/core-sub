@@ -25,7 +25,7 @@ import {
 import { useCore } from "../../context";
 import update from "react-addons-update";
 import { KuiButton } from "../../KuiButton";
-import { usePopup } from "../../react-popup";
+import { usePopup } from "../../Popup";
 
 const AnswerBox = styled(Box)(({ theme }) => ({
   border: `solid 1px ${theme.palette.grey[300]}`,
@@ -37,7 +37,7 @@ const AnswerBox = styled(Box)(({ theme }) => ({
 
 const SortHandle = SortableHandle(() => (
   <IconButton size="small" style={{ cursor: "move" }}>
-    <FontAwesomeIcon icon={["fad", "bars"]} />
+    <FontAwesomeIcon icon={["far", "bars"]} />
   </IconButton>
 ));
 

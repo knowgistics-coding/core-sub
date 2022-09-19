@@ -21,7 +21,7 @@ export const MCLine = () => {
         variant='outlined'
         size='small'
         onClick={handleOpen(true)}
-        startIcon={<FontAwesomeIcon icon={["fad","link"]} />}
+        startIcon={<FontAwesomeIcon icon={["far","link"]} />}
       >
         {line ? 'Change' : 'Link'}
       </Button>
@@ -31,7 +31,7 @@ export const MCLine = () => {
             size='small'
             color='secondary'
             onClick={handleUnlink}
-            startIcon={<FontAwesomeIcon icon={["fad","unlink"]} />}
+            startIcon={<FontAwesomeIcon icon={["far","unlink"]} />}
             style={{marginLeft:'0.5rem'}}
           >
             Unlink
@@ -59,7 +59,7 @@ export const MCLine = () => {
               to={`https://line.me/R/oaMessage/@920ooxaj/?register:${user.data?.uid}`}
               target='_blank'
               size="large"
-              startIcon={<FontAwesomeIcon icon={["fad","link"]} />}
+              startIcon={<FontAwesomeIcon icon={["far","link"]} />}
             >
               Link
             </Button>

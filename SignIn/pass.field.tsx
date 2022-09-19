@@ -48,7 +48,7 @@ export const PassField = (props: PassFieldProps) => {
               size='small'
               disabled={props.disabled}
             >
-              <FontAwesomeIcon icon={['fad', show ? 'eye-slash' : 'eye']} />
+              <FontAwesomeIcon icon={['far', show ? 'eye-slash' : 'eye']} />
             </IconButton>
           </InputAdornment>
         }

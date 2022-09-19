@@ -105,13 +105,13 @@ export const Heading = forwardRef<HTMLInputElement, HeadingProps>(
                 exclusive
               >
                 <ToggleButton value="left">
-                  <FontAwesomeIcon icon={["fad", "align-left"]} />
+                  <FontAwesomeIcon icon={["far", "align-left"]} />
                 </ToggleButton>
                 <ToggleButton value="center">
-                  <FontAwesomeIcon icon={["fad", "align-center"]} />
+                  <FontAwesomeIcon icon={["far", "align-center"]} />
                 </ToggleButton>
                 <ToggleButton value="right">
-                  <FontAwesomeIcon icon={["fad", "align-right"]} />
+                  <FontAwesomeIcon icon={["far", "align-right"]} />
                 </ToggleButton>
               </ToggleButtonGroup>
               <Box flex={1} />

@@ -13,7 +13,7 @@ import { useCore } from "../../context";
 import { SelectType } from "../select.type";
 import update from "react-addons-update";
 import { KuiButton } from "../../KuiButton";
-import { usePopup } from "../../react-popup";
+import { usePopup } from "../../Popup";
 
 const AnswerBox = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),

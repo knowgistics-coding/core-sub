@@ -21,7 +21,7 @@ import { TitleDebounce } from "../../TitleDebounce";
 import update from "react-addons-update";
 import { useAlerts } from "../../Alerts";
 import { useNavigate } from "react-router-dom";
-import { usePopup } from "../../react-popup";
+import { usePopup } from "../../Popup";
 
 export const PESidebar = () => {
   const { t } = useCore();

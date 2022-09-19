@@ -13,7 +13,7 @@ import { useBookEdit } from ".";
 import { useCore } from "../context";
 import { BookContent, BookContentItem } from "../Controller";
 import { KuiActionIcon } from "../KuiActionIcon";
-import { usePopup } from "../react-popup";
+import { usePopup } from "../Popup";
 import { BookEditCtl } from "./ctl";
 
 const ListStyled = styled(List)(({ theme }) => ({

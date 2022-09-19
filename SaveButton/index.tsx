@@ -21,7 +21,7 @@ export const SaveButton = ({ loading, onSave, disabled }: SaveButtonProps) => {
           disableElevation
           startIcon={
             <FontAwesomeIcon
-              icon={["fad", loading ? "spinner" : "save"]}
+              icon={["far", loading ? "spinner" : "save"]}
               pulse={Boolean(loading)}
             />
           }

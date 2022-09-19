@@ -69,7 +69,7 @@ export const QDSorting = () => {
                         return undefined;
                     }
                   })()}
-                  icon={<FontAwesomeIcon icon={["fad", "arrows"]} />}
+                  icon={<FontAwesomeIcon icon={["far", "arrows"]} />}
                 />
               </SortItem>
             );

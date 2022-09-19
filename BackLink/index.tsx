@@ -19,7 +19,7 @@ export const BackLink = React.memo(({ divider, to, target }: BackLinkProps) => {
         <Button
           component={Link}
           to={to}
-          startIcon={<FontAwesomeIcon icon={["fad", "chevron-left"]} />}
+          startIcon={<FontAwesomeIcon icon={["far", "chevron-left"]} />}
           target={target || "_self"}
           color="neutral"
         >

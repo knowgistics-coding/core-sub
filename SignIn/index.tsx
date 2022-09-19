@@ -53,7 +53,7 @@ export const SignIn = ({ onClose }: { onClose?: () => void }) => {
           <ForgetPassword tab={tab} onChangeTab={handleChangeTab} />
           {onClose && (
             <CloseButtom onClick={onClose}>
-              <FontAwesomeIcon icon={["fad", "xmark"]} />
+              <FontAwesomeIcon icon={["far", "xmark"]} />
             </CloseButtom>
           )}
         </Container>

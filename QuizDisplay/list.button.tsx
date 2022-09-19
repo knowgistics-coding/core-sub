@@ -25,7 +25,7 @@ export const ListButton = styled(
           ) : (
             <FontAwesomeIcon
               icon={
-                props.selected ? ['fad', 'check-circle'] : ['far', 'circle']
+                props.selected ? ['far', 'check-circle'] : ['far', 'circle']
               }
             />
           )}

@@ -6,7 +6,7 @@ import {
 } from "@mui/material";
 import { useCore } from "../context";
 import { KuiActionIcon } from "../KuiActionIcon";
-import { usePopup } from "../react-popup";
+import { usePopup } from "../Popup";
 
 export interface TitleEditProps {
   value?: string;

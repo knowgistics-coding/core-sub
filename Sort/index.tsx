@@ -25,7 +25,7 @@ import { LinkProps } from "react-router-dom";
 
 const SortHandle = SortableHandle(() => (
   <IconButton size="small">
-    <FontAwesomeIcon icon={["fad", "bars"]} />
+    <FontAwesomeIcon icon={["far", "bars"]} />
   </IconButton>
 ));
 

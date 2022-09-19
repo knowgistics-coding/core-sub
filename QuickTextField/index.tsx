@@ -71,7 +71,7 @@ export const QuickTextField = ({
           {value || placeholder}
           {showIcon && (
             <FontAwesomeIcon
-              icon={['fad', 'edit']}
+              icon={['far', 'edit']}
               style={{ marginLeft: 16 }}
             />
           )}

@@ -4,7 +4,7 @@ import { useSP } from "./context";
 import { StockImageTypes } from "./controller";
 import { Fragment } from "react";
 import { useCore } from "../context";
-import { usePopup } from "../react-popup";
+import { usePopup } from "../Popup";
 
 export const FromURL = (props: {
   onConfirm: (data: StockImageTypes) => void;

@@ -81,7 +81,7 @@ export const EmailPass = ({
           fullWidth
           variant='outlined'
           size='large'
-          startIcon={<FontAwesomeIcon icon={['fad', 'sign-in']} />}
+          startIcon={<FontAwesomeIcon icon={['far', 'sign-in']} />}
           disabled={!Boolean(data.email && data.pass) || loading}
           onClick={handleEmailPassSignIn}
         >
@@ -95,7 +95,7 @@ export const EmailPass = ({
             onClick={onChangeTab('register')}
           >
             <FontAwesomeIcon
-              icon={['fad', 'user-plus']}
+              icon={['far', 'user-plus']}
               style={{ marginRight: '0.5rem' }}
             />
             {t('Register')}

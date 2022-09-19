@@ -65,7 +65,7 @@ export const SPUpload = () => {
         <Button
           variant='outlined'
           disabled
-          startIcon={<FontAwesomeIcon icon={['fad', 'spinner']} pulse />}
+          startIcon={<FontAwesomeIcon icon={['far', 'spinner']} pulse />}
         >
           Uploading {selfState.progress}%
         </Button>

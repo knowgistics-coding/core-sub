@@ -35,7 +35,7 @@ export const ForgetPassword = ({
           <Button
             onClick={onChangeTab('emailpass')}
             size='small'
-            startIcon={<FontAwesomeIcon icon={['fad', 'chevron-left']} />}
+            startIcon={<FontAwesomeIcon icon={['far', 'chevron-left']} />}
           >
             {t('Sign In')}
           </Button>
@@ -56,7 +56,7 @@ export const ForgetPassword = ({
           size='large'
           fullWidth
           sx={{ mt: 1 }}
-          startIcon={<FontAwesomeIcon icon={['fad', 'paper-plane']} />}
+          startIcon={<FontAwesomeIcon icon={['far', 'paper-plane']} />}
           disabled={!validateEmail(email)}
           onClick={handleSendEmail}
         >
