@@ -4,8 +4,24 @@ import { Avatar } from "@mui/material";
 import React from "react";
 import { far } from "@fortawesome/pro-regular-svg-icons";
 
+type MarkerCatType =
+  | "airport"
+  | "station"
+  | "busstop"
+  | "pier"
+  | "travel"
+  | "eating"
+  | "cafe"
+  | "shopping"
+  | "show"
+  | "activity"
+  | "office"
+  | "sleeping"
+  | "hospital"
+  | "school";
+
 export type MapCatItem = {
-  id: string;
+  id: MarkerCatType;
   label: string;
   color: string;
   icon: IconName;
@@ -159,7 +175,9 @@ export const MapIcon = React.memo((props: MapIconProps) => {
   );
 });
 
-const RouteIconSVG = (color: string):any => `<?xml version="1.0" encoding="utf-8"?>
+const RouteIconSVG = (
+  color: string
+): any => `<?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -250,7 +268,7 @@ ${
 </svg>`;
 };
 
-export const getMarkerIcon = (cat?: string): any | undefined => {
+export const getMarkerIcon = (cat?: MarkerCatType): any | undefined => {
   const IconMap = MarkerCat.find((icon) => icon.id === cat);
   const icon: any = IconMap
     ? {

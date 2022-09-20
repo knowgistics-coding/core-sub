@@ -14,7 +14,7 @@ export * from "./DataGrid";
 export * from "./DialogImagePosition";
 export * from "./DialogCompact";
 export * from "./DialogPre";
-export * from './DialogPopup'
+export * from "./DialogPopup";
 export * from "./DuotoneButton";
 export * from "./ImageDisplay";
 export * from "./FeatureImage";
@@ -31,7 +31,8 @@ export * from "./KuiLink";
 export * from "./KuiList";
 export * from "./KuiListItem";
 export * from "./KuiListItemButton";
-export * from "./Loading"
+export * from "./LeafLet";
+export * from "./Loading";
 export * from "./MainContainer";
 export * from "./Maps";
 export * from "./NotFound";
