@@ -15,7 +15,7 @@ export const PEContentSelectAll = () => {
   };
 
   return (
-    <Tooltip title={t("Select All")}>
+    <Tooltip title={t("Select $Name", {name:t("All")})}>
       <IconButton size="small" onClick={handleSelectAll}>
         <FontAwesomeIcon icon={["far", "check-square"]} />
       </IconButton>

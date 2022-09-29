@@ -64,7 +64,7 @@ export const BookEditContents = () => {
   const handleRemoveFolder = (content: BookContent) => () => {
     Popup.remove({
       title: t("Remove"),
-      text: t("DoYouWantToRemove", { name: content.title }),
+      text: t("Do You Want To Remove $Name", { name: content.title }),
       icon: "trash",
       onConfirm: () => {
         setData((d) => BookEditCtl.remove.item(d, content.key));
@@ -75,7 +75,7 @@ export const BookEditContents = () => {
     (folderIndex: number, itemIndex:number, content: BookContentItem) => () => {
       Popup.remove({
         title: t("Remove"),
-        text: t("DoYouWantToRemove", { name: content.title }),
+        text: t("Do You Want To Remove $Name", { name: content.title }),
         icon: "trash",
         onConfirm: () => {
           setData((d) => BookEditCtl.remove.sub(d, folderIndex, itemIndex));

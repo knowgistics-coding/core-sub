@@ -1,7 +1,8 @@
 import { ShowTypes } from '../context'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
+import { LocaleKey } from '../../Translate/en_th';
 
-export const Blocks: { title: string; icon: IconProp; key: ShowTypes }[] = [
+export const Blocks: { title: LocaleKey; icon: IconProp; key: ShowTypes }[] = [
   { title: 'Heading', icon: ['far', 'heading'], key: 'heading' },
   { title: 'Paragraph', icon: ['far', 'paragraph'], key: 'paragraph' },
   { title: 'Image', icon: ['far', 'image'], key: 'image' },

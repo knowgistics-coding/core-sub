@@ -12,7 +12,7 @@ export const SPRemove = () => {
   const handleRemove = () => {
     Popup.remove({
       title: t("Remove"),
-      text: t("DoYouWantToRemove", { name: t("Selected") }),
+      text: t("Do You Want To Remove $Name", { name: t("Selected") }),
       icon: "trash",
       onConfirm: async () => {
         setState((s) => ({ ...s, loading: true }));

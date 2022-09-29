@@ -25,6 +25,7 @@ import { PanelSpacing } from "./panels/spacing";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import update from "react-addons-update";
 import { usePopup } from "../Popup";
+import { LocaleKey } from "../Translate/en_th";
 
 const Wrapper = ({
   children,
@@ -59,7 +60,7 @@ const ListItemButtonPre = ({
   listItemTextProps,
   ...props
 }: Omit<ListItemButtonProps, "children"> & {
-  label: string;
+  label: LocaleKey;
   icon?: IconProp;
   listItemTextProps?: ListItemTextProps;
 }) => {
@@ -102,6 +103,7 @@ export const PEPanel = ({
   const {
     state: { hideToolbar, selected },
     setState,
+    data,
     setData,
     maxWidth,
   } = usePE();
@@ -120,10 +122,33 @@ export const PEPanel = ({
     );
     setOpen("");
   };
-  const handleChangeChecked = (_event: any, checked: boolean) => {
-    console.log(checked);
+  const handleChangeChecked = (event: any, checked: boolean) => {
+    const isShift = Boolean(event?.nativeEvent?.shiftKey);
     if (checked) {
-      setState((s) => ({ ...s, selected: selected.concat(contentKey) }));
+      if (isShift) {
+        setState((s) => {
+          let selected = [...s.selected];
+          const firstIndex =
+            data.contents?.findIndex(
+              (content) => content.key === selected[selected.length - 1]
+            ) ?? -1;
+          const lastIndex =
+            data.contents?.findIndex((content) => content.key === contentKey) ??
+            -1;
+          if (firstIndex > -1 && lastIndex > -1) {
+            selected = selected.concat(
+              ...(
+                data.contents
+                  ?.slice(firstIndex + 1, lastIndex + 1)
+                  .map((content) => content.key) ?? []
+              ).filter((s, i, a) => a.indexOf(s) === i)
+            );
+          }
+          return { ...s, selected };
+        });
+      } else {
+        setState((s) => ({ ...s, selected: selected.concat(contentKey) }));
+      }
     } else {
       setState((s) => ({
         ...s,
@@ -134,7 +159,7 @@ export const PEPanel = ({
   const handleRemove = () => {
     Popup.remove({
       title: t("Remove"),
-      text: t("DoYouWantToRemove", { name: t("Item") }),
+      text: t("Do You Want To Remove $Name", { name: t("Item") }),
       icon: "trash",
       onConfirm: () => {
         setData((d) => update(d, { contents: { $splice: [[index, 1]] } }));

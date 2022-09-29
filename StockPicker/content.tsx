@@ -126,7 +126,7 @@ export const SPContent = () => {
             uploadqueue: { $set: [] },
           })
         );
-        addAlert({ label: t("Upload Succeess") });
+        addAlert({ label: t("$Name Successful", { name: t("Upload") }) });
       });
     }
   }, [state.uploadqueue, control, addAlert, setState, state.docs, t]);
@@ -139,7 +139,7 @@ export const SPContent = () => {
             <div>
               <input accept="image/*" {...getInputProps()} />
               <FontAwesomeIcon icon={["far", "images"]} size="4x" />
-              <Typography variant="caption">{t("DropFileHere")}</Typography>
+              <Typography variant="caption">{t("Drop File Here")}</Typography>
             </div>
           </DropHere>
         </Grid>
@@ -175,8 +175,8 @@ export const SPContent = () => {
                       },
                     }}
                     sx={{
-                      backgroundColor: '#0006',
-                      pr: 1.5
+                      backgroundColor: "#0006",
+                      pr: 1.5,
                     }}
                   />
                 </CheckBoxContainer>

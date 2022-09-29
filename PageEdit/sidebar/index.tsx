@@ -53,7 +53,7 @@ export const PESidebar = () => {
   const handleBack = () => {
     Popup.confirm({
       title: t("Confirm"),
-      text: t("SaveBeforeLeave"),
+      text: t("Save Before Leave"),
       icon: "question-circle",
       onConfirm: async () => {
         setState((s) => ({ ...s, loading: true }));

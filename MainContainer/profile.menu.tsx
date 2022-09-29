@@ -42,8 +42,8 @@ export const MCProfileMenu = () => {
 
   const handleChangeDisplayName = () => {
     Popup.prompt({
-      title: t("Edit$Name", { name: t("DisplayName") }),
-      text: t("DisplayName"),
+      title: t("Edit $Name", { name: t("Display Name") }),
+      text: t("Display Name"),
       icon: "edit",
       defaultValue: user?.data?.displayName || "",
       onConfirm: async (value) => {
@@ -152,7 +152,7 @@ export const MCProfileMenu = () => {
                 <ListItemIcon>
                   <FontAwesomeIconErrorStyled icon={["far", "sign-in"]} />
                 </ListItemIcon>
-                <ListItemText primary={t("Sign out")} />
+                <ListItemText primary={t("Sign Out")} />
               </ListItemButtonErrorStyled>
             </Fragment>
           ) : (

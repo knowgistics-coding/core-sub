@@ -32,7 +32,7 @@ export const MCRestrict = (props: RestrictProps) => {
             startIcon={<FontAwesomeIcon icon={["far", "chevron-left"]} />}
             onClick={() => nav(props.link!)}
           >
-            {t("Go Back")}
+            {t("Back")}
           </Button>
         )}
       </Box>

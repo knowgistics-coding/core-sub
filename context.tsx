@@ -80,7 +80,9 @@ import {
   faPaperPlane,
   faParagraph,
   faPlus,
+  faPlusCircle,
   faQuestion,
+  faQuestionCircle,
   faRedo,
   faRetweet,
   faSave,
@@ -101,6 +103,7 @@ import i18next from "i18next";
 import { PopupProvider, PopupTranslate } from "./Popup";
 import "./style.css";
 import { watchDarkmode } from "./watch.darkmode";
+import { TFunction } from './Translate/en_th'
 
 library.add(
   faPaperclip,
@@ -130,6 +133,7 @@ library.add(
   faEllipsisV,
   faSave,
   faQuestion,
+  faQuestionCircle,
   faAlignLeft,
   faAlignRight,
   faAlignCenter,
@@ -166,14 +170,16 @@ library.add(
   faCopyright,
   faListUl,
   faCactus,
-  faChevronLeft
+  faChevronLeft,
+  faPlusCircle
 );
+
+export type { TFunction } from './Translate/en_th'
 
 // console.log(`Document: https://phra-in.web.app`);
 
 initI18Next();
 
-export type TFunction = (text: string, dict?: Record<string, string>) => string;
 export type SystemMode = "default" | "dark" | "light";
 export type SystemState = {
   darkmode: boolean;

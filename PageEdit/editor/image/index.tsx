@@ -84,8 +84,8 @@ export const PEEditorImage = ({ index, content }: PEEditorProps) => {
   };
   const handleChangeRemoveURL = () => {
     Popup.remove({
-      title: t("Remove$Name", { name: " URL" }),
-      text: t("DoYouWantToRemove", { name: "URL" }),
+      title: t("Remove $Name", { name: " URL" }),
+      text: t("Do You Want To Remove $Name", { name: "URL" }),
       icon: "link-slash",
       onConfirm: () => {
         setData((d) => updateData(d, index, { url: null }));
@@ -108,7 +108,7 @@ export const PEEditorImage = ({ index, content }: PEEditorProps) => {
           {content.image?.url && (
             <MenuListItem
               icon={"link-slash"}
-              primary={t("Remove$Name", { name: " URL" })}
+              primary={t("Remove $Name", { name: " URL" })}
               onClick={handleChangeRemoveURL}
             />
           )}

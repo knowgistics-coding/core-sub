@@ -36,7 +36,7 @@ export const PEContentSpacingButton = React.forwardRef<
   return (
     <React.Fragment>
       {selected.length > 0 && (
-        <Tooltip title={t("Edit$Name", { name: t("Spacing") })}>
+        <Tooltip title={t("Edit $Name", { name: t("Spacing") })}>
           <IconButton size="small" ref={ref} onClick={handleOpen(true)}>
             <FontAwesomeIcon icon={["far", "arrows-v"]} />
           </IconButton>

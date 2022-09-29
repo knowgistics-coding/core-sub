@@ -32,18 +32,28 @@ export const PopupProvider = ({
   const [state, setState] = React.useState<PopupState>({ open: false });
   const [value, setValue] = React.useState<string>("");
 
-  const Popup: PopupFunc = {
-    alert: (options: PopupAlert) =>
+  const alert = React.useCallback(
+    (options: PopupAlert) =>
       setState({ ...options, type: "alert", open: true }),
-    confirm: (options: Popup) =>
-      setState({ ...options, type: "confirm", open: true }),
-    prompt: ({ defaultValue, ...options }: PopupPrompt) => {
+    []
+  );
+  const confirm = React.useCallback(
+    (options: Popup) => setState({ ...options, type: "confirm", open: true }),
+    []
+  );
+  const prompt = React.useCallback(
+    ({ defaultValue, ...options }: PopupPrompt) => {
       setState({ ...options, type: "prompt", open: true });
       setValue(defaultValue || "");
     },
-    remove: (options: Popup) =>
-      setState({ ...options, type: "remove", open: true }),
-  };
+    []
+  );
+  const remove = React.useCallback(
+    (options: Popup) => setState({ ...options, type: "remove", open: true }),
+    []
+  );
+
+  const Popup: PopupFunc = { alert, confirm, prompt, remove };
 
   const PopupCallback = React.useCallback(
     (type: "alert" | "confirm" | "prompt" | "remove") =>

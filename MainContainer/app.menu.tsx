@@ -19,6 +19,7 @@ import { ReactComponent as Icon } from "./logo.svg";
 import clsx from "clsx";
 import Icons from "./icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { LocaleKey } from "../Translate/en_th";
 
 const MenuContainer = styled(Box)(({ theme }) => ({
   width: theme.sidebarWidth * 1.25,
@@ -133,7 +134,7 @@ export const MCAppMenu = (props: BoxProps) => {
                     <ALink href={href}>
                       <MekIcon icon={icon} />
                       {/* <FAStyled icon={icon || ["far", "question"]} /> */}
-                      <Typography variant="body2">{t(String(label))}</Typography>
+                      <Typography variant="body2">{t(String(label) as LocaleKey)}</Typography>
                     </ALink>
                   </Grid>
                 );

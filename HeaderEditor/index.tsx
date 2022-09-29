@@ -81,6 +81,7 @@ export const HeaderEditor = styled(
           onEditorStateChange={handleEditorStateChange}
           onContentStateChange={handleContentStateChange}
           placeholder={t("TypeHere")}
+          stripPastedStyles
           {...editorProps}
         />
       </Typography>

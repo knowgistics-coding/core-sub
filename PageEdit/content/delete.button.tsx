@@ -21,7 +21,7 @@ export const PEContentDeleteButton = React.forwardRef<
   const handleRemove = () => {
     Popup.remove({
       title: t("Remove"),
-      text: t("DoYouWantToRemove", { name: t("Selected") }),
+      text: t("Do You Want To Remove $Name", { name: t("Selected") }),
       icon: "trash",
       onConfirm: () => {
         setData((d) =>
@@ -43,7 +43,7 @@ export const PEContentDeleteButton = React.forwardRef<
   return (
     <React.Fragment>
       {selected.length > 0 && (
-        <Tooltip title={t("Remove$Name", { name: t("Selected") })}>
+        <Tooltip title={t("Remove $Name", { name: t("Selected") })}>
           <IconButton size="small" ref={ref} {...props} onClick={handleRemove}>
             <FontAwesomeIcon icon={["far", "trash"]} />
           </IconButton>

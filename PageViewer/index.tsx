@@ -18,6 +18,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ShowTypes } from "../PageEdit/context";
 import moment from "moment";
 import { Absatz } from "../Absatz";
+import { DGETable } from "../DataGridEditor";
 
 const getDate = (date: any) => {
   if (date?.toMillis?.()) {
@@ -149,7 +150,11 @@ export const PageViewer = (props: PageViewerProps) => {
                 if (content.table) {
                   return (
                     <Wrapper key={content.key}>
-                      <DataGrid
+                      <DGETable
+                        rows={content.table.rows}
+                        columns={content.table.columns}
+                      />
+                      {/* <DataGrid
                         rows={content.table.rows}
                         columns={
                           content.table.columns.map((column) => ({
@@ -170,7 +175,7 @@ export const PageViewer = (props: PageViewerProps) => {
                             color: "text.secondary",
                           },
                         }}
-                      />
+                      /> */}
                     </Wrapper>
                   );
                 } else {

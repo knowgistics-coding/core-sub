@@ -63,7 +63,7 @@ export const OptionsMatching = () => {
   const handleRemove = (key: number) => () => {
     Popup.remove({
       title: t("Remove"),
-      text: t("DoYouWantToRemove", { name: t("Choice") }),
+      text: t("Do You Want To Remove $Name", { name: t("Choice") }),
       icon: "trash",
       onConfirm: () => {
         if (data.matching?.options) {

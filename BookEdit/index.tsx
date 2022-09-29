@@ -41,7 +41,7 @@ export const BookEdit = (props: BookEditProps) => {
   const handleAddFolder = () => {
     Popup.prompt({
       title: t("Create $Name", { name: t("Chapter") }),
-      text: t("$NameName", { name: t("Chapter") }),
+      text: t("$Name Name", { name: t("Chapter") }),
       icon: "plus-circle",
       onConfirm: (value) => {
         if (value) {

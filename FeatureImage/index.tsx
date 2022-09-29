@@ -67,7 +67,7 @@ export const FeatureImageEdit = ({
       <Box display={"flex"} flexDirection={"column"} flex={1}>
         <Box display={"flex"} alignItems={"center"}>
           <Typography variant="caption" color="textSecondary">
-            {t("FeatureImage")}
+            {t("Feature Image")}
           </Typography>
           <Box flex={1} />
           {value && (

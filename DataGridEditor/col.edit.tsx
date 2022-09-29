@@ -71,7 +71,7 @@ export const ColEdit = (props: ColEditProps) => {
     <DialogCompact
       open={props.open}
       onClose={props.onClose}
-      title={t("Edit$Name", { name: " Column" })}
+      title={t("Edit $Name", { name: " Column" })}
       icon="edit"
       actions={
         <KuiButton
@@ -84,7 +84,7 @@ export const ColEdit = (props: ColEditProps) => {
       <TextField
         fullWidth
         autoFocus
-        label={t("Label")}
+        label={t("Title")}
         value={data.headerName || ""}
         onChange={({ target: { value } }) =>
           setData((d) => ({ ...d, headerName: value }))

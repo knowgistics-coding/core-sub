@@ -18,7 +18,9 @@ import { usePopup } from "../Popup";
 import { ColAction, ColMenu } from "./col.menu";
 import { ColEdit } from "./col.edit";
 import { RowAction, RowMenu } from "./row.menu";
+import { DGETable } from "./table";
 
+export { DGETable } from "./table";
 export * from "./context";
 export const DataGridEditor = (props: DataGridEditorProps) => {
   const { t } = useCore();
@@ -169,65 +171,74 @@ export const DataGridEditor = (props: DataGridEditorProps) => {
 
   return (
     <DataGridEditorContext.Provider value={{ ...props, data, setData }}>
-      <DataGrid
-        rows={data.rows}
-        columns={(props.view !== true
-          ? ([
-              {
-                field: "action",
-                headerName: " ",
-                width: 36,
-                renderCell: ({ row }) => (
-                  <IconButton
-                    icon="ellipsis-v"
-                    onClick={handleOpenRowMenu(row.id)}
-                  />
-                ),
-                align: "center",
-              },
-            ] as GridEnrichedColDef[])
-          : []
-        ).concat(
-          data.columns.map(
-            (column): GridEnrichedColDef => ({
-              ...column,
-              editable: props.view !== true ? true : false,
-              sortable: false,
-              renderHeader: (col) => {
-                return (
-                  <Box
-                    sx={{
-                      width: "100%",
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Typography variant="inherit" noWrap sx={{ flex: 1 }}>
-                      {column.headerName}
-                    </Typography>
-                    {props.view !== true && (
-                      <IconButton
-                        icon="ellipsis-v"
-                        onClick={handleOpenColMenu(col.field)}
-                      />
-                    )}
-                  </Box>
-                );
-              },
-            })
-          )
-        )}
-        autoHeight
-        disableSelectionOnClick
-        hideFooter
-        onCellEditCommit={handleCellEditCommit}
-        disableColumnMenu
-        sx={{
-          "& .MuiDataGrid-columnHeaderTitleContainerContent": {
-            width: "100%",
-          },
-        }}
-      />
+      {props.view ? (
+        <DGETable rows={data.rows} columns={data.columns} />
+      ) : (
+        <DataGrid
+          rows={data.rows}
+          columns={(props.view
+            ? []
+            : ([
+                {
+                  field: "action",
+                  headerName: " ",
+                  width: 36,
+                  renderCell: ({ row }) => (
+                    <IconButton
+                      icon="ellipsis-v"
+                      onClick={handleOpenRowMenu(row.id)}
+                    />
+                  ),
+                  align: "center",
+                },
+              ] as GridEnrichedColDef[])
+          ).concat(
+            data.columns.map(
+              (column): GridEnrichedColDef => ({
+                ...column,
+                editable: props.view !== true ? true : false,
+                sortable: false,
+                renderHeader: (col) => {
+                  return (
+                    <Box
+                      sx={{
+                        width: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Typography
+                        variant="inherit"
+                        noWrap
+                        sx={{ flex: 1 }}
+                        textAlign={column.align}
+                      >
+                        {column.headerName}
+                      </Typography>
+                      {props.view !== true && (
+                        <IconButton
+                          icon="ellipsis-v"
+                          onClick={handleOpenColMenu(col.field)}
+                        />
+                      )}
+                    </Box>
+                  );
+                },
+              })
+            )
+          )}
+          autoHeight
+          disableSelectionOnClick
+          hideFooter
+          onCellEditCommit={handleCellEditCommit}
+          disableColumnMenu
+          sx={{
+            "& .MuiDataGrid-columnHeaderTitleContainerContent": {
+              width: "100%",
+            },
+          }}
+        />
+      )}
       <ColMenu
         anchorEl={colMenu.anchorEl}
         onClose={handleCloseColMenu}
