@@ -6,7 +6,6 @@ import { Container } from "../Container";
 import { StockDisplay } from "../StockDisplay";
 import { Box, Button, Divider, Typography } from "@mui/material";
 import { VideoDisplay } from "../VideoDisplay";
-import { DataGrid, GridColumns } from "@mui/x-data-grid";
 import {
   SlideContainer,
   SlideItem,
