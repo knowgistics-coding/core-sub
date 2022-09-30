@@ -13,13 +13,23 @@ import { TitleEdit } from "../TitleEdit";
 import { VisibilityEdit } from "../VisibilityEdit";
 import { BookEditContents } from "./contents";
 import { BookEditCtl } from "./ctl";
+import { PostAdd, PostDocument } from "./post.add";
+import { AddToFolder } from "./post.to.folder";
+
+type StateType = {
+  MoveID: string;
+};
 
 export const BookEditContext = React.createContext<{
+  state: StateType;
+  setState: React.Dispatch<React.SetStateAction<StateType>>;
   data: Partial<BookRawData>;
   setData: React.Dispatch<React.SetStateAction<Partial<BookRawData>>>;
 }>({
   data: {},
   setData: () => {},
+  state: {MoveID: ""},
+  setState: () => {},
 });
 export const useBookEdit = () => React.useContext(BookEditContext);
 
@@ -32,6 +42,8 @@ export type BookEditProps = {
 export const BookEdit = (props: BookEditProps) => {
   const { t } = useCore();
   const { Popup } = usePopup();
+  const [open, setOpen] = React.useState<boolean>(false);
+  const [state, setState] = React.useState<StateType>({MoveID: ""})
 
   const handleChangeField =
     <Key extends keyof BookRawData>(field: Key) =>
@@ -50,10 +62,18 @@ export const BookEdit = (props: BookEditProps) => {
       },
     });
   };
+  const handleAddPost = async (posts: PostDocument[]) => {
+    if (posts) {
+      posts?.forEach((v) => {
+        props.setData((d) => BookEditCtl.add.post(d, v.title));
+      });
+      setOpen(false);
+    }
+  };
 
   return (
     <BookEditContext.Provider
-      value={{ data: props.data, setData: props.setData }}
+      value={{ data: props.data, setData: props.setData, state, setState }}
     >
       <MainContainer
         sidebar={
@@ -86,9 +106,15 @@ export const BookEdit = (props: BookEditProps) => {
         </Container>
         <FabGroup>
           <FabIcon icon="folder-plus" onClick={handleAddFolder} />
-          <FabIcon icon="file-download" />
+          <FabIcon icon="file-download" onClick={() => setOpen(true)} />
           <FabIcon icon="save" color="success" />
         </FabGroup>
+        <PostAdd
+          open={open}
+          onClose={() => setOpen(false)}
+          onAddPost={handleAddPost}
+        />
+        <AddToFolder open={Boolean(state.MoveID)} onClose={() => setState(s=>({...s, MoveID: ""}))} />
       </MainContainer>
     </BookEditContext.Provider>
   );
