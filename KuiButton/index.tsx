@@ -1,9 +1,6 @@
 import { Button, ButtonProps } from "@mui/material";
-import {
-  FontAwesomeIcon,
-  FontAwesomeIconProps,
-} from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
+import { PickIcon, PickIconProps } from "../PickIcon";
 
 export interface KuiButtonProps extends ButtonProps {
   tx:
@@ -22,13 +19,13 @@ export interface KuiButtonProps extends ButtonProps {
     | "signout"
     | "upload";
   loading?: boolean;
-  fontAwesomeIconProps?: Omit<FontAwesomeIconProps, "icon">;
+  pickIconProps?: Omit<PickIconProps, "icon">;
 }
 export const KuiButton = ({
   tx,
   children,
   loading,
-  fontAwesomeIconProps,
+  pickIconProps,
   ...props
 }: KuiButtonProps) => {
   let txProps: ButtonProps = {};
@@ -38,7 +35,7 @@ export const KuiButton = ({
     case "add":
       txProps = {
         variant: "outlined",
-        startIcon: <FontAwesomeIcon icon={["far", "plus"]} />,
+        startIcon: <PickIcon icon={"plus"} />,
         children: children || t("Create"),
         color: "info",
       };
@@ -46,16 +43,14 @@ export const KuiButton = ({
     case "bin":
       txProps = {
         variant: "outlined",
-        startIcon: <FontAwesomeIcon icon={["far", "trash"]} />,
+        startIcon: <PickIcon icon={"trash"} />,
         children: children || t("Trash"),
       };
       break;
     case "browse":
       txProps = {
         variant: "outlined",
-        startIcon: (
-          <FontAwesomeIcon icon={["far", "folder-open"]} {...fontAwesomeIconProps} />
-        ),
+        startIcon: <PickIcon icon={"folder-open"} {...pickIconProps} />,
         component: "span",
         children: children || t("Browse"),
         color: "neutral",
@@ -89,7 +84,7 @@ export const KuiButton = ({
       txProps = {
         variant: "outlined",
         children: children || t("Download"),
-        startIcon: <FontAwesomeIcon icon={["far", "download"]} />,
+        startIcon: <PickIcon icon={"download"} />,
         color: "neutral",
       };
       break;
@@ -97,24 +92,20 @@ export const KuiButton = ({
       txProps = {
         variant: "outlined",
         children: children || t("Import"),
-        startIcon: <FontAwesomeIcon icon={["far", "download"]} />,
+        startIcon: <PickIcon icon={"download"} />,
         color: "info",
       };
       break;
     case "remove":
       txProps = {
-        startIcon: (
-          <FontAwesomeIcon icon={["far", "trash"]} {...fontAwesomeIconProps} />
-        ),
+        startIcon: <PickIcon icon={"trash"} {...pickIconProps} />,
         color: "error",
         children: children || t("Remove"),
       };
       break;
     case "save":
       txProps = {
-        startIcon: (
-          <FontAwesomeIcon icon={["far", "save"]} {...fontAwesomeIconProps} />
-        ),
+        startIcon: <PickIcon icon={"save"} {...pickIconProps} />,
         color: "success",
         children: children || t("Save"),
       };
@@ -122,30 +113,23 @@ export const KuiButton = ({
     case "setting":
       txProps = {
         variant: "outlined",
-        startIcon: (
-          <FontAwesomeIcon icon={["far", "cog"]} {...fontAwesomeIconProps} />
-        ),
+        startIcon: <PickIcon icon={"cog"} {...pickIconProps} />,
         color: "neutral",
         children: children || t("Setting"),
       };
       break;
     case "signout":
       txProps = {
-        startIcon: (
-          <FontAwesomeIcon
-            icon={["far", "sign-out"]}
-            {...fontAwesomeIconProps}
-          />
-        ),
+        startIcon: <PickIcon icon={"sign-out"} {...pickIconProps} />,
         color: "error",
         children: children || t("Sign Out"),
       };
       break;
     case "upload":
       txProps = {
-        startIcon: <FontAwesomeIcon icon={["far", "upload"]} />,
+        startIcon: <PickIcon icon={"upload"} />,
         variant: "outlined",
-        children: children || t("Upload")
+        children: children || t("Upload"),
       };
       break;
   }
@@ -155,13 +139,7 @@ export const KuiButton = ({
       <Button
         {...txProps}
         {...props}
-        startIcon={
-          <FontAwesomeIcon
-            icon={["far", "spinner"]}
-            pulse
-            {...fontAwesomeIconProps}
-          />
-        }
+        startIcon={<PickIcon icon={"spinner"} pulse {...pickIconProps} />}
         disabled
       >
         {t("Please Wait")}

@@ -1,6 +1,6 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, List, ListItem } from "@mui/material";
 import { useCore } from "../context";
+import { PickIcon } from "../PickIcon";
 
 export interface SaveButtonProps {
   loading?: boolean;
@@ -20,8 +20,8 @@ export const SaveButton = ({ loading, onSave, disabled }: SaveButtonProps) => {
           color="success"
           disableElevation
           startIcon={
-            <FontAwesomeIcon
-              icon={["far", loading ? "spinner" : "save"]}
+            <PickIcon
+              icon={loading ? "spinner" : "save"}
               pulse={Boolean(loading)}
             />
           }

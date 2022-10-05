@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Avatar,
   Badge,
@@ -25,11 +24,12 @@ import update from "react-addons-update";
 import { StockImageTypes, StockPicker } from "../StockPicker";
 import { useNavigate } from "react-router-dom";
 import { UserStatic } from "../Controller";
+import { PickIcon } from "../PickIcon";
 
 const ListItemButtonErrorStyled = styled(ListItemButton)(({ theme }) => ({
   color: theme.palette.error.main,
 }));
-const FontAwesomeIconErrorStyled = styled(FontAwesomeIcon)(({ theme }) => ({
+const PickIconErrorStyled = styled(PickIcon)(({ theme }) => ({
   color: theme.palette.error.main,
 }));
 
@@ -110,7 +110,7 @@ export const MCProfileMenu = () => {
                   }}
                   onClick={() => setOpen(true)}
                 >
-                  <FontAwesomeIcon icon={["far", "camera"]} />
+                  <PickIcon icon={"camera"} />
                 </IconButton>
               }
             >
@@ -144,13 +144,13 @@ export const MCProfileMenu = () => {
                 onClick={handleOpen("setting", true)}
               >
                 <ListItemIcon>
-                  <FontAwesomeIcon icon={["far", "cog"]} />
+                  <PickIcon icon={"cog"} />
                 </ListItemIcon>
                 <ListItemText primary={t("Setting")} />
               </ListItemButton>
               <ListItemButtonErrorStyled dense onClick={handleSignOut}>
                 <ListItemIcon>
-                  <FontAwesomeIconErrorStyled icon={["far", "sign-in"]} />
+                  <PickIconErrorStyled icon={"sign-out"} />
                 </ListItemIcon>
                 <ListItemText primary={t("Sign Out")} />
               </ListItemButtonErrorStyled>

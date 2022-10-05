@@ -16,9 +16,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DialogStyled } from "./dialog.styles";
 import { ButtonStyled } from "./button.styled";
+import { PickIcon } from "../PickIcon";
 
 const timeout: number = 250;
 
@@ -126,7 +126,7 @@ export const PopupProvider = ({
             }}
           >
             {state.icon && (
-              <FontAwesomeIcon size="2x" icon={["far", state.icon]} />
+              <PickIcon size="2x" icon={state.icon} />
             )}
             <Typography variant="h6" fontWeight={"bold"} sx={{ mt: 2, mb: 1 }}>
               {state.title}

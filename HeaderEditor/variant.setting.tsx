@@ -2,7 +2,7 @@ import * as React from "react";
 import { Menu, MenuItem, Typography } from "@mui/material";
 import { MouseEvent, useState } from "react";
 
-export type variants = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+export type variants = "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "body1";
 interface VariantSettingProps {
   modalHandler?: any;
   value: variants;
@@ -28,7 +28,7 @@ export const VariantSetting = ({
         className="rdw-dropdown-wrapper"
         aria-label="rdw-dropdown"
         aria-expanded="true"
-        style={{ width: 60, color: "#333" }}
+        style={{ width: 72, color: "#333" }}
       >
         <Typography
           className="rdw-dropdown-selectedtext"
@@ -58,6 +58,9 @@ export const VariantSetting = ({
             </MenuItem>
           )
         )}
+        <MenuItem onClick={handleChange("body1")} selected={value === "body1"}>
+          Body1
+        </MenuItem>
       </Menu>
     </React.Fragment>
   );

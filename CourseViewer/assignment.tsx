@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Box,
   Container,
@@ -24,6 +23,7 @@ import { SpliceImmutable } from "../func";
 import { KuiActionIcon } from "../KuiActionIcon";
 import { KuiButton } from "../KuiButton";
 import { KuiList } from "../KuiList";
+import { PickIcon } from "../PickIcon";
 
 export class AssignmentCtl {
   static isLated(
@@ -168,7 +168,7 @@ export const CourseAssignment = ({
                   <Button
                     size="small"
                     variant="outlined"
-                    startIcon={<FontAwesomeIcon icon={["far", "xmark"]} />}
+                    startIcon={<PickIcon icon={"xmark"} />}
                     color="error"
                     onClick={() => props.onUnsend(submit.data!.id)}
                   >
@@ -219,7 +219,7 @@ export const CourseAssignment = ({
               <Button
                 variant="outlined"
                 color="success"
-                startIcon={<FontAwesomeIcon icon={["far", "paper-plane"]} />}
+                startIcon={<PickIcon icon={"paper-plane"} />}
                 onClick={handleSend}
                 disabled={!isComplete()}
               >

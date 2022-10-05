@@ -54,6 +54,7 @@ export type LocaleKey =
   | "Convert to $Name"
   | "Collaborated Courses"
   | "Collaborated Teacher"
+  | "Copied"
   | "Course"
   | "Course Manager"
   | "Cover"
@@ -228,6 +229,7 @@ export type LocaleKey =
   | "Sort by DESC"
   | "Sorting"
   | "Spacing"
+  | "Staff"
   | "Start"
   | "Start writting or type"
   | "Status"
@@ -348,10 +350,11 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "Convert to $Name": ["Convert to {{name}}", "แปลงเป็น{{name}}"],
   "Collaborated Courses": ["Collaborated Courses", "หลักสูตรที่ร่วมสอน"],
   "Collaborated Teacher": ["Collaborated Teacher", "ผู้ร่วมสอน"],
+  Copied: ["Copied", "คัดลอกแล้ว"],
   Course: ["Course", "หลักสูตร"],
   "Course Manager": ["Course Manager", "จัดการหลักสูตร"],
   Cover: ["Cover", "ภาพปก"],
-  "Create": ["Create", "สร้าง"],
+  Create: ["Create", "สร้าง"],
   "Create $Name": ["Create {{name}}", "สร้าง{{name}}"],
   Created: ["Created !", "สร้างแล้ว !"],
   Dark: ["Dark", "มืด"],
@@ -415,7 +418,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Inbox: ["Inbox", "กล่องข้อความ"],
   Image: ["Image", "รูปภาพ"],
   Images: ["Images", "รูปภาพ"],
-  "Import": ["Import", "นำเข้า"],
+  Import: ["Import", "นำเข้า"],
   "Import $Name": ["Import {{name}}", "นำเข้า{{name}}"],
   "Insert After": ["Insert After", "แทรกด้านหลัง"],
   "Insert Before": ["Insert Before", "แทรกก่อนหน้า"],
@@ -476,7 +479,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Page: ["Page", "เพจ"],
   Paragraph: ["Paragraph", "ย่อหน้า"],
   Password: ["Password", "รหัสผ่าน"],
-  "Photos": ["photos", "รูป"],
+  Photos: ["photos", "รูป"],
   Position: ["Position", "ตำแหน่ง"],
   Preview: ["Preview", "ดูตัวอย่าง"],
   Prev: ["Previous", "ย้อนกลับ"],
@@ -491,7 +494,10 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "Question Type": ["Question Type", "ประเภทคำถาม"],
   Quiz: ["Online Quiz", "แบบทดสอบออนไลน์"],
   Ratio: ["Ratio", "สัดส่วน"],
-  "Ready To Edit": [`Ready to edit "{{name}}"?`, `เริ่มสร้าง "{{name}}" เลยไหม?`],
+  "Ready To Edit": [
+    `Ready to edit "{{name}}"?`,
+    `เริ่มสร้าง "{{name}}" เลยไหม?`,
+  ],
   Right: ["Right", "ขวา"],
   Read: ["Read", "อ่าน"],
   Redo: ["Redo", "ทำอีกครั้ง"],
@@ -540,6 +546,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "Sort by DESC": ["Sort by ASC", "เรียงจากมากไปน้อย"],
   Sorting: ["Sorting", "เรียงลำดับ"],
   Spacing: ["Spacing", "ระยะห่าง"],
+  Staff: ["Staff", "บุคลากร"],
   Start: ["Start", "เริ่มต้น"],
   "Start writting or type": ["Start writting or type", "เริ่มการพิมพ์"],
   Status: ["Status", "สถานะ"],

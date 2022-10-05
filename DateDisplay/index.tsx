@@ -1,6 +1,6 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box } from "@mui/material";
 import moment from "moment";
+import { PickIcon } from "../PickIcon";
 
 export type DateDisplayProps = {
   date?: any
@@ -23,16 +23,16 @@ export const DateDisplay = (props: DateDisplayProps): JSX.Element => {
 
   return getDate() ? (
     <>
-      <FontAwesomeIcon
-        icon={["far", "calendar"]}
+      <PickIcon
+        icon={"calendar"}
         style={{ marginRight: "0.5rem" }}
       />
       {moment(getDate()).format("LL")}
       <Box display="inline-block" sx={{ px: 1 }}>
         |
       </Box>
-      <FontAwesomeIcon
-        icon={["far", "clock"]}
+      <PickIcon
+        icon={"clock"}
         style={{ marginRight: "0.5rem" }}
       />
       {moment(getDate()).format("LT")}

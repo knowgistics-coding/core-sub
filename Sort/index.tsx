@@ -20,12 +20,12 @@ import {
   ListItemProps,
   ListProps,
 } from "@mui/material";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { LinkProps } from "react-router-dom";
+import { PickIcon } from "../PickIcon";
 
 const SortHandle = SortableHandle(() => (
   <IconButton size="small">
-    <FontAwesomeIcon icon={["far", "bars"]} />
+    <PickIcon icon={"bars"} />
   </IconButton>
 ));
 

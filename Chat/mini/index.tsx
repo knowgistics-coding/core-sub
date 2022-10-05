@@ -10,11 +10,7 @@ import {
   styled,
 } from "@mui/material";
 import { useCore } from "../../context";
-import {
-  ChatSocket,
-  MessageDocument,
-  UserLists,
-} from "../../Controller";
+import { ChatSocket, MessageDocument, UserLists } from "../../Controller";
 import { Socket } from "socket.io-client";
 import { ChatContent, ChatItem, ChatItemTextPrimary } from "./content";
 import { Root } from "./root";
@@ -37,7 +33,7 @@ const defaultState = {
   socket: null,
   messages: [],
   users: {},
-}
+};
 
 export interface ChatMiniProps {
   chatId: string;
@@ -98,7 +94,7 @@ export const ChatMini = ({ chatId, onClose }: ChatMiniProps) => {
           setState((s) => ({ ...s, loading: false, control, socket }))
         );
     } else {
-      setState({...defaultState})
+      setState({ ...defaultState });
     }
   }, [user, chatId]);
 
@@ -129,7 +125,7 @@ export const ChatMini = ({ chatId, onClose }: ChatMiniProps) => {
         state.socket?.disconnect();
       };
     } else {
-      setState({...defaultState})
+      setState({ ...defaultState });
     }
   }, [state.control, state.socket, chatId]);
 
@@ -189,10 +185,7 @@ export const ChatMini = ({ chatId, onClose }: ChatMiniProps) => {
             onKeyDown={({ key }) => key === "Enter" && handlePush()}
             inputProps={{ placeholder: "Aa" }}
           />
-          <ActionIcon
-            icon={["far", "paper-plane"]}
-            disabled={!Boolean(value)}
-          />
+          <ActionIcon icon={"paper-plane"} disabled={!Boolean(value)} />
         </ChatActions>
       </Root>
     </Slide>

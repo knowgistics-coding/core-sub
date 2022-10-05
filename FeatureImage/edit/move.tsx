@@ -17,7 +17,7 @@ export const FIEMove = ({
 
   return (
     <Fragment>
-      <ActionIcon icon={["far", "arrows"]} onClick={() => setOpen(true)} />
+      <ActionIcon icon={"arrows"} onClick={() => setOpen(true)} />
       <DialogImagePosition
         image={image}
         open={open}

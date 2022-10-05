@@ -9,7 +9,6 @@ import {
 import { useState } from "react";
 import { ActionIcon } from "../ActionIcon";
 import { useCore } from "../context";
-import { ImageDisplay, ImageDisplayProps } from "../ImageDisplay";
 import { FIEMove } from "./edit/move";
 import { PosTypes } from "../DialogImagePosition";
 import { KuiButton } from "../KuiButton";
@@ -19,15 +18,15 @@ import {
   StockDisplayImageTypes,
   StockDisplayProps,
 } from "../StockDisplay";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import update from "react-addons-update";
 import { cleanObject } from "../func";
+import { PickIcon } from "../PickIcon";
 
-export interface FeatureImageProps extends Omit<ImageDisplayProps, "ratio"> {}
-export const FeatureImage = ({ image, pos }: FeatureImageProps) => {
-  const { isMobile } = useCore();
-  return <ImageDisplay image={image} pos={pos} ratio={isMobile ? 1 : 1 / 4} />;
-};
+// export interface FeatureImageProps extends Omit<ImageDisplayProps, "ratio"> {}
+// export const FeatureImage = ({ image, pos }: FeatureImageProps) => {
+//   const { isMobile } = useCore();
+//   return <ImageDisplay image={image} pos={pos} ratio={isMobile ? 1 : 1 / 4} />;
+// };
 
 export interface FeatureImageEditProps {
   listItemProps?: ListItemProps;
@@ -72,7 +71,7 @@ export const FeatureImageEdit = ({
           <Box flex={1} />
           {value && (
             <ActionIcon
-              icon={mobile ? ["far", "mobile"] : ["far", "tv"]}
+              icon={mobile ? "mobile" : "tv"}
               onClick={handleToggleMobile}
             />
           )}
@@ -96,7 +95,7 @@ export const FeatureImageEdit = ({
                 fullWidth
                 variant="outlined"
                 onClick={() => setOpen(true)}
-                startIcon={<FontAwesomeIcon icon={["far", "folder-open"]} />}
+                startIcon={<PickIcon icon={"folder-open"} />}
                 color="info"
               >
                 {t("Choose")}

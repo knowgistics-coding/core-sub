@@ -2,10 +2,10 @@
 import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
 import { usePE } from '../context'
 import { useCore } from '../../context'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { arrayMoveImmutable } from 'array-move'
 import update from 'react-addons-update'
 import {Fragment} from 'react'
+import { PickIcon } from '../../PickIcon'
 
 interface PanelMoveProps {
   index: number
@@ -36,7 +36,7 @@ export const PanelMove = ({ index, onClose }: PanelMoveProps): JSX.Element => {
   const MoveUp = () => (
     <ListItemButton onClick={handleMoveUp}>
       <ListItemIcon>
-        <FontAwesomeIcon icon={['far', 'chevron-up']} />
+        <PickIcon icon={"chevron-up"} />
       </ListItemIcon>
       <ListItemText primary={t('Move Up')} />
     </ListItemButton>
@@ -44,7 +44,7 @@ export const PanelMove = ({ index, onClose }: PanelMoveProps): JSX.Element => {
   const MoveDown = () => (
     <ListItemButton onClick={handleMoveDown}>
       <ListItemIcon>
-        <FontAwesomeIcon icon={['far', 'chevron-down']} />
+        <PickIcon icon={"chevron-down"} />
       </ListItemIcon>
       <ListItemText primary={t('Move Down')} />
     </ListItemButton>

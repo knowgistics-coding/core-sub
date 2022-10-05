@@ -1,5 +1,3 @@
-
-
 import {
   Accordion,
   AccordionProps,
@@ -11,10 +9,10 @@ import {
   styled
 } from '@mui/material'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { PickIcon } from '../PickIcon'
 
 const ExpandIcon = () => (
-  <FontAwesomeIcon size='xs' icon={['far', 'chevron-down']} />
+  <PickIcon size='xs' icon={"chevron-down"} />
 )
 
 const AccordionSummary = styled(MuiAccordionSummary)({

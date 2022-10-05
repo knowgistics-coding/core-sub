@@ -22,7 +22,7 @@ export const Slider = ({ label, value, onChange }: SliderProps) => {
           sx={{ mr: 1, color: "info.main" }}
         />
         <ActionIcon
-          icon={["far", "redo"]}
+          icon={"redo"}
           onClick={() => onChange(50)}
           sx={{ color: "neutral.main" }}
         />

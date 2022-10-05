@@ -1,15 +1,14 @@
 import { styled } from '@mui/material'
+import { StockDisplay, StockDisplayProps } from '../StockDisplay'
 
-import { ImageDisplayProps, ImageDisplay } from '../ImageDisplay'
-
-export interface HighlightItemImageProps extends ImageDisplayProps {
+export type HighlightItemImageProps = StockDisplayProps & {
   className?: string
 }
 export const HighlightItemImage = styled(
   ({ className, ...props }: HighlightItemImageProps) => {
     return (
       <div className={className}>
-        <ImageDisplay {...props} />
+        <StockDisplay {...props} />
       </div>
     )
   }

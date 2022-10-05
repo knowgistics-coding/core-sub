@@ -1,6 +1,6 @@
 import * as React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, BoxProps, styled } from "@mui/material";
+import { PickIcon } from "../PickIcon";
 
 export interface CreditDisplayProps extends BoxProps {
   type: string;
@@ -18,7 +18,7 @@ export const CreditDisplay = styled(
             default:
               return (
                 <React.Fragment>
-                  <FontAwesomeIcon icon={["far", "copyright"]} />
+                  <PickIcon icon={"copyright"} />
                   &nbsp;
                   <a
                     href={`https://mek.network/profile/view/${uid}`}

@@ -2,14 +2,13 @@ import { Box, Button, Typography } from "@mui/material";
 import { Container } from "../Container";
 import { useMC } from "./ctx";
 import React from "react";
-import { IconName } from "@fortawesome/fontawesome-svg-core";
 import { useCore } from "../context";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { To, useNavigate } from "react-router-dom";
+import { PickIcon, PickIconName } from "../PickIcon";
 
 export interface RestrictProps {
   message?: React.ReactNode;
-  icon?: IconName;
+  icon?: PickIconName;
   link?: To;
 }
 export const MCRestrict = (props: RestrictProps) => {
@@ -20,7 +19,7 @@ export const MCRestrict = (props: RestrictProps) => {
   return (
     <Container maxWidth="xs">
       <Box py={dense ? 6 : 0} textAlign={"center"}>
-        <FontAwesomeIcon icon={["far", props.icon || "ban"]} size="8x" />
+        <PickIcon icon={props.icon || "ban"} size="8x" />
         <Typography mt={2} color="textSecondary">
           {props.message || "You don't have permission to view this page"}
         </Typography>
@@ -29,7 +28,7 @@ export const MCRestrict = (props: RestrictProps) => {
             variant="outlined"
             color="info"
             sx={{ mt: 4 }}
-            startIcon={<FontAwesomeIcon icon={["far", "chevron-left"]} />}
+            startIcon={<PickIcon icon={"chevron-left"} />}
             onClick={() => nav(props.link!)}
           >
             {t("Back")}

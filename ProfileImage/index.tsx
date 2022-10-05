@@ -1,47 +1,47 @@
-import { useState } from 'react'
+import { useState } from "react";
 import {
   Avatar,
   AvatarProps,
   Box,
   IconButton,
   IconButtonProps,
-  styled
-} from '@mui/material'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { StockImageTypes, StockPicker } from '../StockPicker'
+  styled,
+} from "@mui/material";
+import { StockImageTypes, StockPicker } from "../StockPicker";
+import { PickIcon } from "../PickIcon";
 
 const Root = styled(Box)({
-  position: 'relative',
-  display: 'inline-block'
-})
+  position: "relative",
+  display: "inline-block",
+});
 
 const CameraIcon = styled((props) => (
-  <IconButton size='small' {...props}>
-    <FontAwesomeIcon icon={["far","camera"]} />
+  <IconButton size="small" {...props}>
+    <PickIcon icon={"camera"} />
   </IconButton>
 ))<IconButtonProps>({
-  position: 'absolute',
+  position: "absolute",
   bottom: 0,
   right: 0,
-  backgroundColor: 'rgba(255,255,255,0.5)',
-  '&:hover': {
-    backgroundColor: 'rgba(255,255,255,0.75)'
-  }
-})
+  backgroundColor: "rgba(255,255,255,0.5)",
+  "&:hover": {
+    backgroundColor: "rgba(255,255,255,0.75)",
+  },
+});
 
-const AvatarStyled = styled(Avatar)({ width: 128, height: 128 })
+const AvatarStyled = styled(Avatar)({ width: 128, height: 128 });
 
 interface ProfileImageProps {
-  src?: AvatarProps['src']
-  onChange?: (images: StockImageTypes[]) => void
+  src?: AvatarProps["src"];
+  onChange?: (images: StockImageTypes[]) => void;
 }
 export const ProfileImage = ({ src, onChange }: ProfileImageProps) => {
-  const [open, setOpen] = useState<boolean>(false)
+  const [open, setOpen] = useState<boolean>(false);
 
   const handleConfirm = (images: StockImageTypes[]) => {
-    setOpen(false)
-    onChange?.(images)
-  }
+    setOpen(false);
+    onChange?.(images);
+  };
 
   return (
     <Root>
@@ -53,5 +53,5 @@ export const ProfileImage = ({ src, onChange }: ProfileImageProps) => {
         onConfirm={handleConfirm}
       />
     </Root>
-  )
-}
+  );
+};

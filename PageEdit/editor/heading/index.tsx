@@ -1,9 +1,7 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
-
-import update from "react-addons-update";
 import { useCore } from "../../../context";
 import { HeaderEditor } from "../../../HeaderEditor";
+import { PickIcon } from "../../../PickIcon";
 import { PageContentTypes, usePE } from "../../context";
 import { PEPanel } from "../../panel";
 
@@ -18,57 +16,23 @@ export const PEEditorHeading = ({ index, content }: PEEditorProps) => {
     state: { focus },
     setState,
     setData,
+    pageData,
   } = usePE();
 
   const handleChange = (value: string) => {
-    setData((d) =>
-      update(d, {
-        contents: {
-          [index]: {
-            heading: {
-              $apply: (heading: PageContentTypes["heading"]) => {
-                if (heading) {
-                  return { ...heading, value };
-                } else {
-                  return { value };
-                }
-              },
-            },
-          },
-        },
-      })
+    setData(
+      pageData.content.update(content.key, "heading", { value }).toJSON()
     );
   };
   const handleChangeOption = (key: string, value: any) => {
-    setData((d) =>
-      update(d, {
-        contents: {
-          [index]: {
-            heading: {
-              $apply: (heading: PageContentTypes["heading"]) => {
-                if (heading) {
-                  return { ...heading, [key]: value };
-                } else {
-                  return { [key]: value };
-                }
-              },
-            },
-          },
-        },
-      })
+    setData(
+      pageData.content.update(content.key, "heading", { [key]: value }).toJSON()
     );
   };
   const handleFocus = (value: boolean) => () =>
     setState((s) => ({ ...s, focus: value ? content.key : null }));
   const handleConvertToParagraph = () => {
-    const newContent: PageContentTypes = {
-      key: content.key,
-      type: "paragraph",
-      paragraph: {
-        value: content.heading?.value,
-      },
-    };
-    setData((d) => update(d, { contents: { [index]: { $set: newContent } } }));
+    setData(pageData.content.convertToParagraph(content.key).toJSON());
   };
 
   return (
@@ -79,7 +43,7 @@ export const PEEditorHeading = ({ index, content }: PEEditorProps) => {
       actions={
         <ListItemButton onClick={handleConvertToParagraph}>
           <ListItemIcon>
-            <FontAwesomeIcon icon={["far", "retweet"]} />
+            <PickIcon icon={"retweet"} />
           </ListItemIcon>
           <ListItemText
             primary={t("Convert to $Name", { name: t("Paragraph") })}

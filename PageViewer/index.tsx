@@ -13,11 +13,11 @@ import {
   SlideItemFeature,
 } from "../Slide";
 import { useCore } from "../context";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ShowTypes } from "../PageEdit/context";
 import moment from "moment";
 import { Absatz } from "../Absatz";
 import { DGETable } from "../DataGridEditor";
+import { PickIcon } from "../PickIcon";
 
 const getDate = (date: any) => {
   if (date?.toMillis?.()) {
@@ -68,16 +68,16 @@ export const PageViewer = (props: PageViewerProps) => {
                 secondary={
                   data.datemodified ? (
                     <>
-                      <FontAwesomeIcon
-                        icon={["far", "calendar"]}
+                      <PickIcon
+                        icon={"calendar"}
                         style={{ marginRight: "0.5rem" }}
                       />
                       {moment(getDate(data.datemodified)).format("LL")}
                       <Box display="inline-block" sx={{ px: 1 }}>
                         |
                       </Box>
-                      <FontAwesomeIcon
-                        icon={["far", "clock"]}
+                      <PickIcon
+                        icon={"clock"}
                         style={{ marginRight: "0.5rem" }}
                       />
                       {moment(getDate(data.datemodified)).format("LT")}
@@ -120,6 +120,7 @@ export const PageViewer = (props: PageViewerProps) => {
                       view
                       value={content?.heading?.value}
                       variant={content.heading?.variant || "h6"}
+                      sx={{ fontWeight: "bold", "& *": { fontWeight: "bold" } }}
                     />
                   </Wrapper>
                 );
@@ -194,9 +195,7 @@ export const PageViewer = (props: PageViewerProps) => {
                             <Button
                               variant="outlined"
                               color="light"
-                              startIcon={
-                                <FontAwesomeIcon icon={["far", "link"]} />
-                              }
+                              startIcon={<PickIcon icon={"link"} />}
                             >
                               {t("Open")}
                             </Button>

@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Avatar,
   AvatarGroup,
@@ -9,6 +8,7 @@ import {
 } from "@mui/material";
 import { useCore } from "../../context";
 import { UserLists } from "../../Controller";
+import { PickIcon } from "../../PickIcon";
 
 export const ChatHead = (props: { users: UserLists; onClose: () => void }) => {
   const { user } = useCore();
@@ -36,7 +36,7 @@ export const ChatHead = (props: { users: UserLists; onClose: () => void }) => {
         </Box>
         <Box flex={1} />
         <IconButton edge="end" onClick={props.onClose}>
-          <FontAwesomeIcon icon={["far", "xmark"]} />
+          <PickIcon icon={"xmark"} />
         </IconButton>
       </Stack>
     </Box>

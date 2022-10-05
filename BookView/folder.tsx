@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Box,
   Collapse,
@@ -10,6 +9,7 @@ import {
   styled,
 } from "@mui/material";
 import { ReactNode, useState } from "react";
+import { PickIcon } from "../PickIcon";
 
 const FolderRoot = styled(Box)(({ theme }) => ({
   border: `solid 1px ${theme.palette.grey[300]}`,
@@ -54,12 +54,12 @@ export const Folder = ({ label, length, children }: FolderProps) => {
         onClick={handleToggle}
       >
         <ListItemIcon>
-          <FontAwesomeIcon icon={["far", open ? "folder-open" : "folder"]} />
+          <PickIcon icon={open ? "folder-open" : "folder"} />
         </ListItemIcon>
         <ListItemText primary={`${label} (${length || 0})`} />
         <ListItemSecondaryAction>
-          <FontAwesomeIcon
-            icon={["far", "caret-down"]}
+          <PickIcon
+            icon={"caret-down"}
             rotation={open ? 180 : undefined}
             style={{ transition: `all 0.25s` }}
           />

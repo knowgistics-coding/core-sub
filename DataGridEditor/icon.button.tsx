@@ -1,14 +1,13 @@
-import { IconName } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconButton as IC, IconButtonProps, styled } from "@mui/material";
+import { PickIcon, PickIconName } from "../PickIcon";
 
 export const IconButton = styled(
   ({
     icon,
     ...props
-  }: Omit<IconButtonProps, "children"> & { icon: IconName }) => (
+  }: Omit<IconButtonProps, "children"> & { icon: PickIconName }) => (
     <IC size="small" {...props}>
-      <FontAwesomeIcon size="sm" icon={["far", icon]} />
+      <PickIcon size="sm" icon={icon} />
     </IC>
   )
 )({

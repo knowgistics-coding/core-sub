@@ -15,13 +15,13 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Fragment } from "react";
 import { TitleDebounce } from "../../TitleDebounce";
 import update from "react-addons-update";
 import { useAlerts } from "../../Alerts";
 import { useNavigate } from "react-router-dom";
 import { usePopup } from "../../Popup";
+import { PickIcon } from "../../PickIcon";
 
 export const PESidebar = () => {
   const { t } = useCore();
@@ -73,7 +73,7 @@ export const PESidebar = () => {
       {back && (
         <ListItem divider>
           <Button
-            startIcon={<FontAwesomeIcon icon={["far", "chevron-left"]} />}
+            startIcon={<PickIcon icon={"chevron-left"} />}
             color="neutral"
             onClick={handleBack}
           >
@@ -88,7 +88,7 @@ export const PESidebar = () => {
             fullWidth
             variant="contained"
             size="large"
-            startIcon={<FontAwesomeIcon icon={["far", "eye"]} />}
+            startIcon={<PickIcon icon={"eye"} />}
             onClick={onPreview}
             color="neutral"
           >

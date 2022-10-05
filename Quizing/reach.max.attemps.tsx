@@ -1,7 +1,7 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Typography, Box, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useCore } from "../context";
+import { PickIcon } from "../PickIcon";
 
 export const ReactMaxAttemps = (props: { back: string }) => {
   const { t } = useCore();
@@ -15,7 +15,7 @@ export const ReactMaxAttemps = (props: { back: string }) => {
       <Box mt={2}>
         <Button
           variant="outlined"
-          startIcon={<FontAwesomeIcon icon={["far", "chevron-left"]} />}
+          startIcon={<PickIcon icon={"chevron-left"} />}
           color="neutral"
           onClick={() => nav(props.back)}
         >

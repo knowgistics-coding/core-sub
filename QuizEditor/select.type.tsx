@@ -11,12 +11,12 @@ import {
   Typography,
 } from "@mui/material";
 import { dataTypes, TypeTypes } from "./context";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useCore } from "../context";
 import { StockImageTypes, StockPicker } from "../StockPicker";
 import { StockDisplayImageTypes } from "../StockDisplay";
 import { QDImgDisplay } from "./img";
 import { Absatz } from "../Absatz";
+import { PickIcon } from "../PickIcon";
 
 interface SelectTypeProps {
   type: TypeTypes;
@@ -95,7 +95,7 @@ export const SelectType = ({
                 )}
                 <Button
                   variant="outlined"
-                  startIcon={<FontAwesomeIcon icon={["far", "folder-open"]} />}
+                  startIcon={<PickIcon icon={"folder-open"} />}
                   onClick={() => setOpen(true)}
                 >
                   Browse

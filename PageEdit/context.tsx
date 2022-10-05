@@ -6,6 +6,7 @@ import { ContentHeaderProps } from "../ContentHeader";
 import { MainContainerProps } from "../MainContainer";
 import { StockDisplayProps } from "../StockDisplay";
 import { VideoContent } from "../VideoDisplay";
+import { PageEditData } from "./ctl";
 
 export type ShowTypes =
   | "title"
@@ -101,6 +102,8 @@ export interface PageEditStateTypes {
 export interface PEContextTypes extends Omit<PageEditProps, "postOptions"> {
   state: PageEditStateTypes;
   setState: React.Dispatch<React.SetStateAction<PageEditStateTypes>>;
+  pageData: PageEditData
+  setPageData: React.Dispatch<React.SetStateAction<PageEditData>>;
 }
 export const PEContext = createContext<PEContextTypes>({
   data: {},
@@ -116,6 +119,8 @@ export const PEContext = createContext<PEContextTypes>({
     insert: null,
   },
   setState: () => {},
+  pageData: new PageEditData(),
+  setPageData: () => {}
 });
 
 export const usePE = () => useContext(PEContext);

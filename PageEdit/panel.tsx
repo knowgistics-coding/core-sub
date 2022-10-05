@@ -18,14 +18,13 @@ import {
   Typography,
 } from "@mui/material";
 import { SortableHandle } from "react-sortable-hoc";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useCore } from "../context";
 import { PanelMove } from "./panels/move";
 import { PanelSpacing } from "./panels/spacing";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import update from "react-addons-update";
 import { usePopup } from "../Popup";
 import { LocaleKey } from "../Translate/en_th";
+import { PickIcon, PickIconName } from "../PickIcon";
 
 const Wrapper = ({
   children,
@@ -50,7 +49,7 @@ const Action = styled(Box)(({ theme }) => ({
 
 const DragIcon = SortableHandle<IconButtonProps>((props: IconButtonProps) => (
   <IconButton {...props}>
-    <FontAwesomeIcon icon={["far", "grip-lines"]} size="xs" />
+    <PickIcon icon={"grip-dots-vertical"} size="xs" />
   </IconButton>
 ));
 
@@ -61,7 +60,7 @@ const ListItemButtonPre = ({
   ...props
 }: Omit<ListItemButtonProps, "children"> & {
   label: LocaleKey;
-  icon?: IconProp;
+  icon?: PickIconName;
   listItemTextProps?: ListItemTextProps;
 }) => {
   const { t } = useCore();
@@ -69,7 +68,7 @@ const ListItemButtonPre = ({
     <ListItemButton {...props}>
       {icon && (
         <ListItemIcon>
-          <FontAwesomeIcon icon={icon} />
+          <PickIcon icon={icon} />
         </ListItemIcon>
       )}
       <ListItemText primary={t(label)} {...listItemTextProps} />
@@ -204,7 +203,7 @@ export const PEPanel = ({
                   setAnchorEl(currentTarget)
                 }
               >
-                <FontAwesomeIcon size="xs" icon={["far", "ellipsis-v"]} />
+                <PickIcon size="xs" icon={"ellipsis-v"} />
               </IconButton>
             </Action>
           )}
@@ -227,14 +226,14 @@ export const PEPanel = ({
             }}
           >
             <ListItemIcon>
-              <FontAwesomeIcon icon={["far", "diagram-predecessor"]} />
+              <PickIcon icon={"diagram-predecessor"} />
             </ListItemIcon>
             <ListItemText primary={t("Insert Before")} />
           </ListItemButton>
           <PanelMove index={index} onClose={() => setAnchorEl(null)} />
           <ListItemButtonPre
             label="Spacing"
-            icon={["far", "arrows-v"]}
+            icon={"arrows-v"}
             onClick={handleOpen("spacing")}
           />
           <ListItemButton
@@ -243,7 +242,7 @@ export const PEPanel = ({
           >
             <ListItemIcon>
               <Typography color="error">
-                <FontAwesomeIcon icon={["far", "trash"]} />
+                <PickIcon icon={"trash"} />
               </Typography>
             </ListItemIcon>
             <ListItemText

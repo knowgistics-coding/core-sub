@@ -1,6 +1,6 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Avatar, Chip, ChipProps } from "@mui/material";
 import { FileCtl } from "../Controller";
+import { PickIcon } from "../PickIcon";
 
 export type FileChipProps = ChipProps & {
   name: string;
@@ -11,7 +11,7 @@ export const FileChip = ({ url, name, ...props }: FileChipProps) => {
     <Chip
       avatar={
         <Avatar sx={{ backgroundColor: "white", color: "#333!important" }}>
-          <FontAwesomeIcon icon={["far", "paperclip"]} color="interit" />
+          <PickIcon icon={"paperclip"} color="interit" />
         </Avatar>
       }
       color="info"

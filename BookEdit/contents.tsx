@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Box,
   List,
@@ -13,6 +12,7 @@ import { useBookEdit } from ".";
 import { useCore } from "../context";
 import { BookContent, BookContentItem } from "../Controller";
 import { KuiActionIcon } from "../KuiActionIcon";
+import { PickIcon } from "../PickIcon";
 import { usePopup } from "../Popup";
 import { BookEditCtl } from "./ctl";
 
@@ -72,7 +72,8 @@ export const BookEditContents = () => {
     });
   };
   const handleRemoveSub =
-    (folderIndex: number, itemIndex:number, content: BookContentItem) => () => {
+    (folderIndex: number, itemIndex: number, content: BookContentItem) =>
+    () => {
       Popup.remove({
         title: t("Remove"),
         text: t("Do You Want To Remove $Name", { name: content.title }),
@@ -92,7 +93,7 @@ export const BookEditContents = () => {
               <div key={content.key}>
                 <ListItemFolder>
                   <ListItemIcon sx={{ color: "inherit" }}>
-                    <FontAwesomeIcon size="2x" icon={["far", "folder"]} />
+                    <PickIcon size="2x" icon="folder" />
                   </ListItemIcon>
                   <ListItemText primary={content.title} />
                   <ListItemSecondaryAction>
@@ -107,7 +108,7 @@ export const BookEditContents = () => {
                   {content.items?.map((item, itemIndex) => (
                     <ListItemPost key={item.key}>
                       <ListItemIcon>
-                        <FontAwesomeIcon size="2x" icon={["far", "file-alt"]} />
+                        <PickIcon size="2x" icon="file-alt" />
                       </ListItemIcon>
                       <ListItemText primary={item.title} />
                       <ListItemSecondaryAction>
@@ -129,7 +130,7 @@ export const BookEditContents = () => {
             return (
               <ListItemPost key={content.key}>
                 <ListItemIcon>
-                  <FontAwesomeIcon size="2x" icon={["far", "file-alt"]} />
+                  <PickIcon size="2x" icon="file-alt" />
                 </ListItemIcon>
                 <ListItemText primary={content.title} />
                 <ListItemSecondaryAction>

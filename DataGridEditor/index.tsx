@@ -226,7 +226,12 @@ export const DataGridEditor = (props: DataGridEditorProps) => {
                 },
               })
             )
-          )}
+          ).map(doc => {
+            if(doc.align && typeof doc.align !== "string"){
+              delete doc.align
+            }
+            return doc
+          })}
           autoHeight
           disableSelectionOnClick
           hideFooter

@@ -1,6 +1,6 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { styled, IconButton, Box, Backdrop } from "@mui/material";
 import { useState } from "react";
+import { PickIcon } from "../PickIcon";
 import { EmailPass } from "./email.pass";
 import { ForgetPassword } from "./forget.pass";
 import { Register } from "./register";
@@ -53,7 +53,7 @@ export const SignIn = ({ onClose }: { onClose?: () => void }) => {
           <ForgetPassword tab={tab} onChangeTab={handleChangeTab} />
           {onClose && (
             <CloseButtom onClick={onClose}>
-              <FontAwesomeIcon icon={["far", "xmark"]} />
+              <PickIcon icon={"xmark"} />
             </CloseButtom>
           )}
         </Container>

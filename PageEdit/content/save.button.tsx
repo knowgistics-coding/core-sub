@@ -1,8 +1,7 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Fab } from "@mui/material";
-
 import { useAlerts } from "../../Alerts";
 import { useCore } from "../../context";
+import { PickIcon } from "../../PickIcon";
 import { usePE } from "../context";
 
 export const PEContentSaveButton = () => {
@@ -21,7 +20,7 @@ export const PEContentSaveButton = () => {
 
   return (
     <Fab color="success" size="small" onClick={handleSave}>
-      <FontAwesomeIcon icon={["far", "save"]} />
+      <PickIcon icon={"save"} />
     </Fab>
   );
 };

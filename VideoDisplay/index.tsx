@@ -1,26 +1,21 @@
 import React, { lazy, Suspense } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, BoxProps, styled } from "@mui/material";
 import { YoutubeIframe } from "./youtube.iframe";
 import { facebook_parser, loom_parser, youtube_parser } from "./parser";
 import { FaceBookIframe } from "./facebook.iframe";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { LoomIframe } from "./loom.iframe";
+import { PickIcon, PickIconName } from '../PickIcon'
 
 const VideoJS = lazy(() => import("../VideoJS"));
 
-const icons: { [key: string]: IconProp } = {
-  youtube: ["fab", "youtube"],
-  facebook: ["fab", "facebook"],
+const icons: Record<string, PickIconName> = {
+  youtube: "youtube",
+  facebook: "facebook",
 };
 
 const Placeholder = styled(({ from, ...props }: { from: string }) => (
   <Box {...props}>
-    <FontAwesomeIcon
-      size="4x"
-      color="inherit"
-      icon={icons[from] || ["far", "video"]}
-    />
+    <PickIcon size="4x" color="inherit" icon={icons[from] || "video"} />
   </Box>
 ))(({ theme }) => ({
   ...theme.mixins.absoluteFluid,

@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { useMC } from "./ctx";
 import { useCore } from "../context";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { PickIcon } from "../PickIcon";
 
 export const MCSidebar = styled(({ className }: { className?: string }) => {
   const { sidebar, open, handleOpen, disableSidebarPadding, restrict } =
@@ -37,7 +37,7 @@ export const MCSidebar = styled(({ className }: { className?: string }) => {
     >
       <Toolbar>
         <IconButton edge="start" onClick={handleOpen("sidebar", false)}>
-          <FontAwesomeIcon icon={["far", "bars"]} />
+          <PickIcon icon={"bars"} />
         </IconButton>
       </Toolbar>
       <Divider />

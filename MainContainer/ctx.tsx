@@ -38,7 +38,6 @@ export const MCContext = createContext<MCContextTypes>({
   user: {
     loading: true,
     data: null,
-    claims: null,
   },
   dense: false,
   open: {

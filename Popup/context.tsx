@@ -1,12 +1,12 @@
-import { IconName } from "@fortawesome/fontawesome-svg-core";
 import * as React from "react";
+import { PickIconName } from "../PickIcon";
 
 export type PopupType = "alert" | "confirm" | "prompt" | "remove";
 export type PopupConfirm = (value?: string) => void;
 export interface Popup {
   title: string;
   text: string;
-  icon: IconName;
+  icon: PickIconName;
   onConfirm: PopupConfirm;
   onAbort?: PopupConfirm;
 }

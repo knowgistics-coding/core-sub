@@ -1,8 +1,3 @@
-import { IconName, IconPrefix } from "@fortawesome/fontawesome-svg-core";
-import {
-  FontAwesomeIcon,
-  FontAwesomeIconProps,
-} from "@fortawesome/react-fontawesome";
 import {
   Fab,
   FabProps,
@@ -13,16 +8,16 @@ import {
   styled,
 } from "@mui/material";
 import * as React from "react";
+import { PickIcon, PickIconName, PickIconProps } from "../PickIcon";
 
 export type FabIconProps = FabProps & {
-  icon: IconName;
-  iconPrefix?: IconPrefix;
-  iconProps?: Omit<FontAwesomeIconProps, "icon">;
+  icon: PickIconName;
+  iconProps?: Omit<PickIconProps, "icon">;
 };
 export const FabIcon = styled(
-  ({ icon, iconPrefix, iconProps, ...props }: FabIconProps) => (
+  ({ icon, iconProps, ...props }: FabIconProps) => (
     <Fab {...props}>
-      <FontAwesomeIcon icon={[iconPrefix || "far", icon]} {...iconProps} />
+      <PickIcon icon={icon} {...iconProps} />
     </Fab>
   )
 )<FabIconProps>(() => (({theme}) => ({
@@ -64,8 +59,8 @@ export const FabGroup = (props: FabGroupProps) => {
       >
         <div>
           <Fab size="small" onClick={handleToggle}>
-            <FontAwesomeIcon
-              icon={["far", "chevron-left"]}
+            <PickIcon
+              icon={"chevron-left"}
               rotation={open ? 180 : undefined}
               style={{ transition: "all 0.5s cubic-bezier(0.25,0,0,1.75) 0s" }}
             />

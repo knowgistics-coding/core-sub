@@ -1,8 +1,3 @@
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import {
-  FontAwesomeIcon,
-  FontAwesomeIconProps,
-} from "@fortawesome/react-fontawesome";
 import {
   Breakpoint,
   Dialog,
@@ -17,12 +12,13 @@ import {
 } from "@mui/material";
 import * as React from "react";
 import { KuiButton } from "../KuiButton";
+import { PickIcon, PickIconName, PickIconProps } from "../PickIcon";
 
 export type FensterProps = {
   open: boolean;
   title: React.ReactNode;
   maxWidth?: Breakpoint;
-  icon?: IconProp;
+  icon?: PickIconName;
   onClose?: (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => void;
   children?: React.ReactNode;
   actions?: React.ReactNode;
@@ -34,7 +30,7 @@ export type FensterProps = {
     title: Omit<DialogTitleProps, "children">;
     content: Omit<DialogContentProps, "children">;
     actions: Omit<DialogActionsProps, "children">;
-    icon: Omit<FontAwesomeIconProps, "icon">;
+    icon: Omit<PickIconProps, "icon">;
   };
 };
 
@@ -50,7 +46,7 @@ export const Fenster = (props: FensterProps) => {
     >
       <DialogTitle {...props.componentProps?.title}>
         {props.icon && (
-          <FontAwesomeIcon
+          <PickIcon
             icon={props.icon}
             style={{ marginRight: "1ch" }}
             {...props.componentProps?.icon}

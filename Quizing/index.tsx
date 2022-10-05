@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, Stack } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +12,7 @@ import { QuizAnswer } from "../QuizAnswer";
 import { useCore } from "../context";
 import { useAlerts } from "../Alerts";
 import { QuizDisplay, QuizAnswerTypes } from "../QuizDisplay";
+import { PickIcon } from "../PickIcon";
 
 export type QuizingDataType = {
   title?: string;
@@ -105,7 +105,7 @@ export const Quizing = ({ data, ...props }: QuizingProps) => {
             <Button
               variant="outlined"
               color="neutral"
-              startIcon={<FontAwesomeIcon icon={["far", "chevron-left"]} />}
+              startIcon={<PickIcon icon={"chevron-left"} />}
               onClick={() => nav(props.back)}
             >
               {t("Back")}
@@ -113,7 +113,7 @@ export const Quizing = ({ data, ...props }: QuizingProps) => {
             <Button
               variant="outlined"
               color="info"
-              startIcon={<FontAwesomeIcon icon={["far", "redo"]} />}
+              startIcon={<PickIcon icon={"redo"} />}
               onClick={handleRedo}
             >
               {t("Redo")}

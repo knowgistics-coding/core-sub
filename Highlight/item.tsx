@@ -7,9 +7,9 @@ import {
   Typography,
   TypographyProps
 } from '@mui/material'
+import { StockDisplayProps } from '../StockDisplay'
 
 import { HighlightItemImage } from './item.image'
-import { ImageDisplayProps } from '../ImageDisplay'
 
 const AbsoluteContent = styled('div')({
   textAlign: 'center',
@@ -32,7 +32,7 @@ const GridFluid = styled(Grid)({
 export interface HighlightItemProps {
   children?: React.ReactNode
   variant?: 'left' | 'right' | 'full'
-  cover?: ImageDisplayProps
+  cover?: StockDisplayProps
   primary?: React.ReactNode
   secondary?: React.ReactNode
   primaryTypographyProps?: TypographyProps

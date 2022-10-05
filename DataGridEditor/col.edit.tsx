@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   alpha,
   Grid,
@@ -15,6 +14,7 @@ import { useEffect, useState } from "react";
 import { useCore } from "../context";
 import { DialogCompact } from "../DialogCompact";
 import { KuiButton } from "../KuiButton";
+import { PickIcon } from "../PickIcon";
 
 const Header = styled(Typography)({});
 Header.defaultProps = {
@@ -23,15 +23,15 @@ Header.defaultProps = {
   sx: { mt: 3, mb: 1 },
 };
 
-const ToggleButtonStyled = styled(ToggleButton)(({theme}) => ({
+const ToggleButtonStyled = styled(ToggleButton)(({ theme }) => ({
   "&.Mui-selected": {
     color: theme.palette.info.main,
     backgroundColor: alpha(theme.palette.info.main, 0.125),
     "&:hover": {
       backgroundColor: alpha(theme.palette.info.main, 0.25),
-    }
-  }
-}))
+    },
+  },
+}));
 
 const defaultData = (): Partial<GridEnrichedColDef> => ({
   headerName: "",
@@ -139,24 +139,15 @@ export const ColEdit = (props: ColEditProps) => {
         exclusive
       >
         <ToggleButtonStyled value="left">
-          <FontAwesomeIcon
-            icon={["far", "align-left"]}
-            style={{ marginRight: "0.5rem" }}
-          />
+          <PickIcon icon={"align-left"} style={{ marginRight: "0.5rem" }} />
           {t("Left")}
         </ToggleButtonStyled>
         <ToggleButtonStyled value="center">
-          <FontAwesomeIcon
-            icon={["far", "align-center"]}
-            style={{ marginRight: "0.5rem" }}
-          />
+          <PickIcon icon={"align-center"} style={{ marginRight: "0.5rem" }} />
           {t("Center")}
         </ToggleButtonStyled>
         <ToggleButtonStyled value="right">
-          <FontAwesomeIcon
-            icon={["far", "align-right"]}
-            style={{ marginRight: "0.5rem" }}
-          />
+          <PickIcon icon={"align-right"} style={{ marginRight: "0.5rem" }} />
           {t("Right")}
         </ToggleButtonStyled>
       </ToggleButtonGroup>

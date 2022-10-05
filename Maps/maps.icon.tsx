@@ -1,8 +1,7 @@
-import { IconName } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Avatar } from "@mui/material";
 import React from "react";
 import { far } from "@fortawesome/pro-regular-svg-icons";
+import { PickIcon, PickIconName } from "../PickIcon";
 
 type MarkerCatType =
   | "airport"
@@ -24,7 +23,7 @@ export type MapCatItem = {
   id: MarkerCatType;
   label: string;
   color: string;
-  icon: IconName;
+  icon: PickIconName;
 };
 
 export const MarkerCat: MapCatItem[] = [
@@ -119,7 +118,7 @@ export const MarkerCatDict: Record<string, MapCatItem> = Object.assign(
   ...MarkerCat.map((item) => ({ [item.id]: item }))
 );
 
-export type RouteCatItem = { id: string; label: string; icon: IconName };
+export type RouteCatItem = { id: string; label: string; icon: PickIconName };
 
 export const RouteCat: RouteCatItem[] = [
   { id: "train", label: "สายรถไฟ/ราง/กระเช้า", icon: "subway" },
@@ -142,7 +141,7 @@ export type MapIconProps = {
   color?: string;
 };
 export const MapIcon = React.memo((props: MapIconProps) => {
-  let icon: IconName = "question";
+  let icon: PickIconName = "question";
   let color: string | undefined = undefined;
 
   switch (props.type) {
@@ -166,11 +165,11 @@ export const MapIcon = React.memo((props: MapIconProps) => {
 
   return props.size === "small" ? (
     <Avatar sx={{ width: 28, height: 28, backgroundColor: color, mr: 1 }}>
-      <FontAwesomeIcon size="xs" icon={["far", icon]} />
+      <PickIcon size="xs" icon={icon} />
     </Avatar>
   ) : (
     <Avatar sx={{ backgroundColor: color, mr: 1 }}>
-      <FontAwesomeIcon icon={["far", icon]} />
+      <PickIcon icon={icon} />
     </Avatar>
   );
 });

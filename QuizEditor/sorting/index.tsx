@@ -14,7 +14,6 @@ import { Panel } from "../panel";
 import { SelectType } from "../select.type";
 import { arrayMoveImmutable } from "array-move";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import {
   SortableContainer,
@@ -26,6 +25,7 @@ import { useCore } from "../../context";
 import update from "react-addons-update";
 import { KuiButton } from "../../KuiButton";
 import { usePopup } from "../../Popup";
+import { PickIcon } from "../../PickIcon";
 
 const AnswerBox = styled(Box)(({ theme }) => ({
   border: `solid 1px ${theme.palette.grey[300]}`,
@@ -37,7 +37,7 @@ const AnswerBox = styled(Box)(({ theme }) => ({
 
 const SortHandle = SortableHandle(() => (
   <IconButton size="small" style={{ cursor: "move" }}>
-    <FontAwesomeIcon icon={["far", "bars"]} />
+    <PickIcon icon={"bars"} />
   </IconButton>
 ));
 

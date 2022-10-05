@@ -1,12 +1,12 @@
 import React, {
   createContext,
   Dispatch,
-  ReactNode,
+    ReactNode,
   SetStateAction,
-  useCallback,
+    useCallback,
   useContext,
-  useEffect,
-  useState,
+    useEffect,
+    useState,
 } from "react";
 import {
   createTheme,
@@ -19,164 +19,19 @@ import {
 import { deepmerge } from "@mui/utils";
 import { defaultTheme } from "./default.theme";
 import { useTranslation } from "react-i18next";
-import { initI18Next, loadFromFB } from "./Translate";
+import { initI18Next } from "./Translate";
 import { FirebaseApp } from "firebase/app";
-import {
-  Auth,
-  User,
-  IdTokenResult,
-  getAuth,
-  onIdTokenChanged,
-} from "firebase/auth";
+import { Auth, User, getAuth, onIdTokenChanged } from "firebase/auth";
 import { Firestore, getFirestore } from "firebase/firestore";
 import { Alerts } from "./Alerts";
 import type { To } from "react-router-dom";
-import { library, IconProp } from "@fortawesome/fontawesome-svg-core";
-import {
-  faAlignCenter,
-  faAlignLeft,
-  faAlignRight,
-  faArrows,
-  faArrowsV,
-  faBan,
-  faBars,
-  faBook,
-  faBookOpen,
-  faCactus,
-  faCalendar,
-  faCamera,
-  faCaretDown,
-  faCheck,
-  faCheckCircle,
-  faCheckSquare,
-  faChevronDown,
-  faChevronLeft,
-  faChevronUp,
-  faCircle,
-  faClock,
-  faCog,
-  faCopy,
-  faCopyright,
-  faDiagramPredecessor,
-  faDownload,
-  faEdit,
-  faEllipsisV,
-  faEye,
-  faEyeSlash,
-  faFileAlt,
-  faFolder,
-  faFolderOpen,
-  faGripLines,
-  faHeading,
-  faHorizontalRule,
-  faImage,
-  faImages,
-  faInfoCircle,
-  faLink,
-  faListUl,
-  faMobile,
-  faNewspaper,
-  faPaperclip,
-  faPaperPlane,
-  faParagraph,
-  faPlus,
-  faPlusCircle,
-  faQuestion,
-  faQuestionCircle,
-  faRedo,
-  faRetweet,
-  faSave,
-  faSignIn,
-  faSignOut,
-  faSpinner,
-  faTable,
-  faTimesCircle,
-  faTrash,
-  faTv,
-  faUnlink,
-  faUpload,
-  faUserPlus,
-  faVideo,
-  faXmark,
-} from "@fortawesome/pro-regular-svg-icons";
-import i18next from "i18next";
 import { PopupProvider, PopupTranslate } from "./Popup";
 import "./style.css";
 import { watchDarkmode } from "./watch.darkmode";
-import { TFunction } from './Translate/en_th'
+import { TFunction } from "./Translate/en_th";
+import { PickIconName } from "./PickIcon";
 
-library.add(
-  faPaperclip,
-  faChevronLeft,
-  faFolder,
-  faFileAlt,
-  faCalendar,
-  faClock,
-  faBookOpen,
-  faFolderOpen,
-  faCaretDown,
-  faXmark,
-  faPaperPlane,
-  faHeading,
-  faParagraph,
-  faImage,
-  faTable,
-  faNewspaper,
-  faImages,
-  faBook,
-  faVideo,
-  faHorizontalRule,
-  faPlus,
-  faRedo,
-  faEdit,
-  faBars,
-  faEllipsisV,
-  faSave,
-  faQuestion,
-  faQuestionCircle,
-  faAlignLeft,
-  faAlignRight,
-  faAlignCenter,
-  faMobile,
-  faTv,
-  faArrows,
-  faDownload,
-  faCheck,
-  faCopy,
-  faInfoCircle,
-  faTrash,
-  faEye,
-  faCog,
-  faBan,
-  faSignOut,
-  faUpload,
-  faChevronDown,
-  faSpinner,
-  faSignIn,
-  faLink,
-  faUnlink,
-  faCamera,
-  faGripLines,
-  faDiagramPredecessor,
-  faArrowsV,
-  faCheckSquare,
-  faRetweet,
-  faChevronUp,
-  faCheckCircle,
-  faTimesCircle,
-  faCircle,
-  faEyeSlash,
-  faUserPlus,
-  faCopyright,
-  faListUl,
-  faCactus,
-  faChevronLeft,
-  faPlusCircle
-);
-
-export type { TFunction } from './Translate/en_th'
-
-// console.log(`Document: https://phra-in.web.app`);
+export type { TFunction } from "./Translate/en_th";
 
 initI18Next();
 
@@ -188,21 +43,20 @@ export type SystemState = {
 export interface userTypes {
   loading: boolean;
   data: User | null;
-  claims: IdTokenResult | null;
 }
 export interface CoreProviderProps {
-  theme?: ThemeOptions;
-  firebaseConfig?: { [key: string]: string };
-  firebaseApp: FirebaseApp;
+    theme?: ThemeOptions;
+    firebaseConfig?: { [key: string]: string };
+    firebaseApp: FirebaseApp;
   onSettingChange?: (key: string, value: any) => void;
   sitename?: string;
   logo?: string;
-  logoComponent?: string;
+    logoComponent?: string;
   startActions?: React.ReactNode;
   endActions?: React.ReactNode;
   profileMenu?: React.ReactNode;
   appMenu?: {
-    icon?: IconProp;
+    icon?: PickIconName;
     label?: React.ReactNode;
     to?: To;
     href?: string;
@@ -211,9 +65,9 @@ export interface CoreProviderProps {
 }
 export interface CoreContextTypes
   extends Omit<CoreProviderProps, "firebaseApp"> {
-  firebaseApp?: CoreProviderProps["firebaseApp"];
+    firebaseApp?: CoreProviderProps["firebaseApp"];
   isMobile: boolean;
-  theme: Theme;
+    theme: Theme;
   t: TFunction;
   fb: null | {
     auth: Auth;
@@ -229,17 +83,16 @@ export interface CoreContextTypes
 
 const CoreContext = createContext<CoreContextTypes>({
   isMobile: false,
-  theme: createTheme({}),
+    theme: createTheme({}),
   t: () => "",
   fb: null,
   user: {
     loading: true,
     data: null,
-    claims: null,
   },
   setUser: () => {},
-  sitename: "",
-  logo: "",
+    sitename: "",
+    logo: "",
   open: {},
   setOpen: () => {},
   systemState: {
@@ -256,7 +109,6 @@ export const CoreProvider = React.memo(
     const [user, setUser] = useState<CoreContextTypes["user"]>({
       loading: true,
       data: null,
-      claims: null,
     });
     const [open, setOpen] = useState<Record<string, boolean>>({});
     const [systemState, setSystemState] = useState<SystemState>({
@@ -297,28 +149,21 @@ export const CoreProvider = React.memo(
           setFB((s) => ({ ...s, auth: auth, db: db }));
         }
 
-        loadFromFB(db).then((langs) => {
-          langs.forEach(({ name, value }) =>
-            i18next.addResourceBundle(name, "translation", value)
-          );
-          const current = i18next.language;
-          i18next.changeLanguage(current);
-        });
+        // loadFromFB(db).then((langs) => {
+        //   langs.forEach(({ name, value }) =>
+        //     i18next.addResourceBundle(name, "translation", value)
+        //   );
+        //   const current = i18next.language;
+        //   i18next.changeLanguage(current);
+        // });
         const unwatchIdTokenChanged = onIdTokenChanged(auth, async (data) => {
           if (data) {
-            const claims = await data.getIdTokenResult(true);
-            setUser((s) => ({
-              ...s,
-              loading: false,
-              data: data,
-              claims: claims,
-            }));
+            setUser((s) => ({ ...s, loading: false, data }));
           } else {
             setUser((s) => ({
               ...s,
               loading: false,
               data: null,
-              claims: null,
             }));
           }
         });
@@ -376,3 +221,5 @@ export const CoreProvider = React.memo(
 );
 
 export const useCore = () => useContext(CoreContext);
+
+export default CoreProvider;

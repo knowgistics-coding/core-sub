@@ -9,8 +9,8 @@ import React, {
 import { CreditDisplay, CreditDisplayProps } from "./credit";
 import { BlurhashImage } from "./blurhash.image";
 import { useOnScreen } from "./observ";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { apiURL } from "../Controller";
+import { PickIcon } from "../PickIcon";
 
 export * from "./blurhash.image";
 
@@ -65,7 +65,9 @@ interface rootProps {
   ratio?: number;
   hover?: boolean;
 }
-const Root = styled(Box)<rootProps>(({ ratio, hover, theme }) => ({
+const Root = styled(Box, {
+  shouldForwardProp: (prop) => prop !== "hover",
+})<rootProps>(({ ratio, hover, theme }) => ({
   position: "relative",
   backgroundColor: theme.palette.neutral.main,
   "&:after": {
@@ -178,7 +180,7 @@ export const StockDisplay = ({
         <LinkStyled href={props.url} rel="noreferrer" target="_blank">
           {p.children}
           <Box className="link-icon">
-            <FontAwesomeIcon icon={["far", "link"]} />
+            <PickIcon icon={"link"} />
           </Box>
         </LinkStyled>
       ) : (

@@ -8,11 +8,11 @@ import {
 import { Box, Grid, GridProps } from "@mui/material";
 import { ListButton } from "./list.button";
 import { QDParagraph } from "./paragraph";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { arrayShuffle } from "../func";
 import { arrayMoveImmutable } from "array-move";
 import { QDImgDisplay } from "../QuizEditor/img";
 import update from "react-addons-update";
+import { PickIcon } from "../PickIcon";
 
 const SortContainer = SortableContainer<GridProps>((props: GridProps) => (
   <Grid container spacing={1} {...props} />
@@ -69,7 +69,7 @@ export const QDSorting = () => {
                         return undefined;
                     }
                   })()}
-                  icon={<FontAwesomeIcon icon={["far", "arrows"]} />}
+                  icon={<PickIcon icon={"arrows"} />}
                 />
               </SortItem>
             );

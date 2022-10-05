@@ -1,11 +1,11 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Button } from '@mui/material'
 import React, { useState } from 'react'
 import update from 'react-addons-update'
 import { useCore } from '../context'
+import { PickIcon } from '../PickIcon'
 import { useSP } from './context'
 
-const UploadIcon = () => <FontAwesomeIcon icon={['far', 'folder-open']} />
+const UploadIcon = () => <PickIcon icon={"folder-open"} />
 
 export const SPUpload = () => {
   const { t } = useCore()
@@ -65,7 +65,7 @@ export const SPUpload = () => {
         <Button
           variant='outlined'
           disabled
-          startIcon={<FontAwesomeIcon icon={['far', 'spinner']} pulse />}
+          startIcon={<PickIcon icon={"spinner"} pulse />}
         >
           Uploading {selfState.progress}%
         </Button>

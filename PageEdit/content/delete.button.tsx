@@ -1,10 +1,9 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconButton, IconButtonProps, Tooltip } from "@mui/material";
 import { useCore } from "../../context";
 import React from "react";
-import update from "react-addons-update";
-import { PageContentTypes, usePE } from "../context";
+import { usePE } from "../context";
 import { usePopup } from "../../Popup";
+import { PickIcon } from "../../PickIcon";
 
 export const PEContentDeleteButton = React.forwardRef<
   HTMLButtonElement,
@@ -15,6 +14,7 @@ export const PEContentDeleteButton = React.forwardRef<
     state: { selected },
     setState,
     setData,
+    pageData,
   } = usePE();
   const { Popup } = usePopup();
 
@@ -24,17 +24,7 @@ export const PEContentDeleteButton = React.forwardRef<
       text: t("Do You Want To Remove $Name", { name: t("Selected") }),
       icon: "trash",
       onConfirm: () => {
-        setData((d) =>
-          update(d, {
-            contents: {
-              $apply: (contents: PageContentTypes[]) => {
-                return contents.filter(
-                  (content) => !selected.includes(content.key)
-                );
-              },
-            },
-          })
-        );
+        setData(pageData.content.remove(selected).toJSON());
         setState((s) => ({ ...s, selected: [] }));
       },
     });
@@ -44,8 +34,14 @@ export const PEContentDeleteButton = React.forwardRef<
     <React.Fragment>
       {selected.length > 0 && (
         <Tooltip title={t("Remove $Name", { name: t("Selected") })}>
-          <IconButton size="small" ref={ref} {...props} onClick={handleRemove}>
-            <FontAwesomeIcon icon={["far", "trash"]} />
+          <IconButton
+            size="small"
+            ref={ref}
+            {...props}
+            onClick={handleRemove}
+            color="inherit"
+          >
+            <PickIcon icon={"trash"} />
           </IconButton>
         </Tooltip>
       )}

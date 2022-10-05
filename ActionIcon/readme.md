@@ -3,7 +3,7 @@
 ```ts
 return (<>
   <ActionIcon icon={faEdit} />
-  <ActionIcon icon={["far", "check"]} color='primary' />
+  <ActionIcon icon={faCheck} color='primary' />
 </>)
 ```
 
