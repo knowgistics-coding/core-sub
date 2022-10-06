@@ -11,6 +11,7 @@ import {
   faBars,
   faBed,
   faBicycle,
+  faBookAlt,
   faBookOpen,
   faBriefcase,
   faBrowser,
@@ -196,7 +197,8 @@ library.add(
   faCheckCircle,
   faCircle,
   faMagnifyingGlassPlus,
-  faMagnifyingGlassMinus
+  faMagnifyingGlassMinus,
+  faBookAlt
 );
 
 export type PickIconName =
@@ -211,6 +213,7 @@ export type PickIconName =
   | "bars"
   | "bed"
   | "bicycle"
+  | "book-alt"
   | "book-open"
   | "briefcase"
   | "browser"
