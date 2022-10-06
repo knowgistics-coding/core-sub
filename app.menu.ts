@@ -1,11 +1,11 @@
 import * as React from "react";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { To } from "react-router-dom";
 import { FirebaseApp } from "firebase/app";
 import { get, getDatabase, ref } from "firebase/database";
+import { PickIconName } from "./PickIcon";
 
 export type AppMenu = {
-  icon?: IconProp;
+  icon?: PickIconName;
   label?: React.ReactNode;
   to?: To;
   href?: string;
