@@ -20,10 +20,12 @@ export type LocaleKey =
   | "Answer"
   | "Answer Text"
   | "Appearance"
+  | "Approve"
   | "Assignment"
   | "AttachFiles"
   | "Attemps"
   | "Back"
+  | "Bank"
   | "Book"
   | "Box"
   | "Bottom"
@@ -38,6 +40,7 @@ export type LocaleKey =
   | "Change Language"
   | "Change title"
   | "Change Image"
+  | "Chat"
   | "Choice"
   | "Choose"
   | "Choose $Name"
@@ -54,6 +57,7 @@ export type LocaleKey =
   | "Convert to $Name"
   | "Collaborated Courses"
   | "Collaborated Teacher"
+  | "Copy"
   | "Copied"
   | "Course"
   | "Course Manager"
@@ -84,6 +88,7 @@ export type LocaleKey =
   | "Empty"
   | "End"
   | "English"
+  | "Enroll"
   | "Error"
   | "False"
   | "Feature Image"
@@ -263,6 +268,7 @@ export type LocaleKey =
   | "True / False"
   | "Type"
   | "TypeHere"
+  | "Unenroll"
   | "Undefined"
   | "Unsort"
   | "Unsubmit"
@@ -316,10 +322,12 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Answer: ["Answer", "คำตอบ"],
   "Answer Text": ["Answer Text", "ข้อความคำตอบ"],
   Appearance: ["Appearance", "การแสดงผล"],
+  Approve: ["Approve", "ยืนยัน"],
   Assignment: ["Assignment", "งานที่มอบหมาย"],
   AttachFiles: ["Attach Files", "แนบเอกสาร"],
   Attemps: ["Attemps", "ครั้งที่ทำได้"],
   Back: ["Back", "กลับ"],
+  Bank: ["Bank", "คลัง"],
   Book: ["Book", "หนังสือ"],
   Box: ["Box", "กล่อง"],
   Bottom: ["Bottom", "ล่าง"],
@@ -329,11 +337,12 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Card: ["Card", "การ์ด"],
   Center: ["Center", "กลาง"],
   Change: ["Change", "เปลี่ยน"],
-  Chapter: ["Chapter", "บท"],
   "Change $Name": ["Change {{name}}", "เปลี่ยน{{name}}"],
   "Change Language": ["Change Language", "เปลี่ยนภาษา"],
   "Change title": ["Change title", "แก้ไขชื่อ"],
   "Change Image": ["Change Image", "เปลี่ยนรูปภาพ"],
+  Chapter: ["Chapter", "บท"],
+  Chat: ["Chat", "พูดคุย"],
   Choice: ["Choice", "ตัวเลือก"],
   Choose: ["Choose", "เลือก"],
   "Choose $Name": ["Choose {{name}}", "เลือก{{name}}"],
@@ -350,6 +359,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "Convert to $Name": ["Convert to {{name}}", "แปลงเป็น{{name}}"],
   "Collaborated Courses": ["Collaborated Courses", "หลักสูตรที่ร่วมสอน"],
   "Collaborated Teacher": ["Collaborated Teacher", "ผู้ร่วมสอน"],
+  Copy: ["Copy", "คัดลอก"],
   Copied: ["Copied", "คัดลอกแล้ว"],
   Course: ["Course", "หลักสูตร"],
   "Course Manager": ["Course Manager", "จัดการหลักสูตร"],
@@ -392,6 +402,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Empty: ["Empty", "ว่างเปล่า"],
   End: ["End", "สิ้นสุด"],
   English: ["English", "อังกฤษ"],
+  Enroll: ["English", "ลงทะเบียน"],
   Error: ["Error", "เกิดข้อผิดพลาด"],
   False: ["False", "ผิด"],
   "Feature Image": ["Feature Image", "ภาพปก"],
@@ -580,6 +591,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "True / False": ["True / False", "ถูก / ผิด"],
   Type: ["Type", "ประเภท"],
   TypeHere: ["Type Here", "พิมพ์ที่นี่"],
+  Unenroll: ["Unenroll", "เพิกถอน"],
   Undefined: ["Undefined", "ไม่ได้กำหนด"],
   Unsort: ["Unsort", "ยกเลิกการเรียง"],
   Unsubmit: ["Unsubmit", "ยกเลิกการส่ง"],

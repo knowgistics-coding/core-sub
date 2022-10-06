@@ -41,7 +41,7 @@ export const cleanObject = <T extends unknown>(data: T): T | null => {
   } else if (data instanceof Date) {
     return data;
   } else if (typeof data === "object") {
-    let newData = { ...data } as Record<string, unknown>;
+    let newData = Object.assign({}, data) as Record<string, unknown>;
     Object.entries(newData as Object).forEach(([key, value]) => {
       if (typeof value === "undefined") {
         delete newData[key];

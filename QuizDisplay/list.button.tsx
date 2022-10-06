@@ -22,7 +22,7 @@ export const ListButton = styled(
           {icon ? (
             icon
           ) : (
-            <PickIcon icon={props.selected ? "check-circle" : "check"} />
+            <PickIcon icon={props.selected ? "check-circle" : "circle"} />
           )}
         </ListItemIcon>
         <ListItemText

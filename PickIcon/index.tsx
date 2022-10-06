@@ -21,12 +21,15 @@ import {
   faCar,
   faCaretDown,
   faChalkboard,
+  faCheck,
+  faCheckCircle,
   faCheckSquare,
   faChevronDown,
   faChevronLeft,
   faChevronRight,
   faChevronUp,
   faChild,
+  faCircle,
   faClock,
   faCog,
   faCopy,
@@ -56,6 +59,8 @@ import {
   faLink,
   faLinkSlash,
   faListOl,
+  faMagnifyingGlassMinus,
+  faMagnifyingGlassPlus,
   faMobile,
   faMugSaucer,
   faNewspaper,
@@ -186,7 +191,12 @@ library.add(
   faFileDownload,
   faFolderPlus,
   faBrowser,
-  faSpinner
+  faSpinner,
+  faCheck,
+  faCheckCircle,
+  faCircle,
+  faMagnifyingGlassPlus,
+  faMagnifyingGlassMinus
 );
 
 export type PickIconName =
@@ -219,6 +229,7 @@ export type PickIconName =
   | "chevron-right"
   | "chevron-up"
   | "child"
+  | "circle"
   | "clock"
   | "cog"
   | "copy"
@@ -249,6 +260,8 @@ export type PickIconName =
   | "link"
   | "link-slash"
   | "list-ol"
+  | "magnifying-glass-minus"
+  | "magnifying-glass-plus"
   | "mobile"
   | "mug-saucer"
   | "newspaper"
