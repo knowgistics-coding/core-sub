@@ -13,6 +13,7 @@ import {
   faBicycle,
   faBookOpen,
   faBriefcase,
+  faBrowser,
   faBus,
   faCactus,
   faCalendar,
@@ -73,6 +74,7 @@ import {
   faShip,
   faSignIn,
   faSignOut,
+  faSpinner,
   faSubway,
   faTable,
   faTrain,
@@ -182,7 +184,9 @@ library.add(
   faListOl,
   faCaretDown,
   faFileDownload,
-  faFolderPlus
+  faFolderPlus,
+  faBrowser,
+  faSpinner
 );
 
 export type PickIconName =
@@ -199,6 +203,7 @@ export type PickIconName =
   | "bicycle"
   | "book-open"
   | "briefcase"
+  | "browser"
   | "bus"
   | "cactus"
   | "calendar"

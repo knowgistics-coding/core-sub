@@ -153,3 +153,5 @@ export const Absatz = React.memo((props: AbsatzProps) => {
     </Root>
   );
 });
+
+export default Absatz;

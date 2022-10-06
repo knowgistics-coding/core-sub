@@ -16,3 +16,5 @@ export const ActionIcon = styled(
     );
   }
 )({});
+
+export default ActionIcon;
