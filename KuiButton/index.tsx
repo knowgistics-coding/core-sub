@@ -1,5 +1,5 @@
 import { Button, ButtonProps } from "@mui/material";
-import { useTranslation } from "react-i18next";
+import { useCore } from "../context";
 import { PickIcon, PickIconProps } from "../PickIcon";
 
 export interface KuiButtonProps extends ButtonProps {
@@ -29,7 +29,7 @@ export const KuiButton = ({
   ...props
 }: KuiButtonProps) => {
   let txProps: ButtonProps = {};
-  const { t } = useTranslation();
+  const { t } = useCore();
 
   switch (tx) {
     case "add":

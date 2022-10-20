@@ -9,14 +9,13 @@ import {
 import { useMC } from "./ctx";
 import i18next from "i18next";
 import { SystemMode, useCore } from "../context";
-import { useTranslation } from "react-i18next";
 import { DialogCompact } from "../DialogCompact";
 // import { MCLine } from './line'
 
 export const MCSetting = () => {
   const { open, handleOpen } = useMC();
   const { systemState, setSystemState } = useCore();
-  const { t } = useTranslation();
+  const { t } = useCore();
   const lang = i18next.language;
 
   const handleChangeLang = (event: SelectChangeEvent<string>) => {
@@ -41,7 +40,7 @@ export const MCSetting = () => {
             onChange={handleChangeLang}
           >
             <MenuItem value="" disabled>
-              -- {t("Choose$Name", { name: t("Language") })} --
+              -- {t("Choose $Name", { name: t("Language") })} --
             </MenuItem>
             <MenuItem value="th">ไทย</MenuItem>
             <MenuItem value="en">English</MenuItem>
