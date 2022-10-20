@@ -108,7 +108,9 @@ export const Karte = (props: KarteProps) => {
           <LoadingBox />
         ) : (
           <Absolute>
-            {props.feature && <FeatureBox src={props.feature} />}
+            {props.feature && (
+              <FeatureBox src={props.feature} pos={props.pos} />
+            )}
             <ContentBox>
               <Box className="inner-content">
                 <Typography variant="h6">{props.title}</Typography>
