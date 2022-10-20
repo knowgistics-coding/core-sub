@@ -11,6 +11,7 @@ import {
   faBars,
   faBed,
   faBicycle,
+  faBook,
   faBookAlt,
   faBookOpen,
   faBriefcase,
@@ -101,7 +102,7 @@ import {
   FontAwesomeIconProps,
 } from "@fortawesome/react-fontawesome";
 
-library.add(
+const iconLists = [
   faChevronLeft,
   faSave,
   faPaperclip,
@@ -117,8 +118,8 @@ library.add(
   faBookOpen,
   faFolderOpen,
   faLink,
-  faFacebook as IconDefinition,
-  faYoutube as IconDefinition,
+  faFacebook,
+  faYoutube,
   faVideo,
   faImages,
   faCopyright,
@@ -198,8 +199,11 @@ library.add(
   faCircle,
   faMagnifyingGlassPlus,
   faMagnifyingGlassMinus,
-  faBookAlt
-);
+  faBookAlt,
+  faBook,
+] as IconDefinition[];
+
+library.add(...iconLists);
 
 export type PickIconName =
   | "align-center"
@@ -213,6 +217,7 @@ export type PickIconName =
   | "bars"
   | "bed"
   | "bicycle"
+  | "book"
   | "book-alt"
   | "book-open"
   | "briefcase"
