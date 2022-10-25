@@ -23,6 +23,7 @@ import {
   faCar,
   faCaretDown,
   faChalkboard,
+  faChalkboardTeacher,
   faCheck,
   faCheckCircle,
   faCheckSquare,
@@ -32,6 +33,7 @@ import {
   faChevronUp,
   faChild,
   faCircle,
+  faCircleCheck,
   faClock,
   faCog,
   faCopy,
@@ -42,17 +44,22 @@ import {
   faDrawPolygon,
   faEdit,
   faEllipsisV,
+  faEnvelope,
   faExclamationTriangle,
   faEye,
   faEyeSlash,
   faFileAlt,
+  faFileCircleXmark,
   faFileDownload,
   faFileSlash,
   faFolder,
   faFolderOpen,
   faFolderPlus,
+  faGraduationCap,
   faGripDotsVertical,
+  faGripLines,
   faHeading,
+  faHome,
   faHorizontalRule,
   faHospital,
   faImage,
@@ -203,6 +210,13 @@ const iconLists = [
   faBookAlt,
   faBook,
   faUserEdit,
+  faCircleCheck,
+  faHome,
+  faGraduationCap,
+  faChalkboardTeacher,
+  faEnvelope,
+  faFileCircleXmark,
+  faGripLines,
 ] as IconDefinition[];
 
 library.add(...iconLists);
@@ -231,6 +245,7 @@ export type PickIconName =
   | "car"
   | "caret-down"
   | "chalkboard"
+  | "chalkboard-teacher"
   | "check"
   | "check-circle"
   | "check-square"
@@ -240,6 +255,7 @@ export type PickIconName =
   | "chevron-up"
   | "child"
   | "circle"
+  | "circle-check"
   | "clock"
   | "cog"
   | "copy"
@@ -250,18 +266,23 @@ export type PickIconName =
   | "draw-polygon"
   | "edit"
   | "ellipsis-v"
+  | "envelope"
   | "exclamation-triangle"
   | "eye"
   | "eye-slash"
   | "facebook"
   | "file-alt"
+  | "file-circle-xmark"
   | "file-download"
   | "file-slash"
   | "folder"
   | "folder-open"
   | "folder-plus"
+  | "graduation-cap"
   | "grip-dots-vertical"
+  | "grip-lines"
   | "heading"
+  | "home"
   | "horizontal-rule"
   | "hospital"
   | "info-circle"

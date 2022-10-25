@@ -59,7 +59,7 @@ const lists = (
   add: {
     variant: "outlined",
     children: t("Create"),
-    startIcon: <PickIcon icon={"trash"} />,
+    startIcon: <PickIcon icon={"plus"} />,
     color: "info",
   },
   bin: {

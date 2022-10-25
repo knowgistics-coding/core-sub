@@ -66,6 +66,7 @@ export type LocaleKey =
   | "Create"
   | "Create $Name"
   | "Created"
+  | "Custom Field"
   | "Dark"
   | "Dark Mode"
   | "Date"
@@ -174,6 +175,7 @@ export type LocaleKey =
   | "Number"
   | "Number Of $Name"
   | "Occupation"
+  | "Online Quiz"
   | "Organize"
   | "Open"
   | "Or"
@@ -210,11 +212,13 @@ export type LocaleKey =
   | "Rename"
   | "Reverse"
   | "Right Answer"
+  | "Role"
   | "Save"
   | "Save Before Leave"
   | "Saved"
   | "Send Email"
   | "Set As $Name"
+  | "Schedule"
   | "Score"
   | "School"
   | "Search"
@@ -292,6 +296,7 @@ export type LocaleKey =
   | "VDO"
   | "Visibility"
   | "Website"
+  | "Weight"
   | "Weighted Score"
   | "Welcome"
   | "Width"
@@ -380,6 +385,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Create: ["Create", "สร้าง"],
   "Create $Name": ["Create {{name}}", "สร้าง{{name}}"],
   Created: ["Created !", "สร้างแล้ว !"],
+  "Custom Field": ["Custom Field", "ฟิล์ดที่กำหนดเอง"],
   Dark: ["Dark", "มืด"],
   "Dark Mode": ["Dark Mode", "ธีมสีเข้ม"],
   Date: ["Date", "วันที่"],
@@ -500,6 +506,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Number: ["Number", "ตัวเลข"],
   "Number Of $Name": ["Number of {{name}}", "จำนวน{{name}}"],
   Occupation: ["Occupation", "อาชีพ"],
+  "Online Quiz": ["Online Quiz", "แบบทดสอบออนไลน์"],
   Organize: ["Organize", "องค์กร"],
   Open: ["Open", "เปิด"],
   Or: ["Or", "หรือ"],
@@ -538,6 +545,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Rename: ["Rename", "เปลี่ยนชื่อ"],
   Reverse: ["Reverse", "กลับด้าน"],
   "Right Answer": ["Right answer", "คำตอบที่ถูกต้อง"],
+  Role: ["Role", "บทบาท"],
   "Rows per page": ["Row per Page", "จำนวนแถวต่อหน้า"],
   Save: ["Save", "บันทึก"],
   "Save Before Leave": [
@@ -547,6 +555,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Saved: ["Saved", "บันทึกสำเร็จ"],
   "Send Email": ["Send E-mail", "ส่งอีเมล"],
   "Set As $Name": ["Set as {{name}}", "ตั้งค่าเป็น{{name}}"],
+  Schedule: ["Schedule", "กำหนดการ"],
   Score: ["Score", "คะแนน"],
   School: ["School", "โรงเรียน"],
   Search: ["Search", "ค้นหา"],
@@ -627,6 +636,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   VDO: ["VDO", "วีดิโอ"],
   Visibility: ["Visibility", "การมองเห็น"],
   Website: ["Website", "เว็บไซต์"],
+  Weight: ["Weight", "น้ำหนัก"],
   "Weighted Score": ["Weighted Score", "น้ำหนักคะแนน"],
   Welcome: ["Welcome", "ยินดีต้อนรับ"],
   Width: ["Width", "กว้าง"],
