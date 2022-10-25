@@ -50,6 +50,7 @@ export type LocaleKey =
   | "Close"
   | "Close Path"
   | "Collection"
+  | "Contact"
   | "Component"
   | "Composition"
   | "Confirm"
@@ -117,13 +118,16 @@ export type LocaleKey =
   | "Images"
   | "Import"
   | "Import $Name"
+  | "Information"
   | "Insert After"
   | "Insert Before"
+  | "Institute"
   | "Invalid Email"
   | "Invite"
   | "Invite $Name"
   | "Item"
   | "Regardless Real Score"
+  | "Job Title"
   | "Language"
   | "Last Modified"
   | "Last Name"
@@ -169,10 +173,12 @@ export type LocaleKey =
   | "$Name not found"
   | "Number"
   | "Number Of $Name"
+  | "Occupation"
   | "Organize"
   | "Open"
   | "Or"
   | "Other"
+  | "Others"
   | "Page"
   | "Paragraph"
   | "Password"
@@ -210,6 +216,7 @@ export type LocaleKey =
   | "Send Email"
   | "Set As $Name"
   | "Score"
+  | "School"
   | "Search"
   | "Search $Name"
   | "Select right answer"
@@ -233,6 +240,7 @@ export type LocaleKey =
   | "Sort by ASC"
   | "Sort by DESC"
   | "Sorting"
+  | "Specify Others"
   | "Spacing"
   | "Staff"
   | "Start"
@@ -256,6 +264,7 @@ export type LocaleKey =
   | "TEACH"
   | "Teacher"
   | "Teacher List"
+  | "Telephone"
   | "Test"
   | "Thai"
   | "Thumbnail"
@@ -270,6 +279,7 @@ export type LocaleKey =
   | "TypeHere"
   | "Unenroll"
   | "Undefined"
+  | "University"
   | "Unsort"
   | "Unsubmit"
   | "Untitled"
@@ -285,6 +295,8 @@ export type LocaleKey =
   | "Weighted Score"
   | "Welcome"
   | "Width"
+  | "Work"
+  | "Workplace"
   | "You've reached the maximum attempts"
   | "Yes"
   | "You"
@@ -359,6 +371,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "Convert to $Name": ["Convert to {{name}}", "แปลงเป็น{{name}}"],
   "Collaborated Courses": ["Collaborated Courses", "หลักสูตรที่ร่วมสอน"],
   "Collaborated Teacher": ["Collaborated Teacher", "ผู้ร่วมสอน"],
+  Contact: ["Contact", "ติดต่อ"],
   Copy: ["Copy", "คัดลอก"],
   Copied: ["Copied", "คัดลอกแล้ว"],
   Course: ["Course", "หลักสูตร"],
@@ -431,12 +444,15 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Images: ["Images", "รูปภาพ"],
   Import: ["Import", "นำเข้า"],
   "Import $Name": ["Import {{name}}", "นำเข้า{{name}}"],
+  "Information": ["Information", "ข้อมูล"],
   "Insert After": ["Insert After", "แทรกด้านหลัง"],
   "Insert Before": ["Insert Before", "แทรกก่อนหน้า"],
+  Institute: ["Institute", "สถาบัน"],
   "Invalid Email": ["Invalid E-mail", "รูปแบบอีเมลไม่ถูกต้อง"],
   Invite: ["Invite", "เชิญ"],
   "Invite $Name": ["Invite {{name}}", "เชิญ{{name}}"],
   Item: ["Item", "ไอเทม"],
+  "Job Title": ["Job Title", "ชื่อตำแหน่ง"],
   "Regardless Real Score": ["Regardless Real Score", "ไม่พิจารณาคะแนนจริง"],
   Language: ["Language", "ภาษา"],
   "Last Modified": ["Last Modified", "ปรับปรุงล่าสุด"],
@@ -483,10 +499,12 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "$Name not found": ["{{name}} not found", "ไม่พบ{{name}}"],
   Number: ["Number", "ตัวเลข"],
   "Number Of $Name": ["Number of {{name}}", "จำนวน{{name}}"],
+  Occupation: ["Occupation", "อาชีพ"],
   Organize: ["Organize", "องค์กร"],
   Open: ["Open", "เปิด"],
   Or: ["Or", "หรือ"],
   Other: ["Other", "อื่นๆ"],
+  Others: ["Others", "อื่นๆ"],
   Page: ["Page", "เพจ"],
   Paragraph: ["Paragraph", "ย่อหน้า"],
   Password: ["Password", "รหัสผ่าน"],
@@ -530,6 +548,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "Send Email": ["Send E-mail", "ส่งอีเมล"],
   "Set As $Name": ["Set as {{name}}", "ตั้งค่าเป็น{{name}}"],
   Score: ["Score", "คะแนน"],
+  School: ["School", "โรงเรียน"],
   Search: ["Search", "ค้นหา"],
   "Search $Name": ["Search {{name}}", "ค้นหา{{name}}"],
   "Select right answer": ["Select right answer", "เลือกคำตอบที่ถูกต้อง"],
@@ -557,6 +576,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "Sort by DESC": ["Sort by ASC", "เรียงจากมากไปน้อย"],
   Sorting: ["Sorting", "เรียงลำดับ"],
   Spacing: ["Spacing", "ระยะห่าง"],
+  "Specify Others": ["Others (please specify)", "อื่นๆ (โปรดระบุ)"],
   Staff: ["Staff", "บุคลากร"],
   Start: ["Start", "เริ่มต้น"],
   "Start writting or type": ["Start writting or type", "เริ่มการพิมพ์"],
@@ -579,6 +599,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   TEACH: ["TEACH", "สอน"],
   Teacher: ["Teacher", "ผู้สอน"],
   "Teacher List": ["Teacher List", "รายชื่อผู้สอน"],
+  "Telephone": ["Telephone", "โทรศัพท์"],
   Test: ["Test", "ทดสอบ"],
   Thai: ["Thai", "ไทย"],
   Thumbnail: ["Thumbnail", "รูปขนาดย่อ"],
@@ -593,6 +614,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   TypeHere: ["Type Here", "พิมพ์ที่นี่"],
   Unenroll: ["Unenroll", "เพิกถอน"],
   Undefined: ["Undefined", "ไม่ได้กำหนด"],
+  University: ["University", "มหาวิทยาลัย"],
   Unsort: ["Unsort", "ยกเลิกการเรียง"],
   Unsubmit: ["Unsubmit", "ยกเลิกการส่ง"],
   Untitled: ["Untitled", "ยังไม่มีชื่อ"],
@@ -612,6 +634,8 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
     "You've reached the maximum attempts",
     "ท่านทำถึงจำนวนครั้งสูงสุดที่ทำได้แล้ว",
   ],
+  Work: ["Work", "งาน"],
+  Workplace: ["Workplace", "สถานที่ทำงาน"],
   Yes: ["Yes", "ใช่"],
   You: ["You", "คุณ"],
   /**
