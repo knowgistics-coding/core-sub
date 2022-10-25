@@ -89,6 +89,7 @@ import {
   faTv,
   faUnlink,
   faUpload,
+  faUserEdit,
   faUserPlus,
   faUtensils,
   faVideo,
@@ -201,6 +202,7 @@ const iconLists = [
   faMagnifyingGlassMinus,
   faBookAlt,
   faBook,
+  faUserEdit,
 ] as IconDefinition[];
 
 library.add(...iconLists);
@@ -296,6 +298,7 @@ export type PickIconName =
   | "tv"
   | "unlink"
   | "upload"
+  | "user-edit"
   | "user-plus"
   | "utensils"
   | "video"
