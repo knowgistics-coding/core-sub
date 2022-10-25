@@ -15,6 +15,11 @@ export const ActionIcon = styled(
       </IconButton>
     );
   }
-)({});
+)({
+  "&.MuiIconButton-sizeLarge": {
+    width: 48,
+    height: 48
+  }
+});
 
 export default ActionIcon;
