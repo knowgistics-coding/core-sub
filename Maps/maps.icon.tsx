@@ -3,7 +3,7 @@ import React from "react";
 import { far } from "@fortawesome/pro-regular-svg-icons";
 import { PickIcon, PickIconName } from "../PickIcon";
 
-type MarkerCatType =
+export type MarkerCatType =
   | "airport"
   | "station"
   | "busstop"
