@@ -2,8 +2,9 @@ import { Box, Pagination } from "@mui/material";
 import * as React from "react";
 import { Container } from "../Container";
 import { ContentHeaderProps } from "../ContentHeader";
-import { BookDocument, PostRealmData } from "../Controller";
+import { BookData } from "../Controller";
 import { MainContainer } from "../MainContainer";
+import { PageDocument } from "../PageEdit";
 import { PageViewer } from "../PageViewer";
 import { BookViewCover } from "./cover";
 import { BookViewSidebar } from "./sidebar";
@@ -11,8 +12,8 @@ import { BookViewSidebar } from "./sidebar";
 export interface BookViewProps {
   loading?: boolean;
   back?: string;
-  value?: BookDocument;
-  posts?: Record<string, PostRealmData>;
+  value?: BookData;
+  posts?: Record<string, PageDocument>;
   breadcrumbs?: ContentHeaderProps["breadcrumbs"];
 }
 
@@ -38,8 +39,8 @@ export const BookView = (props: BookViewProps) => {
     props.value?.contents?.reduce((total: string[], content) => {
       if (content.type === "post") {
         return total.concat(content.key);
-      } else if (content.type === "folder" && content.folder?.length) {
-        return total.concat(...content.folder.map((item) => item.key));
+      } else if (content.type === "folder" && content.items?.length) {
+        return total.concat(...content.items.map((item) => item.key));
       }
       return total;
     }, []) || [];
@@ -48,11 +49,11 @@ export const BookView = (props: BookViewProps) => {
       {},
       ...(props.value?.contents?.reduce(
         (total: Record<string, string>[], content) => {
-          if (content.type === "post" && content.post) {
-            return total.concat({ [content.key]: content.post });
-          } else if (content.type === "folder" && content.folder?.length) {
+          if (content.type === "post" && content.value) {
+            return total.concat({ [content.key]: content.value });
+          } else if (content.type === "folder" && content.items?.length) {
             return total.concat(
-              ...content.folder.map((item) => ({ [item.key]: item.post! }))
+              ...content.items.map((item) => ({ [item.key]: item.value! }))
             );
           }
           return total;

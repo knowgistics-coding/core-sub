@@ -43,11 +43,11 @@ export const BookViewSidebar = () => {
                 case "folder":
                   return (
                     <Folder
-                      label={content.label}
-                      length={content.folder?.length}
+                      label={content.title}
+                      length={content.items?.length}
                       key={content.key}
                     >
-                      {content.folder?.map((item, index, items) => (
+                      {content.items?.map((item, index, items) => (
                         <ListItemChildPost
                           divider={items.length - 1 > index}
                           dense
@@ -58,10 +58,10 @@ export const BookViewSidebar = () => {
                           <ListItemIcon>
                             <FontAwesomeIcon icon={["far", "file-alt"]} />
                           </ListItemIcon>
-                          <ListItemText primary={item.label} />
+                          <ListItemText primary={item.title} />
                         </ListItemChildPost>
                       ))}
-                      {!Boolean(content.folder?.length) && (
+                      {!Boolean(content.items?.length) && (
                         <ListItemButton disabled dense>
                           <ListItemText secondary="No Item" />
                         </ListItemButton>
@@ -79,7 +79,7 @@ export const BookViewSidebar = () => {
                       <ListItemIcon>
                         <FontAwesomeIcon icon={["far", "file-alt"]} />
                       </ListItemIcon>
-                      <ListItemText primary={content.label} />
+                      <ListItemText primary={content.title} />
                     </ListItemPost>
                   );
               }
