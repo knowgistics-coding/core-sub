@@ -1,13 +1,14 @@
 import { BoxProps } from '@mui/material'
 import { createContext, useContext } from 'react'
+import { QuizAnswerTypes } from '../QuizDisplay'
 import { QuizDocument } from '../QuizEditor'
 
-export interface QuizAnswerTypes {
-  truefalse?: string
-  multiple?: number
-  matching?: { [key: number]: string }
-  sorting?: number[]
-}
+// export interface QuizAnswerTypes {
+//   truefalse?: string
+//   multiple?: number
+//   matching?: { [key: number]: string }
+//   sorting?: number[]
+// }
 
 export interface QuizDisplayProps {
   answer?: QuizAnswerTypes

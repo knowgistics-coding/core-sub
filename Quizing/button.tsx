@@ -1,15 +1,10 @@
-import { IconName } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { styled, Button, ButtonProps } from "@mui/material";
 import { useCore } from "../context";
+import { PickIcon, PickIconName } from "../PickIcon";
 
-type SimpleButtonProps = ButtonProps & { icon: IconName };
+type SimpleButtonProps = ButtonProps & { icon: PickIconName };
 const SimpleButton = styled(({ icon, ...props }: SimpleButtonProps) => (
-  <Button
-    variant="outlined"
-    startIcon={<FontAwesomeIcon icon={["far", icon]} />}
-    {...props}
-  />
+  <Button variant="outlined" startIcon={<PickIcon icon={icon} />} {...props} />
 ))<SimpleButtonProps>({});
 
 export const NextButton = (props: ButtonProps) => {
@@ -33,16 +28,13 @@ export const PrevButton = (props: ButtonProps) => {
 export const SendButton = (props: ButtonProps) => {
   const { t } = useCore();
   return (
-    <SimpleButton variant="contained" icon="paper-plane" color="success" {...props}>
+    <SimpleButton
+      variant="contained"
+      icon="paper-plane"
+      color="success"
+      {...props}
+    >
       {t("Submit")}
     </SimpleButton>
   );
 };
-
-// export const SendButton = styled(Button)({});
-// SendButton.defaultProps = {
-//   variant: "contained",
-//   children: t("Submit").toString(),
-//   startIcon: <FontAwesomeIcon icon={["far", "paper-plane"]} />,
-//   color: "info",
-// };

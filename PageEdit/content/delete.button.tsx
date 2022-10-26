@@ -1,10 +1,9 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconButton, IconButtonProps, Tooltip } from "@mui/material";
 import { useCore } from "../../context";
 import React from "react";
-import update from "react-addons-update";
-import { PageContentTypes, usePE } from "../context";
-import { usePopup } from "../../react-popup";
+import { usePE } from "../context";
+import { usePopup } from "../../Popup";
+import { PickIcon } from "../../PickIcon";
 
 export const PEContentDeleteButton = React.forwardRef<
   HTMLButtonElement,
@@ -15,26 +14,17 @@ export const PEContentDeleteButton = React.forwardRef<
     state: { selected },
     setState,
     setData,
+    pageData,
   } = usePE();
   const { Popup } = usePopup();
 
   const handleRemove = () => {
     Popup.remove({
       title: t("Remove"),
-      text: t("DoYouWantToRemove", { name: t("Selected") }),
+      text: t("Do You Want To Remove $Name", { name: t("Selected") }),
       icon: "trash",
       onConfirm: () => {
-        setData((d) =>
-          update(d, {
-            contents: {
-              $apply: (contents: PageContentTypes[]) => {
-                return contents.filter(
-                  (content) => !selected.includes(content.key)
-                );
-              },
-            },
-          })
-        );
+        setData(pageData.content.remove(selected).toJSON());
         setState((s) => ({ ...s, selected: [] }));
       },
     });
@@ -43,9 +33,15 @@ export const PEContentDeleteButton = React.forwardRef<
   return (
     <React.Fragment>
       {selected.length > 0 && (
-        <Tooltip title={t("Remove$Name", { name: t("Selected") })}>
-          <IconButton size="small" ref={ref} {...props} onClick={handleRemove}>
-            <FontAwesomeIcon icon={["far", "trash"]} />
+        <Tooltip title={t("Remove $Name", { name: t("Selected") })}>
+          <IconButton
+            size="small"
+            ref={ref}
+            {...props}
+            onClick={handleRemove}
+            color="inherit"
+          >
+            <PickIcon icon={"trash"} />
           </IconButton>
         </Tooltip>
       )}

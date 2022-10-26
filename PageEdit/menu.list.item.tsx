@@ -1,5 +1,3 @@
-import { IconName } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   ListItemButton,
   ListItemButtonProps,
@@ -7,9 +5,10 @@ import {
   ListItemText,
 } from "@mui/material";
 import { ReactNode } from "react";
+import { PickIcon, PickIconName } from "../PickIcon";
 
 export interface MenuListItemProps extends ListItemButtonProps {
-  icon: IconName;
+  icon: PickIconName;
   primary?: ReactNode;
 }
 export const MenuListItem = ({
@@ -20,7 +19,7 @@ export const MenuListItem = ({
   return (
     <ListItemButton {...props}>
       <ListItemIcon>
-        <FontAwesomeIcon icon={["far", icon]} />
+        <PickIcon icon={icon} />
       </ListItemIcon>
       <ListItemText primary={primary} />
     </ListItemButton>

@@ -18,13 +18,13 @@ import {
   Typography,
 } from "@mui/material";
 import { SortableHandle } from "react-sortable-hoc";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useCore } from "../context";
 import { PanelMove } from "./panels/move";
 import { PanelSpacing } from "./panels/spacing";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import update from "react-addons-update";
-import { usePopup } from "../react-popup";
+import { usePopup } from "../Popup";
+import { LocaleKey } from "../Translate/en_th";
+import { PickIcon, PickIconName } from "../PickIcon";
 
 const Wrapper = ({
   children,
@@ -49,7 +49,7 @@ const Action = styled(Box)(({ theme }) => ({
 
 const DragIcon = SortableHandle<IconButtonProps>((props: IconButtonProps) => (
   <IconButton {...props}>
-    <FontAwesomeIcon icon={["far", "grip-lines"]} size="xs" />
+    <PickIcon icon={"grip-dots-vertical"} size="xs" />
   </IconButton>
 ));
 
@@ -59,8 +59,8 @@ const ListItemButtonPre = ({
   listItemTextProps,
   ...props
 }: Omit<ListItemButtonProps, "children"> & {
-  label: string;
-  icon?: IconProp;
+  label: LocaleKey;
+  icon?: PickIconName;
   listItemTextProps?: ListItemTextProps;
 }) => {
   const { t } = useCore();
@@ -68,7 +68,7 @@ const ListItemButtonPre = ({
     <ListItemButton {...props}>
       {icon && (
         <ListItemIcon>
-          <FontAwesomeIcon icon={icon} />
+          <PickIcon icon={icon} />
         </ListItemIcon>
       )}
       <ListItemText primary={t(label)} {...listItemTextProps} />
@@ -76,7 +76,7 @@ const ListItemButtonPre = ({
   );
 };
 
-interface PEPanelProps {
+export type PEPanelProps = {
   contentKey: string;
   content: PageContentTypes;
   index: number;
@@ -86,7 +86,7 @@ interface PEPanelProps {
   startActions?: React.ReactNode;
   endActions?: React.ReactNode;
   maxWidth?: Breakpoint;
-}
+};
 export const PEPanel = ({
   contentKey,
   content,
@@ -102,6 +102,7 @@ export const PEPanel = ({
   const {
     state: { hideToolbar, selected },
     setState,
+    data,
     setData,
     maxWidth,
   } = usePE();
@@ -120,9 +121,33 @@ export const PEPanel = ({
     );
     setOpen("");
   };
-  const handleChangeChecked = (_event: any, checked: boolean) => {
+  const handleChangeChecked = (event: any, checked: boolean) => {
+    const isShift = Boolean(event?.nativeEvent?.shiftKey);
     if (checked) {
-      setState((s) => ({ ...s, selected: selected.concat(contentKey) }));
+      if (isShift) {
+        setState((s) => {
+          let selected = [...s.selected];
+          const firstIndex =
+            data.contents?.findIndex(
+              (content) => content.key === selected[selected.length - 1]
+            ) ?? -1;
+          const lastIndex =
+            data.contents?.findIndex((content) => content.key === contentKey) ??
+            -1;
+          if (firstIndex > -1 && lastIndex > -1) {
+            selected = selected.concat(
+              ...(
+                data.contents
+                  ?.slice(firstIndex + 1, lastIndex + 1)
+                  .map((content) => content.key) ?? []
+              ).filter((s, i, a) => a.indexOf(s) === i)
+            );
+          }
+          return { ...s, selected };
+        });
+      } else {
+        setState((s) => ({ ...s, selected: selected.concat(contentKey) }));
+      }
     } else {
       setState((s) => ({
         ...s,
@@ -133,7 +158,7 @@ export const PEPanel = ({
   const handleRemove = () => {
     Popup.remove({
       title: t("Remove"),
-      text: t("DoYouWantToRemove", { name: t("Item") }),
+      text: t("Do You Want To Remove $Name", { name: t("Item") }),
       icon: "trash",
       onConfirm: () => {
         setData((d) => update(d, { contents: { $splice: [[index, 1]] } }));
@@ -178,7 +203,7 @@ export const PEPanel = ({
                   setAnchorEl(currentTarget)
                 }
               >
-                <FontAwesomeIcon size="xs" icon={["far", "ellipsis-v"]} />
+                <PickIcon size="xs" icon={"ellipsis-v"} />
               </IconButton>
             </Action>
           )}
@@ -201,14 +226,14 @@ export const PEPanel = ({
             }}
           >
             <ListItemIcon>
-              <FontAwesomeIcon icon={["far", "diagram-predecessor"]} />
+              <PickIcon icon={"diagram-predecessor"} />
             </ListItemIcon>
             <ListItemText primary={t("Insert Before")} />
           </ListItemButton>
           <PanelMove index={index} onClose={() => setAnchorEl(null)} />
           <ListItemButtonPre
             label="Spacing"
-            icon={["far", "arrows-v"]}
+            icon={"arrows-v"}
             onClick={handleOpen("spacing")}
           />
           <ListItemButton
@@ -217,7 +242,7 @@ export const PEPanel = ({
           >
             <ListItemIcon>
               <Typography color="error">
-                <FontAwesomeIcon icon={["far", "trash"]} />
+                <PickIcon icon={"trash"} />
               </Typography>
             </ListItemIcon>
             <ListItemText

@@ -1,8 +1,8 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import update from "react-addons-update";
 import { useCore } from "../../../context";
+import { PickIcon } from "../../../PickIcon";
 import { VideoContent, VideoDisplay } from "../../../VideoDisplay";
 import { usePE } from "../../context";
 import { PEPanel } from "../../panel";
@@ -35,7 +35,7 @@ export const PEEditorVideo = ({ index, content }: PEEditorProps) => {
       actions={
         <ListItemButton onClick={handleToggle}>
           <ListItemIcon>
-            <FontAwesomeIcon icon={["far", "cog"]} />
+            <PickIcon icon={"cog"} />
           </ListItemIcon>
           <ListItemText primary={t("Setting")} />
         </ListItemButton>

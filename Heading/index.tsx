@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Box,
   Button,
@@ -14,6 +13,7 @@ import {
 } from "@mui/material";
 import React, { forwardRef, Fragment, useEffect, useState } from "react";
 import update from "react-addons-update";
+import { PickIcon } from "../PickIcon";
 
 export interface HeadingTypes {
   variant: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
@@ -105,13 +105,13 @@ export const Heading = forwardRef<HTMLInputElement, HeadingProps>(
                 exclusive
               >
                 <ToggleButton value="left">
-                  <FontAwesomeIcon icon={["fad", "align-left"]} />
+                  <PickIcon icon={"align-left"} />
                 </ToggleButton>
                 <ToggleButton value="center">
-                  <FontAwesomeIcon icon={["fad", "align-center"]} />
+                  <PickIcon icon={"align-center"} />
                 </ToggleButton>
                 <ToggleButton value="right">
-                  <FontAwesomeIcon icon={["fad", "align-right"]} />
+                  <PickIcon icon={"align-right"} />
                 </ToggleButton>
               </ToggleButtonGroup>
               <Box flex={1} />

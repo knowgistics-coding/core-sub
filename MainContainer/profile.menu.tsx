@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Avatar,
   Badge,
@@ -20,16 +19,17 @@ import { signOut, updateProfile } from "firebase/auth";
 import { ProfileMenuNotSignListItem } from "./profile.menu.not.sign";
 import { Fragment, useState } from "react";
 import { KuiActionIcon } from "../KuiActionIcon";
-import { usePopup } from "../react-popup";
+import { usePopup } from "../Popup";
 import update from "react-addons-update";
 import { StockImageTypes, StockPicker } from "../StockPicker";
 import { useNavigate } from "react-router-dom";
 import { UserStatic } from "../Controller";
+import { PickIcon } from "../PickIcon";
 
 const ListItemButtonErrorStyled = styled(ListItemButton)(({ theme }) => ({
   color: theme.palette.error.main,
 }));
-const FontAwesomeIconErrorStyled = styled(FontAwesomeIcon)(({ theme }) => ({
+const PickIconErrorStyled = styled(PickIcon)(({ theme }) => ({
   color: theme.palette.error.main,
 }));
 
@@ -42,8 +42,8 @@ export const MCProfileMenu = () => {
 
   const handleChangeDisplayName = () => {
     Popup.prompt({
-      title: t("Edit$Name", { name: t("DisplayName") }),
-      text: t("DisplayName"),
+      title: t("Edit $Name", { name: t("Display Name") }),
+      text: t("Display Name"),
       icon: "edit",
       defaultValue: user?.data?.displayName || "",
       onConfirm: async (value) => {
@@ -110,7 +110,7 @@ export const MCProfileMenu = () => {
                   }}
                   onClick={() => setOpen(true)}
                 >
-                  <FontAwesomeIcon icon={["far", "camera"]} />
+                  <PickIcon icon={"camera"} />
                 </IconButton>
               }
             >
@@ -144,15 +144,15 @@ export const MCProfileMenu = () => {
                 onClick={handleOpen("setting", true)}
               >
                 <ListItemIcon>
-                  <FontAwesomeIcon icon={["far", "cog"]} />
+                  <PickIcon icon={"cog"} />
                 </ListItemIcon>
                 <ListItemText primary={t("Setting")} />
               </ListItemButton>
               <ListItemButtonErrorStyled dense onClick={handleSignOut}>
                 <ListItemIcon>
-                  <FontAwesomeIconErrorStyled icon={["far", "sign-in"]} />
+                  <PickIconErrorStyled icon={"sign-out"} />
                 </ListItemIcon>
-                <ListItemText primary={t("Sign out")} />
+                <ListItemText primary={t("Sign Out")} />
               </ListItemButtonErrorStyled>
             </Fragment>
           ) : (

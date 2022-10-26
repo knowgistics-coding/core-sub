@@ -1,9 +1,6 @@
 import * as React from "react";
 import { ListItem, TextField, TextFieldProps } from "@mui/material";
 import { useCore } from "../context";
-import debounce from "lodash.debounce";
-
-const debounceValue = debounce((func: () => void) => func(), 500);
 
 export interface TitleDebounceProps {
   value?: string;
@@ -28,7 +25,9 @@ export const TitleDebounce = (props: TitleDebounceProps) => {
     target: { value },
   }: React.ChangeEvent<HTMLInputElement>) => {
     setValue(value);
-    debounceValue(() => props.onChange?.(value));
+    React.startTransition(() => {
+      props.onChange?.(value);
+    });
   };
 
   React.useEffect(() => {

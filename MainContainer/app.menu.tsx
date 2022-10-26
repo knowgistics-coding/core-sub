@@ -1,8 +1,4 @@
 import {
-  FontAwesomeIcon,
-  FontAwesomeIconProps,
-} from "@fortawesome/react-fontawesome";
-import {
   Box,
   BoxProps,
   Grid,
@@ -18,7 +14,9 @@ import { useCore } from "../context";
 import { ReactComponent as Icon } from "./logo.svg";
 import clsx from "clsx";
 import Icons from "./icons";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { LocaleKey } from "../Translate/en_th";
+import { faQuestion } from "@fortawesome/pro-regular-svg-icons";
+import { PickIcon, PickIconName, PickIconProps } from "../PickIcon";
 
 const MenuContainer = styled(Box)(({ theme }) => ({
   width: theme.sidebarWidth * 1.25,
@@ -71,8 +69,8 @@ const getTheme = (theme: Theme): any => ({
 const ALink = styled("a")(({ theme }) => getTheme(theme));
 const ASpan = styled("span")(({ theme }) => getTheme(theme));
 
-const FAStyled = styled((props: FontAwesomeIconProps) => (
-  <FontAwesomeIcon size="4x" {...props} />
+const FAStyled = styled((props: PickIconProps) => (
+  <PickIcon size="4x" {...props} />
 ))(({ theme }) => ({
   "--fa-primary-color": theme.palette.primary.main,
   "--fa-secondary-color": theme.palette.text.primary,
@@ -81,7 +79,7 @@ const FAStyled = styled((props: FontAwesomeIconProps) => (
 }));
 
 type MekIconProps = SVGProps<any> & {
-  icon?: IconProp;
+  icon?: PickIconName;
 };
 const MekIcon = styled(({ icon, ...props }: MekIconProps) => {
   const key = Array.isArray(icon) ? icon[1] : null;
@@ -91,7 +89,7 @@ const MekIcon = styled(({ icon, ...props }: MekIconProps) => {
   } else if(icon) {
     return <FAStyled icon={icon} />;
   } else {
-    return <FAStyled icon={["far", "question"]} />;
+    return <FAStyled icon={"question"} />;
   }
 })({
   height: 48,
@@ -132,8 +130,7 @@ export const MCAppMenu = (props: BoxProps) => {
                   <Grid item xs={4} key={index}>
                     <ALink href={href}>
                       <MekIcon icon={icon} />
-                      {/* <FAStyled icon={icon || ["fad", "question"]} /> */}
-                      <Typography variant="body2">{t(String(label))}</Typography>
+                      <Typography variant="body2">{t(String(label) as LocaleKey)}</Typography>
                     </ALink>
                   </Grid>
                 );
@@ -146,7 +143,7 @@ export const MCAppMenu = (props: BoxProps) => {
                       onClick={handleClose}
                     >
                       <ASpan>
-                        <FAStyled icon={icon || ["fad", "question"]} />
+                        <FAStyled icon={icon || faQuestion} />
                         {label}
                       </ASpan>
                     </Link>

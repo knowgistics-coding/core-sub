@@ -67,7 +67,12 @@ export const HeaderEditor = styled(
     }, [value, editorState]);
 
     return (
-      <Typography variant={variant} textAlign="center">
+      <Typography
+        variant={variant}
+        component="div"
+        fontWeight="bold"
+        textAlign="center"
+      >
         <Editor
           editorClassName={className}
           toolbar={toolbar}
@@ -81,6 +86,7 @@ export const HeaderEditor = styled(
           onEditorStateChange={handleEditorStateChange}
           onContentStateChange={handleContentStateChange}
           placeholder={t("TypeHere")}
+          stripPastedStyles
           {...editorProps}
         />
       </Typography>

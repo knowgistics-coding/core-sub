@@ -1,10 +1,10 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button } from "@mui/material";
 import { useSP } from "./context";
 import { StockImageTypes } from "./controller";
 import { Fragment } from "react";
 import { useCore } from "../context";
-import { usePopup } from "../react-popup";
+import { usePopup } from "../Popup";
+import { PickIcon } from "../PickIcon";
 
 export const FromURL = (props: {
   onConfirm: (data: StockImageTypes) => void;
@@ -49,7 +49,7 @@ export const FromURL = (props: {
       <Box ml={2} />
       <Button
         variant="outlined"
-        startIcon={<FontAwesomeIcon icon={["far", "link"]} />}
+        startIcon={<PickIcon icon={"link"} />}
         color="neutral"
         onClick={handleConvert}
       >

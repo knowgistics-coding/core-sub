@@ -5,20 +5,20 @@ import { PEEditorProps } from "../heading/index";
 import { ImageContainer } from "./img.container";
 import { alpha, Box, Button, styled } from "@mui/material";
 import { useCore } from "../../../context";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { StockDisplay, StockDisplayProps } from "../../../StockDisplay";
-import { PageDocument, usePE } from "../../context";
-import update from "react-addons-update";
+import { StockDisplay } from "../../../StockDisplay";
+import { usePE } from "../../context";
 import { useDialog } from "../../dialog.manager";
 import { MenuListItem } from "../../menu.list.item";
-import { usePopup } from "../../../react-popup";
+import { usePopup } from "../../../Popup";
+import { PageEditData } from "../../ctl";
+import { PickIcon } from "../../../PickIcon";
 
 const BrowseButton = styled(Button)(({ theme }) => ({
   position: "absolute",
   background: alpha(theme.palette.background.default, 0.75),
   bottom: theme.spacing(1),
   left: theme.spacing(1),
-  WebkitBackdropFilter: 'blur(2px)',
+  WebkitBackdropFilter: "blur(2px)",
   "&:hover": {
     background: theme.palette.background.default,
   },
@@ -26,45 +26,21 @@ const BrowseButton = styled(Button)(({ theme }) => ({
 
 const BoxAbsolute = styled(Box)(({ theme }) => theme.mixins.absoluteFluid);
 
-const updateData = (
-  d: PageDocument,
-  index: number,
-  data: {
-    [key in keyof StockDisplayProps["image"]]?: StockDisplayProps["image"][key];
-  }
-): PageDocument => {
-  return update(d, {
-    contents: {
-      [index]: {
-        image: {
-          $apply: (image: StockDisplayProps["image"]) =>
-            image ? { ...image, ...data } : { ...data },
-        },
-      },
-    },
-  });
-};
-
 export const PEEditorImage = ({ index, content }: PEEditorProps) => {
   const { t } = useCore();
-  const { setData } = usePE();
+  const { setData, pageData } = usePE();
   const [open, setOpen] = useState<boolean>(false);
   const { setOpen: setDialogOpen } = useDialog();
   const { Popup } = usePopup();
 
   const handleChangeImage = ([image]: StockImageTypes[]) => {
-    if (image) {
-      const { blurhash, _id, width, height, credit } = image;
-      const ratio = width && height ? height / width : undefined;
-      const newImage: StockDisplayProps["image"] = {
-        blurhash,
-        _id,
-        width,
-        height,
-        credit,
-      };
-      setData((d) => updateData(d, index, { image: newImage, ratio }));
-    }
+    setData(
+      pageData.content.update(
+        content.key,
+        "image",
+        PageEditData.parseImage([image])
+      )
+    );
   };
   const handleChangeURL = () => {
     Popup.prompt({
@@ -73,8 +49,8 @@ export const PEEditorImage = ({ index, content }: PEEditorProps) => {
       icon: "link",
       onConfirm: (value) => {
         if (value) {
-          setData((d) =>
-            updateData(d, index, {
+          setData(
+            pageData.content.update(content.key, "image", {
               url: value.includes("http") ? value : `https://${value}`,
             })
           );
@@ -84,11 +60,15 @@ export const PEEditorImage = ({ index, content }: PEEditorProps) => {
   };
   const handleChangeRemoveURL = () => {
     Popup.remove({
-      title: t("Remove$Name", { name: " URL" }),
-      text: t("DoYouWantToRemove", { name: "URL" }),
+      title: t("Remove $Name", { name: " URL" }),
+      text: t("Do You Want To Remove $Name", { name: "URL" }),
       icon: "link-slash",
       onConfirm: () => {
-        setData((d) => updateData(d, index, { url: null }));
+        setData(
+          pageData.content.update(content.key, "image", {
+            url: undefined,
+          })
+        );
       },
     });
   };
@@ -108,7 +88,7 @@ export const PEEditorImage = ({ index, content }: PEEditorProps) => {
           {content.image?.url && (
             <MenuListItem
               icon={"link-slash"}
-              primary={t("Remove$Name", { name: " URL" })}
+              primary={t("Remove $Name", { name: " URL" })}
               onClick={handleChangeRemoveURL}
             />
           )}
@@ -144,17 +124,14 @@ export const PEEditorImage = ({ index, content }: PEEditorProps) => {
                 backgroundColor: "#000A",
               })}
             >
-              <FontAwesomeIcon
-                icon={["far", "link"]}
-                style={{ marginRight: "0.5rem" }}
-              />
+              <PickIcon icon={"link"} style={{ marginRight: "0.5rem" }} />
               {content.image.url}
             </Box>
           )}
         </BoxAbsolute>
         <BrowseButton
           variant="outlined"
-          startIcon={<FontAwesomeIcon icon={["far", "folder-open"]} />}
+          startIcon={<PickIcon icon={"folder-open"} />}
           onClick={() => setOpen(true)}
           color="info"
         >

@@ -10,15 +10,14 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 
-import { Paragraph } from "../ParagraphString";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useQEC } from "./context";
 import { useCore } from "../context";
 import update from "react-addons-update";
 import { StockImageTypes, StockPicker } from "../StockPicker";
 import { StockDisplayImageTypes } from "../StockDisplay";
 import { QDImgDisplay } from "./img";
+import { Absatz } from "../Absatz";
+import { PickIcon } from "../PickIcon";
 
 export const Question = () => {
   const { t } = useCore();
@@ -85,7 +84,7 @@ export const Question = () => {
                 )}
                 <Button
                   variant="outlined"
-                  startIcon={<FontAwesomeIcon icon={["fad", "folder-open"]} />}
+                  startIcon={<PickIcon icon={"folder-open"} />}
                   onClick={() => setO(true)}
                 >
                   {t("Browse")}
@@ -99,9 +98,9 @@ export const Question = () => {
             );
           default:
             return (
-              <Paragraph
+              <Absatz
                 value={data.question.paragraph}
-                onChangeHTML={handleChangeParagraph}
+                onChange={handleChangeParagraph}
               />
             );
         }

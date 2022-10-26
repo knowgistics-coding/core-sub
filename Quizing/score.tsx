@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
 import { useCore } from '../context'
 import { quizAnswerCheck } from "../func";
-import { QuizAnswerTypes } from "../QuizAnswer";
+import { QuizAnswerTypes } from "../QuizDisplay";
 import { QuizDocument } from "../QuizEditor";
 
 export const ScoreDisplay = ({

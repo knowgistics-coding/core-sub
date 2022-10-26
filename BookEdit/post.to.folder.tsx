@@ -11,7 +11,6 @@ import { useState } from "react";
 import { useCore } from "../context";
 import { KuiButton } from "../KuiButton";
 import { useBookEdit } from ".";
-import update from "react-addons-update";
 import { genKey } from "draft-js";
 
 export type PostAddType = {
@@ -42,16 +41,7 @@ export const AddToFolder = (props: PostAddType) => {
         key: genKey(),
       });
       if (item) {
-        setData((d) => {
-          const pushed = update(d, {
-            contents: {
-              [FolderIndex]: {
-                items: { $apply: (items) => (items || []).concat(item) },
-              },
-            },
-          });
-          return update(pushed, { contents: { $splice: [[PostIndex, 1]] } });
-        });
+        setData(data.pushToFolder(FolderIndex, PostIndex));
         setState((s) => ({ ...s, MoveID: "" }));
       }
     }
@@ -59,8 +49,8 @@ export const AddToFolder = (props: PostAddType) => {
 
   return (
     <>
-      <Dialog fullWidth maxWidth="sm" open={props.open} onClose={props.onClose}>
-        <DialogTitle>{t("Add Post To Folder")}</DialogTitle>
+      <Dialog fullWidth maxWidth="xs" open={props.open} onClose={props.onClose}>
+        <DialogTitle>{t("Add to $Name", { name: t("Folder") })}</DialogTitle>
         <DialogContent>
           <Select
             fullWidth

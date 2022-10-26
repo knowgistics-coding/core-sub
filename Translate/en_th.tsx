@@ -1,8 +1,329 @@
-export const locale_en_th: Record<string, [string, string]> = {
+export type LocaleKey =
+  | "Add"
+  | "Added"
+  | "Added $Name"
+  | "Add $Name"
+  | "Add to $Name"
+  | "Add Answer"
+  | "Add Choice"
+  | "Add Highlight"
+  | "Add Matching"
+  | "Add Panel"
+  | "Add Question"
+  | "Add Slide"
+  | "Administrator"
+  | "Album"
+  | "Albums"
+  | "Align"
+  | "All"
+  | "Amount"
+  | "Amount Of $Name"
+  | "Answer"
+  | "Answer Text"
+  | "Appearance"
+  | "Approve"
+  | "Assignment"
+  | "AttachFiles"
+  | "Attemps"
+  | "Back"
+  | "Bank"
+  | "Book"
+  | "Box"
+  | "Bottom"
+  | "Browse"
+  | "Cancel"
+  | "Categories"
+  | "Card"
+  | "Center"
+  | "Change"
+  | "Chapter"
+  | "Change $Name"
+  | "Change Language"
+  | "Change title"
+  | "Change Image"
+  | "Chat"
+  | "Choice"
+  | "Choose"
+  | "Choose $Name"
+  | "Choose Image"
+  | "Class"
+  | "Clear"
+  | "Close"
+  | "Close Path"
+  | "Collection"
+  | "Contact"
+  | "Component"
+  | "Composition"
+  | "Confirm"
+  | "Confirm Password"
+  | "Convert to $Name"
+  | "Collaborated Courses"
+  | "Collaborated Teacher"
+  | "Copy"
+  | "Copied"
+  | "Course"
+  | "Course Manager"
+  | "Cover"
+  | "Create"
+  | "Create $Name"
+  | "Created"
+  | "Custom Field"
+  | "Dark"
+  | "Dark Mode"
+  | "Date"
+  | "Detail"
+  | "Description"
+  | "Deselect"
+  | "Display Name"
+  | "Divider"
+  | "Do You Want To Remove $Name"
+  | "Do You Want To Remove $Name Forever"
+  | "Download"
+  | "Due Date"
+  | "Drop File Here"
+  | "Dmatching"
+  | "Dmultiple"
+  | "Dsorting"
+  | "Dtruefalse"
+  | "Edit"
+  | "Edit $Name"
+  | "Email"
+  | "Empty"
+  | "End"
+  | "English"
+  | "Enroll"
+  | "Error"
+  | "False"
+  | "Feature Image"
+  | "FEEDS"
+  | "Female"
+  | "File"
+  | "Filter"
+  | "First Name"
+  | "Folder"
+  | "Forget Password"
+  | "From"
+  | "From URL"
+  | "Gender"
+  | "Grade"
+  | "Grading"
+  | "Header"
+  | "Heading"
+  | "Height"
+  | "Hide"
+  | "Hide Toolbar"
+  | "Highlight"
+  | "Home"
+  | "Horizontal"
+  | "ID"
+  | "Inbox"
+  | "Image"
+  | "Images"
+  | "Import"
+  | "Import $Name"
+  | "Information"
+  | "Insert After"
+  | "Insert Before"
+  | "Institute"
+  | "Invalid Email"
+  | "Invite"
+  | "Invite $Name"
+  | "Item"
+  | "Regardless Real Score"
+  | "Job Title"
+  | "Language"
+  | "Last Modified"
+  | "Last Name"
+  | "Lated"
+  | "Left"
+  | "Lesson"
+  | "Lesson Content"
+  | "Level"
+  | "Light"
+  | "Line"
+  | "Line Application"
+  | "Loading"
+  | "No title"
+  | "Male"
+  | "Manage"
+  | "Manage $Name"
+  | "Match Item"
+  | "Material"
+  | "Matching"
+  | "Menu"
+  | "Message"
+  | "Middle Name"
+  | "More"
+  | "Move Up"
+  | "Move Down"
+  | "Multiple Choice"
+  | "My $Name"
+  | "My Course"
+  | "Name"
+  | "$Name Added"
+  | "$Name Name"
+  | "$Name Has Removed"
+  | "$Name Not Found"
+  | "$Name Removed"
+  | "$Name Review"
+  | "$Name Selected"
+  | "NameTitle"
+  | "Next"
+  | "No"
+  | "No Data"
+  | "No rows"
+  | "No Title"
+  | "$Name not found"
+  | "Number"
+  | "Number Of $Name"
+  | "Occupation"
+  | "Online Quiz"
+  | "Organize"
+  | "Open"
+  | "Or"
+  | "Other"
+  | "Others"
+  | "Page"
+  | "Paragraph"
+  | "Password"
+  | "Photos"
+  | "Position"
+  | "Preview"
+  | "Prev"
+  | "Please Wait"
+  | "Private"
+  | "Profile Image"
+  | "Project"
+  | "Public"
+  | "Question"
+  | "Question Bank"
+  | "Question Title"
+  | "Question Type"
+  | "Quiz"
+  | "Ratio"
+  | "Ready To Edit"
+  | "Right"
+  | "Rows per page"
+  | "Read"
+  | "Redo"
+  | "Register"
+  | "Remove"
+  | "Removed"
+  | "Remove Last Point"
+  | "Remove $Name"
+  | "Rename"
+  | "Reverse"
+  | "Right Answer"
+  | "Role"
+  | "Save"
+  | "Save Before Leave"
+  | "Saved"
+  | "Send Email"
+  | "Set As $Name"
+  | "Schedule"
+  | "Score"
+  | "School"
+  | "Search"
+  | "Search $Name"
+  | "Select right answer"
+  | "Section"
+  | "Select"
+  | "Select $Name"
+  | "Selected"
+  | "Select?"
+  | "Select Answer"
+  | "Send Reset Password"
+  | "Sequence"
+  | "Setting"
+  | "Setting $Name"
+  | "Sign In"
+  | "Sign Out"
+  | "SignOut"
+  | "Sharing"
+  | "Shuffle"
+  | "Slide"
+  | "Show columns"
+  | "Sort by ASC"
+  | "Sort by DESC"
+  | "Sorting"
+  | "Specify Others"
+  | "Spacing"
+  | "Staff"
+  | "Start"
+  | "Start writting or type"
+  | "Status"
+  | "STUDY"
+  | "Student"
+  | "Student List"
+  | "Sub Question"
+  | "$Name Successful"
+  | "Subject"
+  | "Submit"
+  | "Sub Type"
+  | "Student ID"
+  | "Student ID Exists"
+  | "Syllabus"
+  | "SystemDefault"
+  | "Table"
+  | "Target Group"
+  | "Task"
+  | "TEACH"
+  | "Teacher"
+  | "Teacher List"
+  | "Telephone"
+  | "Test"
+  | "Thai"
+  | "Thumbnail"
+  | "Times"
+  | "Timezone"
+  | "Title"
+  | "Top"
+  | "Trash"
+  | "True"
+  | "True / False"
+  | "Type"
+  | "TypeHere"
+  | "Unenroll"
+  | "Undefined"
+  | "University"
+  | "Unsort"
+  | "Unsubmit"
+  | "Untitled"
+  | "Update"
+  | "Upload"
+  | "User"
+  | "Value"
+  | "Vertical"
+  | "Video"
+  | "VDO"
+  | "Visibility"
+  | "Website"
+  | "Weight"
+  | "Weighted Score"
+  | "Welcome"
+  | "Width"
+  | "Work"
+  | "Workplace"
+  | "You've reached the maximum attempts"
+  | "Yes"
+  | "You"
+  | "Choose to best answer"
+  | "Identify if the following true or false"
+  | "Match the answers to the questions"
+  | "Sorting the answer options"
+  | "POST"
+  | "BOOK"
+  | "SLIDESHOW"
+  | "PROFILE"
+  | "IMAGES"
+  | "FILES"
+  | "MAPS";
+
+export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Add: ["Add", "เพิ่ม"],
   Added: ["Added", "เพิ่มแล้ว"],
-  AddedName: ["{{name}} Added", 'เพิ่ม "{{name}}" แล้ว'],
-  AddName: ["Add {{name}}", "เพิ่ม{{name}}"],
+  "Added $Name": ["{{name}} Added", 'เพิ่ม "{{name}}" แล้ว'],
+  "Add $Name": ["Add {{name}}", "เพิ่ม{{name}}"],
   "Add Answer": ["Add Answer", "เพิ่มคำตอบ"],
   "Add Choice": ["Add Choice", "เพิ่มตัวเลือก"],
   "Add Highlight": ["Add Highlight", "เพิ่มไฮไลท์"],
@@ -10,19 +331,23 @@ export const locale_en_th: Record<string, [string, string]> = {
   "Add Panel": ["Add Panel", "เพิ่มกรอบ"],
   "Add Question": ["Add Question", "เพิ่มข้อสอบ"],
   "Add Slide": ["Add Slide", "เพิ่มสไลด์"],
+  "Add to $Name": ["Add to {{name}}", "เพิ่มไปที่{{name}}"],
   Administrator: ["Administrator", "ผู้ดูแลระบบ"],
   Album: ["Album", "อัลบั้ม"],
   Albums: ["Albums", "อัลบั้ม"],
   Align: ["Align", "จัดเรียง"],
+  All: ["All", "ทั้งหมด"],
   Amount: ["Amount", "จำนวน"],
-  AmountOf$Name: ["Amount of {{name}}", "จำนวน{{name}}"],
+  "Amount Of $Name": ["Amount of {{name}}", "จำนวน{{name}}"],
   Answer: ["Answer", "คำตอบ"],
   "Answer Text": ["Answer Text", "ข้อความคำตอบ"],
   Appearance: ["Appearance", "การแสดงผล"],
+  Approve: ["Approve", "ยืนยัน"],
   Assignment: ["Assignment", "งานที่มอบหมาย"],
   AttachFiles: ["Attach Files", "แนบเอกสาร"],
   Attemps: ["Attemps", "ครั้งที่ทำได้"],
   Back: ["Back", "กลับ"],
+  Bank: ["Bank", "คลัง"],
   Book: ["Book", "หนังสือ"],
   Box: ["Box", "กล่อง"],
   Bottom: ["Bottom", "ล่าง"],
@@ -32,19 +357,20 @@ export const locale_en_th: Record<string, [string, string]> = {
   Card: ["Card", "การ์ด"],
   Center: ["Center", "กลาง"],
   Change: ["Change", "เปลี่ยน"],
-  Chapter: ["Chapter", "บท"],
   "Change $Name": ["Change {{name}}", "เปลี่ยน{{name}}"],
-  ChangeLanguage: ["Change Language", "เปลี่ยนภาษา"],
+  "Change Language": ["Change Language", "เปลี่ยนภาษา"],
   "Change title": ["Change title", "แก้ไขชื่อ"],
   "Change Image": ["Change Image", "เปลี่ยนรูปภาพ"],
+  Chapter: ["Chapter", "บท"],
+  Chat: ["Chat", "พูดคุย"],
   Choice: ["Choice", "ตัวเลือก"],
   Choose: ["Choose", "เลือก"],
-  Choose$Name: ["Choose {{name}}", "เลือก{{name}}"],
+  "Choose $Name": ["Choose {{name}}", "เลือก{{name}}"],
   "Choose Image": ["Choose Image", "เลือกรูปภาพ"],
   Class: ["Class", "คาบเรียน"],
   Clear: ["Clear", "ล้าง"],
   Close: ["Close", "ปิด"],
-  ClosePath: ["Close Path", "ปิดเส้นทาง"],
+  "Close Path": ["Close Path", "ปิดเส้นทาง"],
   Collection: ["Collection", "คอลเล็คชัน"],
   Component: ["Component", "ส่วนประกอบ"],
   Composition: ["Composition", "จัดองค์ประกอบภาพ"],
@@ -53,32 +379,35 @@ export const locale_en_th: Record<string, [string, string]> = {
   "Convert to $Name": ["Convert to {{name}}", "แปลงเป็น{{name}}"],
   "Collaborated Courses": ["Collaborated Courses", "หลักสูตรที่ร่วมสอน"],
   "Collaborated Teacher": ["Collaborated Teacher", "ผู้ร่วมสอน"],
+  Contact: ["Contact", "ติดต่อ"],
+  Copy: ["Copy", "คัดลอก"],
+  Copied: ["Copied", "คัดลอกแล้ว"],
   Course: ["Course", "หลักสูตร"],
   "Course Manager": ["Course Manager", "จัดการหลักสูตร"],
   Cover: ["Cover", "ภาพปก"],
+  Create: ["Create", "สร้าง"],
   "Create $Name": ["Create {{name}}", "สร้าง{{name}}"],
   Created: ["Created !", "สร้างแล้ว !"],
+  "Custom Field": ["Custom Field", "ฟิล์ดที่กำหนดเอง"],
   Dark: ["Dark", "มืด"],
-  DarkMode: ["Dark Mode", "ธีมสีเข้ม"],
+  "Dark Mode": ["Dark Mode", "ธีมสีเข้ม"],
   Date: ["Date", "วันที่"],
   Detail: ["Detail", "รายละเอียด"],
   Description: ["Description", "รายละเอียด"],
   Deselect: ["Deselect", "ยกเลิกการเลือก"],
-  DisplayName: ["Display Name", "ชื่อที่ใช้แสดง"],
   "Display Name": ["Display Name", "ชื่อที่แสดง"],
   Divider: ["Divider", "เส้นแบ่ง"],
-  "Do you want to remove?": ["Do you want to remove ?", "คุณต้องการลบหรือไม่?"],
-  DoYouWantToRemove: [
+  "Do You Want To Remove $Name": [
     'Do you want to remove "{{name}}" ?',
     'คุณต้องการลบ "{{name}}" หรือไม่?',
   ],
-  DoYouWantToRemoveNameForever: [
+  "Do You Want To Remove $Name Forever": [
     `Do you want to remove "{{name}}" forever?`,
     `คุณต้องการลบ "{{name}}" ถาวรใช่หรือไม่?`,
   ],
   Download: ["Download", "ดาวน์โหลด"],
   "Due Date": ["Due Date", "กำหนดส่ง"],
-  DropFileHere: ["Drop file here !", "ลากไฟล์ลงที่นี่ !"],
+  "Drop File Here": ["Drop file here !", "ลากไฟล์ลงที่นี่ !"],
   Dmatching: [
     "Match the answers to the questions.",
     "ให้จับคู่ตัวเลือกกับคำถามให้ถูกต้อง",
@@ -90,19 +419,21 @@ export const locale_en_th: Record<string, [string, string]> = {
     "ให้เลือกว่าข้อความที่ให้มาถูกหรือผิด",
   ],
   Edit: ["Edit", "แก้ไข"],
-  Edit$Name: ["Edit {{name}}", "แก้ไข{{name}}"],
+  "Edit $Name": ["Edit {{name}}", "แก้ไข{{name}}"],
   Email: ["Email", "อีเมล"],
   Empty: ["Empty", "ว่างเปล่า"],
   End: ["End", "สิ้นสุด"],
   English: ["English", "อังกฤษ"],
+  Enroll: ["English", "ลงทะเบียน"],
   Error: ["Error", "เกิดข้อผิดพลาด"],
   False: ["False", "ผิด"],
-  FeatureImage: ["Feature Image", "ภาพปก"],
+  "Feature Image": ["Feature Image", "ภาพปก"],
   FEEDS: ["FEEDS", "ฟีดส์"],
   Female: ["Female", "หญิง"],
   File: ["File", "ไฟล์"],
   Filter: ["Filter", "ตัวกรอง"],
   "First Name": ["First Name", "ชื่อ"],
+  Folder: ["Folder", "โฟลเดอร์"],
   "Forget Password": ["Forget Password", "ลืมรหัสผ่าน"],
   From: ["From", "จาก"],
   "From URL": ["From  URL", "จาก URL"],
@@ -121,15 +452,20 @@ export const locale_en_th: Record<string, [string, string]> = {
   Inbox: ["Inbox", "กล่องข้อความ"],
   Image: ["Image", "รูปภาพ"],
   Images: ["Images", "รูปภาพ"],
+  Import: ["Import", "นำเข้า"],
   "Import $Name": ["Import {{name}}", "นำเข้า{{name}}"],
+  Information: ["Information", "ข้อมูล"],
   "Insert After": ["Insert After", "แทรกด้านหลัง"],
   "Insert Before": ["Insert Before", "แทรกก่อนหน้า"],
+  Institute: ["Institute", "สถาบัน"],
   "Invalid Email": ["Invalid E-mail", "รูปแบบอีเมลไม่ถูกต้อง"],
   Invite: ["Invite", "เชิญ"],
   "Invite $Name": ["Invite {{name}}", "เชิญ{{name}}"],
+  Item: ["Item", "ไอเทม"],
+  "Job Title": ["Job Title", "ชื่อตำแหน่ง"],
   "Regardless Real Score": ["Regardless Real Score", "ไม่พิจารณาคะแนนจริง"],
   Language: ["Language", "ภาษา"],
-  LastModified: ["Last Modified", "ปรับปรุงล่าสุด"],
+  "Last Modified": ["Last Modified", "ปรับปรุงล่าสุด"],
   "Last Name": ["Last Name", "สกุล"],
   Lated: ["Lated", "ล่าช้า"],
   Left: ["Left", "ซ้าย"],
@@ -143,10 +479,10 @@ export const locale_en_th: Record<string, [string, string]> = {
   "No title": ["No title", "ไม่มีชื่อเรื่อง"],
   Male: ["Male", "ชาย"],
   "Manage $Name": ["Manage {{name}}", "จัดการ{{name}}"],
-  "Manage Student": ["Manage Student", "จัดการผู้เรียน"],
   "Match Item": ["Match Item", "คู่ที่"],
   Material: ["Material", "สื่อการเรียนการสอน"],
   Matching: ["Matching", "จับคู่"],
+  Manage: ["Manage", "จัดการ"],
   Menu: ["Menu", "เมนู"],
   Message: ["Message", "ข้อความ"],
   "Middle Name": ["Middle Name", "ชื่อกลาง"],
@@ -158,10 +494,10 @@ export const locale_en_th: Record<string, [string, string]> = {
   "My Course": ["My Course", "หลักสูตรของฉัน"],
   Name: ["Name", "ชื่อ"],
   "$Name Added": ["{{name}} Added", "เพิ่ม{{name}}แล้ว"],
-  $NameName: ["{{name}} name", "ชื่อ{{name}}"],
-  NameHasRemoved: ["{{name}} has removed", "{{name}} ได้ถูกลบแล้ว"],
-  $NameNotFound: ["{{name}} not found", "ไม่พบ{{name}}"],
-  $NameRemoved: ["{{name}} removed", "ลบ{{name}}แล้ว"],
+  "$Name Name": ["{{name}} name", "ชื่อ{{name}}"],
+  "$Name Has Removed": ["{{name}} has removed", "{{name}} ได้ถูกลบแล้ว"],
+  "$Name Not Found": ["{{name}} not found", "ไม่พบ{{name}}"],
+  "$Name Removed": ["{{name}} removed", "ลบ{{name}}แล้ว"],
   "$Name Review": ["{{name}} Review", "ตรวจ{{name}}"],
   "$Name Selected": ["{{name}} rows selected", "เลือกจำนวน {{name}} แถว"],
   NameTitle: ["Title", "คำนำหน้า"],
@@ -172,16 +508,22 @@ export const locale_en_th: Record<string, [string, string]> = {
   "No Title": ["No Title", "ไม่มีชื่อเรื่อง"],
   "$Name not found": ["{{name}} not found", "ไม่พบ{{name}}"],
   Number: ["Number", "ตัวเลข"],
-  NumberOf$Name: ["Number of {{name}}", "จำนวน{{name}}"],
+  "Number Of $Name": ["Number of {{name}}", "จำนวน{{name}}"],
+  Occupation: ["Occupation", "อาชีพ"],
+  "Online Quiz": ["Online Quiz", "แบบทดสอบออนไลน์"],
   Organize: ["Organize", "องค์กร"],
   Open: ["Open", "เปิด"],
+  Or: ["Or", "หรือ"],
   Other: ["Other", "อื่นๆ"],
+  Others: ["Others", "อื่นๆ"],
+  Page: ["Page", "เพจ"],
   Paragraph: ["Paragraph", "ย่อหน้า"],
   Password: ["Password", "รหัสผ่าน"],
-  photos: ["photos", "รูป"],
+  Photos: ["photos", "รูป"],
+  Position: ["Position", "ตำแหน่ง"],
   Preview: ["Preview", "ดูตัวอย่าง"],
   Prev: ["Previous", "ย้อนกลับ"],
-  PleaseWait: ["Please wait", "กรุณารอสักครู่"],
+  "Please Wait": ["Please wait", "กรุณารอสักครู่"],
   Private: ["Private", "ส่วนตัว"],
   "Profile Image": ["Profile Image", "รูปประจำตัว"],
   Project: ["Project", "โครงการ"],
@@ -192,29 +534,34 @@ export const locale_en_th: Record<string, [string, string]> = {
   "Question Type": ["Question Type", "ประเภทคำถาม"],
   Quiz: ["Online Quiz", "แบบทดสอบออนไลน์"],
   Ratio: ["Ratio", "สัดส่วน"],
-  ReadyToEdit: [`Ready to edit "{{name}}"?`, `เริ่มสร้าง "{{name}}" เลยไหม?`],
+  "Ready To Edit": [
+    `Ready to edit "{{name}}"?`,
+    `เริ่มสร้าง "{{name}}" เลยไหม?`,
+  ],
   Right: ["Right", "ขวา"],
-  "Rows per page": ["Rows per page", "จำนวนแถวต่อหน้า"],
   Read: ["Read", "อ่าน"],
   Redo: ["Redo", "ทำอีกครั้ง"],
   Register: ["Register", "สมัคร"],
   Remove: ["Remove", "ลบ"],
   Removed: ["Removed", "ลบแล้ว"],
-  RemoveLastPoint: ["Remove Last Point", "ลบจุดสุดท้าย"],
-  Remove$Name: ["Remove {{name}}", "ลบ{{name}}"],
+  "Remove Last Point": ["Remove Last Point", "ลบจุดสุดท้าย"],
+  "Remove $Name": ["Remove {{name}}", "ลบ{{name}}"],
   Rename: ["Rename", "เปลี่ยนชื่อ"],
   Reverse: ["Reverse", "กลับด้าน"],
   "Right Answer": ["Right answer", "คำตอบที่ถูกต้อง"],
-  RowPerPage: ["RowPerPage", "จำนวนแถวต่อหน้า"],
+  Role: ["Role", "บทบาท"],
+  "Rows per page": ["Row per Page", "จำนวนแถวต่อหน้า"],
   Save: ["Save", "บันทึก"],
-  SaveBeforeLeave: [
+  "Save Before Leave": [
     "Would you like to the save the changes before leaving this page?",
     "คุณต้องการบันทึกการแก้ไขก่อนออกจากหน้านี้หรือไม่?",
   ],
   Saved: ["Saved", "บันทึกสำเร็จ"],
   "Send Email": ["Send E-mail", "ส่งอีเมล"],
-  SetAs$Name: ["Set as {{name}}", "ตั้งค่าเป็น{{name}}"],
+  "Set As $Name": ["Set as {{name}}", "ตั้งค่าเป็น{{name}}"],
+  Schedule: ["Schedule", "กำหนดการ"],
   Score: ["Score", "คะแนน"],
+  School: ["School", "โรงเรียน"],
   Search: ["Search", "ค้นหา"],
   "Search $Name": ["Search {{name}}", "ค้นหา{{name}}"],
   "Select right answer": ["Select right answer", "เลือกคำตอบที่ถูกต้อง"],
@@ -230,16 +577,20 @@ export const locale_en_th: Record<string, [string, string]> = {
   ],
   Sequence: ["Sequence", "ลำดับ"],
   Setting: ["Setting", "ตั้งค่า"],
-  Setting$Name: ["Setting {{name}}", "ตั้งค่า{{name}}"],
+  "Setting $Name": ["Setting {{name}}", "ตั้งค่า{{name}}"],
   "Sign In": ["Sign In", "เข้าสู่ระบบ"],
-  "Sign out": ["Sign out", "ออกจากระบบ"],
+  "Sign Out": ["Sign out", "ออกจากระบบ"],
   SignOut: ["Sign out", "ออกจากระบบ"],
   Sharing: ["Sharing", "แบ่งปัน"],
   Shuffle: ["Shuffle", "สลับ"],
   Slide: ["Slide", "สไลด์"],
   "Show columns": ["Show columns", "แสดงคอลัมน์"],
+  "Sort by ASC": ["Sort by ASC", "เรียงจากน้อยไปมาก"],
+  "Sort by DESC": ["Sort by ASC", "เรียงจากมากไปน้อย"],
   Sorting: ["Sorting", "เรียงลำดับ"],
   Spacing: ["Spacing", "ระยะห่าง"],
+  "Specify Others": ["Others (please specify)", "อื่นๆ (โปรดระบุ)"],
+  Staff: ["Staff", "บุคลากร"],
   Start: ["Start", "เริ่มต้น"],
   "Start writting or type": ["Start writting or type", "เริ่มการพิมพ์"],
   Status: ["Status", "สถานะ"],
@@ -261,6 +612,7 @@ export const locale_en_th: Record<string, [string, string]> = {
   TEACH: ["TEACH", "สอน"],
   Teacher: ["Teacher", "ผู้สอน"],
   "Teacher List": ["Teacher List", "รายชื่อผู้สอน"],
+  Telephone: ["Telephone", "โทรศัพท์"],
   Test: ["Test", "ทดสอบ"],
   Thai: ["Thai", "ไทย"],
   Thumbnail: ["Thumbnail", "รูปขนาดย่อ"],
@@ -268,11 +620,14 @@ export const locale_en_th: Record<string, [string, string]> = {
   Timezone: ["Timezone", "เขตเวลา"],
   Title: ["Title", "ชื่อ"],
   Top: ["Top", "บน"],
+  Trash: ["Trash", "ถังขยะ"],
   True: ["True", "ถูก"],
   "True / False": ["True / False", "ถูก / ผิด"],
   Type: ["Type", "ประเภท"],
-  TypeHere: ["Type Here", "พิมพ์ทีั่นี่"],
+  TypeHere: ["Type Here", "พิมพ์ที่นี่"],
+  Unenroll: ["Unenroll", "เพิกถอน"],
   Undefined: ["Undefined", "ไม่ได้กำหนด"],
+  University: ["University", "มหาวิทยาลัย"],
   Unsort: ["Unsort", "ยกเลิกการเรียง"],
   Unsubmit: ["Unsubmit", "ยกเลิกการส่ง"],
   Untitled: ["Untitled", "ยังไม่มีชื่อ"],
@@ -285,13 +640,16 @@ export const locale_en_th: Record<string, [string, string]> = {
   VDO: ["VDO", "วีดิโอ"],
   Visibility: ["Visibility", "การมองเห็น"],
   Website: ["Website", "เว็บไซต์"],
-  WeightedScore: ["Weighted Score", "น้ำหนักคะแนน"],
+  Weight: ["Weight", "น้ำหนัก"],
+  "Weighted Score": ["Weighted Score", "น้ำหนักคะแนน"],
   Welcome: ["Welcome", "ยินดีต้อนรับ"],
   Width: ["Width", "กว้าง"],
   "You've reached the maximum attempts": [
     "You've reached the maximum attempts",
     "ท่านทำถึงจำนวนครั้งสูงสุดที่ทำได้แล้ว",
   ],
+  Work: ["Work", "งาน"],
+  Workplace: ["Workplace", "สถานที่ทำงาน"],
   Yes: ["Yes", "ใช่"],
   You: ["You", "คุณ"],
   /**
@@ -334,3 +692,8 @@ export const getLocale = (lang: string): { [key: string]: string } => {
   }
   return {};
 };
+
+export type TFunction = (
+  text: LocaleKey,
+  dict?: Partial<Record<"name" | "email", string>>
+) => string;

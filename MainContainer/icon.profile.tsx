@@ -6,7 +6,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { useMC } from "./ctx";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { PickIcon } from "../PickIcon";
 
 export const MCIconProfile = (props: Omit<BoxProps, "children">) => {
   const { user, setState } = useMC();
@@ -26,7 +26,7 @@ export const MCIconProfile = (props: Omit<BoxProps, "children">) => {
         </IconButton>
       ) : (
         <IconButton edge="end" color="inherit" onClick={handleOpen}>
-          <FontAwesomeIcon icon={["fad", "sign-in"]} />
+          <PickIcon icon={"sign-in"} />
         </IconButton>
       )}
     </Box>

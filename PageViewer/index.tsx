@@ -5,9 +5,7 @@ import { ContentHeader } from "../ContentHeader";
 import { Container } from "../Container";
 import { StockDisplay } from "../StockDisplay";
 import { Box, Button, Divider, Typography } from "@mui/material";
-import { Paragraph } from "../ParagraphString";
 import { VideoDisplay } from "../VideoDisplay";
-import { DataGrid, GridColumns } from "@mui/x-data-grid";
 import {
   SlideContainer,
   SlideItem,
@@ -15,10 +13,11 @@ import {
   SlideItemFeature,
 } from "../Slide";
 import { useCore } from "../context";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ShowTypes } from "../PageEdit/context";
 import moment from "moment";
 import { Absatz } from "../Absatz";
+import { DGETable } from "../DataGridEditor";
+import { PickIcon } from "../PickIcon";
 
 const getDate = (date: any) => {
   if (date?.toMillis?.()) {
@@ -69,16 +68,16 @@ export const PageViewer = (props: PageViewerProps) => {
                 secondary={
                   data.datemodified ? (
                     <>
-                      <FontAwesomeIcon
-                        icon={["far", "calendar"]}
+                      <PickIcon
+                        icon={"calendar"}
                         style={{ marginRight: "0.5rem" }}
                       />
                       {moment(getDate(data.datemodified)).format("LL")}
                       <Box display="inline-block" sx={{ px: 1 }}>
                         |
                       </Box>
-                      <FontAwesomeIcon
-                        icon={["far", "clock"]}
+                      <PickIcon
+                        icon={"clock"}
                         style={{ marginRight: "0.5rem" }}
                       />
                       {moment(getDate(data.datemodified)).format("LT")}
@@ -118,30 +117,20 @@ export const PageViewer = (props: PageViewerProps) => {
                 return (
                   <Wrapper key={content.key}>
                     <Absatz
-                      value={content?.heading?.value}
                       view
+                      value={content?.heading?.value}
                       variant={content.heading?.variant || "h6"}
+                      sx={{ fontWeight: "bold", "& *": { fontWeight: "bold" } }}
                     />
-                    {/* <Paragraph
-                      dense
-                      view
-                      value={content?.heading?.value}
-                      editorProps={{ toolbarHidden: true, readOnly: true }}
-                      align={content.heading?.align}
-                      variant={content?.heading?.variant || "h6"}
-                      color="textPrimary"
-                    /> */}
                   </Wrapper>
                 );
               case "paragraph":
                 return (
                   <Wrapper key={content.key}>
-                    <Paragraph
-                      dense
+                    <Absatz
                       view
-                      value={content?.paragraph?.value}
-                      editorProps={{ toolbarHidden: true, readOnly: true }}
-                      color="textSecondary"
+                      value={content.paragraph?.value}
+                      sx={{ color: "text.secondary" }}
                     />
                   </Wrapper>
                 );
@@ -161,7 +150,11 @@ export const PageViewer = (props: PageViewerProps) => {
                 if (content.table) {
                   return (
                     <Wrapper key={content.key}>
-                      <DataGrid
+                      <DGETable
+                        rows={content.table.rows}
+                        columns={content.table.columns}
+                      />
+                      {/* <DataGrid
                         rows={content.table.rows}
                         columns={
                           content.table.columns.map((column) => ({
@@ -182,7 +175,7 @@ export const PageViewer = (props: PageViewerProps) => {
                             color: "text.secondary",
                           },
                         }}
-                      />
+                      /> */}
                     </Wrapper>
                   );
                 } else {
@@ -202,9 +195,7 @@ export const PageViewer = (props: PageViewerProps) => {
                             <Button
                               variant="outlined"
                               color="light"
-                              startIcon={
-                                <FontAwesomeIcon icon={["fad", "link"]} />
-                              }
+                              startIcon={<PickIcon icon={"link"} />}
                             >
                               {t("Open")}
                             </Button>

@@ -1,5 +1,6 @@
 import { User } from 'firebase/auth'
 import axios from 'axios'
+import { apiURL } from '../Controller'
 
 export interface StockImageTypes {
   __v: string
@@ -57,8 +58,6 @@ export interface StockImageOptionsTypes {
   }
   ref?: string
 }
-
-export const apiURL = `https://s1.phra.in:8086`
 
 export class StockImageController {
   user: User

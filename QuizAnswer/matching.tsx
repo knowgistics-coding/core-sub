@@ -67,8 +67,9 @@ export const QDMatching = () => {
                       case "paragraph":
                         return (
                           <QDParagraph
-                            color="inherit"
+                            view
                             value={option.paragraph}
+                            sx={{ color: "inherit" }}
                           />
                         );
                       default:

@@ -13,7 +13,7 @@ import { dataTypes, useQEC } from "../context";
 import update from "react-addons-update";
 import { useCore } from "../../context";
 import { KuiButton } from "../../KuiButton";
-import { usePopup } from "../../react-popup";
+import { usePopup } from "../../Popup";
 
 const AnswerBox = styled(Box)(({ theme }) => ({
   border: `solid 1px ${theme.palette.grey[300]}`,
@@ -54,7 +54,7 @@ export const OptionsMultiple = () => {
   const handleDelete = (key: number) => () => {
     Popup.remove({
       title: t("Remove"),
-      text: t("DoYouWantToRemove", { name: t("Choice") }),
+      text: t("Do You Want To Remove $Name", { name: t("Choice") }),
       icon: "trash",
       onConfirm: () => {
         if (data?.multiple?.options) {

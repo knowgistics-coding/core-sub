@@ -16,7 +16,7 @@ import update from "react-addons-update";
 import { useAlerts } from "../Alerts";
 import { useDropzone } from "react-dropzone";
 import { grey } from "@mui/material/colors";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { PickIcon } from "../PickIcon";
 
 const CheckBoxContainer = styled(Box)({
   position: "absolute",
@@ -28,35 +28,35 @@ const CheckBoxContainer = styled(Box)({
   },
 });
 
-const DropHere = styled(Box)<{ isDragActive?: boolean }>(
-  ({ theme, isDragActive }) => ({
-    cursor: "grab",
-    position: "relative",
-    backgroundColor: isDragActive ? theme.palette.primary.main : grey[300],
-    color: isDragActive ? theme.palette.primary.contrastText : undefined,
+const DropHere = styled(Box, {
+  shouldForwardProp: (prop) => prop !== "isDragActive",
+})<{ isDragActive?: boolean }>(({ theme, isDragActive }) => ({
+  cursor: "grab",
+  position: "relative",
+  backgroundColor: isDragActive ? theme.palette.primary.main : grey[300],
+  color: isDragActive ? theme.palette.primary.contrastText : undefined,
+  width: "100%",
+  "&:hover": {
+    backgroundColor: grey[400],
+  },
+  "&:active": {
+    backgroundColor: grey[500],
+  },
+  "&:after": {
+    content: "''",
+    display: "block",
+    paddingTop: "100%",
+  },
+  "&>div": {
+    position: "absolute",
     width: "100%",
-    "&:hover": {
-      backgroundColor: grey[400],
-    },
-    "&:active": {
-      backgroundColor: grey[500],
-    },
-    "&:after": {
-      content: "''",
-      display: "block",
-      paddingTop: "100%",
-    },
-    "&>div": {
-      position: "absolute",
-      width: "100%",
-      height: "100%",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-    },
-  })
-);
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+}));
 
 export const SPContent = () => {
   const { t } = useCore();
@@ -126,7 +126,7 @@ export const SPContent = () => {
             uploadqueue: { $set: [] },
           })
         );
-        addAlert({ label: t("Upload Succeess") });
+        addAlert({ label: t("$Name Successful", { name: t("Upload") }) });
       });
     }
   }, [state.uploadqueue, control, addAlert, setState, state.docs, t]);
@@ -138,8 +138,8 @@ export const SPContent = () => {
           <DropHere isDragActive={isDragActive} {...getRootProps()}>
             <div>
               <input accept="image/*" {...getInputProps()} />
-              <FontAwesomeIcon icon={["fad", "images"]} size="4x" />
-              <Typography variant="caption">{t("DropFileHere")}</Typography>
+              <PickIcon icon={"images"} size="4x" />
+              <Typography variant="caption">{t("Drop File Here")}</Typography>
             </div>
           </DropHere>
         </Grid>
@@ -175,8 +175,8 @@ export const SPContent = () => {
                       },
                     }}
                     sx={{
-                      backgroundColor: '#0006',
-                      pr: 1.5
+                      backgroundColor: "#0006",
+                      pr: 1.5,
                     }}
                   />
                 </CheckBoxContainer>

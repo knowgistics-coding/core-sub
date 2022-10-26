@@ -1,5 +1,3 @@
-import { faArrowDown, faArrowUp } from "@fortawesome/pro-duotone-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Box,
   List,
@@ -10,14 +8,13 @@ import {
   ListItemText,
   styled,
 } from "@mui/material";
-import update from "react-addons-update";
 import { useBookEdit } from ".";
 import { ActionIcon } from "../ActionIcon";
 import { useCore } from "../context";
-import { BookContent, BookContentItem } from "../Controller";
+import { BookContent, BookContentItem } from "../Controller/book";
 import { KuiActionIcon } from "../KuiActionIcon";
-import { usePopup } from "../react-popup";
-import { BookEditCtl } from "./ctl";
+import { PickIcon } from "../PickIcon";
+import { usePopup } from "../Popup";
 
 const ListStyled = styled(List)(({ theme }) => ({
   "&>div:not(:last-child)": {
@@ -67,16 +64,12 @@ export const BookEditContents = () => {
   const handleEditTitleFolder = (index: number) => () => {
     if (data.contents) {
       Popup.prompt({
-        title: t("Edit Title"),
-        text: "Out-Folder",
+        title: t("Edit $Name", { name: t("Title") }),
+        text: t("Title"),
         icon: "plus-circle",
         onConfirm: (value) => {
           if (value) {
-            setData((d) =>
-              update(d, {
-                contents: { [index]: { title: { $set: value } } },
-              })
-            );
+            setData(data.setContent(index, "title", value));
           }
         },
       });
@@ -86,16 +79,12 @@ export const BookEditContents = () => {
   const handleEditTitleOutFolder = (index: number) => () => {
     if (data.contents) {
       Popup.prompt({
-        title: t("Edit Title"),
-        text: "Out-Folder",
+        title: t("Edit $Name", { name: t("Title") }),
+        text: t("Title"),
         icon: "plus-circle",
         onConfirm: (value) => {
           if (value) {
-            setData((d) =>
-              update(d, {
-                contents: { [index]: { title: { $set: value } } },
-              })
-            );
+            setData(data.setContent(index, "title", value));
           }
         },
       });
@@ -108,21 +97,13 @@ export const BookEditContents = () => {
         const folder = data?.contents[folderIndex];
         if (folder.items) {
           Popup.prompt({
-            title: t("Edit Title"),
-            text: "In-Folder",
+            title: t("Edit $Name", { name: t("Title") }),
+            text: t("Title"),
             icon: "plus-circle",
             onConfirm: (value) => {
               if (value) {
-                setData((d) =>
-                  update(d, {
-                    contents: {
-                      [folderIndex]: {
-                        items: {
-                          [itemIndex]: { title: { $set: value } },
-                        },
-                      },
-                    },
-                  })
+                setData(
+                  data.setContentItem(folderIndex, itemIndex, "title", value)
                 );
               }
             },
@@ -134,10 +115,10 @@ export const BookEditContents = () => {
   const handleRemoveFolder = (content: BookContent) => () => {
     Popup.remove({
       title: t("Remove"),
-      text: t("DoYouWantToRemove", { name: content.title }),
+      text: t("Do You Want To Remove $Name", { name: content.title }),
       icon: "trash",
       onConfirm: () => {
-        setData((d) => BookEditCtl.remove.item(d, content.key));
+        setData(data.removeContent(content.key));
       },
     });
   };
@@ -146,109 +127,27 @@ export const BookEditContents = () => {
     () => {
       Popup.remove({
         title: t("Remove"),
-        text: t("DoYouWantToRemove", { name: content.title }),
+        text: t("Do You Want To Remove $Name", { name: content.title }),
         icon: "trash",
         onConfirm: () => {
-          setData((d) => BookEditCtl.remove.sub(d, folderIndex, itemIndex));
+          setData(data.removeContentItem(folderIndex, itemIndex));
         },
       });
     };
-
-  const handleMoveOutFolder =
-    (folderIndex: number, itemIndex: number) => () => {
-      setData((d) => BookEditCtl.folder.moveOut(d, folderIndex, itemIndex));
-    };
-
-  const handleMoveUpInFolder =
-    (folderIndex: number, itemIndex: number) => () => {
-      if (data.contents) {
-        const folder = data?.contents[folderIndex];
-        if (folder.items) {
-          if (itemIndex !== 0) {
-            const [a, b] = [
-              folder.items[itemIndex - 1],
-              folder.items[itemIndex],
-            ];
-            setData((d) =>
-              update(d, {
-                contents: {
-                  [folderIndex]: {
-                    items: {
-                      [itemIndex]: { $set: a },
-                      [itemIndex - 1]: { $set: b },
-                    },
-                  },
-                },
-              })
-            );
-          }
-        }
-      }
-    };
-
+  const handleMoveOutFolder = (folderIndex: number, itemIndex: number) => () =>
+    setData(data.pullFromFolder(folderIndex, itemIndex));
+  const handleMoveUpInFolder = (folderIndex: number, itemIndex: number) => () =>
+    setData(data.moveContentItem(folderIndex, itemIndex, itemIndex - 1));
   const handleMoveDownInFolder =
-    (folderIndex: number, itemIndex: number) => () => {
-      if (data.contents) {
-        const folder = data?.contents[folderIndex];
-        if (folder.items) {
-          const [a, b] = [folder.items[itemIndex + 1], folder.items[itemIndex]];
-          setData((d) =>
-            update(d, {
-              contents: {
-                [folderIndex]: {
-                  items: {
-                    [itemIndex]: { $set: a },
-                    [itemIndex + 1]: { $set: b },
-                  },
-                },
-              },
-            })
-          );
-        }
-      }
-    };
-
-  const handleMoveUpFolder = (a: number) => () => {
-    if (data.contents) {
-      const [x, y] = [data?.contents[a - 1], data?.contents[a]];
-      setData((d) =>
-        update(d, {
-          contents: { [a]: { $set: x }, [a - 1]: { $set: y } },
-        })
-      );
-    }
-  };
-  const handleMoveDownFolder = (a: number) => () => {
-    if (data.contents) {
-      const [x, y] = [data?.contents[a + 1], data?.contents[a]];
-      setData((d) =>
-        update(d, {
-          contents: { [a]: { $set: x }, [a + 1]: { $set: y } },
-        })
-      );
-    }
-  };
-
-  const handleMoveUp = (a: number) => () => {
-    if (data.contents) {
-      const [x, y] = [data?.contents[a - 1], data?.contents[a]];
-      setData((d) =>
-        update(d, {
-          contents: { [a]: { $set: x }, [a - 1]: { $set: y } },
-        })
-      );
-    }
-  };
-  const handleMoveDown = (a: number) => () => {
-    if (data.contents) {
-      const [x, y] = [data?.contents[a + 1], data?.contents[a]];
-      setData((d) =>
-        update(d, {
-          contents: { [a]: { $set: x }, [a + 1]: { $set: y } },
-        })
-      );
-    }
-  };
+    (folderIndex: number, itemIndex: number) => () =>
+      setData(data.moveContentItem(folderIndex, itemIndex, itemIndex + 1));
+  const handleMoveUpFolder = (a: number) => () =>
+    setData(data.moveContent(a, a - 1));
+  const handleMoveDownFolder = (a: number) => () =>
+    setData(data.moveContent(a, a + 1));
+  const handleMoveUp = (a: number) => () => setData(data.moveContent(a, a - 1));
+  const handleMoveDown = (a: number) => () =>
+    setData(data.moveContent(a, a + 1));
 
   return (
     <>
@@ -260,19 +159,19 @@ export const BookEditContents = () => {
                 <div key={content.key}>
                   <ListItemFolder>
                     <ListItemIcon sx={{ color: "inherit" }}>
-                      <FontAwesomeIcon size="2x" icon={["far", "folder"]} />
+                      <PickIcon size="2x" icon="folder" />
                     </ListItemIcon>
                     <ListItemText primary={content.title} />
                     <ListItemSecondaryAction>
                       {index !== 0 && (
                         <ActionIcon
-                          icon={faArrowUp}
+                          icon={"arrow-up"}
                           onClick={handleMoveUpFolder(index)}
                         />
                       )}
                       {data.contents && index < data?.contents?.length - 1 && (
                         <ActionIcon
-                          icon={faArrowDown}
+                          icon={"arrow-down"}
                           onClick={handleMoveDownFolder(index)}
                         />
                       )}
@@ -291,27 +190,24 @@ export const BookEditContents = () => {
                     {content.items?.map((item, itemIndex, items) => (
                       <ListItemPost key={item.key}>
                         <ListItemIcon>
-                          <FontAwesomeIcon
-                            size="2x"
-                            icon={["far", "file-alt"]}
-                          />
+                          <PickIcon size="2x" icon={"file-alt"} />
                         </ListItemIcon>
                         <ListItemText primary={item.title} />
                         <ListItemSecondaryAction>
                           {itemIndex !== 0 && (
                             <ActionIcon
-                              icon={faArrowUp}
+                              icon={"arrow-up"}
                               onClick={handleMoveUpInFolder(index, itemIndex)}
                             />
                           )}
                           {(items?.length || 0) - 1 > itemIndex && (
                             <ActionIcon
-                              icon={faArrowDown}
+                              icon={"arrow-down"}
                               onClick={handleMoveDownInFolder(index, itemIndex)}
                             />
                           )}
-                          <KuiActionIcon
-                            tx="restore"
+                          <ActionIcon
+                            icon="folder-download"
                             onClick={handleMoveOutFolder(index, itemIndex)}
                           />
                           <KuiActionIcon
@@ -335,25 +231,25 @@ export const BookEditContents = () => {
               return (
                 <ListItemPost key={content.key}>
                   <ListItemIcon>
-                    <FontAwesomeIcon size="2x" icon={["far", "file-alt"]} />
+                    <PickIcon size="2x" icon={"file-alt"} />
                   </ListItemIcon>
                   <ListItemText primary={content.title} />
                   <ListItemSecondaryAction>
                     {index !== 0 && (
                       <ActionIcon
-                        icon={faArrowUp}
+                        icon={"arrow-up"}
                         onClick={handleMoveUp(index)}
                       />
                     )}
                     {data.contents && index < data?.contents?.length - 1 && (
                       <ActionIcon
-                        icon={faArrowDown}
+                        icon={"arrow-down"}
                         onClick={handleMoveDown(index)}
                       />
                     )}
 
-                    <KuiActionIcon
-                      tx="add"
+                    <ActionIcon
+                      icon="folder-upload"
                       onClick={() =>
                         setState((s) => ({ ...s, MoveID: content.key }))
                       }

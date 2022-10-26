@@ -1,5 +1,3 @@
-import { IconName } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   Dialog,
@@ -10,6 +8,7 @@ import {
 } from "@mui/material";
 import * as React from "react";
 import { useCore } from "../context";
+import { PickIcon, PickIconName } from "../PickIcon";
 
 const DialogStyled = styled(Dialog)({
   "& .MuiDialog-paper": { maxWidth: 360, borderRadius: "1.5rem" },
@@ -21,7 +20,7 @@ const DialogStyled = styled(Dialog)({
 export type DialogPopupProps = {
   open: boolean;
   onClose: () => void;
-  icon: IconName;
+  icon: PickIconName;
   title: React.ReactNode;
   actions?: React.ReactNode;
   children?: React.ReactNode;
@@ -34,7 +33,7 @@ export const DialogPopup = (props: DialogPopupProps) => {
       <DialogContent>
         <Stack spacing={3}>
           <Stack spacing={2}>
-            <FontAwesomeIcon size="2x" icon={["far", props.icon]} />
+            <PickIcon size="2x" icon={props.icon} />
             <Typography variant="h6" textAlign={"center"} fontWeight={"bold"}>
               {props.title}
             </Typography>

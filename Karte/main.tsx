@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Box,
   BoxProps,
@@ -11,6 +10,7 @@ import {
 } from "@mui/material";
 import React, { MouseEventHandler } from "react";
 import { useCore } from "../context";
+import { PickIcon } from "../PickIcon";
 
 type PosType = { top: string; left: string };
 
@@ -108,7 +108,9 @@ export const Karte = (props: KarteProps) => {
           <LoadingBox />
         ) : (
           <Absolute>
-            {props.feature && <FeatureBox src={props.feature} />}
+            {props.feature && (
+              <FeatureBox src={props.feature} pos={props.pos} />
+            )}
             <ContentBox>
               <Box className="inner-content">
                 <Typography variant="h6">{props.title}</Typography>
@@ -134,7 +136,7 @@ export const Karte = (props: KarteProps) => {
                   onClick={props.onMenu}
                   sx={{ height: 36, width: 36 }}
                 >
-                  <FontAwesomeIcon icon={["far", "ellipsis-v"]} size="lg" />
+                  <PickIcon icon={"ellipsis-v"} size="lg" />
                 </IconButton>
               </EllipsisBox>
             )}

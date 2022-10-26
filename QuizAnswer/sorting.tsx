@@ -3,8 +3,8 @@ import { useQD } from './context'
 import { Box, List } from '@mui/material'
 import { ListButton } from './list.button'
 import { QDParagraph } from './paragraph'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { QDImgDisplay } from '../QuizEditor/img'
+import { PickIcon } from '../PickIcon'
 
 export const QDSorting = () => {
   const { quiz, answer } = useQD()
@@ -41,7 +41,7 @@ export const QDSorting = () => {
                       return undefined
                   }
                 })()}
-                icon={<FontAwesomeIcon icon={['far', 'arrows']} />}
+                icon={<PickIcon icon={"arrows"} />}
                 correct={quiz.sorting?.answers?.[index] === key}
               />
             )

@@ -14,7 +14,7 @@ import { DialogPopup } from "../DialogPopup";
 import { KuiButton } from "../KuiButton";
 import { useEffect, useState } from "react";
 
-export type VisibilityDisplayValue = "public" | "private";
+export type VisibilityDisplayValue = "public" | "private" | "trash";
 export type VisibilityEditProps = {
   disableDivider?: boolean;
   value?: VisibilityDisplayValue;

@@ -41,8 +41,8 @@ export const cleanObject = <T extends unknown>(data: T): T | null => {
   } else if (data instanceof Date) {
     return data;
   } else if (typeof data === "object") {
-    let newData = { ...data } as Record<string, unknown>;
-    Object.entries(data as Object).forEach(([key, value]) => {
+    let newData = Object.assign({}, data) as Record<string, unknown>;
+    Object.entries(newData as Object).forEach(([key, value]) => {
       if (typeof value === "undefined") {
         delete newData[key];
       } else {
@@ -255,4 +255,12 @@ export const SpliceImmutable = <T extends unknown>(
   let newDocs = [...docs];
   newDocs.splice(start, deleteCount);
   return newDocs;
+};
+
+export const simpleHash = (text: string): string => {
+  const hash = text
+    .split("")
+    .map((letter) => (letter.charCodeAt(0) - 30).toString(16))
+    .join("");
+  return hash
 };

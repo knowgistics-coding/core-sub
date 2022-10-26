@@ -9,9 +9,9 @@ import { SiteHomeLink } from "./site.home.link";
 
 const AppBarStyled = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
-  borderBottom: 'solid 1px',
+  borderBottom: "solid 1px",
   borderColor: theme.palette.divider,
-  color: theme.palette.text.primary
+  color: theme.palette.text.primary,
 }));
 
 export const MCAppbar = () => {
@@ -22,7 +22,7 @@ export const MCAppbar = () => {
     endActions: ea,
     disableSidebarPadding,
   } = useMC();
-  const { sitename, logo, isMobile, startActions, endActions } = useCore();
+  const { sitename, logo, isMobile, startActions, endActions, t } = useCore();
 
   return (
     <AppBarStyled elevation={0}>
@@ -36,8 +36,8 @@ export const MCAppbar = () => {
             <SiteHomeLink>
               <SiteLogo logo={logo} />
               {sitename && !isMobile && (
-                <Typography className="site-name" variant="h6">
-                  {sitename}
+                <Typography className="site-name" variant="h6" sx={{ pl: 1 }}>
+                  {t(sitename)}
                 </Typography>
               )}
             </SiteHomeLink>

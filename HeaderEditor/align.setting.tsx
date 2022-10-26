@@ -1,13 +1,12 @@
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu, MenuItem, Typography } from "@mui/material";
 import React, { MouseEvent, useState } from "react";
+import { PickIcon, PickIconName } from "../PickIcon";
 
 export type alignType = "left" | "center" | "right";
-const icons: { [key in alignType]: IconProp } = {
-  left: ["fad", "align-left"],
-  center: ["fad", "align-center"],
-  right: ["fad", "align-right"],
+const icons: { [key in alignType]: PickIconName } = {
+  left: "align-left",
+  center: "align-center",
+  right: "align-right",
 };
 
 interface AlignSettingProps {
@@ -40,7 +39,7 @@ export const AlignSetting = ({ value, onAlignChange }: AlignSettingProps) => {
           onMouseDown={handleOpen}
           variant="caption"
         >
-          <FontAwesomeIcon icon={icons[value] || ["fad", "align-left"]} />
+          <PickIcon icon={icons[value] || "align-left"} />
           <div
             className={
               Boolean(anchorEl)
@@ -52,13 +51,13 @@ export const AlignSetting = ({ value, onAlignChange }: AlignSettingProps) => {
       </div>
       <Menu open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={handleClose}>
         <MenuItem onClick={handleChange("left")}>
-          <FontAwesomeIcon icon={["fad", "align-left"]} />
+          <PickIcon icon={"align-left"} />
         </MenuItem>
         <MenuItem onClick={handleChange("center")}>
-          <FontAwesomeIcon icon={["fad", "align-center"]} />
+          <PickIcon icon={"align-center"} />
         </MenuItem>
         <MenuItem onClick={handleChange("right")}>
-          <FontAwesomeIcon icon={["fad", "align-right"]} />
+          <PickIcon icon={"align-right"} />
         </MenuItem>
       </Menu>
     </React.Fragment>

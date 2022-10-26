@@ -60,8 +60,8 @@ export class MekBookCtl extends MekClientCtl {
       const doc = await getDoc(this.doc(user, "docs", BookId));
       return doc.exists() ? (doc.data() as BookData) : null;
     },
-    postId: async (postId:string[]):Promise<Record<string, any>> => {
-      const posts = postId.map(async id => ({ [id]: await Post.get(id) }))
+    postId: async (user: User, postId:string[]):Promise<Record<string, any>> => {
+      const posts = postId.map(async id => ({ [id]: await Post.get(user, id) }))
       return Object.assign({}, ...(await Promise.all(posts)));
     } 
   };

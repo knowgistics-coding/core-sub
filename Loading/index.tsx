@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   AppBar,
   Box,
@@ -11,6 +10,7 @@ import {
 } from "@mui/material";
 import { Container } from "../Container";
 import { ContentHeader } from "../ContentHeader";
+import { PickIcon } from "../PickIcon";
 
 export type LoadingProps = {
   maxWidth?: Breakpoint;
@@ -45,7 +45,7 @@ export const Loading = (props: LoadingProps) => {
               <Button
                 variant="outlined"
                 disabled
-                startIcon={<FontAwesomeIcon icon={["far", "spinner"]} pulse />}
+                startIcon={<PickIcon icon={"spinner"} pulse />}
               >
                 <Skeleton width={64} />
               </Button>

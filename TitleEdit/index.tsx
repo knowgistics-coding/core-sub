@@ -6,7 +6,7 @@ import {
 } from "@mui/material";
 import { useCore } from "../context";
 import { KuiActionIcon } from "../KuiActionIcon";
-import { usePopup } from "../react-popup";
+import { usePopup } from "../Popup";
 
 export interface TitleEditProps {
   value?: string;
@@ -18,7 +18,7 @@ export const TitleEdit = ({ value, onChange }: TitleEditProps) => {
 
   const handleEdit = () => {
     Popup.prompt({
-      title: t("Edit$Name", { name: t("Title") }),
+      title: t("Edit $Name", { name: t("Title") }),
       text: t("Title"),
       icon: "edit",
       defaultValue: value,

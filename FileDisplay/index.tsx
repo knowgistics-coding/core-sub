@@ -6,8 +6,8 @@ import {
   IconButton,
   styled,
 } from "@mui/material";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Fragment } from "react";
+import { PickIcon } from "../PickIcon";
 
 const ListItemBlock = styled(ListItem)(({ theme }) => ({
   border: `solid 1px ${theme.palette.grey[300]}`,
@@ -31,7 +31,7 @@ export const FileDisplay = ({ content }: FileDisplayProps) => {
       {" "}
       <ListItemBlock divider>
         <ListItemIcon>
-          <FontAwesomeIcon icon={["fad", "file-alt"]} size="2x" />
+          <PickIcon icon={"file-alt"} size="2x" />
         </ListItemIcon>
         <ListItemText
           primary={content.value.name || "Untitled"}
@@ -54,7 +54,7 @@ export const FileDisplay = ({ content }: FileDisplayProps) => {
             href={content.value.original}
             target="_blank"
           >
-            <FontAwesomeIcon size="1x" icon={["fad", "download"]} />
+            <PickIcon size="1x" icon={"download"} />
           </IconButton>
         )}
       </ListItemBlock>

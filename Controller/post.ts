@@ -1,22 +1,41 @@
-import { collection, doc, getDoc } from 'firebase/firestore'
-import { db } from './firebase'
+import { User } from "firebase/auth";
+import { collection, doc, getDoc, onSnapshot, Unsubscribe } from "firebase/firestore";
+import { db } from "../../../controllers/firebase";
+import { PageDoc } from "./page";
 
-export class Post {
+export class Post extends PageDoc {
+  id: string;
+
+  constructor(data?: Partial<Post>) {
+    super(data);
+
+    this.id = data?.id ?? "";
+  }
   /**
-   ____   _          _    _       
-  / ___| | |_  __ _ | |_ (_)  ___ 
-  \___ \ | __|/ _` || __|| | / __|
-   ___) || |_| (_| || |_ | || (__ 
-  |____/  \__|\__,_| \__||_| \___|
-    */  
-  static prefix:string = `${process.env.REACT_APP_PREFIX}`;
-  private static collection(path: string, ...pathSegments: string[]) {
-    return collection(db, "clients", this.prefix, path, ...pathSegments);
+   * ========================================
+   *   ____   _          _    _
+   *  / ___| | |_  __ _ | |_ (_)  ___
+   *  \___ \ | __|/ _` || __|| | / __|
+   *   ___) || |_| (_| || |_ | || (__
+   *  |____/  \__|\__,_| \__||_| \___|
+   *
+   * ========================================
+   */
+  private static doc(user: User, id:string) {
+    return doc(db, "users", user.uid, "docs", id);
   }
-  private static doc(path: string, ...pathSegments: string[]) {
-    return doc(db, "clients", this.prefix, path, ...pathSegments);
+  private static collection(user: User) {
+    return collection(db, "users", user.uid, "docs");
   }
-  static async get(id:string):Promise<any>{
-    return (await getDoc(this.doc("documents", id))).data()
+  static watchMy(user: User, callback: (docs: Post[]) => void): Unsubscribe {
+    return onSnapshot(this.collection(user), (snapshot) => {
+      const docs = snapshot.docs.map(
+        (doc) => new Post({ ...doc.data(), id: doc.id })
+      );
+      callback(docs);
+    });
+  }
+  static async get(user: User, id:string){
+    return await getDoc(this.doc(user, id))
   }
 }

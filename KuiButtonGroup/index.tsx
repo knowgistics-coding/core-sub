@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   alpha,
   Button,
@@ -14,6 +13,7 @@ import {
 import { useEffect, useState } from "react";
 import { TFunction, useCore } from "../context";
 import { KuiButtonProps } from "../KuiButton";
+import { PickIcon } from "../PickIcon";
 
 export type ButtonPalette =
   | "primary"
@@ -59,64 +59,64 @@ const lists = (
   add: {
     variant: "outlined",
     children: t("Create"),
-    startIcon: <FontAwesomeIcon icon={["far", "plus"]} />,
+    startIcon: <PickIcon icon={"plus"} />,
     color: "info",
   },
   bin: {
     children: t("Remove"),
-    startIcon: <FontAwesomeIcon icon={["far", "trash"]} />,
+    startIcon: <PickIcon icon={"trash"} />,
     color: "error",
   },
   browse: {
     children: t("Browse"),
-    startIcon: <FontAwesomeIcon icon={["far", "folder-open"]} />,
+    startIcon: <PickIcon icon={"folder-open"} />,
   },
   cancel: {
     children: t("Cancel"),
-    startIcon: <FontAwesomeIcon icon={["far", "ban"]} />,
+    startIcon: <PickIcon icon={"ban"} />,
   },
   confirm: {
     children: t("Confirm"),
-    startIcon: <FontAwesomeIcon icon={["far", "check"]} />,
+    startIcon: <PickIcon icon={"check"} />,
     color: "info",
   },
   clear: {
     children: t("Clear"),
-    startIcon: <FontAwesomeIcon icon={["far", "redo"]} />,
+    startIcon: <PickIcon icon={"redo"} />,
   },
   close: {
     children: t("Close"),
-    startIcon: <FontAwesomeIcon icon={["far", "xmark"]} />,
+    startIcon: <PickIcon icon={"xmark"} />,
   },
   download: {
     children: t("Download"),
-    startIcon: <FontAwesomeIcon icon={["far", "download"]} />,
+    startIcon: <PickIcon icon={"download"} />,
   },
   import: {
     children: t("Import"),
-    startIcon: <FontAwesomeIcon icon={["far", "download"]} />,
+    startIcon: <PickIcon icon={"download"} />,
   },
   remove: {
     children: t("Remove"),
-    startIcon: <FontAwesomeIcon icon={["far", "trash"]} />,
+    startIcon: <PickIcon icon={"trash"} />,
     color: "error",
   },
   save: {
     children: t("Save"),
-    startIcon: <FontAwesomeIcon icon={["far", "save"]} />,
+    startIcon: <PickIcon icon={"save"} />,
   },
   setting: {
     children: t("Setting"),
-    startIcon: <FontAwesomeIcon icon={["far", "cog"]} />,
+    startIcon: <PickIcon icon={"cog"} />,
   },
   signout: {
     children: t("Sign Out"),
-    startIcon: <FontAwesomeIcon icon={["far", "sign-out"]} />,
+    startIcon: <PickIcon icon={"sign-out"} />,
     color: "error",
   },
   upload: {
     children: t("Upload"),
-    startIcon: <FontAwesomeIcon icon={["far", "upload"]} />,
+    startIcon: <PickIcon icon={"upload"} />,
   },
 });
 
@@ -138,7 +138,7 @@ export const KuiButtonGroup = (props: KuiButtonGroupProps) => {
   return isMobile ? (
     <>
       <ButtonStyled
-        endIcon={<FontAwesomeIcon icon={["far", "chevron-down"]} />}
+        endIcon={<PickIcon icon={"chevron-down"} />}
         onClick={({ currentTarget }) => setAnchor(currentTarget)}
       >
         {t("Menu")}

@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Box,
   Container,
@@ -14,6 +13,7 @@ import { Timestamp } from "firebase/firestore";
 import moment from "moment";
 import { useState } from "react";
 import { MaterialDocument } from ".";
+import { Absatz } from "../Absatz";
 import { Breadcrumb, ContentHeader } from "../ContentHeader";
 import { TFunction, useCore } from "../context";
 import { FileCtl } from "../Controller";
@@ -23,7 +23,7 @@ import { SpliceImmutable } from "../func";
 import { KuiActionIcon } from "../KuiActionIcon";
 import { KuiButton } from "../KuiButton";
 import { KuiList } from "../KuiList";
-import { Paragraph } from "../ParagraphString";
+import { PickIcon } from "../PickIcon";
 
 export class AssignmentCtl {
   static isLated(
@@ -93,10 +93,7 @@ export const CourseAssignment = ({
           breadcrumbs={props.breadcrumbs}
           secondary={<DateDisplay date={item.datemodified} />}
         />
-        <Paragraph
-          value={item.content}
-          editorProps={{ toolbarHidden: true, readOnly: true }}
-        />
+        <Absatz view value={item.content} />
         {item.files?.map((file, index) => (
           <FileChip {...file} sx={{ mr: 1, mb: 1 }} key={index} />
         ))}
@@ -128,10 +125,7 @@ export const CourseAssignment = ({
               {t("Answer")}
             </Typography>
             <Paper sx={{ p: 2, pt: 0 }}>
-              <Paragraph
-                value={submit.data.content}
-                editorProps={{ toolbarHidden: true, readOnly: true }}
-              />
+              <Absatz view value={submit.data.content} />
               {Boolean(submit.data.files.length) &&
                 submit.data.files.map((file, index) => (
                   <FileChip {...file} key={index} sx={{ mb: 1, mr: 1 }} />
@@ -174,7 +168,7 @@ export const CourseAssignment = ({
                   <Button
                     size="small"
                     variant="outlined"
-                    startIcon={<FontAwesomeIcon icon={["far", "xmark"]} />}
+                    startIcon={<PickIcon icon={"xmark"} />}
                     color="error"
                     onClick={() => props.onUnsend(submit.data!.id)}
                   >
@@ -189,9 +183,9 @@ export const CourseAssignment = ({
             <Typography variant="h6" sx={{ pb: 2 }}>
               {t("Answer")}
             </Typography>
-            <Paragraph
+            <Absatz
               value={data.content}
-              onChangeHTML={(content) => setData((d) => ({ ...d, content }))}
+              onChange={(content) => setData((d) => ({ ...d, content }))}
             />
             <Box sx={{ mt: 2 }}>
               <KuiButton
@@ -225,7 +219,7 @@ export const CourseAssignment = ({
               <Button
                 variant="outlined"
                 color="success"
-                startIcon={<FontAwesomeIcon icon={["far", "paper-plane"]} />}
+                startIcon={<PickIcon icon={"paper-plane"} />}
                 onClick={handleSend}
                 disabled={!isComplete()}
               >

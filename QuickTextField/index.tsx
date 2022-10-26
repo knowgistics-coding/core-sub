@@ -1,19 +1,19 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   TextField,
   TextFieldProps,
   Typography,
-  TypographyProps
-} from '@mui/material'
-import React, { useEffect, useState } from 'react'
+  TypographyProps,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { PickIcon } from "../PickIcon";
 
 export interface QuickTextFieldProps {
-  value: string
-  onChange: (value: string) => void
-  textFieldProps?: TextFieldProps
-  showIcon?: boolean
-  placeholder?: string
-  variant?: TypographyProps['variant']
+  value: string;
+  onChange: (value: string) => void;
+  textFieldProps?: TextFieldProps;
+  showIcon?: boolean;
+  placeholder?: string;
+  variant?: TypographyProps["variant"];
 }
 export const QuickTextField = ({
   value,
@@ -21,36 +21,36 @@ export const QuickTextField = ({
   textFieldProps,
   showIcon,
   placeholder,
-  variant
+  variant,
 }: QuickTextFieldProps) => {
-  const [edit, setEdit] = useState<boolean>(false)
-  const [newValue, setValue] = useState<string>('')
+  const [edit, setEdit] = useState<boolean>(false);
+  const [newValue, setValue] = useState<string>("");
 
-  const handleEditToggle = () => setEdit((e) => !e)
+  const handleEditToggle = () => setEdit((e) => !e);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-    setValue(event.target.value)
+    setValue(event.target.value);
   const handleBlur = () => {
-    setEdit(false)
-    setValue(value)
-  }
+    setEdit(false);
+    setValue(value);
+  };
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (['Escape', 'Enter'].includes(event.key)) {
-      if (event.key === 'Enter') {
-        onChange(newValue)
-      } else if (event.key === 'Escape') {
-        setValue(value)
+    if (["Escape", "Enter"].includes(event.key)) {
+      if (event.key === "Enter") {
+        onChange(newValue);
+      } else if (event.key === "Escape") {
+        setValue(value);
       }
-      setEdit(false)
-      event.preventDefault()
+      setEdit(false);
+      event.preventDefault();
     }
-  }
+  };
 
   useEffect(() => {
-    setValue(value)
-  }, [value])
+    setValue(value);
+  }, [value]);
 
   return (
-    <div style={{ cursor: 'pointer' }}>
+    <div style={{ cursor: "pointer" }}>
       {edit ? (
         <TextField
           autoFocus
@@ -60,23 +60,18 @@ export const QuickTextField = ({
           onBlur={handleBlur}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
-          helperText='Press ESC to cancel or Enter to comfirm'
+          helperText="Press ESC to cancel or Enter to comfirm"
         />
       ) : (
         <Typography
           variant={variant}
-          color={value ? undefined : 'textSecondary'}
+          color={value ? undefined : "textSecondary"}
           onClick={handleEditToggle}
         >
           {value || placeholder}
-          {showIcon && (
-            <FontAwesomeIcon
-              icon={['fad', 'edit']}
-              style={{ marginLeft: 16 }}
-            />
-          )}
+          {showIcon && <PickIcon icon={"edit"} style={{ marginLeft: 16 }} />}
         </Typography>
       )}
     </div>
-  )
-}
+  );
+};

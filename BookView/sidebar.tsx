@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   ListItem,
   ListItemButton,
@@ -10,6 +9,7 @@ import {
 import { Fragment } from "react";
 import { useBookView } from ".";
 import { BackLink } from "../BackLink";
+import { PickIcon } from "../PickIcon";
 import { TitleSidebar } from "../TitleSidebar";
 import { Folder, ListItemChildPost } from "./folder";
 
@@ -56,7 +56,7 @@ export const BookViewSidebar = () => {
                           onClick={handleSelect(item.key)}
                         >
                           <ListItemIcon>
-                            <FontAwesomeIcon icon={["far", "file-alt"]} />
+                            <PickIcon icon={"file-alt"} />
                           </ListItemIcon>
                           <ListItemText primary={item.title} />
                         </ListItemChildPost>
@@ -77,7 +77,7 @@ export const BookViewSidebar = () => {
                       selected={selected === content.key}
                     >
                       <ListItemIcon>
-                        <FontAwesomeIcon icon={["far", "file-alt"]} />
+                        <PickIcon icon={"file-alt"} />
                       </ListItemIcon>
                       <ListItemText primary={content.title} />
                     </ListItemPost>

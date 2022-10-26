@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { List, ListItemText, ListItemIcon } from "@mui/material";
 import { BackLink } from "../BackLink";
 import { KuiListItemButton } from "../KuiListItemButton";
@@ -7,14 +6,14 @@ import { PageDocument } from "../PageEdit";
 import { StockDisplay, StockDisplayProps } from "../StockDisplay";
 import { ReactNode, useEffect } from "react";
 import { To, useNavigate } from "react-router-dom";
-import { IconName } from "@fortawesome/fontawesome-svg-core";
 import { PageViewer } from "../PageViewer";
 import { useCore } from "../context";
 import { CourseAssignment, CourseAssignmentProps } from "./assignment";
 import { Breadcrumb } from "../ContentHeader";
 import { Timestamp } from "firebase/firestore";
+import { PickIcon, PickIconName } from "../PickIcon";
 
-const icons: Record<string, IconName> = {
+const icons: Record<string, PickIconName> = {
   lesson: "chalkboard",
   quiz: "list-ol",
   assignment: "file-alt",
@@ -127,8 +126,8 @@ export const CourseViewer = (props: CourseViewerProps) => {
                   }
                 >
                   <ListItemIcon>
-                    <FontAwesomeIcon
-                      icon={["far", icons[item.type] || "question"]}
+                    <PickIcon
+                      icon={icons[item.type] || "question"}
                     />
                   </ListItemIcon>
                   <ListItemText

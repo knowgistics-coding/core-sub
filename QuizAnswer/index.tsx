@@ -2,7 +2,6 @@ import { Box, styled } from '@mui/material'
 import { grey } from '@mui/material/colors'
 
 import { QDContext, QuizDisplayProps } from './context'
-// import { QDInstruction } from './instruction'
 import { QDMatching } from './matching'
 import { QDMultiple } from './multiple'
 import { QDQuestion } from './question'
@@ -16,7 +15,6 @@ const Root = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2)
 }))
 
-export type { QuizAnswerTypes } from './context'
 export const QuizAnswer = ({
   quiz,
   answer,

@@ -1,5 +1,3 @@
-import { IconName } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Box,
   Breakpoint,
@@ -15,6 +13,7 @@ import {
 } from "@mui/material";
 import * as React from "react";
 import { KuiButton } from "../KuiButton";
+import { PickIcon, PickIconName } from "../PickIcon";
 
 const DialogStyled = styled(Dialog)({
   "& .MuiPaper-root:not(.MuiDialog-paperFullScreen)": {
@@ -45,7 +44,8 @@ const TitleStyled = styled(Box)({
 export type DialogCompactProps = {
   open: boolean;
   maxWidth?: Breakpoint | false;
-  icon?: IconName;
+  icon?: PickIconName;
+
   title?: React.ReactNode;
   children?: React.ReactNode;
   actions?: React.ReactNode;
@@ -69,7 +69,7 @@ export const DialogCompact = (props: DialogCompactProps) => {
       <DialogTitleStyled>
         {props.icon && (
           <Typography variant="h4" component="div" sx={{ mb: 2 }}>
-            <FontAwesomeIcon icon={["far", props.icon as IconName]} />
+            <PickIcon icon={props.icon} />
           </Typography>
         )}
         <TitleStyled>{props.title}</TitleStyled>

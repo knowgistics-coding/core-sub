@@ -1,8 +1,8 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import * as React from "react";
 
 import { useCore } from "../context";
+import { PickIcon } from "../PickIcon";
 import { SignIn } from "../SignIn";
 
 const ProfileMenuNotSignContext = React.createContext<{
@@ -45,7 +45,7 @@ export const ProfileMenuNotSignListItem = (
       }}
     >
       <ListItemIcon>
-        <FontAwesomeIcon icon={["fad", "sign-in"]} />
+        <PickIcon icon={"sign-in"} />
       </ListItemIcon>
       <ListItemText primary={t("Sign In")} />
     </ListItemButton>

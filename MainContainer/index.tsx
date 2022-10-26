@@ -76,3 +76,5 @@ export const MainContainer = (props: MainContainerProps) => {
     </MCContext.Provider>
   );
 };
+
+export default MainContainer

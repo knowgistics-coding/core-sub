@@ -1,9 +1,6 @@
-import {
-  FontAwesomeIcon,
-  FontAwesomeIconProps,
-} from "@fortawesome/react-fontawesome";
 import { Button, ButtonProps } from "@mui/material";
 import { useCore } from "../context";
+import { PickIcon, PickIconProps } from "../PickIcon";
 
 const browseFile = (accept?: string, multiple?: boolean): Promise<File[]> => {
   return new Promise((resolved) => {
@@ -26,7 +23,7 @@ export type AttachFileProps = {
   onChange: (files: File[]) => void;
   componentProps?: {
     button?: Omit<ButtonProps, "children" | "startIcon" | "onClick">;
-    icon?: FontAwesomeIconProps;
+    icon?: Omit<PickIconProps, "icon">;
   };
   accept?: string;
   multiple?: boolean;
@@ -44,10 +41,7 @@ export const AttachFile = (props: AttachFileProps) => {
       variant="outlined"
       color="info"
       startIcon={
-        <FontAwesomeIcon
-          icon={["far", "paperclip"]}
-          {...props.componentProps?.icon}
-        />
+        <PickIcon icon={"paperclip"} {...props.componentProps?.icon} />
       }
       {...props.componentProps?.button}
       onClick={handleClick}

@@ -1,9 +1,9 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, Slide, styled, Toolbar, Typography } from "@mui/material";
 import moment from "moment";
 import { useBookView } from ".";
 import { useCore } from "../context";
 import { apiURL } from "../Controller";
+import { PickIcon } from "../PickIcon";
 
 const Root = styled(Box, { shouldForwardProp: (prop) => prop !== "bg" })<{
   bg?: string;
@@ -53,23 +53,17 @@ export const BookViewCover = () => {
           <Wrapper>
             <Typography variant="h1">{value?.title}</Typography>
             <Typography variant="caption">
-              <FontAwesomeIcon
-                icon={["far", "calendar"]}
-                style={{ marginRight: "0.5rem" }}
-              />
+              <PickIcon icon={"calendar"} style={{ marginRight: "0.5rem" }} />
               {moment(value?.datemodified || new Date()).format("LL")}
               <Box display="inline-block" px={1}>
                 |
               </Box>
-              <FontAwesomeIcon
-                icon={["far", "clock"]}
-                style={{ marginRight: "0.5rem" }}
-              />
+              <PickIcon icon={"clock"} style={{ marginRight: "0.5rem" }} />
               {moment(value?.datemodified || new Date()).format("LT")}
             </Typography>
             <Button
               variant="outlined"
-              startIcon={<FontAwesomeIcon icon={["far", "book-open"]} />}
+              startIcon={<PickIcon icon={"book-open"} />}
               color="light"
               sx={{ mt: 3 }}
               onClick={handleOpen}

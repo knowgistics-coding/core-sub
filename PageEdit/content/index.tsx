@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Box,
   BoxProps,
@@ -9,14 +8,14 @@ import {
   SnackbarContent,
   Stack,
 } from "@mui/material";
-import { arrayMoveImmutable } from "array-move";
-import React, { useState } from "react";
+import React, { MouseEvent, useCallback, useState } from "react";
 import update from "react-addons-update";
 import {
   SortableContainer as SC,
   SortableElement as SE,
   SortEnd,
 } from "react-sortable-hoc";
+import { useAlerts } from "../../Alerts";
 import { Container } from "../../Container";
 import { ContentHeader } from "../../ContentHeader";
 import { useCore } from "../../context";
@@ -36,16 +35,19 @@ import { PEContentDeselectButton } from "./deselect.button";
 import { PEContentSaveButton } from "./save.button";
 import { PEContentSelectAll } from "./select.all";
 import { PEContentSpacingButton } from "./spacing.button";
+import debounce from "lodash.debounce";
+import { PickIcon } from "../../PickIcon";
 
 const SortableContainer = SC<BoxProps>(Box);
 const SortableElement = SE<BoxProps>(Box);
 
 export const PEContent = () => {
-  const { isMobile } = useCore();
+  const { t, isMobile } = useCore();
   const {
     data,
     setData,
     state: { selected },
+    pageData,
     show,
     maxWidth,
     breadcrumbs,
@@ -53,14 +55,49 @@ export const PEContent = () => {
   } = usePE();
   const [isStart, setIsStart] = useState<boolean>(false);
   const [addOpen, setAddOpen] = useState<boolean>(true);
+  const { addAlert } = useAlerts();
 
   const handleSortEnd = ({ oldIndex, newIndex }: SortEnd) => {
-    if (data.contents) {
-      const newContents = arrayMoveImmutable(data.contents, oldIndex, newIndex);
-      setData((d) => update(d, { contents: { $set: newContents } }));
-    }
+    setData(pageData.content.sorting(oldIndex, newIndex).toJSON());
     setIsStart(false);
   };
+
+  const handleCopy = useCallback(() => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(JSON.stringify(data)).then(() => {
+        addAlert({ label: t("Copied") });
+      });
+    }
+  }, [data, t, addAlert]);
+  const handlePaste = useCallback(() => {
+    if (navigator.clipboard) {
+      navigator.clipboard.readText().then((text) => {
+        try {
+          const newData = JSON.parse(text);
+          if (newData?.contents) {
+            setData((d) => update(d, { contents: { $set: newData.contents } }));
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      });
+    }
+  }, [setData]);
+
+  const debounceFn = debounce((e: MouseEvent<HTMLButtonElement>) => {
+    if (e.detail === 1) {
+      setAddOpen((o) => !o);
+    } else if (e.detail === 2) {
+      handleCopy();
+    } else if (e.detail === 3) {
+      handlePaste();
+    }
+  }, 250);
+
+  const handleClick = useCallback(
+    (e: MouseEvent<HTMLButtonElement>) => debounceFn(e),
+    [debounceFn]
+  );
 
   return (
     <React.Fragment>
@@ -170,9 +207,9 @@ export const PEContent = () => {
         TransitionProps={{ direction: "left" } as SlideProps}
       >
         <Box>
-          <Fab size="small" onClick={() => setAddOpen((o) => !o)}>
-            <FontAwesomeIcon
-              icon={["far", "chevron-left"]}
+          <Fab size="small" onClick={handleClick}>
+            <PickIcon
+              icon={"chevron-left"}
               rotation={addOpen ? 180 : undefined}
               style={{ transition: "all 0.5s cubic-bezier(0.25,0,0,1.75) 0s" }}
             />

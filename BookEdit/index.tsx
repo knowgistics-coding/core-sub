@@ -1,18 +1,16 @@
 import * as React from "react";
-import update from "react-addons-update";
 import { BackLink } from "../BackLink";
 import { Container } from "../Container";
 import { Breadcrumb, ContentHeader } from "../ContentHeader";
 import { useCore } from "../context";
-import { BookRawData } from "../Controller";
+import { Book } from "../Controller/book";
 import { FabGroup, FabIcon } from "../FabGroup";
 import { FeatureImageEdit } from "../FeatureImage";
 import { MainContainer, MainContainerProps } from "../MainContainer";
-import { usePopup } from "../react-popup";
+import { usePopup } from "../Popup";
 import { TitleEdit } from "../TitleEdit";
 import { VisibilityEdit } from "../VisibilityEdit";
 import { BookEditContents } from "./contents";
-import { BookEditCtl } from "./ctl";
 import { PostAdd, PostDocument } from "./post.add";
 import { AddToFolder } from "./post.to.folder";
 
@@ -20,44 +18,49 @@ type StateType = {
   MoveID: string;
 };
 
-export const BookEditContext = React.createContext<{
+export type BookEditProps = {
+  breadcrumbs?: Breadcrumb[];
+  data: Book;
+  setData: (data: Book) => void;
+  containerProps?: Omit<MainContainerProps, "children" | "sidebar">;
+  onSave: () => void;
+};
+
+type contentType = Pick<BookEditProps, "data" | "setData" | "onSave"> & {
   state: StateType;
   setState: React.Dispatch<React.SetStateAction<StateType>>;
-  data: Partial<BookRawData>;
-  setData: React.Dispatch<React.SetStateAction<Partial<BookRawData>>>;
-}>({
-  data: {},
+  data: Book;
+  setData: (data: Book) => void;
+};
+
+export const BookEditContext = React.createContext<contentType>({
+  data: new Book({ user: "" }),
   setData: () => {},
-  state: {MoveID: ""},
+  state: { MoveID: "" },
   setState: () => {},
+  onSave: () => {},
 });
 export const useBookEdit = () => React.useContext(BookEditContext);
 
-export type BookEditProps = {
-  breadcrumbs?: Breadcrumb[];
-  data: Partial<BookRawData>;
-  setData: React.Dispatch<React.SetStateAction<Partial<BookRawData>>>;
-  containerProps?: Omit<MainContainerProps, "children" | "sidebar">;
-};
 export const BookEdit = (props: BookEditProps) => {
   const { t } = useCore();
   const { Popup } = usePopup();
   const [open, setOpen] = React.useState<boolean>(false);
-  const [state, setState] = React.useState<StateType>({MoveID: ""})
+  const [state, setState] = React.useState<StateType>({ MoveID: "" });
 
   const handleChangeField =
-    <Key extends keyof BookRawData>(field: Key) =>
-    (value: BookRawData[Key]) => {
-      props.setData((d) => update(d, { [field]: { $set: value } }));
+    <Key extends keyof Book>(field: Key) =>
+    (value: Book[Key]) => {
+      props.setData(props.data.set(field, value));
     };
   const handleAddFolder = () => {
     Popup.prompt({
       title: t("Create $Name", { name: t("Chapter") }),
-      text: t("$NameName", { name: t("Chapter") }),
+      text: t("$Name Name", { name: t("Chapter") }),
       icon: "plus-circle",
       onConfirm: (value) => {
         if (value) {
-          props.setData((d) => BookEditCtl.add.folder(d, value));
+          props.setData(props.data.addFolder(value));
         }
       },
     });
@@ -65,7 +68,7 @@ export const BookEdit = (props: BookEditProps) => {
   const handleAddPost = async (posts: PostDocument[]) => {
     if (posts) {
       posts?.forEach((v) => {
-        props.setData((d) => BookEditCtl.add.post(d, v.title));
+        props.setData(props.data.addPost(v.title, v.id));
       });
       setOpen(false);
     }
@@ -73,7 +76,13 @@ export const BookEdit = (props: BookEditProps) => {
 
   return (
     <BookEditContext.Provider
-      value={{ data: props.data, setData: props.setData, state, setState }}
+      value={{
+        data: props.data,
+        setData: props.setData,
+        state,
+        setState,
+        onSave: props.onSave,
+      }}
     >
       <MainContainer
         sidebar={
@@ -88,7 +97,7 @@ export const BookEdit = (props: BookEditProps) => {
               onChange={handleChangeField("feature")}
               onRemove={() => handleChangeField("feature")(null)}
             />
-            <VisibilityEdit onChange={handleChangeField("visibility")} />
+            <VisibilityEdit value={props.data.visibility} onChange={handleChangeField("visibility")} />
           </>
         }
         {...props.containerProps}
@@ -107,14 +116,17 @@ export const BookEdit = (props: BookEditProps) => {
         <FabGroup>
           <FabIcon icon="folder-plus" onClick={handleAddFolder} />
           <FabIcon icon="file-download" onClick={() => setOpen(true)} />
-          <FabIcon icon="save" color="success" />
+          <FabIcon icon="save" color="success" onClick={props.onSave} />
         </FabGroup>
         <PostAdd
           open={open}
           onClose={() => setOpen(false)}
           onAddPost={handleAddPost}
         />
-        <AddToFolder open={Boolean(state.MoveID)} onClose={() => setState(s=>({...s, MoveID: ""}))} />
+        <AddToFolder
+          open={Boolean(state.MoveID)}
+          onClose={() => setState((s) => ({ ...s, MoveID: "" }))}
+        />
       </MainContainer>
     </BookEditContext.Provider>
   );

@@ -13,7 +13,6 @@ import { PageContentTypes } from "../PageEdit";
 import { StockDisplayProps } from "../StockDisplay";
 import { BookEditCtl } from "./ctl";
 import moment from "moment";
-import { KuiActionIcon } from "../KuiActionIcon";
 import { GridSelectionModel } from "@mui/x-data-grid";
 
 export type PostSchedule = {
@@ -64,7 +63,9 @@ export const PostAdd = (props: PostAddType) => {
   };
 
   const handleAddPost = () => {
-    props.onAddPost(post.docs.filter(doc => state.selection.includes(doc.id) ));
+    props.onAddPost(
+      post.docs.filter((doc) => state.selection.includes(doc.id))
+    );
     setState((s) => ({ ...s, selection: [] }));
   };
 
@@ -86,7 +87,7 @@ export const PostAdd = (props: PostAddType) => {
   return (
     <>
       <Dialog fullWidth maxWidth="sm" open={props.open} onClose={props.onClose}>
-        <DialogTitle>{t("Add Post")}</DialogTitle>
+        <DialogTitle>{t("Add $Name", { name: t("POST") })}</DialogTitle>
         <DialogContent>
           <DataGrid
             searchable
@@ -98,12 +99,6 @@ export const PostAdd = (props: PostAddType) => {
             loading={post.loading}
             rows={post.docs}
             columns={[
-              {
-                field: "action",
-                headerName: " ",
-                width: 64,
-                renderCell: ({ row }) => <KuiActionIcon tx="restore" />,
-              },
               {
                 field: "title",
                 headerName: t("Title"),
@@ -125,7 +120,7 @@ export const PostAdd = (props: PostAddType) => {
           />
         </DialogContent>
         <DialogActions>
-        <KuiButton
+          <KuiButton
             tx="confirm"
             disabled={state.selection.length === 0}
             onClick={handleAddPost}
