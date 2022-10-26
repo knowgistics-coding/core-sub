@@ -1,12 +1,12 @@
 import React, {
   createContext,
   Dispatch,
-    ReactNode,
+  ReactNode,
   SetStateAction,
-    useCallback,
+  useCallback,
   useContext,
-    useEffect,
-    useState,
+  useEffect,
+  useState,
 } from "react";
 import {
   createTheme,
@@ -28,7 +28,7 @@ import type { To } from "react-router-dom";
 import { PopupProvider, PopupTranslate } from "./Popup";
 import "./style.css";
 import { watchDarkmode } from "./watch.darkmode";
-import { TFunction } from "./Translate/en_th";
+import { LocaleKey, TFunction } from "./Translate/en_th";
 import { PickIconName } from "./PickIcon";
 
 export type { TFunction } from "./Translate/en_th";
@@ -45,13 +45,13 @@ export interface userTypes {
   data: User | null;
 }
 export interface CoreProviderProps {
-    theme?: ThemeOptions;
-    firebaseConfig?: { [key: string]: string };
-    firebaseApp: FirebaseApp;
+  theme?: ThemeOptions;
+  firebaseConfig?: { [key: string]: string };
+  firebaseApp: FirebaseApp;
   onSettingChange?: (key: string, value: any) => void;
-  sitename?: string;
+  sitename?: LocaleKey;
   logo?: string;
-    logoComponent?: string;
+  logoComponent?: string;
   startActions?: React.ReactNode;
   endActions?: React.ReactNode;
   profileMenu?: React.ReactNode;
@@ -65,9 +65,9 @@ export interface CoreProviderProps {
 }
 export interface CoreContextTypes
   extends Omit<CoreProviderProps, "firebaseApp"> {
-    firebaseApp?: CoreProviderProps["firebaseApp"];
+  firebaseApp?: CoreProviderProps["firebaseApp"];
   isMobile: boolean;
-    theme: Theme;
+  theme: Theme;
   t: TFunction;
   fb: null | {
     auth: Auth;
@@ -83,7 +83,7 @@ export interface CoreContextTypes
 
 const CoreContext = createContext<CoreContextTypes>({
   isMobile: false,
-    theme: createTheme({}),
+  theme: createTheme({}),
   t: () => "",
   fb: null,
   user: {
@@ -91,8 +91,7 @@ const CoreContext = createContext<CoreContextTypes>({
     data: null,
   },
   setUser: () => {},
-    sitename: "",
-    logo: "",
+  logo: "",
   open: {},
   setOpen: () => {},
   systemState: {

@@ -1,4 +1,4 @@
-import { db } from "controllers/firebase";
+import { db } from "../../../controllers/firebase"
 import { User } from "firebase/auth";
 import {
   collection,
