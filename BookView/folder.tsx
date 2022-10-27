@@ -12,10 +12,13 @@ import { ReactNode, useState } from "react";
 import { PickIcon } from "../PickIcon";
 
 const FolderRoot = styled(Box)(({ theme }) => ({
-  border: `solid 1px ${theme.palette.grey[300]}`,
+  "--bg": theme.palette.grey[700],
+  "--bg-hover": theme.palette.grey[800],
+  "--color": "#FFF",
+  border: `solid 1px var(--bg)`,
 }));
 const FolderContainer = styled(List)(({ theme }) => ({
-  borderTop: `solid 1px ${theme.palette.grey[300]}`,
+  borderTop: `solid 1px var(--bg)`,
 }));
 
 export const ListItemChildPost = styled(ListItemButton)(({ theme }) => ({
@@ -47,8 +50,8 @@ export const Folder = ({ label, length, children }: FolderProps) => {
       <ListItemButton
         dense
         sx={{
-          backgroundColor: "grey.100",
-          "&:hover": { backgroundColor: "grey.300" },
+          backgroundColor: "var(--bg)",
+          "&:hover": { backgroundColor: "var(--bg-hover)" },
           "& .MuiListItemIcon-root": { color: "inherit" },
         }}
         onClick={handleToggle}

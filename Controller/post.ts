@@ -1,15 +1,44 @@
 import { User } from "firebase/auth";
-import { collection, doc, getDoc, onSnapshot, Unsubscribe } from "firebase/firestore";
+import {
+  collection,
+  CollectionReference,
+  doc,
+  DocumentData,
+  DocumentReference,
+  getDoc,
+  onSnapshot,
+  query,
+  serverTimestamp,
+  Unsubscribe,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { db } from "../../../controllers/firebase";
-import { PageDoc } from "./page";
+import { VisibilityTabsValue } from "../VisibilityTabs";
+import { PageDate, PageDoc } from "./page";
 
 export class Post extends PageDoc {
   id: string;
 
-  constructor(data?: Partial<Post>) {
+  constructor(
+    data?: Partial<
+      Omit<Post, "datecreate" | "datemodified"> & {
+        datecreate?: PageDate;
+        datemodified?: PageDate;
+      }
+    >
+  ) {
     super(data);
 
     this.id = data?.id ?? "";
+    this.visibility = data?.visibility ?? "private";
+  }
+
+  async save(uid: string): Promise<void> {
+    await updateDoc(Post.doc(uid, this.id), {
+      ...this.toJSON(),
+      datemodified: serverTimestamp(),
+    });
   }
   /**
    * ========================================
@@ -21,21 +50,29 @@ export class Post extends PageDoc {
    *
    * ========================================
    */
-  private static doc(user: User, id:string) {
-    return doc(db, "users", user.uid, "docs", id);
+  private static doc(uid: string, id: string): DocumentReference<DocumentData> {
+    return doc(db, "users", uid, "docs", id);
   }
-  private static collection(user: User) {
-    return collection(db, "users", user.uid, "docs");
+  private static collection(uid: string): CollectionReference<DocumentData> {
+    return collection(db, "users", uid, "docs");
   }
   static watchMy(user: User, callback: (docs: Post[]) => void): Unsubscribe {
-    return onSnapshot(this.collection(user), (snapshot) => {
-      const docs = snapshot.docs.map(
-        (doc) => new Post({ ...doc.data(), id: doc.id })
-      );
-      callback(docs);
-    });
+    return onSnapshot(
+      query(this.collection(user.uid), where("type", "==", "post")),
+      (snapshot) => {
+        const docs = snapshot.docs.map(
+          (doc) => new Post({ ...doc.data(), id: doc.id })
+        );
+        callback(docs);
+      }
+    );
   }
-  static async get(user: User, id:string){
-    return (await getDoc(this.doc(user, id))).data()
+  static async getOne(uid: string, id: string): Promise<Post | null> {
+    const snapshot = await getDoc(this.doc(uid, id));
+    return snapshot.exists() ? new Post({ ...snapshot.data(), id }) : null;
+  }
+
+  static filter(docs: Post[], visibility: VisibilityTabsValue): Post[] {
+    return docs.filter((doc) => doc.visibility === visibility);
   }
 }

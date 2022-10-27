@@ -1,5 +1,7 @@
+import { Timestamp } from "firebase/firestore";
 import { DataGridEditorData } from "../DataGridEditor";
 import { SlideItem } from "../PageEdit";
+import { PageDocument } from "../PageEdit/ctl";
 import { StockDisplayProps } from "../StockDisplay";
 import { VideoContent } from "../VideoDisplay";
 import { VisibilityTabsValue } from "../VisibilityTabs";
@@ -41,6 +43,8 @@ export interface PageContentTypes {
   mb?: number;
 }
 
+export type PageDate = Timestamp | Date | number | undefined;
+
 export class PageDoc {
   title: string;
   feature: StockDisplayProps | null;
@@ -50,18 +54,44 @@ export class PageDoc {
   datecreate: number;
   datemodified: number;
 
-  constructor(data?: Partial<PageDoc>) {
+  constructor(
+    data?: Partial<Omit<PageDoc, "datecreate" | "datemodified">> & {
+      datecreate?: PageDate;
+      datemodified?: PageDate;
+    }
+  ) {
     this.title = data?.title ?? "";
     this.feature = data?.feature ?? null;
     this.contents = data?.contents ?? [];
     this.visibility = data?.visibility ?? "private";
     this.user = data?.user || "";
-    this.datecreate = data?.datecreate ?? Date.now();
-    this.datemodified = data?.datemodified ?? Date.now();
+    this.datecreate = this.dateToNumber(data?.datecreate);
+    this.datemodified = this.dateToNumber(data?.datemodified);
+  }
+
+  private dateToNumber(date?: PageDate): number {
+    if (date instanceof Date) {
+      return date.getTime();
+    } else if (date instanceof Timestamp) {
+      return date.toMillis();
+    } else if (typeof date === "number") {
+      return date;
+    } else {
+      return Date.now();
+    }
   }
 
   set<T extends keyof this>(field: T, value: this[T]): this {
     this[field] = value;
     return this;
+  }
+
+  toJSON(): Omit<PageDocument, "id"> {
+    return {
+      title: this.title,
+      feature: this.feature,
+      contents: this.contents,
+      visibility: this.visibility,
+    };
   }
 }

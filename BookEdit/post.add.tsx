@@ -11,9 +11,9 @@ import { DataGrid } from "../DataGrid";
 import { KuiButton } from "../KuiButton";
 import { PageContentTypes } from "../PageEdit";
 import { StockDisplayProps } from "../StockDisplay";
-import { BookEditCtl } from "./ctl";
 import moment from "moment";
 import { GridSelectionModel } from "@mui/x-data-grid";
+import { Post } from "../Controller/post";
 
 export type PostSchedule = {
   start: string;
@@ -38,14 +38,14 @@ export interface PostDocument {
 export type PostAddType = {
   open: boolean;
   onClose: () => void;
-  onAddPost: (selection: PostDocument[]) => void;
+  onAddPost: (selection: Post[]) => void;
 };
 
 export const PostAdd = (props: PostAddType) => {
   const { user, t } = useCore();
   const [post, setPost] = useState<{
     loading: boolean;
-    docs: PostDocument[];
+    docs: Post[];
   }>({
     loading: true,
     docs: [],
@@ -72,7 +72,7 @@ export const PostAdd = (props: PostAddType) => {
   useEffect(() => {
     if (user.loading === false) {
       if (user.data) {
-        return BookEditCtl.post.many((docs) => {
+        return Post.watchMy(user.data, (docs) => {
           setPost({ loading: false, docs });
         });
       } else {

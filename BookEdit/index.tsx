@@ -4,6 +4,7 @@ import { Container } from "../Container";
 import { Breadcrumb, ContentHeader } from "../ContentHeader";
 import { useCore } from "../context";
 import { Book } from "../Controller/book";
+import { Post } from "../Controller/post";
 import { FabGroup, FabIcon } from "../FabGroup";
 import { FeatureImageEdit } from "../FeatureImage";
 import { MainContainer, MainContainerProps } from "../MainContainer";
@@ -11,7 +12,7 @@ import { usePopup } from "../Popup";
 import { TitleEdit } from "../TitleEdit";
 import { VisibilityEdit } from "../VisibilityEdit";
 import { BookEditContents } from "./contents";
-import { PostAdd, PostDocument } from "./post.add";
+import { PostAdd } from "./post.add";
 import { AddToFolder } from "./post.to.folder";
 
 type StateType = {
@@ -65,10 +66,10 @@ export const BookEdit = (props: BookEditProps) => {
       },
     });
   };
-  const handleAddPost = async (posts: PostDocument[]) => {
+  const handleAddPost = async (posts: Post[]) => {
     if (posts) {
-      posts?.forEach((v) => {
-        props.setData(props.data.addPost(v.title, v.id));
+      posts?.forEach((post) => {
+        props.setData(props.data.addPost(post));
       });
       setOpen(false);
     }
@@ -98,7 +99,10 @@ export const BookEdit = (props: BookEditProps) => {
               onChange={handleChangeField("feature")}
               onRemove={() => handleChangeField("feature")(null)}
             />
-            <VisibilityEdit value={props.data.visibility} onChange={handleChangeField("visibility")} />
+            <VisibilityEdit
+              value={props.data.visibility}
+              onChange={handleChangeField("visibility")}
+            />
           </>
         }
         {...props.containerProps}

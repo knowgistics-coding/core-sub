@@ -38,7 +38,7 @@ export type BookContent = {
   type: "folder" | "item";
   items?: BookContentItem[];
   value?: string;
-  uid?: string
+  uid?: string;
   key: string;
 };
 
@@ -53,6 +53,7 @@ export class Book {
   datemodified: number;
   contents: BookContent[];
   view: number;
+  posts?: Record<string, Post>;
 
   displayName?: string;
 
@@ -127,7 +128,7 @@ export class Book {
   }
 
   removeContent(key: string): this {
-    this.contents = this.contents.filter((content) => content.key === key);
+    this.contents = this.contents.filter((content) => content.key !== key);
     return this;
   }
 
@@ -143,8 +144,14 @@ export class Book {
     return this;
   }
 
-  addPost(title: string, id: string): this {
-    this.contents.push({ key: genKey(), title, value: id, type: "item" });
+  addPost(post: Post): this {
+    this.contents.push({
+      key: genKey(),
+      title: post.title,
+      value: post.id,
+      uid: post.user,
+      type: "item",
+    });
     return this;
   }
 
@@ -204,23 +211,36 @@ export class Book {
     return this;
   }
 
-  async getPosts(user: User) {
-    const postsId = this.contents.reduce((ids, content) => {
-      const newIds: (string | undefined)[] =
-        content.type === "folder"
-          ? content?.items?.map((item) => item.value) ?? []
-          : [content.value];
-      return ids
-        .concat(...newIds.filter((id): id is string => !!id))
-        .filter((s, i, a) => a.indexOf(s) === i);
-    }, [] as string[]);
-    const posts: Record<string, Post> = Object.assign(
+  async getPosts(user: User): Promise<Record<string, Post>> {
+    const lists = this.contents
+      .reduce((lists, content) => {
+        const newLists = (
+          content.type
+            ? content.items?.map(({ uid, value }) => ({ uid, value })) ?? []
+            : [{ uid: content.uid, value: content.value }]
+        ).filter(
+          (item): item is { uid: string; value: string } =>
+            !!item.uid && !!item.value
+        );
+        return lists.concat(...newLists);
+      }, [] as { uid: string; value: string }[])
+      .filter(
+        (item, index, items) =>
+          items.findIndex(
+            (i) => i.uid === item.uid && i.value === item.value
+          ) === index
+      );
+    const posts = Object.assign(
       {},
-      ...(await Promise.all(
-        postsId.map(async (id) => ({ [id]: await Post.get(user, id) }))
-      ))
+      ...(
+        await Promise.all(
+          lists.map(async (item) => await Post.getOne(item.uid, item.value))
+        )
+      )
+        .filter((post): post is Post => !!post)
+        .map((post) => ({ [post.id]: post }))
     );
-    console.log(posts);
+    return posts;
   }
 
   async getFull(user: User): Promise<this> {
@@ -232,7 +252,7 @@ export class Book {
     if (result.displayName) {
       this.displayName = result.displayName;
     }
-    await this.getPosts(user);
+    this.posts = await this.getPosts(user);
     return this;
   }
 

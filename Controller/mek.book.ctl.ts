@@ -19,23 +19,23 @@ import { MekClientCtl } from "./mek.clients";
 import { Post } from "./post";
 
 export type BookContentItem = {
-  title: string,
-  value: string,
-  key: string
-}
+  title: string;
+  value: string;
+  key: string;
+};
 export type BookContent = {
-  title: string
-  type: "folder" | "post",
-  items?: BookContentItem[]
-  value?: string
-  key: string
-}
+  title: string;
+  type: "folder" | "post";
+  items?: BookContentItem[];
+  value?: string;
+  key: string;
+};
 
 export type BookRawData = {
   title: string;
   feature: StockDisplayProps | null;
   visibility: VisibilityTabsValue;
-  contents?: BookContent[]
+  contents?: BookContent[];
 };
 
 export type BookData = NonNullable<BookRawData> & {
@@ -60,10 +60,15 @@ export class MekBookCtl extends MekClientCtl {
       const doc = await getDoc(this.doc(user, "docs", BookId));
       return doc.exists() ? (doc.data() as BookData) : null;
     },
-    postId: async (user: User, postId:string[]):Promise<Record<string, any>> => {
-      const posts = postId.map(async id => ({ [id]: await Post.get(user, id) }))
+    postId: async (
+      user: User,
+      postId: string[]
+    ): Promise<Record<string, any>> => {
+      const posts = postId.map(async (id) => ({
+        [id]: await Post.getOne(user.uid, id),
+      }));
       return Object.assign({}, ...(await Promise.all(posts)));
-    } 
+    },
   };
 
   readonly watch = {

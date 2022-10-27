@@ -3,8 +3,8 @@ import * as React from "react";
 import { Container } from "../Container";
 import { ContentHeaderProps } from "../ContentHeader";
 import { Book } from "../Controller/book";
+import { Post } from "../Controller/post";
 import { MainContainer } from "../MainContainer";
-import { PageDocument } from "../PageEdit";
 import { PageViewer } from "../PageViewer";
 import { BookViewCover } from "./cover";
 import { BookViewSidebar } from "./sidebar";
@@ -13,7 +13,7 @@ export interface BookViewProps {
   loading?: boolean;
   back?: string;
   value?: Book;
-  posts?: Record<string, PageDocument>;
+  posts?: Record<string, Post>;
   breadcrumbs?: ContentHeaderProps["breadcrumbs"];
 }
 
@@ -34,7 +34,7 @@ const BookViewContext = React.createContext<
 export const useBookView = () => React.useContext(BookViewContext);
 
 export const BookView = (props: BookViewProps) => {
-  const [selected, setSelect] = React.useState<string>("cover");
+  const [selected, setSelect] = React.useState<string>("34gk9");
   const pages =
     props.value?.contents?.reduce((total: string[], content) => {
       if (content.type === "item") {
@@ -62,6 +62,8 @@ export const BookView = (props: BookViewProps) => {
       ) || [])
     ) || {};
 
+    console.log(props.posts?.[pagesPost[selected]].toJSON())
+
   return (
     <BookViewContext.Provider
       value={{ ...props, selected, setSelect, pages, pagesPost }}
@@ -71,19 +73,20 @@ export const BookView = (props: BookViewProps) => {
         dense
         sidebar={<BookViewSidebar />}
       >
+        {props.posts?.[pagesPost[selected]] && (
+          <PageViewer
+            maxWidth="post"
+            breadcrumbs={[
+              { label: "Home", to: "/" },
+              { label: props.value?.title || "Book" },
+              { label: props.posts?.[pagesPost[selected]]?.title },
+            ]}
+            data={props.posts?.[pagesPost[selected]].toJSON()}
+            noContainer
+          />
+        )}
         <Container maxWidth="post">
-          {props.posts?.[pagesPost[selected]] && (
-            <PageViewer
-              breadcrumbs={[
-                { label: "Home", to: "/" },
-                { label: props.value?.title || "Book" },
-                { label: props.posts?.[pagesPost[selected]]?.title },
-              ]}
-              data={props.posts?.[pagesPost[selected]]}
-              noContainer
-            />
-          )}
-          <Box display={"flex"} justifyContent="center">
+          <Box display={"flex"} justifyContent="center" sx={{pt:3, pb:6}}>
             <Pagination
               page={
                 pages.indexOf(selected) > -1 ? pages.indexOf(selected) + 1 : 1
