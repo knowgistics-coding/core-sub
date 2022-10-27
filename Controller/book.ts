@@ -24,10 +24,13 @@ import { ExcludeMethods } from "./map";
 import { genKey } from "draft-js";
 import update from "react-addons-update";
 import { arrayMoveImmutable } from "array-move";
+import { MainStatic } from "./main.static";
+import { Post } from "./post";
 
 export type BookContentItem = {
   title: string;
   value: string;
+  uid: string;
   key: string;
 };
 export type BookContent = {
@@ -35,6 +38,7 @@ export type BookContent = {
   type: "folder" | "item";
   items?: BookContentItem[];
   value?: string;
+  uid?: string
   key: string;
 };
 
@@ -48,6 +52,9 @@ export class Book {
   datecreate: number;
   datemodified: number;
   contents: BookContent[];
+  view: number;
+
+  displayName?: string;
 
   constructor(data: Partial<Book> & Required<{ user: string }>) {
     this.id = data.id ?? Book.genId();
@@ -61,6 +68,7 @@ export class Book {
 
     this.datecreate = this.dateToNumber(data?.datecreate);
     this.datemodified = this.dateToNumber(data?.datemodified);
+    this.view = data.view ?? 0;
   }
 
   private dateToNumber(date?: Timestamp | Date | number): number {
@@ -81,7 +89,8 @@ export class Book {
       ...Object.entries(this)
         .filter(
           ([key, value]) =>
-            typeof value !== "function" && ["id"].includes(key) === false
+            typeof value !== "function" &&
+            ["id", "displayName"].includes(key) === false
         )
         .map(([key, value]) => ({ [key]: value ?? null }))
     );
@@ -141,9 +150,9 @@ export class Book {
 
   pushToFolder(folderIndex: number, postIndex: number): this {
     if (this.contents?.[postIndex]) {
-      const { title, value } = this.contents[postIndex];
-      if (value) {
-        const newItem: BookContentItem = { key: genKey(), title, value };
+      const { title, value, uid } = this.contents[postIndex];
+      if (value && uid) {
+        const newItem: BookContentItem = { key: genKey(), title, value, uid };
         const pushed = update(this.contents, {
           [folderIndex]: {
             items: {
@@ -195,6 +204,38 @@ export class Book {
     return this;
   }
 
+  async getPosts(user: User) {
+    const postsId = this.contents.reduce((ids, content) => {
+      const newIds: (string | undefined)[] =
+        content.type === "folder"
+          ? content?.items?.map((item) => item.value) ?? []
+          : [content.value];
+      return ids
+        .concat(...newIds.filter((id): id is string => !!id))
+        .filter((s, i, a) => a.indexOf(s) === i);
+    }, [] as string[]);
+    const posts: Record<string, Post> = Object.assign(
+      {},
+      ...(await Promise.all(
+        postsId.map(async (id) => ({ [id]: await Post.get(user, id) }))
+      ))
+    );
+    console.log(posts);
+  }
+
+  async getFull(user: User): Promise<this> {
+    const result = await MainStatic.get<{ displayName: string }>(
+      user,
+      `${MainStatic.baseUrl()}/user/displayname/${this.user}`,
+      "GET"
+    );
+    if (result.displayName) {
+      this.displayName = result.displayName;
+    }
+    await this.getPosts(user);
+    return this;
+  }
+
   async update<T extends keyof this>(
     field: T,
     value: this[T] | FieldValue
@@ -235,6 +276,17 @@ export class Book {
     await deleteDoc(Book.doc(this.user, this.id));
   }
 
+  /**
+   * ========================================
+   *   ____   _          _    _
+   *  / ___| | |_  __ _ | |_ (_)  ___
+   *  \___ \ | __|/ _` || __|| | / __|
+   *   ___) || |_| (_| || |_ | || (__
+   *  |____/  \__|\__,_| \__||_| \___|
+   *
+   * ========================================
+   */
+
   private static genId(): string {
     return doc(collection(db, "document")).id;
   }
@@ -270,12 +322,18 @@ export class Book {
     await doc.save(user.uid);
     return doc;
   }
-  static async get(user: User, id: string) {
-    const snapshot = await getDoc(this.doc(user.uid, id));
-    if (snapshot.exists() || snapshot.data()?.user !== user.uid) {
-      return new Book({ ...snapshot.data(), id: snapshot.id } as Book);
-    } else {
-      throw new Error("Access denied");
-    }
+  static async getOne(user: User, id: string, full?: boolean): Promise<Book> {
+    return new Promise(async (resolve, reject) => {
+      const snapshot = await getDoc(this.doc(user.uid, id));
+      if (snapshot.exists() || snapshot.data()?.user !== user.uid) {
+        let doc = new Book({ ...snapshot.data(), id: snapshot.id } as Book);
+        if (full) {
+          doc = await doc.getFull(user);
+        }
+        resolve(doc);
+      } else {
+        reject(Error("Access denied"));
+      }
+    });
   }
 }

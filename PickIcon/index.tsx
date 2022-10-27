@@ -37,6 +37,10 @@ import {
   faChild,
   faCircle,
   faCircleCheck,
+  faCircleChevronDown,
+  faCircleChevronLeft,
+  faCircleChevronRight,
+  faCircleChevronUp,
   faClock,
   faCodeBranch,
   faCog,
@@ -106,6 +110,7 @@ import {
   faTv,
   faUnlink,
   faUpload,
+  faUser,
   faUserEdit,
   faUserPlus,
   faUtensils,
@@ -236,7 +241,12 @@ const iconLists = [
   faArrowUp,
   faArrowDown,
   faFolderDownload,
-  faFolderUpload
+  faFolderUpload,
+  faCircleChevronDown,
+  faCircleChevronLeft,
+  faCircleChevronRight,
+  faCircleChevronUp,
+  faUser
 ] as IconDefinition[];
 
 library.add(...iconLists);
@@ -279,6 +289,10 @@ export type PickIconName =
   | "child"
   | "circle"
   | "circle-check"
+  | "circle-chevron-down"
+  | "circle-chevron-left"
+  | "circle-chevron-right"
+  | "circle-chevron-up"
   | "clock"
   | "code-branch"
   | "cog"
@@ -349,6 +363,7 @@ export type PickIconName =
   | "tv"
   | "unlink"
   | "upload"
+  | "user"
   | "user-edit"
   | "user-plus"
   | "utensils"

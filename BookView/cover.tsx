@@ -1,9 +1,25 @@
-import { Box, Button, Slide, styled, Toolbar, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Slide,
+  styled,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import moment from "moment";
 import { useBookView } from ".";
 import { useCore } from "../context";
 import { apiURL } from "../Controller";
 import { PickIcon } from "../PickIcon";
+
+const VerticalLine = styled("span")(({ theme }) => ({
+  padding: theme.spacing(0, 1),
+  "&:before": {
+    content: '"|"',
+    display: "inline-block",
+  },
+}));
 
 const Root = styled(Box, { shouldForwardProp: (prop) => prop !== "bg" })<{
   bg?: string;
@@ -35,9 +51,17 @@ const Content = styled(Box)(() => ({
 const Wrapper = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
-  maxWidth: theme.sidebarWidth,
   alignItems: "center",
+  width: "100%",
+  maxWidth: theme.breakpoints.values.sm,
+  padding: theme.spacing(3),
+  boxSizing: "border-box",
 }));
+
+const ReadIcon = styled(IconButton)(({theme}) => ({
+  fontSize: theme.spacing(8),
+  padding: 0,
+}))
 
 export const BookViewCover = () => {
   const { t } = useCore();
@@ -51,25 +75,29 @@ export const BookViewCover = () => {
         <Toolbar />
         <Content>
           <Wrapper>
-            <Typography variant="h1">{value?.title}</Typography>
-            <Typography variant="caption">
+            <Typography variant="body1" sx={{mb:3}}>
+              <PickIcon icon="book" style={{ marginRight: "1ch" }} />
+              {t("BOOK")}
+            </Typography>
+            <Typography variant="h1" align="center">
+              {value?.title}
+            </Typography>
+            <Typography variant="body2" sx={{mb:3}}>
               <PickIcon icon={"calendar"} style={{ marginRight: "0.5rem" }} />
               {moment(value?.datemodified || new Date()).format("LL")}
-              <Box display="inline-block" px={1}>
-                |
-              </Box>
+              <VerticalLine />
               <PickIcon icon={"clock"} style={{ marginRight: "0.5rem" }} />
               {moment(value?.datemodified || new Date()).format("LT")}
+              <VerticalLine />
+              <PickIcon icon={"eye"} style={{ marginRight: "0.5rem" }} />
+              {value?.view ?? 0}
             </Typography>
-            <Button
-              variant="outlined"
-              startIcon={<PickIcon icon={"book-open"} />}
-              color="light"
-              sx={{ mt: 3 }}
-              onClick={handleOpen}
-            >
-              {t("Read")}
-            </Button>
+            {value?.displayName && <Typography mb={3}>
+              <PickIcon icon="user" /> {value?.displayName}
+            </Typography>}
+            <ReadIcon onClick={handleOpen}>
+              <PickIcon icon="circle-chevron-right" />
+            </ReadIcon>
           </Wrapper>
         </Content>
       </Root>

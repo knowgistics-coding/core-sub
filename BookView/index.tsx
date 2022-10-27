@@ -2,7 +2,7 @@ import { Box, Pagination } from "@mui/material";
 import * as React from "react";
 import { Container } from "../Container";
 import { ContentHeaderProps } from "../ContentHeader";
-import { BookData } from "../Controller";
+import { Book } from "../Controller/book";
 import { MainContainer } from "../MainContainer";
 import { PageDocument } from "../PageEdit";
 import { PageViewer } from "../PageViewer";
@@ -12,7 +12,7 @@ import { BookViewSidebar } from "./sidebar";
 export interface BookViewProps {
   loading?: boolean;
   back?: string;
-  value?: BookData;
+  value?: Book;
   posts?: Record<string, PageDocument>;
   breadcrumbs?: ContentHeaderProps["breadcrumbs"];
 }
@@ -37,7 +37,7 @@ export const BookView = (props: BookViewProps) => {
   const [selected, setSelect] = React.useState<string>("cover");
   const pages =
     props.value?.contents?.reduce((total: string[], content) => {
-      if (content.type === "post") {
+      if (content.type === "item") {
         return total.concat(content.key);
       } else if (content.type === "folder" && content.items?.length) {
         return total.concat(...content.items.map((item) => item.key));
@@ -49,7 +49,7 @@ export const BookView = (props: BookViewProps) => {
       {},
       ...(props.value?.contents?.reduce(
         (total: Record<string, string>[], content) => {
-          if (content.type === "post" && content.value) {
+          if (content.type === "item" && content.value) {
             return total.concat({ [content.key]: content.value });
           } else if (content.type === "folder" && content.items?.length) {
             return total.concat(

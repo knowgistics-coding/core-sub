@@ -85,6 +85,7 @@ export const BookEdit = (props: BookEditProps) => {
       }}
     >
       <MainContainer
+        signInOnly
         sidebar={
           <>
             <BackLink divider to="/" />

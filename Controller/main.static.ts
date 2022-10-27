@@ -17,7 +17,7 @@ export class MainStatic {
       throw new Error(reason.message);
     });
 
-  protected static async get<T extends unknown>(
+  static async get<T extends unknown>(
     user: User,
     input: RequestInfo,
     method: string,

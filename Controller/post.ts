@@ -36,6 +36,6 @@ export class Post extends PageDoc {
     });
   }
   static async get(user: User, id:string){
-    return await getDoc(this.doc(user, id))
+    return (await getDoc(this.doc(user, id))).data()
   }
 }
