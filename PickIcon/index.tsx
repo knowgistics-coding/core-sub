@@ -3,10 +3,12 @@ import {
   faAlignCenter,
   faAlignLeft,
   faAlignRight,
+  faArrowDown,
   faArrows,
   faArrowsMinimize,
   faArrowsUpDown,
   faArrowsV,
+  faArrowUp,
   faBagShopping,
   faBan,
   faBars,
@@ -56,8 +58,10 @@ import {
   faFileDownload,
   faFileSlash,
   faFolder,
+  faFolderDownload,
   faFolderOpen,
   faFolderPlus,
+  faFolderUpload,
   faGraduationCap,
   faGripDotsVertical,
   faGripLines,
@@ -228,7 +232,11 @@ const iconLists = [
   faSyncAlt,
   faRoute,
   faMapMarkerAlt,
-  faCodeBranch
+  faCodeBranch,
+  faArrowUp,
+  faArrowDown,
+  faFolderDownload,
+  faFolderUpload
 ] as IconDefinition[];
 
 library.add(...iconLists);
@@ -241,6 +249,8 @@ export type PickIconName =
   | "arrows-minimize"
   | "arrows-up-down"
   | "arrows-v"
+  | "arrow-up"
+  | "arrow-down"
   | "bag-shopping"
   | "ban"
   | "bars"
@@ -291,8 +301,10 @@ export type PickIconName =
   | "file-download"
   | "file-slash"
   | "folder"
+  | "folder-download"
   | "folder-open"
   | "folder-plus"
+  | "folder-upload"
   | "graduation-cap"
   | "grip-dots-vertical"
   | "grip-lines"

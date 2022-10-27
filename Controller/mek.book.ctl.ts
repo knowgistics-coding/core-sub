@@ -16,6 +16,7 @@ import {
 import { StockDisplayProps } from "../StockDisplay";
 import { VisibilityTabsValue } from "../VisibilityTabs";
 import { MekClientCtl } from "./mek.clients";
+import { Post } from "./post";
 
 export type BookContentItem = {
   title: string,
@@ -26,6 +27,7 @@ export type BookContent = {
   title: string
   type: "folder" | "post",
   items?: BookContentItem[]
+  value?: string
   key: string
 }
 
@@ -58,6 +60,10 @@ export class MekBookCtl extends MekClientCtl {
       const doc = await getDoc(this.doc(user, "docs", BookId));
       return doc.exists() ? (doc.data() as BookData) : null;
     },
+    postId: async (user: User, postId:string[]):Promise<Record<string, any>> => {
+      const posts = postId.map(async id => ({ [id]: await Post.get(user, id) }))
+      return Object.assign({}, ...(await Promise.all(posts)));
+    } 
   };
 
   readonly watch = {

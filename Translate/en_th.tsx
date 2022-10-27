@@ -3,6 +3,7 @@ export type LocaleKey =
   | "Added"
   | "Added $Name"
   | "Add $Name"
+  | "Add to $Name"
   | "Add Answer"
   | "Add Choice"
   | "Add Highlight"
@@ -99,6 +100,7 @@ export type LocaleKey =
   | "File"
   | "Filter"
   | "First Name"
+  | "Folder"
   | "Forget Password"
   | "From"
   | "From URL"
@@ -329,6 +331,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "Add Panel": ["Add Panel", "เพิ่มกรอบ"],
   "Add Question": ["Add Question", "เพิ่มข้อสอบ"],
   "Add Slide": ["Add Slide", "เพิ่มสไลด์"],
+  "Add to $Name": ["Add to {{name}}", "เพิ่มไปที่{{name}}"],
   Administrator: ["Administrator", "ผู้ดูแลระบบ"],
   Album: ["Album", "อัลบั้ม"],
   Albums: ["Albums", "อัลบั้ม"],
@@ -430,6 +433,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   File: ["File", "ไฟล์"],
   Filter: ["Filter", "ตัวกรอง"],
   "First Name": ["First Name", "ชื่อ"],
+  Folder: ["Folder", "โฟลเดอร์"],
   "Forget Password": ["Forget Password", "ลืมรหัสผ่าน"],
   From: ["From", "จาก"],
   "From URL": ["From  URL", "จาก URL"],
@@ -450,7 +454,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Images: ["Images", "รูปภาพ"],
   Import: ["Import", "นำเข้า"],
   "Import $Name": ["Import {{name}}", "นำเข้า{{name}}"],
-  "Information": ["Information", "ข้อมูล"],
+  Information: ["Information", "ข้อมูล"],
   "Insert After": ["Insert After", "แทรกด้านหลัง"],
   "Insert Before": ["Insert Before", "แทรกก่อนหน้า"],
   Institute: ["Institute", "สถาบัน"],
@@ -608,7 +612,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   TEACH: ["TEACH", "สอน"],
   Teacher: ["Teacher", "ผู้สอน"],
   "Teacher List": ["Teacher List", "รายชื่อผู้สอน"],
-  "Telephone": ["Telephone", "โทรศัพท์"],
+  Telephone: ["Telephone", "โทรศัพท์"],
   Test: ["Test", "ทดสอบ"],
   Thai: ["Thai", "ไทย"],
   Thumbnail: ["Thumbnail", "รูปขนาดย่อ"],

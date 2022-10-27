@@ -23,7 +23,7 @@ import { VisibilityTabsValue } from "../VisibilityTabs";
 export type MapType = "mappack" | "marker" | "route" | "area";
 export type MapPosition = Record<"lat" | "lng", number>;
 
-type ExcludeMethods<T> = Pick<
+export type ExcludeMethods<T> = Pick<
   T,
   { [K in keyof T]: T[K] extends Function ? never : K }[keyof T]
 >;
