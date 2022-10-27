@@ -13,7 +13,6 @@ import { PageContentTypes } from "../PageEdit";
 import { StockDisplayProps } from "../StockDisplay";
 import moment from "moment";
 import { GridSelectionModel } from "@mui/x-data-grid";
-import { Book } from "../Controller/book";
 import { Post } from "../Controller/post";
 
 export type PostSchedule = {

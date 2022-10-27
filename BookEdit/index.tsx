@@ -12,7 +12,7 @@ import { usePopup } from "../Popup";
 import { TitleEdit } from "../TitleEdit";
 import { VisibilityEdit } from "../VisibilityEdit";
 import { BookEditContents } from "./contents";
-import { PostAdd, PostDocument } from "./post.add";
+import { PostAdd } from "./post.add";
 import { AddToFolder } from "./post.to.folder";
 
 type StateType = {
