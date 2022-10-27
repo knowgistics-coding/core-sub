@@ -4,6 +4,7 @@ import { Container } from "../Container";
 import { Breadcrumb, ContentHeader } from "../ContentHeader";
 import { useCore } from "../context";
 import { Book } from "../Controller/book";
+import { Post } from "../Controller/post";
 import { FabGroup, FabIcon } from "../FabGroup";
 import { FeatureImageEdit } from "../FeatureImage";
 import { MainContainer, MainContainerProps } from "../MainContainer";
@@ -65,7 +66,7 @@ export const BookEdit = (props: BookEditProps) => {
       },
     });
   };
-  const handleAddPost = async (posts: PostDocument[]) => {
+  const handleAddPost = async (posts: Post[]) => {
     if (posts) {
       posts?.forEach((v) => {
         props.setData(props.data.addPost(v.title, v.id));
