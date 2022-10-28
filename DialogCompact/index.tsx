@@ -3,6 +3,7 @@ import {
   Breakpoint,
   Dialog,
   DialogActions,
+  DialogActionsProps,
   DialogContent,
   DialogContentProps,
   DialogProps,
@@ -53,7 +54,10 @@ export type DialogCompactProps = {
   componentProps?: {
     dialog?: Omit<DialogProps, "open" | "maxWidth" | "children">;
     dialogContent?: Omit<DialogContentProps, "children">;
+    dialogActions?: Omit<DialogActionsProps, "children">;
   };
+
+  hideCloseButton?: boolean;
 };
 
 export const DialogCompact = (props: DialogCompactProps) => {
@@ -77,9 +81,11 @@ export const DialogCompact = (props: DialogCompactProps) => {
       <DialogContentStyled {...props.componentProps?.dialogContent}>
         {props.children}
       </DialogContentStyled>
-      <DialogActions>
+      <DialogActions {...props.componentProps?.dialogActions}>
         {props.actions}
-        <KuiButton tx="close" onClick={props.onClose} />
+        {Boolean(props.hideCloseButton) === false && (
+          <KuiButton tx="close" onClick={props.onClose} />
+        )}
       </DialogActions>
     </DialogStyled>
   );
