@@ -1,10 +1,11 @@
-import { Box, Pagination } from "@mui/material";
+import { alpha, Box, Pagination, styled } from "@mui/material";
 import * as React from "react";
 import { Container } from "../Container";
 import { ContentHeaderProps } from "../ContentHeader";
 import { Book } from "../Controller/book";
 import { Post } from "../Controller/post";
 import { MainContainer } from "../MainContainer";
+import { NotFound } from "../NotFound";
 import { PageViewer } from "../PageViewer";
 import { BookViewCover } from "./cover";
 import { BookViewSidebar } from "./sidebar";
@@ -33,8 +34,21 @@ const BookViewContext = React.createContext<
 
 export const useBookView = () => React.useContext(BookViewContext);
 
+const Paginate = styled(Box)(({ theme }) => ({
+  position: "fixed",
+  bottom: 0,
+  left: 0,
+  width: "100%",
+  backgroundColor: alpha(theme.palette.background.paper, 0.25),
+  padding: theme.spacing(3, 0),
+  backdropFilter: "blur(3px)",
+  [theme.breakpoints.up("sm")]: {
+    paddingLeft: theme.sidebarWidth,
+  },
+}));
+
 export const BookView = (props: BookViewProps) => {
-  const [selected, setSelect] = React.useState<string>("34gk9");
+  const [selected, setSelect] = React.useState<string>("cover");
   const pages =
     props.value?.contents?.reduce((total: string[], content) => {
       if (content.type === "item") {
@@ -62,8 +76,6 @@ export const BookView = (props: BookViewProps) => {
       ) || [])
     ) || {};
 
-    console.log(props.posts?.[pagesPost[selected]].toJSON())
-
   return (
     <BookViewContext.Provider
       value={{ ...props, selected, setSelect, pages, pagesPost }}
@@ -73,7 +85,7 @@ export const BookView = (props: BookViewProps) => {
         dense
         sidebar={<BookViewSidebar />}
       >
-        {props.posts?.[pagesPost[selected]] && (
+        {props.posts?.[pagesPost[selected]] ? (
           <PageViewer
             maxWidth="post"
             breadcrumbs={[
@@ -84,18 +96,23 @@ export const BookView = (props: BookViewProps) => {
             data={props.posts?.[pagesPost[selected]].toJSON()}
             noContainer
           />
+        ) : (
+          <NotFound noButton />
         )}
-        <Container maxWidth="post">
-          <Box display={"flex"} justifyContent="center" sx={{pt:3, pb:6}}>
-            <Pagination
-              page={
-                pages.indexOf(selected) > -1 ? pages.indexOf(selected) + 1 : 1
-              }
-              count={pages.length}
-              onChange={(_e, page) => setSelect(pages[page - 1] || "cover")}
-            />
-          </Box>
-        </Container>
+        <Box sx={{ pb: 12 }} />
+        <Paginate>
+          <Container maxWidth="post">
+            <Box display={"flex"} justifyContent="center">
+              <Pagination
+                page={
+                  pages.indexOf(selected) > -1 ? pages.indexOf(selected) + 1 : 1
+                }
+                count={pages.length}
+                onChange={(_e, page) => setSelect(pages[page - 1] || "cover")}
+              />
+            </Box>
+          </Container>
+        </Paginate>
         <BookViewCover />
       </MainContainer>
     </BookViewContext.Provider>
