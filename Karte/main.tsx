@@ -46,7 +46,7 @@ const FeatureBox = styled(Box)<{
 }>(({ src, pos }) => ({
   backgroundSize: "cover",
   backgroundPosition:
-    pos?.top && pos?.left ? `${pos.top} ${pos.left}` : undefined,
+    pos?.top && pos?.left ? `${pos.left} ${pos.top}` : undefined,
   backgroundImage: `url("${src}")`,
   paddingTop: "calc(100% / 3)",
 }));
