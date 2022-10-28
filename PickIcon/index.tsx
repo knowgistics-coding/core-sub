@@ -3,9 +3,12 @@ import {
   faAlignCenter,
   faAlignLeft,
   faAlignRight,
+  faArrowDown,
   faArrows,
+  faArrowsMinimize,
   faArrowsUpDown,
   faArrowsV,
+  faArrowUp,
   faBagShopping,
   faBan,
   faBars,
@@ -35,6 +38,7 @@ import {
   faCircle,
   faCircleCheck,
   faClock,
+  faCodeBranch,
   faCog,
   faCopy,
   faCopyright,
@@ -45,6 +49,7 @@ import {
   faEdit,
   faEllipsisV,
   faEnvelope,
+  faExchangeAlt,
   faExclamationTriangle,
   faEye,
   faEyeSlash,
@@ -53,8 +58,10 @@ import {
   faFileDownload,
   faFileSlash,
   faFolder,
+  faFolderDownload,
   faFolderOpen,
   faFolderPlus,
+  faFolderUpload,
   faGraduationCap,
   faGripDotsVertical,
   faGripLines,
@@ -70,6 +77,7 @@ import {
   faListOl,
   faMagnifyingGlassMinus,
   faMagnifyingGlassPlus,
+  faMapMarkerAlt,
   faMobile,
   faMugSaucer,
   faNewspaper,
@@ -83,6 +91,7 @@ import {
   faQuestionCircle,
   faRedo,
   faRetweet,
+  faRoute,
   faSave,
   faSchool,
   faShip,
@@ -90,6 +99,7 @@ import {
   faSignOut,
   faSpinner,
   faSubway,
+  faSyncAlt,
   faTable,
   faTrain,
   faTrash,
@@ -217,6 +227,16 @@ const iconLists = [
   faEnvelope,
   faFileCircleXmark,
   faGripLines,
+  faArrowsMinimize,
+  faExchangeAlt,
+  faSyncAlt,
+  faRoute,
+  faMapMarkerAlt,
+  faCodeBranch,
+  faArrowUp,
+  faArrowDown,
+  faFolderDownload,
+  faFolderUpload
 ] as IconDefinition[];
 
 library.add(...iconLists);
@@ -226,8 +246,11 @@ export type PickIconName =
   | "align-right"
   | "align-left"
   | "arrows"
+  | "arrows-minimize"
   | "arrows-up-down"
   | "arrows-v"
+  | "arrow-up"
+  | "arrow-down"
   | "bag-shopping"
   | "ban"
   | "bars"
@@ -257,6 +280,7 @@ export type PickIconName =
   | "circle"
   | "circle-check"
   | "clock"
+  | "code-branch"
   | "cog"
   | "copy"
   | "copyright"
@@ -267,6 +291,7 @@ export type PickIconName =
   | "edit"
   | "ellipsis-v"
   | "envelope"
+  | "exchange-alt"
   | "exclamation-triangle"
   | "eye"
   | "eye-slash"
@@ -276,8 +301,10 @@ export type PickIconName =
   | "file-download"
   | "file-slash"
   | "folder"
+  | "folder-download"
   | "folder-open"
   | "folder-plus"
+  | "folder-upload"
   | "graduation-cap"
   | "grip-dots-vertical"
   | "grip-lines"
@@ -293,6 +320,7 @@ export type PickIconName =
   | "list-ol"
   | "magnifying-glass-minus"
   | "magnifying-glass-plus"
+  | "map-marker-alt"
   | "mobile"
   | "mug-saucer"
   | "newspaper"
@@ -306,6 +334,7 @@ export type PickIconName =
   | "question-circle"
   | "redo"
   | "retweet"
+  | "route"
   | "save"
   | "school"
   | "ship"
@@ -313,6 +342,7 @@ export type PickIconName =
   | "sign-out"
   | "spinner"
   | "subway"
+  | "sync-alt"
   | "table"
   | "train"
   | "trash"
