@@ -17,7 +17,7 @@ const FolderRoot = styled(Box)(({ theme }) => ({
   "--color": "#FFF",
   border: `solid 1px var(--bg)`,
 }));
-const FolderContainer = styled(List)(({ theme }) => ({
+const FolderContainer = styled(List)(() => ({
   borderTop: `solid 1px var(--bg)`,
 }));
 

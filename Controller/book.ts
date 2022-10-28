@@ -211,7 +211,7 @@ export class Book {
     return this;
   }
 
-  async getPosts(user: User): Promise<Record<string, Post>> {
+  async getPosts(): Promise<Record<string, Post>> {
     const lists = this.contents
       .reduce((lists, content) => {
         const newLists = (
@@ -252,7 +252,7 @@ export class Book {
     if (result.displayName) {
       this.displayName = result.displayName;
     }
-    this.posts = await this.getPosts(user);
+    this.posts = await this.getPosts();
     return this;
   }
 
