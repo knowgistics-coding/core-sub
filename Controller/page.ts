@@ -1,3 +1,4 @@
+import { genKey } from "draft-js";
 import { Timestamp } from "firebase/firestore";
 import { DataGridEditorData } from "../DataGridEditor";
 import { SlideItem } from "../PageEdit";
@@ -21,7 +22,8 @@ export type ShowTypes =
   | "book"
   | "table"
   | "divider"
-  | "file";
+  | "file"
+  | "maps";
 
 export interface PageContentTypes {
   key: string;
@@ -54,6 +56,8 @@ export class PageDoc {
   datecreate: number;
   datemodified: number;
 
+  stamp: string;
+
   constructor(
     data?: Partial<Omit<PageDoc, "datecreate" | "datemodified">> & {
       datecreate?: PageDate;
@@ -67,6 +71,12 @@ export class PageDoc {
     this.user = data?.user || "";
     this.datecreate = this.dateToNumber(data?.datecreate);
     this.datemodified = this.dateToNumber(data?.datemodified);
+
+    this.stamp = genKey();
+  }
+
+  stamping(){
+    this.stamp = genKey()
   }
 
   private dateToNumber(date?: PageDate): number {

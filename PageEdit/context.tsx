@@ -23,7 +23,8 @@ export type ShowTypes =
   | "book"
   | "table"
   | "divider"
-  | "file";
+  | "file"
+  | "maps";
 
 export type PostOptions = {
   id: string;

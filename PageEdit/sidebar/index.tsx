@@ -132,6 +132,13 @@ export const PESidebar = () => {
           </FormControl>
         </ListItem>
       )}
+      {show.includes("maps") && (
+        <List>
+          <ListItemButton divider>
+            <ListItemText primary={t("MAPS")} />
+          </ListItemButton>
+        </List>
+      )}
       <List>
         <ListItemButton
           divider

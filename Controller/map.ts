@@ -1,4 +1,4 @@
-import { db } from "../../../controllers/firebase"
+import { db } from "../../../controllers/firebase";
 import { User } from "firebase/auth";
 import {
   collection,
@@ -42,6 +42,13 @@ export class Map {
   datecreate: number;
   datemodified: number;
   cat: string;
+
+  private TypesName: Record<MapType, string> = {
+    mappack: "Map Pack",
+    marker: "Marker",
+    route: "Route",
+    area: "Area",
+  };
 
   constructor(
     data?: Partial<Map> &
@@ -140,6 +147,10 @@ export class Map {
       this.latLngs = this.latLngs.reverse();
     }
     return this;
+  }
+
+  properType(): string {
+    return this.TypesName[this.type];
   }
 
   toJSON(): ExcludeMethods<Omit<Map, "datecreate" | "datemodified">> {

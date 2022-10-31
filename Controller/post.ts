@@ -22,6 +22,7 @@ import { PageDate, PageDoc } from "./page";
 export class Post extends PageDoc {
   id: string;
   user: string;
+  maps: { id: string; title: string }[];
 
   constructor(
     data: Partial<
@@ -36,6 +37,7 @@ export class Post extends PageDoc {
     this.id = data?.id ?? Post.genId(data.user);
     this.visibility = data?.visibility ?? "private";
     this.user = data.user;
+    this.maps = data?.maps ?? [];
   }
 
   async update<T extends keyof this>(
