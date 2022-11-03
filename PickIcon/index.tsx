@@ -85,6 +85,7 @@ import {
   faRetweet,
   faSave,
   faSchool,
+  faSearch,
   faShip,
   faSignIn,
   faSignOut,
@@ -215,6 +216,7 @@ const iconLists = [
   faEnvelope,
   faFileCircleXmark,
   faGripLines,
+  faSearch
 ] as IconDefinition[];
 
 library.add(...iconLists);
@@ -306,6 +308,7 @@ export type PickIconName =
   | "retweet"
   | "save"
   | "school"
+  | "search"
   | "ship"
   | "sign-in"
   | "sign-out"
