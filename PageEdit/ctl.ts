@@ -117,7 +117,7 @@ export class PageEditData {
       if (index > -1) {
         this.contents = update(this.contents, {
           [index]: {
-            [field]: { $merge: value },
+            [field]: { $apply: (data: any) => Object.assign({}, data, value) },
           },
         });
       }

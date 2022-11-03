@@ -11,6 +11,7 @@ import {
   ListItemText,
   Menu,
   styled,
+  Tooltip,
 } from "@mui/material";
 
 import { useMC } from "./ctx";
@@ -131,6 +132,13 @@ export const MCProfileMenu = () => {
             />
             <ListItemSecondaryAction>
               <KuiActionIcon tx="edit" onClick={handleChangeDisplayName} />
+              {!!user.data?.email && (
+                <Tooltip title={user.data.email}>
+                  <IconButton size="small">
+                    <PickIcon icon="info-circle" />
+                  </IconButton>
+                </Tooltip>
+              )}
             </ListItemSecondaryAction>
           </ListItem>
           <Divider />

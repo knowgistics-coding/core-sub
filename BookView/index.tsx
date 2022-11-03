@@ -1,9 +1,11 @@
-import { Box, Pagination } from "@mui/material";
+import { alpha, Box, Pagination, styled } from "@mui/material";
 import * as React from "react";
 import { Container } from "../Container";
 import { ContentHeaderProps } from "../ContentHeader";
-import { BookDocument, PostRealmData } from "../Controller";
+import { Book } from "../Controller/book";
+import { Post } from "../Controller/post";
 import { MainContainer } from "../MainContainer";
+import { NotFound } from "../NotFound";
 import { PageViewer } from "../PageViewer";
 import { BookViewCover } from "./cover";
 import { BookViewSidebar } from "./sidebar";
@@ -11,8 +13,8 @@ import { BookViewSidebar } from "./sidebar";
 export interface BookViewProps {
   loading?: boolean;
   back?: string;
-  value?: BookDocument;
-  posts?: Record<string, PostRealmData>;
+  value?: Book;
+  posts?: Record<string, Post>;
   breadcrumbs?: ContentHeaderProps["breadcrumbs"];
 }
 
@@ -32,14 +34,27 @@ const BookViewContext = React.createContext<
 
 export const useBookView = () => React.useContext(BookViewContext);
 
+const Paginate = styled(Box)(({ theme }) => ({
+  position: "fixed",
+  bottom: 0,
+  left: 0,
+  width: "100%",
+  backgroundColor: alpha(theme.palette.background.paper, 0.25),
+  padding: theme.spacing(3, 0),
+  backdropFilter: "blur(3px)",
+  [theme.breakpoints.up("sm")]: {
+    paddingLeft: theme.sidebarWidth,
+  },
+}));
+
 export const BookView = (props: BookViewProps) => {
   const [selected, setSelect] = React.useState<string>("cover");
   const pages =
     props.value?.contents?.reduce((total: string[], content) => {
-      if (content.type === "post") {
+      if (content.type === "item") {
         return total.concat(content.key);
-      } else if (content.type === "folder" && content.folder?.length) {
-        return total.concat(...content.folder.map((item) => item.key));
+      } else if (content.type === "folder" && content.items?.length) {
+        return total.concat(...content.items.map((item) => item.key));
       }
       return total;
     }, []) || [];
@@ -48,11 +63,11 @@ export const BookView = (props: BookViewProps) => {
       {},
       ...(props.value?.contents?.reduce(
         (total: Record<string, string>[], content) => {
-          if (content.type === "post" && content.post) {
-            return total.concat({ [content.key]: content.post });
-          } else if (content.type === "folder" && content.folder?.length) {
+          if (content.type === "item" && content.value) {
+            return total.concat({ [content.key]: content.value });
+          } else if (content.type === "folder" && content.items?.length) {
             return total.concat(
-              ...content.folder.map((item) => ({ [item.key]: item.post! }))
+              ...content.items.map((item) => ({ [item.key]: item.value! }))
             );
           }
           return total;
@@ -70,28 +85,34 @@ export const BookView = (props: BookViewProps) => {
         dense
         sidebar={<BookViewSidebar />}
       >
-        <Container maxWidth="post">
-          {props.posts?.[pagesPost[selected]] && (
-            <PageViewer
-              breadcrumbs={[
-                { label: "Home", to: "/" },
-                { label: props.value?.title || "Book" },
-                { label: props.posts?.[pagesPost[selected]]?.title },
-              ]}
-              data={props.posts?.[pagesPost[selected]]}
-              noContainer
-            />
-          )}
-          <Box display={"flex"} justifyContent="center">
-            <Pagination
-              page={
-                pages.indexOf(selected) > -1 ? pages.indexOf(selected) + 1 : 1
-              }
-              count={pages.length}
-              onChange={(_e, page) => setSelect(pages[page - 1] || "cover")}
-            />
-          </Box>
-        </Container>
+        {props.posts?.[pagesPost[selected]] ? (
+          <PageViewer
+            maxWidth="post"
+            breadcrumbs={[
+              { label: "Home", to: "/" },
+              { label: props.value?.title || "Book" },
+              { label: props.posts?.[pagesPost[selected]]?.title },
+            ]}
+            data={props.posts?.[pagesPost[selected]].toJSON()}
+            noContainer
+          />
+        ) : (
+          <NotFound noButton />
+        )}
+        <Box sx={{ pb: 12 }} />
+        <Paginate>
+          <Container maxWidth="post">
+            <Box display={"flex"} justifyContent="center">
+              <Pagination
+                page={
+                  pages.indexOf(selected) > -1 ? pages.indexOf(selected) + 1 : 1
+                }
+                count={pages.length}
+                onChange={(_e, page) => setSelect(pages[page - 1] || "cover")}
+              />
+            </Box>
+          </Container>
+        </Paginate>
         <BookViewCover />
       </MainContainer>
     </BookViewContext.Provider>

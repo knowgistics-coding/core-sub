@@ -4,7 +4,7 @@ import { green } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
 import { PickIcon } from "../PickIcon";
 
-export const NotFound = () => {
+export const NotFound = (props: { noButton?: boolean }) => {
   const nav = useNavigate();
 
   return (
@@ -28,14 +28,16 @@ export const NotFound = () => {
             NOT FOUND
           </Typography>
           <Box mb={6} />
-          <Button
-            variant="outlined"
-            startIcon={<PickIcon icon={"chevron-left"} />}
-            color="info"
-            onClick={() => nav("/")}
-          >
-            Go to HOME
-          </Button>
+          {props.noButton ? null : (
+            <Button
+              variant="outlined"
+              startIcon={<PickIcon icon={"chevron-left"} />}
+              color="info"
+              onClick={() => nav("/")}
+            >
+              Go to HOME
+            </Button>
+          )}
         </Box>
       </Container>
     </Box>

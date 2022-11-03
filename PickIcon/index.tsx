@@ -3,9 +3,12 @@ import {
   faAlignCenter,
   faAlignLeft,
   faAlignRight,
+  faArrowDown,
   faArrows,
+  faArrowsMinimize,
   faArrowsUpDown,
   faArrowsV,
+  faArrowUp,
   faBagShopping,
   faBan,
   faBars,
@@ -34,7 +37,12 @@ import {
   faChild,
   faCircle,
   faCircleCheck,
+  faCircleChevronDown,
+  faCircleChevronLeft,
+  faCircleChevronRight,
+  faCircleChevronUp,
   faClock,
+  faCodeBranch,
   faCog,
   faCopy,
   faCopyright,
@@ -45,6 +53,7 @@ import {
   faEdit,
   faEllipsisV,
   faEnvelope,
+  faExchangeAlt,
   faExclamationTriangle,
   faEye,
   faEyeSlash,
@@ -53,8 +62,10 @@ import {
   faFileDownload,
   faFileSlash,
   faFolder,
+  faFolderDownload,
   faFolderOpen,
   faFolderPlus,
+  faFolderUpload,
   faGraduationCap,
   faGripDotsVertical,
   faGripLines,
@@ -70,6 +81,7 @@ import {
   faListOl,
   faMagnifyingGlassMinus,
   faMagnifyingGlassPlus,
+  faMapMarkerAlt,
   faMobile,
   faMugSaucer,
   faNewspaper,
@@ -83,6 +95,7 @@ import {
   faQuestionCircle,
   faRedo,
   faRetweet,
+  faRoute,
   faSave,
   faSchool,
   faSearch,
@@ -91,12 +104,15 @@ import {
   faSignOut,
   faSpinner,
   faSubway,
+  faSyncAlt,
   faTable,
   faTrain,
   faTrash,
   faTv,
   faUnlink,
   faUpload,
+  faUser,
+  faUserEdit,
   faUserPlus,
   faUtensils,
   faVideo,
@@ -209,6 +225,7 @@ const iconLists = [
   faMagnifyingGlassMinus,
   faBookAlt,
   faBook,
+  faUserEdit,
   faCircleCheck,
   faHome,
   faGraduationCap,
@@ -216,7 +233,22 @@ const iconLists = [
   faEnvelope,
   faFileCircleXmark,
   faGripLines,
-  faSearch
+  faSearch,
+  faArrowsMinimize,
+  faExchangeAlt,
+  faSyncAlt,
+  faRoute,
+  faMapMarkerAlt,
+  faCodeBranch,
+  faArrowUp,
+  faArrowDown,
+  faFolderDownload,
+  faFolderUpload,
+  faCircleChevronDown,
+  faCircleChevronLeft,
+  faCircleChevronRight,
+  faCircleChevronUp,
+  faUser
 ] as IconDefinition[];
 
 library.add(...iconLists);
@@ -226,8 +258,11 @@ export type PickIconName =
   | "align-right"
   | "align-left"
   | "arrows"
+  | "arrows-minimize"
   | "arrows-up-down"
   | "arrows-v"
+  | "arrow-up"
+  | "arrow-down"
   | "bag-shopping"
   | "ban"
   | "bars"
@@ -256,7 +291,12 @@ export type PickIconName =
   | "child"
   | "circle"
   | "circle-check"
+  | "circle-chevron-down"
+  | "circle-chevron-left"
+  | "circle-chevron-right"
+  | "circle-chevron-up"
   | "clock"
+  | "code-branch"
   | "cog"
   | "copy"
   | "copyright"
@@ -267,6 +307,7 @@ export type PickIconName =
   | "edit"
   | "ellipsis-v"
   | "envelope"
+  | "exchange-alt"
   | "exclamation-triangle"
   | "eye"
   | "eye-slash"
@@ -276,8 +317,10 @@ export type PickIconName =
   | "file-download"
   | "file-slash"
   | "folder"
+  | "folder-download"
   | "folder-open"
   | "folder-plus"
+  | "folder-upload"
   | "graduation-cap"
   | "grip-dots-vertical"
   | "grip-lines"
@@ -293,6 +336,7 @@ export type PickIconName =
   | "list-ol"
   | "magnifying-glass-minus"
   | "magnifying-glass-plus"
+  | "map-marker-alt"
   | "mobile"
   | "mug-saucer"
   | "newspaper"
@@ -306,6 +350,7 @@ export type PickIconName =
   | "question-circle"
   | "redo"
   | "retweet"
+  | "route"
   | "save"
   | "school"
   | "search"
@@ -314,12 +359,15 @@ export type PickIconName =
   | "sign-out"
   | "spinner"
   | "subway"
+  | "sync-alt"
   | "table"
   | "train"
   | "trash"
   | "tv"
   | "unlink"
   | "upload"
+  | "user"
+  | "user-edit"
   | "user-plus"
   | "utensils"
   | "video"
