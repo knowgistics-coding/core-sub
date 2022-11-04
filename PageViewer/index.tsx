@@ -13,11 +13,12 @@ import {
   SlideItemFeature,
 } from "../Slide";
 import { useCore } from "../context";
-import { ShowTypes } from "../PageEdit/context";
 import moment from "moment";
 import { Absatz } from "../Absatz";
 import { DGETable } from "../DataGridEditor";
 import { PickIcon } from "../PickIcon";
+import { ShowTypes } from "../Controller/page";
+import { LeafletContainer, LeafletMap } from "../LeafLet";
 
 const getDate = (date: any) => {
   if (date?.toMillis?.()) {
@@ -229,6 +230,27 @@ export const PageViewer = (props: PageViewerProps) => {
             }
           })}
           <Container maxWidth={props.maxWidth}>{props.children}</Container>
+          {data.maps.length > 0 && (
+            <Container maxWidth="post">
+              <Box
+                sx={theme => ({
+                  width: theme.sidebarWidth * 1.5,
+                  maxWidth: "100%",
+                  margin: '0 auto 1rem',
+                  position: 'relative',
+                  "&:before": {
+                    content: "''",
+                    display: "block",
+                    paddingTop: "100%",
+                  },
+                })}
+              >
+                <LeafletContainer rootProps={{ sx: theme => ({ ...theme.mixins.absoluteFluid }) }}>
+                  <LeafletMap maps={data.maps} />
+                </LeafletContainer>
+              </Box>
+            </Container>
+          )}
         </Box>
       </PageContainer>
     </PageViewerContext.Provider>

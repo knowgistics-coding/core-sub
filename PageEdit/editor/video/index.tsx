@@ -1,6 +1,5 @@
 import { Box, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { grey } from "@mui/material/colors";
-import update from "react-addons-update";
 import { useCore } from "../../../context";
 import { PickIcon } from "../../../PickIcon";
 import { VideoContent, VideoDisplay } from "../../../VideoDisplay";
@@ -11,7 +10,7 @@ import { SettingDialog } from "./setting";
 
 export const PEEditorVideo = ({ index, content }: PEEditorProps) => {
   const { t, open, setOpen } = useCore();
-  const { setData } = usePE();
+  const { data, setData } = usePE();
 
   const handleToggle = () =>
     setOpen((o) => ({
@@ -21,9 +20,7 @@ export const PEEditorVideo = ({ index, content }: PEEditorProps) => {
       ),
     }));
   const handleConfirm = (video: VideoContent) => {
-    setData((d) =>
-      update(d, { contents: { [index]: { video: { $set: video } } } })
-    );
+    setData(data.contentSet(content.key, "video", video));
     handleToggle();
   };
 

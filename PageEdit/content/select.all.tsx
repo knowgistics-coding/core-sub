@@ -5,10 +5,10 @@ import { usePE } from "../context";
 
 export const PEContentSelectAll = () => {
   const { t } = useCore();
-  const { setState, pageData } = usePE();
+  const { data, setState } = usePE();
 
   const handleSelectAll = () =>
-    setState((s) => ({ ...s, selected: pageData.content.getKeys() }));
+    setState((s) => ({ ...s, selected: data.contentGetKeys() }));
 
   return (
     <Tooltip title={t("Select $Name", { name: t("All") })}>

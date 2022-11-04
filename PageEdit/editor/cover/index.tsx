@@ -7,11 +7,11 @@ import {
   styled,
 } from "@mui/material";
 import React, { useState } from "react";
-import update from "react-addons-update";
 import { useCore } from "../../../context";
+import { PageDoc } from "../../../Controller/page";
 import { DialogImagePosition } from "../../../DialogImagePosition";
 import { PickIcon } from "../../../PickIcon";
-import { StockDisplay, StockDisplayProps } from "../../../StockDisplay";
+import { StockDisplay } from "../../../StockDisplay";
 import { StockImageTypes, StockPicker } from "../../../StockPicker";
 import { usePE } from "../../context";
 import { PEPanel } from "../../panel";
@@ -33,33 +33,20 @@ const ChangeButton = styled(Button)({
 
 export const PEEditorCover = ({ index, content }: PEEditorProps) => {
   const { t } = useCore();
-  const { setData } = usePE();
+  const { data, setData } = usePE();
   const [open, setOpen] = useState<{ [key: string]: boolean }>({});
 
   const handleOpen = (key: string, value: boolean) => () =>
     setOpen((o) => ({ ...o, [key]: value }));
   const handleChangeImage = ([stockimage]: StockImageTypes[]) => {
     if (stockimage) {
-      const { _id, blurhash, width, height } = stockimage;
-      const image = { _id, blurhash, width, height };
-      setData((d) =>
-        update(d, {
-          contents: {
-            [index]: {
-              cover: {
-                $apply: (cover?: StockDisplayProps) =>
-                  cover ? { ...cover, image } : { image },
-              },
-            },
-          },
-        })
+      setData(
+        data.contentSet(content.key, "cover", PageDoc.parseImage(stockimage))
       );
     }
   };
   const handleChangePos = (pos: { top: string; left: string }) => {
-    setData((d) =>
-      update(d, { contents: { [index]: { cover: { pos: { $set: pos } } } } })
-    );
+    setData(data.contentMerge(content.key, "cover", { pos }));
   };
 
   return (

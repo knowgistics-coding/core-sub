@@ -10,6 +10,7 @@ import { Editor, EditorProps } from "react-draft-wysiwyg";
 import { variants, VariantSetting } from "./variant.setting";
 import draftToHTML from "draftjs-to-html";
 import { useCore } from "../context";
+import draftToHtml from "draftjs-to-html";
 
 export const toolbar = {
   options: ["history", "textAlign"],
@@ -27,6 +28,7 @@ export interface HeaderEditorProps {
   className?: string;
   value?: string;
   onChange?: (htmlValue: string) => void;
+  onEnter?: (values: string[]) => void;
   variant?: variants;
   onChangeOption?: (key: string, value: any) => void;
   editorProps?: Omit<
@@ -43,6 +45,7 @@ export const HeaderEditor = styled(
     variant = "h6",
     onChangeOption,
     editorProps,
+    ...props
   }: HeaderEditorProps) => {
     const { t } = useCore();
     const [editorState, setEditorState] = useState<EditorState | undefined>();
@@ -54,6 +57,17 @@ export const HeaderEditor = styled(
       setEditorState(editorState);
     const handleContentStateChange = (contentState: RawDraftContentState) => {
       onChange?.(draftToHTML(contentState));
+      const paragraphs = contentState.blocks
+        .map(
+          (block): RawDraftContentState => ({
+            blocks: [block],
+            entityMap: contentState.entityMap,
+          })
+        )
+        .map((content) => draftToHtml(content));
+      if (paragraphs.length > 1) {
+        props.onEnter?.(paragraphs);
+      }
     };
 
     useEffect(() => {

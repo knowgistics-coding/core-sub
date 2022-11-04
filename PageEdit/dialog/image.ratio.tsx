@@ -9,7 +9,6 @@ import {
   Typography,
 } from "@mui/material";
 import { ChangeEvent, useEffect, useState } from "react";
-import update from "react-addons-update";
 import { useCore } from "../../context";
 import { DialogCompact } from "../../DialogCompact";
 import { KuiButton } from "../../KuiButton";
@@ -36,12 +35,9 @@ const ratios: {
 export const DialogImageRatio = () => {
   const { t } = useCore();
   const { isOpen, setOpen, key } = useDialog();
-  const {
-    data: { contents },
-    setData,
-  } = usePE();
+  const { data, setData } = usePE();
   const [value, setValue] = useState<string>("1");
-  const content = contents?.find((c) => c.key === key);
+  const content = data.contents?.find((c) => c.key === key);
   const open = Boolean(isOpen("image_ratio") && content);
 
   const getValue = (): string => {
@@ -57,14 +53,9 @@ export const DialogImageRatio = () => {
     handleChangeValue(value);
   };
   const handleConfirm = () => {
-    const index = contents?.findIndex((c) => c.key === key);
-    if (typeof index === "number" && index > -1) {
-      setData((d) =>
-        update(d, {
-          contents: {
-            [index]: { image: { ratio: { $set: parseFloat(value) } } },
-          },
-        })
+    if (key) {
+      setData(
+        data.contentMerge(String(key), "image", { ratio: parseFloat(value) })
       );
       setOpen("", "image_ratio", false);
     }

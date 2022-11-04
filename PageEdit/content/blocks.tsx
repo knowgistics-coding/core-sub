@@ -1,6 +1,6 @@
-import { ShowTypes } from "../context";
 import { LocaleKey } from "../../Translate/en_th";
 import { PickIconName } from "../../PickIcon";
+import { ShowTypes } from "../../Controller/page";
 
 export const Blocks: {
   title: LocaleKey;

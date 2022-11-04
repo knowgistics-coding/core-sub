@@ -1,5 +1,6 @@
-import { Box, BoxProps, styled, Typography } from "@mui/material";
+import { Box, BoxProps, Link, styled, Typography } from "@mui/material";
 import L from "leaflet";
+import { useCallback } from "react";
 import { Fragment, useEffect } from "react";
 import {
   MapContainer,
@@ -9,6 +10,7 @@ import {
   MapContainerProps,
   useMap,
 } from "react-leaflet";
+import { Map as MekMap } from "../Controller/map";
 import { getMarkerIcon } from "../Maps";
 import "./index.css";
 
@@ -55,17 +57,28 @@ export const LeafletContainer = ({
 
 export type LeafletMapProps = {
   onMapClick?: (event: L.LeafletMouseEvent) => void;
+  maps?: MekMap[];
   children?: React.ReactNode;
 };
 export const LeafletMap = ({ onMapClick, ...props }: LeafletMapProps) => {
   const map = useMap();
 
+  const mapFilter = useCallback((): MekMap[] => {
+    return props.maps?.filter((map) => MekMap.validLatLng(map.latLng)) ?? [];
+  }, [props.maps]);
+
   useEffect(() => {
+    if (mapFilter().length) {
+      const bounds = L.latLngBounds([]);
+      mapFilter().map((m) => bounds.extend(m.latLng!));
+      map.fitBounds(bounds);
+    }
+
     map.addEventListener("click", (e) => onMapClick?.(e));
     return () => {
       map.removeEventListener("click");
     };
-  }, [map, onMapClick]);
+  }, [map, onMapClick, mapFilter]);
 
   return (
     <Fragment>
@@ -76,15 +89,28 @@ export const LeafletMap = ({ onMapClick, ...props }: LeafletMapProps) => {
         url="http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
         subdomains={["mt0", "mt1", "mt2", "mt3"]}
       />
-      <Marker
-        position={{ lat: 13.74574175868472, lng: 100.50150775714611 }}
-        icon={Icon}
-      >
-        <Popup>
-          <Typography variant="h6">Bangkok</Typography>
-          A pretty CSS3 popup. <br /> Easily customizable.
-        </Popup>
-      </Marker>
+      {props.maps?.map(
+        (map) =>
+          MekMap.validLatLng(map.latLng) && (
+            <Marker position={map.latLng!} icon={Icon} key={map.id}>
+              <Popup>
+                <Typography
+                  variant="body1"
+                  fontWeight="bold"
+                  sx={{ pb: 1, margin: "0 !important" }}
+                >
+                  {map.title}
+                </Typography>
+                <Link
+                  href={`https://www.google.com/maps/dir/Current+Location/${map.latLng?.lat},${map.latLng?.lng}`}
+                  target="_blank"
+                >
+                  Open in Google Maps
+                </Link>
+              </Popup>
+            </Marker>
+          )
+      )}
       {props.children}
     </Fragment>
   );

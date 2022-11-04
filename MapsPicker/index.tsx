@@ -44,12 +44,32 @@ export const MapsPicker = (props: MapsPickerProps) => {
     }
   }, [user, props.open]);
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (state.selection.length > 0) {
-      const selectedDocs = state.selection
+      const mapsId = state.selection
         .map((id) => state.docs.find((doc) => doc.id === id))
-        .filter((doc): doc is Map => !!doc);
-      props.onConfirm(selectedDocs);
+        .reduce((ids, map) => {
+          return map
+            ? map.type === "mappack"
+              ? ids.concat(map.maps)
+              : ids.concat(map.id)
+            : ids;
+        }, [] as string[]);
+      const maps: Map[] = (
+        await Promise.all(
+          mapsId.map(async (id): Promise<Map | null | undefined> => {
+            const fromState = state.docs.find((doc) => doc.id === id);
+            if (fromState) {
+              return fromState;
+            }
+            const fromFirebase = await Map.getOne(id);
+            return fromFirebase;
+          })
+        )
+      ).filter((map): map is Map => !!map);
+      props.onConfirm(maps);
+      props.onClose();
+      setState((s) => ({ ...s, selection: [] }));
     }
   };
 

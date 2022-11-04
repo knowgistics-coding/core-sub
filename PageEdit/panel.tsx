@@ -21,7 +21,6 @@ import { SortableHandle } from "react-sortable-hoc";
 import { useCore } from "../context";
 import { PanelMove } from "./panels/move";
 import { PanelSpacing } from "./panels/spacing";
-import update from "react-addons-update";
 import { usePopup } from "../Popup";
 import { LocaleKey } from "../Translate/en_th";
 import { PickIcon, PickIconName } from "../PickIcon";
@@ -116,9 +115,7 @@ export const PEPanel = ({
   };
   const handleClose = () => setOpen("");
   const handleChangeSpacing = (top: number, bottom: number) => {
-    setData((d) =>
-      update(d, { contents: { [index]: { $merge: { mt: top, mb: bottom } } } })
-    );
+    setData(data.contentSpaceSizing(contentKey, top, bottom));
     setOpen("");
   };
   const handleChangeChecked = (event: any, checked: boolean) => {
@@ -160,17 +157,12 @@ export const PEPanel = ({
       title: t("Remove"),
       text: t("Do You Want To Remove $Name", { name: t("Item") }),
       icon: "trash",
-      onConfirm: () => {
-        setData((d) => update(d, { contents: { $splice: [[index, 1]] } }));
-      },
+      onConfirm: () => setData(data.contentRemoved(contentKey)),
     });
   };
 
   return (
-    <Box
-      pt={typeof content?.mt === "number" ? content.mt : 0}
-      pb={typeof content?.mb === "number" ? content.mb : 0}
-    >
+    <Box pt={content?.mt ?? 0} pb={content?.mb ?? 2}>
       <Wrapper noContainer={noContainer} maxWidth={props?.maxWidth || maxWidth}>
         <Box
           sx={{

@@ -28,6 +28,8 @@ export type ExcludeMethods<T> = Pick<
   { [K in keyof T]: T[K] extends Function ? never : K }[keyof T]
 >;
 
+export type MapJson = ExcludeMethods<Omit<Map, "datecreate" | "datemodified">>
+
 export class Map {
   id: string;
   title: string;
@@ -38,7 +40,7 @@ export class Map {
   visibility: VisibilityTabsValue;
   color: string;
   user?: string;
-  maps?: Map[];
+  maps: string[];
   datecreate: number;
   datemodified: number;
   cat: string;
@@ -153,7 +155,7 @@ export class Map {
     return this.TypesName[this.type];
   }
 
-  toJSON(): ExcludeMethods<Omit<Map, "datecreate" | "datemodified">> {
+  toJSON(): MapJson {
     return Object.assign(
       {},
       ...Object.entries(this)
@@ -258,5 +260,9 @@ export class Map {
       throw err;
     });
     return item;
+  }
+
+  static validLatLng(latLng?:Record<"lat"|"lng", number>):boolean{
+    return Boolean(latLng?.lat && latLng.lng)
   }
 }

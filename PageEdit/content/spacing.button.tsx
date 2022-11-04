@@ -12,16 +12,14 @@ export const PEContentSpacingButton = React.forwardRef<
   const { t } = useCore();
   const [open, setOpen] = useState<boolean>(false);
   const {
+    data,
     setData,
     state: { selected },
-    pageData,
   } = usePE();
 
   const handleOpen = (open: boolean) => () => setOpen(open);
   const handleChangeSpacing = (top: number, bottom: number) => {
-    setData(
-      pageData.content.batchUpdate(selected, { mt: top, mb: bottom }).toJSON()
-    );
+    setData(data.contentSpaceBatch(selected, top, bottom));
     setOpen(false);
   };
 

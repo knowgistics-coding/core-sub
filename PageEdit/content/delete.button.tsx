@@ -13,8 +13,8 @@ export const PEContentDeleteButton = React.forwardRef<
   const {
     state: { selected },
     setState,
+    data,
     setData,
-    pageData,
   } = usePE();
   const { Popup } = usePopup();
 
@@ -24,7 +24,7 @@ export const PEContentDeleteButton = React.forwardRef<
       text: t("Do You Want To Remove $Name", { name: t("Selected") }),
       icon: "trash",
       onConfirm: () => {
-        setData(pageData.content.remove(selected).toJSON());
+        setData(data.contentRemoved(selected));
         setState((s) => ({ ...s, selected: [] }));
       },
     });

@@ -12,6 +12,7 @@ import { CourseAssignment, CourseAssignmentProps } from "./assignment";
 import { Breadcrumb } from "../ContentHeader";
 import { Timestamp } from "firebase/firestore";
 import { PickIcon, PickIconName } from "../PickIcon";
+import { PageDoc } from "../Controller/page";
 
 const icons: Record<string, PickIconName> = {
   lesson: "chalkboard",
@@ -27,7 +28,7 @@ export type MaterialDocument = {
   files?: { name: string; url: string }[];
   datedue: string;
   schedule?: { start: string; end: string; timezone: string };
-  datemodified?: Timestamp
+  datemodified?: Timestamp;
 };
 
 export type CourseViewerData = {
@@ -126,9 +127,7 @@ export const CourseViewer = (props: CourseViewerProps) => {
                   }
                 >
                   <ListItemIcon>
-                    <PickIcon
-                      icon={icons[item.type] || "question"}
-                    />
+                    <PickIcon icon={icons[item.type] || "question"} />
                   </ListItemIcon>
                   <ListItemText
                     primary={item.title}
@@ -159,7 +158,7 @@ export const CourseViewer = (props: CourseViewerProps) => {
                       { label: item.title },
                     ]}
                     noContainer
-                    data={item}
+                    data={new PageDoc(item)}
                   />
                 );
               case "assignment":
@@ -188,10 +187,11 @@ export const CourseViewer = (props: CourseViewerProps) => {
           noContainer
           breadcrumbs={[...props.breadcrumbs, { label: props.data?.title }]}
           data={
-            Object.assign({}, props.data?.syllabus, {
+            new PageDoc({
+              ...props.data?.syllabus,
               title: t("Syllabus"),
               datemodified: props.data?.datemodified,
-            }) as PageDocument
+            })
           }
         />
       )}

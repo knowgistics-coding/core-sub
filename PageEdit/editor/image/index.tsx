@@ -10,8 +10,8 @@ import { usePE } from "../../context";
 import { useDialog } from "../../dialog.manager";
 import { MenuListItem } from "../../menu.list.item";
 import { usePopup } from "../../../Popup";
-import { PageEditData } from "../../ctl";
 import { PickIcon } from "../../../PickIcon";
+import { PageDoc } from "../../../Controller/page";
 
 const BrowseButton = styled(Button)(({ theme }) => ({
   position: "absolute",
@@ -28,19 +28,15 @@ const BoxAbsolute = styled(Box)(({ theme }) => theme.mixins.absoluteFluid);
 
 export const PEEditorImage = ({ index, content }: PEEditorProps) => {
   const { t } = useCore();
-  const { setData, pageData } = usePE();
+  const { data, setData } = usePE();
   const [open, setOpen] = useState<boolean>(false);
   const { setOpen: setDialogOpen } = useDialog();
   const { Popup } = usePopup();
 
   const handleChangeImage = ([image]: StockImageTypes[]) => {
-    setData(
-      pageData.content.update(
-        content.key,
-        "image",
-        PageEditData.parseImage([image])
-      )
-    );
+    if (image) {
+      setData(data.contentSet(content.key, "image", PageDoc.parseImage(image)));
+    }
   };
   const handleChangeURL = () => {
     Popup.prompt({
@@ -50,7 +46,7 @@ export const PEEditorImage = ({ index, content }: PEEditorProps) => {
       onConfirm: (value) => {
         if (value) {
           setData(
-            pageData.content.update(content.key, "image", {
+            data.contentMerge(content.key, "image", {
               url: value.includes("http") ? value : `https://${value}`,
             })
           );
@@ -64,11 +60,7 @@ export const PEEditorImage = ({ index, content }: PEEditorProps) => {
       text: t("Do You Want To Remove $Name", { name: "URL" }),
       icon: "link-slash",
       onConfirm: () => {
-        setData(
-          pageData.content.update(content.key, "image", {
-            url: undefined,
-          })
-        );
+        setData(data.contentMerge(content.key, "image", { url: undefined }));
       },
     });
   };
