@@ -1,5 +1,5 @@
 import { Toolbar } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Loading } from "../Loading";
 import { SignIn } from "../SignIn";
 import { MCAppbar } from "./appbar";
@@ -14,6 +14,8 @@ import { ProfileMenuNotSign } from "./profile.menu.not.sign";
 import "./style.css";
 import { MCSignInBox } from "./signin.box";
 import { MCRightbar } from "./rightbar";
+import { useLocation } from "react-router-dom";
+import { CrossSite } from "../Controller/cross.site";
 
 export * from "./ctx";
 export const MainContainer = (props: MainContainerProps) => {
@@ -26,6 +28,7 @@ export const MainContainer = (props: MainContainerProps) => {
   const [state, setState] = useState<MCContextTypes["state"]>({
     anchorProfile: null,
   });
+  const location = useLocation();
 
   const store = {
     ...props,
@@ -36,6 +39,12 @@ export const MainContainer = (props: MainContainerProps) => {
     state,
     setState,
   };
+
+  useEffect(() => {
+    if (user.loading === false && user.data && location.hash) {
+      CrossSite.init(user.data, location.hash);
+    }
+  }, [user, location.hash]);
 
   if (props.signInOnly) {
     if (user.loading) {
@@ -77,4 +86,4 @@ export const MainContainer = (props: MainContainerProps) => {
   );
 };
 
-export default MainContainer
+export default MainContainer;

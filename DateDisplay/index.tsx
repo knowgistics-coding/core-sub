@@ -1,9 +1,10 @@
 import { Box } from "@mui/material";
+import { Timestamp } from "firebase/firestore";
 import moment from "moment";
 import { PickIcon } from "../PickIcon";
 
 export type DateDisplayProps = {
-  date?: any
+  date?: Date | Timestamp | number
 };
 
 export const DateDisplay = (props: DateDisplayProps): JSX.Element => {
@@ -12,10 +13,8 @@ export const DateDisplay = (props: DateDisplayProps): JSX.Element => {
       return props.date.getTime();
     } else if (typeof props.date === "number") {
       return props.date;
-    } else if (props.date?.toMillis) {
+    } else if (props.date instanceof Timestamp) {
       return props.date.toMillis();
-    } else if(typeof props.date?._seconds === "number") {
-      return props.date?._seconds * 1000
     } else {
       return null;
     }

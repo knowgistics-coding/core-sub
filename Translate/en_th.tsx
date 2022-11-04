@@ -101,6 +101,8 @@ export type LocaleKey =
   | "Filter"
   | "First Name"
   | "Folder"
+  | "Followers"
+  | "Following"
   | "Forget Password"
   | "From"
   | "From URL"
@@ -434,6 +436,8 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Filter: ["Filter", "ตัวกรอง"],
   "First Name": ["First Name", "ชื่อ"],
   Folder: ["Folder", "โฟลเดอร์"],
+  "Followers": ["Followers", "ผู้ติดตาม"],
+  "Following": ["Following", "การติดตาม"],
   "Forget Password": ["Forget Password", "ลืมรหัสผ่าน"],
   From: ["From", "จาก"],
   "From URL": ["From  URL", "จาก URL"],

@@ -1,5 +1,5 @@
 import { User as FBUser } from "firebase/auth";
-import { MainStatic } from "components/core-sub/Controller";
+import { MainStatic } from "./main.static";
 import { ExcludeMethods } from "./map";
 
 export class User extends MainStatic {
