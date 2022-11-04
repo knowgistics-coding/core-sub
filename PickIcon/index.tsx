@@ -98,6 +98,7 @@ import {
   faRoute,
   faSave,
   faSchool,
+  faSearch,
   faShip,
   faSignIn,
   faSignOut,
@@ -232,6 +233,7 @@ const iconLists = [
   faEnvelope,
   faFileCircleXmark,
   faGripLines,
+  faSearch,
   faArrowsMinimize,
   faExchangeAlt,
   faSyncAlt,
@@ -351,6 +353,7 @@ export type PickIconName =
   | "route"
   | "save"
   | "school"
+  | "search"
   | "ship"
   | "sign-in"
   | "sign-out"

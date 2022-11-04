@@ -24,12 +24,35 @@ import { FirebaseApp } from "firebase/app";
 import { Auth, User, getAuth, onIdTokenChanged } from "firebase/auth";
 import { Firestore, getFirestore } from "firebase/firestore";
 import { Alerts } from "./Alerts";
-import type { To } from "react-router-dom";
+import { To } from "react-router-dom";
 import { PopupProvider, PopupTranslate } from "./Popup";
 import "./style.css";
 import { watchDarkmode } from "./watch.darkmode";
 import { LocaleKey, TFunction } from "./Translate/en_th";
 import { PickIconName } from "./PickIcon";
+
+if (process.env.NODE_ENV === "development") {
+  [
+    "REACT_APP_apiKey",
+    "REACT_APP_authDomain",
+    "REACT_APP_projectId",
+    "REACT_APP_storageBucket",
+    "REACT_APP_messagingSenderId",
+    "REACT_APP_appId",
+    "REACT_APP_databaseURL",
+    "REACT_APP_SITE_NAME",
+    "REACT_APP_DOMAIN",
+    "REACT_APP_PREFIX",
+    "REACT_APP_LOGO",
+    "REACT_APP_ICON_FAV",
+    "REACT_APP_ICON_192",
+    "REACT_APP_ICON_512",
+  ].forEach((key) => {
+    if (!Boolean(process.env[key])) {
+      console.warn(`ENV "${key}" not found`);
+    }
+  });
+}
 
 export type { TFunction } from "./Translate/en_th";
 
@@ -147,14 +170,6 @@ export const CoreProvider = React.memo(
         if (auth && db) {
           setFB((s) => ({ ...s, auth: auth, db: db }));
         }
-
-        // loadFromFB(db).then((langs) => {
-        //   langs.forEach(({ name, value }) =>
-        //     i18next.addResourceBundle(name, "translation", value)
-        //   );
-        //   const current = i18next.language;
-        //   i18next.changeLanguage(current);
-        // });
         const unwatchIdTokenChanged = onIdTokenChanged(auth, async (data) => {
           if (data) {
             setUser((s) => ({ ...s, loading: false, data }));
@@ -179,13 +194,6 @@ export const CoreProvider = React.memo(
         );
       }
     }, [props.firebaseConfig]);
-
-    useEffect(() => {
-      const mode = localStorage.getItem("mode");
-      if (mode) {
-        setSystemState((s) => ({ ...s, mode: mode as SystemMode }));
-      }
-    }, []);
 
     useEffect(() => {
       if (localStorage.getItem("mode")) {
