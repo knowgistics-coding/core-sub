@@ -4,7 +4,7 @@ import { green } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
 import { PickIcon } from "../PickIcon";
 
-export const NotFound = (props: { noButton?: boolean }) => {
+export const NotFound = (props: { noButton?: boolean; to?: string }) => {
   const nav = useNavigate();
 
   return (
@@ -33,7 +33,7 @@ export const NotFound = (props: { noButton?: boolean }) => {
               variant="outlined"
               startIcon={<PickIcon icon={"chevron-left"} />}
               color="info"
-              onClick={() => nav("/")}
+              onClick={() => nav(props.to || "/")}
             >
               Go to HOME
             </Button>
