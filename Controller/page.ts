@@ -56,6 +56,12 @@ export interface PageContentTypes {
 }
 
 export type PageDate = Timestamp | Date | number | undefined;
+export type PageDocInitType = Partial<
+  Omit<PageDoc, "datecreate" | "datemodified">
+> & {
+  datecreate?: PageDate;
+  datemodified?: PageDate;
+};
 
 export class PageDoc {
   title: string;
@@ -69,12 +75,7 @@ export class PageDoc {
 
   stamp: string;
 
-  constructor(
-    data?: Partial<Omit<PageDoc, "datecreate" | "datemodified">> & {
-      datecreate?: PageDate;
-      datemodified?: PageDate;
-    }
-  ) {
+  constructor(data?: PageDocInitType) {
     this.title = data?.title ?? "";
     this.feature = data?.feature ?? null;
     this.contents = data?.contents ?? [];
@@ -235,12 +236,12 @@ export class PageDoc {
 
   /**
    * ==================================================
-   *   _   _                   _  _               
-   *  | | | |  ___   __ _   __| |(_) _ __    __ _ 
+   *   _   _                   _  _
+   *  | | | |  ___   __ _   __| |(_) _ __    __ _
    *  | |_| | / _ \ / _` | / _` || || '_ \  / _` |
    *  |  _  ||  __/| (_| || (_| || || | | || (_| |
    *  |_| |_| \___| \__,_| \__,_||_||_| |_| \__, |
-   *                                        |___/ 
+   *                                        |___/
    * ==================================================
    */
 

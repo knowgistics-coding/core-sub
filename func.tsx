@@ -40,6 +40,10 @@ export const cleanObject = <T extends unknown>(data: T): T | null => {
     return data.map((item) => cleanObject(item)) as T;
   } else if (data instanceof Date) {
     return data;
+  } else if (data instanceof Timestamp) {
+    return data
+  } else if (data === null) {
+    return null
   } else if (typeof data === "object") {
     let newData = Object.assign({}, data) as Record<string, unknown>;
     Object.entries(newData as Object).forEach(([key, value]) => {

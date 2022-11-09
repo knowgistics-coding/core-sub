@@ -57,7 +57,10 @@ import {
   faExclamationTriangle,
   faEye,
   faEyeSlash,
+  faFile,
   faFileAlt,
+  faFileCircleCheck,
+  faFileCircleQuestion,
   faFileCircleXmark,
   faFileDownload,
   faFileSlash,
@@ -248,7 +251,10 @@ const iconLists = [
   faCircleChevronLeft,
   faCircleChevronRight,
   faCircleChevronUp,
-  faUser
+  faUser,
+  faFile,
+  faFileCircleCheck,
+  faFileCircleQuestion
 ] as IconDefinition[];
 
 library.add(...iconLists);
@@ -312,7 +318,10 @@ export type PickIconName =
   | "eye"
   | "eye-slash"
   | "facebook"
+  | "file"
   | "file-alt"
+  | "file-circle-check"
+  | "file-circle-question"
   | "file-circle-xmark"
   | "file-download"
   | "file-slash"

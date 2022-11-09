@@ -14,9 +14,9 @@ import {
   runTransaction,
   where,
 } from "firebase/firestore";
-import { db } from "../../../controllers/firebase";
 import { cleanObject } from "../func";
 import { VisibilityTabsValue } from "../VisibilityTabs";
+import { db } from "./firebase";
 import { PageDate, PageDoc } from "./page";
 
 export class Post extends PageDoc {
