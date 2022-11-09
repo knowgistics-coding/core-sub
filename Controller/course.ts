@@ -454,6 +454,8 @@ export class Question extends MainCtl {
     this.options = data?.options ?? data?.[this.type]?.options ?? [];
     this.answers = data?.answers ?? data?.[this.type]?.answers ?? [];
     this.answer = data?.answer ?? data?.[this.type]?.answer ?? "false";
+
+    this.initQuestion();
   }
 
   toJSON(): Pick<
@@ -496,7 +498,37 @@ export class Question extends MainCtl {
     } else if (value) {
       this[field] = value;
     }
+    if (field === "type") {
+      this.initQuestion();
+    }
     return this;
+  }
+
+  initQuestion() {
+    const keys = [genKey(), genKey()];
+    if (this.type === "multiple" && this.options.length < 2) {
+      this.options = this.options.concat(
+        { key: keys[0], type: "paragraph" },
+        { key: keys[1], type: "paragraph" }
+      );
+      this.answer = keys[0];
+    } else if (
+      this.type === "truefalse" &&
+      ["true", "false"].includes(this.answer) === false
+    ) {
+      this.answer = "false";
+    } else if (this.type === "matching" && this.options.length < 2) {
+      this.options = this.options.concat(
+        { key: keys[0], type: "paragraph" },
+        { key: keys[1], type: "paragraph" }
+      );
+    } else if (this.type === "sorting") {
+      this.options = this.options.concat(
+        { key: keys[0], type: "paragraph" },
+        { key: keys[1], type: "paragraph" }
+      );
+      this.answers = keys;
+    }
   }
 
   addOption(): this {
@@ -519,7 +551,7 @@ export class Question extends MainCtl {
   }
 
   removeOption(key: string): this {
-    this.options = this.options.filter((option) => option.key === key);
+    this.options = this.options.filter((option) => option.key !== key);
     this.answers = this.options.map((option) => option.key);
     return this;
   }
@@ -538,14 +570,22 @@ export class Question extends MainCtl {
 
   async save(): Promise<void> {
     if (this.user && this.courseparent && this.questionparent) {
+      const newData = cleanObject({
+        ...this.toJSON(),
+        [this.type]: {
+          options: this.options,
+          answer: this.answer,
+          answers: this.answers
+        }
+      })
       if (this.id) {
         await updateDoc(Question.doc(this.id), {
-          ...cleanObject(this.toJSON()),
+          ...newData,
           datemodified: serverTimestamp(),
         });
       } else {
         const doc = await addDoc(Question.collection(), {
-          ...cleanObject(this.toJSON()),
+          ...newData,
           datecreate: serverTimestamp(),
           datemodified: serverTimestamp(),
         });
