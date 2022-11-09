@@ -52,6 +52,7 @@ export type LocaleKey =
   | "Close Path"
   | "Collection"
   | "Contact"
+  | "Comment"
   | "Component"
   | "Composition"
   | "Confirm"
@@ -141,6 +142,7 @@ export type LocaleKey =
   | "Lesson"
   | "Lesson Content"
   | "Level"
+  | "Like"
   | "Light"
   | "Line"
   | "Line Application"
@@ -374,6 +376,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Close: ["Close", "ปิด"],
   "Close Path": ["Close Path", "ปิดเส้นทาง"],
   Collection: ["Collection", "คอลเล็คชัน"],
+  Comment: ["Comment", "ความเห็น"],
   Component: ["Component", "ส่วนประกอบ"],
   Composition: ["Composition", "จัดองค์ประกอบภาพ"],
   Confirm: ["Confirm", "ยืนยัน"],
@@ -436,8 +439,8 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Filter: ["Filter", "ตัวกรอง"],
   "First Name": ["First Name", "ชื่อ"],
   Folder: ["Folder", "โฟลเดอร์"],
-  "Followers": ["Followers", "ผู้ติดตาม"],
-  "Following": ["Following", "การติดตาม"],
+  Followers: ["Followers", "ผู้ติดตาม"],
+  Following: ["Following", "การติดตาม"],
   "Forget Password": ["Forget Password", "ลืมรหัสผ่าน"],
   From: ["From", "จาก"],
   "From URL": ["From  URL", "จาก URL"],
@@ -476,6 +479,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Lesson: ["Lesson", "บทเรียน"],
   "Lesson Content": ["Lesson Content", "เนื้อหาบทเรียน"],
   Level: ["Level", "ระดับ"],
+  Like: ["Like", "ถูกใจ"],
   Light: ["Light", "สว่าง"],
   Line: ["Line", "ไลน์"],
   "Line Application": ["Line Application", "แอปพลิเคชันไลน์"],

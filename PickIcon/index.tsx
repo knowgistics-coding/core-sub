@@ -44,6 +44,7 @@ import {
   faClock,
   faCodeBranch,
   faCog,
+  faComment,
   faCopy,
   faCopyright,
   faCrop,
@@ -70,6 +71,7 @@ import {
   faGripDotsVertical,
   faGripLines,
   faHeading,
+  faHeart,
   faHome,
   faHorizontalRule,
   faHospital,
@@ -248,7 +250,9 @@ const iconLists = [
   faCircleChevronLeft,
   faCircleChevronRight,
   faCircleChevronUp,
-  faUser
+  faUser,
+  faHeart,
+  faComment
 ] as IconDefinition[];
 
 library.add(...iconLists);
@@ -298,6 +302,7 @@ export type PickIconName =
   | "clock"
   | "code-branch"
   | "cog"
+  | "comment"
   | "copy"
   | "copyright"
   | "crop"
@@ -325,6 +330,7 @@ export type PickIconName =
   | "grip-dots-vertical"
   | "grip-lines"
   | "heading"
+  | "heart"
   | "home"
   | "horizontal-rule"
   | "hospital"

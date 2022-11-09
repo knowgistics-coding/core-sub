@@ -16,6 +16,7 @@ import { Feeds } from "../Controller/social";
 import { DateDisplay } from "../DateDisplay";
 import { KuiActionIcon } from "../KuiActionIcon";
 import { PickIcon } from "../PickIcon";
+import { ReactionBox } from "../ReactionBox";
 import { StockDisplay } from "../StockDisplay";
 
 const Root = styled(List)(({ theme }) => ({
@@ -110,6 +111,7 @@ export const FeedCard = ({ feed, ...props }: FeedCardProps) => {
             </Typography>
           )}
         </Content>
+        <ReactionBox doc={feed.id} />
       </Root>
     );
   } else {

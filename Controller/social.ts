@@ -1,10 +1,14 @@
 import { User } from "firebase/auth";
 import {
+  arrayRemove,
+  arrayUnion,
   collectionGroup,
   doc,
+  getDoc,
   getDocs,
   onSnapshot,
   query,
+  runTransaction,
   Timestamp,
   Unsubscribe,
   where,
@@ -50,7 +54,7 @@ export class Social {
 export class Feeds {
   id: string;
   title: string;
-  feature?: StockDisplayProps
+  feature?: StockDisplayProps;
   datecreate: number;
   datemodified: number;
   type: "post" | "book";
@@ -62,7 +66,7 @@ export class Feeds {
   constructor(data?: Partial<Feeds>) {
     this.id = data?.id ?? "";
     this.title = data?.title ?? "";
-    this.feature = data?.feature
+    this.feature = data?.feature;
     this.datecreate = this.dateToNumber(data?.datecreate);
     this.datemodified = this.dateToNumber(data?.datemodified);
     this.type = data?.type ?? "post";
@@ -150,5 +154,55 @@ export class Feeds {
         resolve(docs);
       });
     });
+  }
+}
+
+export class Comment {
+  value: string;
+  parent: string;
+
+  constructor(data?: Partial<Comment>) {
+    this.value = data?.value ?? "";
+    this.parent = data?.parent ?? "";
+  }
+}
+
+export class Reaction {
+  id: string;
+  liked: string[];
+  comments: Comment[];
+
+  constructor(data?: Partial<Reaction>) {
+    this.id = data?.id ?? "";
+    this.liked = data?.liked ?? [];
+    this.comments = data?.comments ?? [];
+  }
+
+  async like(user: User, like: boolean): Promise<this> {
+    const ref = doc(db, "reactions", this.id);
+    await runTransaction(db, async (transaction) => {
+      const doc = await transaction.get(ref);
+      if (doc.exists()) {
+        await transaction.update(ref, {
+          liked: like ? arrayUnion(user.uid) : arrayRemove(user.uid),
+        });
+      } else {
+        await transaction.set(ref, {
+          liked: like ? [user.uid] : [],
+        });
+      }
+    });
+    this.liked = like
+      ? this.liked.concat(user.uid)
+      : this.liked.filter((uid) => uid !== user.uid);
+    return this;
+  }
+
+  static async getLike(id: string) {
+    return (await getDoc(doc(db, "reactions", id))).data();
+  }
+  static async get(id: string): Promise<Reaction> {
+    const reaction = await this.getLike(id);
+    return new Reaction({ ...reaction });
   }
 }
