@@ -6,6 +6,7 @@ import React, {
   startTransition,
   useCallback,
   useEffect,
+  useReducer,
   useRef,
   useState,
 } from "react";
@@ -49,12 +50,6 @@ const Root = styled(Box, {
   },
 }));
 
-const defaultState = () => ({
-  html: "",
-  editorState: EditorState.createEmpty(),
-  contentState: AbsatzCtl.createEmptyContentState(),
-});
-
 export type AbsatzProps = Pick<BoxProps, "id" | "sx"> & {
   ref?: (ref: object) => void;
   view?: boolean;
@@ -69,33 +64,71 @@ export type AbsatzProps = Pick<BoxProps, "id" | "sx"> & {
     editor?: EditorProps;
   };
 };
+
+type StateType = {
+  html: string;
+  editorState: EditorState;
+  contentState: RawDraftContentState;
+};
+
+const reducer = (
+  state: StateType,
+  action: {
+    type: "editor" | "content" | "html";
+    editorState?: EditorState;
+    contentState?: RawDraftContentState;
+    html?: string;
+  }
+): StateType => {
+  switch (action.type) {
+    case "editor":
+      return { ...state, editorState: action.editorState ?? state.editorState };
+    case "content":
+      return {
+        ...state,
+        contentState: action.contentState ?? state.contentState,
+      };
+    case "html":
+      return { ...state, html: action.html ?? state.html };
+    default:
+      return state;
+  }
+};
+
 export const Absatz = React.memo((props: AbsatzProps) => {
   const { t } = useCore();
   const editorRef = useRef<any>();
   const [focus, setFocus] = useState<boolean>(false);
-  const [state, setState] = useState<{
-    html: string;
-    editorState: EditorState;
-    contentState: RawDraftContentState;
-  }>(defaultState());
+  const [state, dispatch] = useReducer(reducer, {
+    html: "",
+    editorState: props.value
+      ? AbsatzCtl.htmlToEditor(props.value!)
+      : EditorState.createEmpty(),
+    contentState: AbsatzCtl.createEmptyContentState(),
+  });
+  // const [state, setState] = useState<{
+  //   html: string;
+  //   editorState: EditorState;
+  //   contentState: RawDraftContentState;
+  // }>(defaultState());
   const view: boolean = props.view
     ? true
     : props.autoHideToolbar
     ? !focus
     : false;
 
-  useEffect(() => {
-    if (props.value) {
-      if (props.value !== state.html) {
-        setState((s) => ({
-          ...s,
-          editorState: AbsatzCtl.htmlToEditor(props.value!),
-        }));
-      }
-    } else {
-      setState(defaultState());
-    }
-  }, [props.value, state.html]);
+  // useEffect(() => {
+  //   if (props.value) {
+  //     if (props.value !== state.html) {
+  //       setState((s) => ({
+  //         ...s,
+  //         editorState: AbsatzCtl.htmlToEditor(props.value!),
+  //       }));
+  //     }
+  //   } else {
+  //     setState(defaultState());
+  //   }
+  // }, [props.value, state.html]);
 
   const handleFocus = useCallback(
     (value?: boolean) => {
@@ -108,11 +141,12 @@ export const Absatz = React.memo((props: AbsatzProps) => {
     [editorRef]
   );
   const handleEditorStateChange = (editorState: EditorState) =>
-    setState((s) => ({ ...s, editorState }));
+    dispatch({ type: "editor", editorState });
+
   const handleContentStateChange = (contentState: RawDraftContentState) => {
-    setState((s) => ({ ...s, contentState }));
+    dispatch({ type: "content", contentState });
     startTransition(() => {
-      setState((s) => ({ ...s, html: draftToHtml(contentState) }));
+      dispatch({ type: "html", html: draftToHtml(contentState) });
       props.onChange?.(draftToHtml(contentState));
       const paragraphs = AbsatzCtl.paragraphSplit(contentState);
       if (paragraphs.length > 1) {
