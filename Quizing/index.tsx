@@ -13,10 +13,11 @@ import { useCore } from "../context";
 import { useAlerts } from "../Alerts";
 import { QuizDisplay, QuizAnswerTypes } from "../QuizDisplay";
 import { PickIcon } from "../PickIcon";
+import { Question } from "../Controller";
 
 export type QuizingDataType = {
   title?: string;
-  questions: (QuizDocument & { id: string })[];
+  questions: ((QuizDocument & { id: string })|Question)[];
 };
 
 export type QuizingProps = {
@@ -51,7 +52,7 @@ export const Quizing = ({ data, ...props }: QuizingProps) => {
     if (data?.questions) {
       return data.questions
         .map((q) => q.id)
-        .every((id) => Boolean(answers[id]));
+        .every((id) => Boolean(answers[id!]));
     }
     return false;
   };
@@ -96,7 +97,7 @@ export const Quizing = ({ data, ...props }: QuizingProps) => {
           {data?.questions.map((q) => (
             <QuizAnswer
               quiz={q}
-              answer={answers[q.id]}
+              answer={answers[q.id!]}
               key={q.id}
               containerProps={{ sx: { mb: 2 } }}
             />
@@ -134,9 +135,9 @@ export const Quizing = ({ data, ...props }: QuizingProps) => {
               <div hidden={index !== step} key={question.id}>
                 <QuizDisplay
                   quiz={question}
-                  value={answers[question.id]}
+                  value={answers[question.id!]}
                   onChange={(value) =>
-                    setAnswers((s) => ({ ...s, [question.id]: value }))
+                    setAnswers((s) => ({ ...s, [question.id!]: value }))
                   }
                   containerProps={{ sx: { my: 2 } }}
                 />
@@ -146,7 +147,7 @@ export const Quizing = ({ data, ...props }: QuizingProps) => {
                   {array.length - 1 !== index && (
                     <NextButton
                       onClick={handleNext}
-                      disabled={!Boolean(answers[question.id])}
+                      disabled={!Boolean(answers[question.id!])}
                     />
                   )}
                   {array.length - 1 === index && (
