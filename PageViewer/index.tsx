@@ -217,9 +217,11 @@ export const PageViewer = (props: PageViewerProps) => {
                 );
               case "divider":
                 return (
-                  <Container maxWidth="post" key={content.key}>
-                    <Divider />
-                  </Container>
+                  <Wrapper key={content.key}>
+                    <Container maxWidth="post">
+                      <Divider />
+                    </Container>
+                  </Wrapper>
                 );
               default:
                 return process.env.NODE_ENV === "development" ? (
@@ -233,11 +235,11 @@ export const PageViewer = (props: PageViewerProps) => {
           {data.maps.length > 0 && (
             <Container maxWidth="post">
               <Box
-                sx={theme => ({
+                sx={(theme) => ({
                   width: theme.sidebarWidth * 1.5,
                   maxWidth: "100%",
-                  margin: '0 auto 1rem',
-                  position: 'relative',
+                  margin: "0 auto 1rem",
+                  position: "relative",
                   "&:before": {
                     content: "''",
                     display: "block",
@@ -245,7 +247,11 @@ export const PageViewer = (props: PageViewerProps) => {
                   },
                 })}
               >
-                <LeafletContainer rootProps={{ sx: theme => ({ ...theme.mixins.absoluteFluid }) }}>
+                <LeafletContainer
+                  rootProps={{
+                    sx: (theme) => ({ ...theme.mixins.absoluteFluid }),
+                  }}
+                >
                   <LeafletMap maps={data.maps} />
                 </LeafletContainer>
               </Box>
