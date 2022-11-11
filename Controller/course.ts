@@ -780,6 +780,9 @@ export class Lesson extends PageDoc {
   protected static doc(id: string) {
     return doc(db, "lms", `${this.prefix}`, `courses`, id);
   }
+  static async getOne(id: string): Promise<Lesson> {
+    return new Lesson({ ...(await getDoc(this.doc(id))).data(), id });
+  }
   static async getLastSort(courseId: string) {
     const snapshot = await getDocs(
       query(this.collection(), where("parent", "==", courseId))
