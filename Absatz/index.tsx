@@ -74,7 +74,7 @@ type StateType = {
 const reducer = (
   state: StateType,
   action: {
-    type: "editor" | "content" | "html";
+    type: "editor" | "content" | "html" | "init";
     editorState?: EditorState;
     contentState?: RawDraftContentState;
     html?: string;
@@ -88,6 +88,14 @@ const reducer = (
         ...state,
         contentState: action.contentState ?? state.contentState,
       };
+    case "init":
+      return action.html && state.html !== action.html
+        ? {
+            ...state,
+            editorState: AbsatzCtl.htmlToEditor(action.html),
+            html: action.html,
+          }
+        : state;
     case "html":
       return { ...state, html: action.html ?? state.html };
     default:
@@ -106,29 +114,17 @@ export const Absatz = React.memo((props: AbsatzProps) => {
       : EditorState.createEmpty(),
     contentState: AbsatzCtl.createEmptyContentState(),
   });
-  // const [state, setState] = useState<{
-  //   html: string;
-  //   editorState: EditorState;
-  //   contentState: RawDraftContentState;
-  // }>(defaultState());
   const view: boolean = props.view
     ? true
     : props.autoHideToolbar
     ? !focus
     : false;
 
-  // useEffect(() => {
-  //   if (props.value) {
-  //     if (props.value !== state.html) {
-  //       setState((s) => ({
-  //         ...s,
-  //         editorState: AbsatzCtl.htmlToEditor(props.value!),
-  //       }));
-  //     }
-  //   } else {
-  //     setState(defaultState());
-  //   }
-  // }, [props.value, state.html]);
+  useEffect(() => {
+    if (props.value) {
+      dispatch({ type: "init", html: props.value });
+    }
+  }, [props.value, state.html]);
 
   const handleFocus = useCallback(
     (value?: boolean) => {
