@@ -4,7 +4,10 @@ import "firebase/firestore";
 import "firebase/storage";
 import "firebase/database";
 import "firebase/auth";
-import { getFirestore, serverTimestamp } from "firebase/firestore";
+import {
+  initializeFirestore,
+  serverTimestamp,
+} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 
@@ -19,7 +22,9 @@ export let firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
+export const db = initializeFirestore(app, {
+  experimentalForceLongPolling: true,
+});
 export const auth = getAuth(app);
 export const storage = getStorage(app);
 export const dbTimestamp = () => serverTimestamp();
