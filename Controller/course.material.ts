@@ -23,7 +23,7 @@ export class Material extends MainCtl {
     this.parent = data?.parent ?? "";
     this.user = data?.user ?? "";
     this.point = parseFloat(`${data?.point ?? 0}`);
-    this.sort = data?.sort ?? 9999
+    this.sort = data?.sort ?? 9999;
   }
 
   set<T extends keyof this>(
@@ -43,7 +43,7 @@ export class Material extends MainCtl {
       icon: "chalkboard",
     },
     assignment: {
-      label: "Online Quiz",
+      label: "Assignment",
       icon: "file-alt",
     },
     quiz: {
@@ -81,7 +81,7 @@ export class MaterialAssignment extends Material {
   datedue: string;
   files: MaterialAssignmentFileType[];
   rawFiles: File[];
-  weight: number
+  weight: number;
 
   constructor(data?: Partial<MaterialAssignment>) {
     super(data);
@@ -90,6 +90,6 @@ export class MaterialAssignment extends Material {
     this.datedue = data?.datedue ?? "";
     this.files = data?.files ?? [];
     this.rawFiles = data?.rawFiles ?? [];
-    this.weight = data?.weight ?? 0
+    this.weight = data?.weight ?? 0;
   }
 }
