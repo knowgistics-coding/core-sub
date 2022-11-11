@@ -10,23 +10,9 @@ export const QDTrueFalse = () => {
   return (
     <Fragment>
       <ListButton
-        label={t(answer?.truefalse ? "True" : "False")}
-        correct={Boolean(quiz.truefalse?.answer) === Boolean(answer?.truefalse)}
+        label={t(answer?.answer ? "True" : "False")}
+        correct={Boolean(quiz.answer) === Boolean(answer?.answer)}
       />
-      {/* {quiz.truefalse?.answer === answer?.truefalse ? (
-        <ListButton label={t(answer?.truefalse ? 'True' : 'False')} correct />
-      ) : (
-        <Fragment>
-          <ListButton
-            label={t('True')}
-            correct={Boolean(quiz.truefalse?.answer) === true}
-          />
-          <ListButton
-            label={t('False')}
-            correct={Boolean(quiz.truefalse?.answer) === false}
-          />
-        </Fragment>
-      )} */}
     </Fragment>
   );
 };

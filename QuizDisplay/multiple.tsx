@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
+import { QuestionData } from "../Controller";
 import { arrayShuffle } from "../func";
-import { dataTypes } from "../QuizEditor/context";
 import { QDImgDisplay } from "../QuizEditor/img";
 import { useQD } from "./context";
 import { ListButton } from "./list.button";
@@ -8,17 +8,14 @@ import { QDParagraph } from "./paragraph";
 
 export const QDMultiple = () => {
   const { quiz, value, onChange } = useQD();
-  const [options, setOptions] = useState<dataTypes[]>([]);
+  const [options, setOptions] = useState<QuestionData[]>([]);
 
-  const handleChange = (key: number) => () => {
-    onChange({ multiple: key });
-  };
+  const handleChange = (key: string) => () =>
+    onChange((answer) => answer.setAnswer(key));
 
   useEffect(() => {
-    if (quiz?.multiple?.options) {
-      const options = quiz.shuffle
-        ? arrayShuffle(quiz.multiple.options)
-        : quiz.multiple.options;
+    if (quiz.options) {
+      const options = quiz.shuffle ? arrayShuffle(quiz.options) : quiz.options;
       setOptions(options);
     }
   }, [quiz]);
@@ -36,7 +33,7 @@ export const QDMultiple = () => {
                   ) : null
                 }
                 onClick={handleChange(option.key)}
-                selected={value?.multiple === option.key}
+                selected={value?.answer === option.key}
                 key={option.key}
               />
             );
@@ -49,7 +46,7 @@ export const QDMultiple = () => {
                   ) : null
                 }
                 onClick={handleChange(option.key)}
-                selected={value?.multiple === option.key}
+                selected={value?.answer === option.key}
                 key={option.key}
               />
             );

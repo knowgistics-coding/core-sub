@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react";
-import { dataTypes, useQEC } from "../context";
+import { useQEC } from "../context";
 import { Panel } from "../panel";
 import {
   Box,
@@ -13,6 +13,7 @@ import { useCore } from "../../context";
 import { SelectType } from "../select.type";
 import { KuiButton } from "../../KuiButton";
 import { usePopup } from "../../Popup";
+import { QuestionData } from "components/core-sub/Controller";
 
 const AnswerBox = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -34,7 +35,7 @@ export const OptionsMatching = () => {
   const { Popup } = usePopup();
 
   const handleOptionChange =
-    (index: number) => (option: Omit<dataTypes, "key">) =>
+    (index: number) => (option: Omit<QuestionData, "key">) =>
       setData(data.setOption(index, option));
   const handleChange =
     (index: number) =>

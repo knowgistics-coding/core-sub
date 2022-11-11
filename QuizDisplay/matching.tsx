@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { Fragment, useEffect, useState } from "react";
-import update from "react-addons-update";
 import { useCore } from "../context";
 import { arrayShuffle } from "../func";
 import { QDImgDisplay } from "../QuizEditor/img";
@@ -29,24 +28,19 @@ export const QDMatching = () => {
   const { quiz, value, onChange } = useQD();
   const [options, setOptions] = useState<(string | undefined)[]>([]);
 
-  const getValue = (key: number) => {
+  const getValue = (key: string) => {
     const newValue = value?.matching?.[key] || "";
     return options.includes(newValue) ? newValue : "";
   };
   const handleChange =
-    (key: number) =>
-    ({ target: { value: newValue } }: SelectChangeEvent<string>) => {
-      onChange({
-        ...(value || {}),
-        matching: update(value?.matching || {}, { [key]: { $set: newValue } }),
-      });
+    (key: string) =>
+    ({ target: { value } }: SelectChangeEvent<string>) => {
+      onChange((answer) => answer.setMatching(key, value));
     };
 
   useEffect(() => {
-    if (quiz?.type === "matching" && quiz?.matching?.options?.length) {
-      const options = arrayShuffle(
-        quiz.matching.options.map((opt) => opt.value)
-      );
+    if (quiz.type === "matching" && quiz.options.length) {
+      const options = arrayShuffle(quiz.options.map((opt) => opt.value));
       setOptions(options);
     }
   }, [quiz]);
@@ -54,7 +48,7 @@ export const QDMatching = () => {
   return (
     <Fragment>
       <Grid container spacing={1}>
-        {quiz?.matching?.options?.map((option) => (
+        {quiz.options.map((option) => (
           <Grid item xs={12} key={option.key}>
             <Item>
               <Grid container alignItems="center" spacing={1}>

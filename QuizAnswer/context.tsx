@@ -1,25 +1,17 @@
 import { BoxProps } from '@mui/material'
 import { createContext, useContext } from 'react'
-import { QuizAnswerTypes } from '../QuizDisplay'
-import { QuizDocument } from '../QuizEditor'
-
-// export interface QuizAnswerTypes {
-//   truefalse?: string
-//   multiple?: number
-//   matching?: { [key: number]: string }
-//   sorting?: number[]
-// }
+import { Question, QuestionAnswer } from '../Controller'
 
 export interface QuizDisplayProps {
-  answer?: QuizAnswerTypes
-  quiz: QuizDocument
+  answer?: QuestionAnswer
+  quiz: Question
   containerProps?: BoxProps
 }
 
 export interface QDContextTypes
   extends Pick<QuizDisplayProps, 'quiz' | 'answer'> {}
 export const QDContext = createContext<QDContextTypes>({
-  quiz: {}
+  quiz: new Question()
 })
 
 export const useQD = () => useContext(QDContext)

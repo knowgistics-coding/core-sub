@@ -10,7 +10,6 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { TypeTypes } from "./context";
 import { useCore } from "../context";
 import { StockImageTypes, StockPicker } from "../StockPicker";
 import { StockDisplayImageTypes } from "../StockDisplay";
@@ -20,7 +19,7 @@ import { PickIcon } from "../PickIcon";
 import { QuestionData } from "../Controller";
 
 interface SelectTypeProps {
-  type: TypeTypes;
+  type: QuestionData["type"];
   image?: StockDisplayImageTypes;
   paragraph?: string;
   onChange?: (option: Omit<QuestionData, "key">) => void;
@@ -40,7 +39,7 @@ export const SelectType = ({
 
   const handleChangeType = ({
     target: { value },
-  }: SelectChangeEvent<TypeTypes>) =>
+  }: SelectChangeEvent<QuestionData["type"]>) =>
     onChange?.({ type: value as QuestionData["type"], image, paragraph });
   const handleChangeImage = ([img]: StockImageTypes[]) => {
     if (img) {
