@@ -288,6 +288,7 @@ export type LocaleKey =
   | "Unenroll"
   | "Undefined"
   | "University"
+  | "Unlimited $Name"
   | "Unsort"
   | "Unsubmit"
   | "Untitled"
@@ -631,6 +632,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   TypeHere: ["Type Here", "พิมพ์ที่นี่"],
   Unenroll: ["Unenroll", "เพิกถอน"],
   Undefined: ["Undefined", "ไม่ได้กำหนด"],
+  "Unlimited $Name": ["Unlimited {{name}}", "{{name}}ไม่จำกัด"],
   University: ["University", "มหาวิทยาลัย"],
   Unsort: ["Unsort", "ยกเลิกการเรียง"],
   Unsubmit: ["Unsubmit", "ยกเลิกการส่ง"],
