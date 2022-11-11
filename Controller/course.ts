@@ -184,16 +184,6 @@ export class Course extends MainCtl {
     });
   }
 
-  /**
-   *             $$\                $$\     $$\
-   *             $$ |               $$ |    \__|
-   *  $$$$$$$\ $$$$$$\    $$$$$$\ $$$$$$\   $$\  $$$$$$$\
-   * $$  _____|\_$$  _|   \____$$\\_$$  _|  $$ |$$  _____|
-   * \$$$$$$\    $$ |     $$$$$$$ | $$ |    $$ |$$ /
-   *  \____$$\   $$ |$$\ $$  __$$ | $$ |$$\ $$ |$$ |
-   * $$$$$$$  |  \$$$$  |\$$$$$$$ | \$$$$  |$$ |\$$$$$$$\
-   * \_______/    \____/  \_______|  \____/ \__| \_______|
-   */
   private static doc(id: string): DocumentReference<DocumentData> {
     return doc(db, "lms", this.prefix, "courses", id);
   }
@@ -203,17 +193,7 @@ export class Course extends MainCtl {
   private static genId(): string {
     return doc(this.collection()).id;
   }
-  /**
-   *  $$$$$$\  $$\   $$\  $$$$$$\   $$$$$$\  $$\   $$\
-   * $$  __$$\ $$ |  $$ |$$  __$$\ $$  __$$\ $$ |  $$ |
-   * $$ /  $$ |$$ |  $$ |$$$$$$$$ |$$ |  \__|$$ |  $$ |
-   * $$ |  $$ |$$ |  $$ |$$   ____|$$ |      $$ |  $$ |
-   * \$$$$$$$ |\$$$$$$  |\$$$$$$$\ $$ |      \$$$$$$$ |
-   *  \____$$ | \______/  \_______|\__|       \____$$ |
-   *       $$ |                              $$\   $$ |
-   *       $$ |                              \$$$$$$  |
-   *       \__|                               \______/
-   */
+
   static watchOne(id: string, callback: (doc: Course) => void) {
     return onSnapshot(this.doc(id), (snapshot) => {
       const course = new Course({ ...snapshot.data(), id });
@@ -309,17 +289,6 @@ export class Quiz extends MainCtl {
     }
   }
 
-  /**
-   *  $$$$$$\  $$\   $$\  $$$$$$\   $$$$$$\  $$\   $$\
-   * $$  __$$\ $$ |  $$ |$$  __$$\ $$  __$$\ $$ |  $$ |
-   * $$ /  $$ |$$ |  $$ |$$$$$$$$ |$$ |  \__|$$ |  $$ |
-   * $$ |  $$ |$$ |  $$ |$$   ____|$$ |      $$ |  $$ |
-   * \$$$$$$$ |\$$$$$$  |\$$$$$$$\ $$ |      \$$$$$$$ |
-   *  \____$$ | \______/  \_______|\__|       \____$$ |
-   *       $$ |                              $$\   $$ |
-   *       $$ |                              \$$$$$$  |
-   *       \__|                               \______/
-   */
   protected static collection() {
     return collection(db, "lms", `${this.prefix}`, `questions`);
   }
@@ -389,6 +358,26 @@ export class Quiz extends MainCtl {
     const quiz = new Quiz({ ...snapshot.data(), id });
     return quiz;
   }
+  static async getMany(user: User, courseId: string): Promise<Quiz[]> {
+    const snapshot = await getDocs(
+      query(
+        this.collection(),
+        where("user", "==", user.uid),
+        where("parent", "==", courseId)
+      )
+    );
+    return snapshot.docs.map((doc) => new Quiz({ ...doc.data(), id: doc.id }));
+  }
+  static async preview(
+    user: User,
+    id: string
+  ): Promise<{ quiz: Quiz; questions: Question[] }> {
+    const quiz = await Quiz.getOne(id);
+    if (!quiz) throw new Error("Quiz not found");
+
+    const questions = await Question.getFromParent(user, id);
+    return { quiz, questions };
+  }
   static async add(user: User, parent: string, title: string): Promise<Quiz> {
     const quiz = new Quiz({ title, parent, user: user.uid });
     await quiz.save();
@@ -403,6 +392,72 @@ export type QuestionData = {
   paragraph?: string;
   image?: StockDisplayImageTypes;
 };
+
+/**
+ *  $$$$$$\  $$\   $$\ $$$$$$$$\  $$$$$$\ $$$$$$$$\ $$$$$$\  $$$$$$\  $$\   $$\
+ * $$  __$$\ $$ |  $$ |$$  _____|$$  __$$\\__$$  __|\_$$  _|$$  __$$\ $$$\  $$ |
+ * $$ /  $$ |$$ |  $$ |$$ |      $$ /  \__|  $$ |     $$ |  $$ /  $$ |$$$$\ $$ |
+ * $$ |  $$ |$$ |  $$ |$$$$$\    \$$$$$$\    $$ |     $$ |  $$ |  $$ |$$ $$\$$ |
+ * $$ |  $$ |$$ |  $$ |$$  __|    \____$$\   $$ |     $$ |  $$ |  $$ |$$ \$$$$ |
+ * $$ $$\$$ |$$ |  $$ |$$ |      $$\   $$ |  $$ |     $$ |  $$ |  $$ |$$ |\$$$ |
+ * \$$$$$$ / \$$$$$$  |$$$$$$$$\ \$$$$$$  |  $$ |   $$$$$$\  $$$$$$  |$$ | \$$ |
+ *  \___$$$\  \______/ \________| \______/   \__|   \______| \______/ \__|  \__|
+ *      \___|
+ *  $$$$$$\  $$\   $$\  $$$$$$\  $$$$$$$$\ $$\      $$\ $$$$$$$$\ $$$$$$$\
+ * $$  __$$\ $$$\  $$ |$$  __$$\ $$  _____|$$ | $\  $$ |$$  _____|$$  __$$\
+ * $$ /  $$ |$$$$\ $$ |$$ /  \__|$$ |      $$ |$$$\ $$ |$$ |      $$ |  $$ |
+ * $$$$$$$$ |$$ $$\$$ |\$$$$$$\  $$$$$\    $$ $$ $$\$$ |$$$$$\    $$$$$$$  |
+ * $$  __$$ |$$ \$$$$ | \____$$\ $$  __|   $$$$  _$$$$ |$$  __|   $$  __$$<
+ * $$ |  $$ |$$ |\$$$ |$$\   $$ |$$ |      $$$  / \$$$ |$$ |      $$ |  $$ |
+ * $$ |  $$ |$$ | \$$ |\$$$$$$  |$$$$$$$$\ $$  /   \$$ |$$$$$$$$\ $$ |  $$ |
+ * \__|  \__|\__|  \__| \______/ \________|\__/     \__|\________|\__|  \__|
+ */
+
+export class QuestionAnswer {
+  answer: string;
+  matching: Record<string, string>;
+  sorting: string[];
+  type: Question["type"];
+
+  constructor(data?: Partial<QuestionAnswer>) {
+    this.answer = data?.answer ?? "";
+    this.matching = data?.matching ?? {};
+    this.sorting = data?.sorting ?? [];
+    this.type = data?.type ?? "multiple";
+  }
+
+  check(question: Question): boolean {
+    if (question.type === "truefalse") {
+      return question.answer === this.answer;
+    } else if (question.type === "multiple") {
+      return question.answer === this.answer;
+    } else if (question.type === "matching") {
+      return question.options.every(
+        (option) => option.value === this.matching[option.key]
+      );
+    } else if (question.type === "sorting") {
+      return question.answers.every(
+        (key, index) => String(key) === this.sorting[index]
+      );
+    }
+    return false;
+  }
+
+  setAnswer(value: string): this {
+    this.answer = value;
+    return this;
+  }
+
+  setMatching(key: string, value: string): this {
+    this.matching[key] = value;
+    return this;
+  }
+
+  setSorting(sorting: string[]): this {
+    this.sorting = sorting;
+    return this;
+  }
+}
 
 /**
  *  $$$$$$\  $$\   $$\ $$$$$$$$\  $$$$$$\ $$$$$$$$\ $$$$$$\  $$$$$$\  $$\   $$\
@@ -522,7 +577,7 @@ export class Question extends MainCtl {
         { key: keys[0], type: "paragraph" },
         { key: keys[1], type: "paragraph" }
       );
-    } else if (this.type === "sorting") {
+    } else if (this.type === "sorting" && this.options.length < 2) {
       this.options = this.options.concat(
         { key: keys[0], type: "paragraph" },
         { key: keys[1], type: "paragraph" }
@@ -575,9 +630,9 @@ export class Question extends MainCtl {
         [this.type]: {
           options: this.options,
           answer: this.answer,
-          answers: this.answers
-        }
-      })
+          answers: this.answers,
+        },
+      });
       if (this.id) {
         await updateDoc(Question.doc(this.id), {
           ...newData,
@@ -606,17 +661,6 @@ export class Question extends MainCtl {
     }
   }
 
-  /**
-   *  $$$$$$\  $$\   $$\  $$$$$$\   $$$$$$\  $$\   $$\
-   * $$  __$$\ $$ |  $$ |$$  __$$\ $$  __$$\ $$ |  $$ |
-   * $$ /  $$ |$$ |  $$ |$$$$$$$$ |$$ |  \__|$$ |  $$ |
-   * $$ |  $$ |$$ |  $$ |$$   ____|$$ |      $$ |  $$ |
-   * \$$$$$$$ |\$$$$$$  |\$$$$$$$\ $$ |      \$$$$$$$ |
-   *  \____$$ | \______/  \_______|\__|       \____$$ |
-   *       $$ |                              $$\   $$ |
-   *       $$ |                              \$$$$$$  |
-   *       \__|                               \______/
-   */
   protected static collection() {
     return collection(db, "lms", `${this.prefix}`, `questions`);
   }
@@ -644,6 +688,21 @@ export class Question extends MainCtl {
         throw new Error(error.message);
       }
     );
+  }
+  static async getFromParent(
+    user: User,
+    parentId: string
+  ): Promise<Question[]> {
+    const questions = (
+      await getDocs(
+        query(
+          this.collection(),
+          where("user", "==", user.uid),
+          where("questionparent", "==", parentId)
+        )
+      )
+    ).docs.map((doc) => new Question({ ...doc.data(), id: doc.id }));
+    return questions;
   }
   static async getOne(id: string): Promise<Question> {
     const snapshot = await getDoc(this.doc(id));
