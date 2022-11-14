@@ -129,7 +129,7 @@ export const CourseAssignment = ({
               {t("Answer")}
             </Typography>
             <Paper sx={{ p: 2, pt: 0 }}>
-              <Absatz view value={submit.data.content} />
+              <Absatz view value={submit.data.content} noDense />
               {Boolean(submit.data.files.length) &&
                 submit.data.files.map((file, index) => (
                   <FileChip {...file} key={index} sx={{ mb: 1, mr: 1 }} />
@@ -190,6 +190,7 @@ export const CourseAssignment = ({
             <Absatz
               value={data.content}
               onChange={(content) => setData((d) => ({ ...d, content }))}
+              noDense
             />
             <Box sx={{ mt: 2 }}>
               <KuiButton

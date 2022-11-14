@@ -49,6 +49,9 @@ const Root = styled(Box, {
   "& .public-DraftStyleDefault-block": {
     margin: noDense ? theme.spacing(0.5, 0) : 0,
   },
+  "& .public-DraftEditorPlaceholder-inner": {
+    margin: noDense ? theme.spacing(0.5, 0) : 0,
+  }
 }));
 
 export type AbsatzProps = Pick<BoxProps, "id" | "sx"> & {
