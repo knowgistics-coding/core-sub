@@ -227,6 +227,7 @@ export class Quiz extends MainCtl {
   parent: string;
   user: string;
   amount: number;
+  attemps: number;
 
   constructor(data?: Partial<Quiz>) {
     super(data);
@@ -236,7 +237,8 @@ export class Quiz extends MainCtl {
     this.visibility = data?.visibility ?? "private";
     this.parent = data?.parent ?? "";
     this.user = data?.user ?? "";
-    this.amount = data?.amount ?? 0;
+    this.amount = parseInt(String(data?.amount ?? 0));
+    this.attemps = parseInt(String(data?.attemps ?? 0));
   }
 
   async update<T extends keyof this>(

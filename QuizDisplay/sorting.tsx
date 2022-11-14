@@ -36,7 +36,7 @@ export const QDSorting = () => {
     if (
       quiz.type === "sorting" &&
       quiz.options &&
-      Boolean(value?.sorting) === false
+      (value?.sorting ?? 0) < quiz.options.length
     ) {
       const sorting = arrayShuffle(quiz.options.map((opt) => opt.key));
       onChange((answer) => answer.setSorting(sorting));
