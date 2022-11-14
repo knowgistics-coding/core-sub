@@ -602,6 +602,9 @@ export class Question extends MainCtl {
 
   moveOption(oldIndex: number, newIndex: number): this {
     this.options = arrayMoveImmutable(this.options, oldIndex, newIndex);
+    if (this.type === "sorting") {
+      this.answers = this.options.map((option) => option.key);
+    }
     return this;
   }
 
