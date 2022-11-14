@@ -17,11 +17,12 @@ import { toolbar } from "./toolbar";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 const Root = styled(Box, {
-  shouldForwardProp: (prop) => !["view", "variant"].includes(String(prop)),
+  shouldForwardProp: (prop) => !["view", "variant", "noDense"].includes(String(prop)),
 })<{
   view?: boolean;
   variant?: Variant;
-}>(({ theme, view, variant }) => ({
+  noDense?: boolean
+}>(({ theme, view, variant, noDense }) => ({
   color: theme.palette.text.primary,
   backgroundColor: view ? undefined : theme.palette.background.paper,
   "& a": {
@@ -46,8 +47,11 @@ const Root = styled(Box, {
     overflow: "hidden",
   },
   "& .public-DraftStyleDefault-block": {
-    margin: 0,
+    margin: noDense ? theme.spacing(0.5, 0) : 0,
   },
+  "& .public-DraftEditorPlaceholder-inner": {
+    margin: noDense ? theme.spacing(0.5, 0) : 0,
+  }
 }));
 
 export type AbsatzProps = Pick<BoxProps, "id" | "sx"> & {
@@ -59,6 +63,7 @@ export type AbsatzProps = Pick<BoxProps, "id" | "sx"> & {
   onEnter?: (values: string[]) => void;
   autoFocus?: boolean;
   autoHideToolbar?: boolean;
+  noDense?: boolean
   componentProps?: {
     root?: Omit<BoxProps, "children" | "sx" | "id">;
     editor?: EditorProps;
@@ -161,6 +166,7 @@ export const Absatz = React.memo((props: AbsatzProps) => {
       sx={props.sx}
       view={view}
       variant={props.variant}
+      noDense={props.noDense}
       className="KuiAbsatz-root"
     >
       <Editor
