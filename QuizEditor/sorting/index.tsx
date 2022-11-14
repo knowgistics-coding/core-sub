@@ -54,9 +54,12 @@ export const OptionsSorting = () => {
 
   const handleChangeOption =
     (index: number) => (option: Omit<QuestionData, "key">) =>
-      setData(data.setOption(index, option));
-  const handleMove = ({ newIndex, oldIndex }: SortEnd) =>
+      {
+        setData(data.setOption(index, option));
+      }
+  const handleMove = ({ newIndex, oldIndex }: SortEnd) => {
     setData(data.moveOption(oldIndex, newIndex));
+  }
   const handleRemove = (key: string) => () => {
     Popup.remove({
       title: t("Remove"),
