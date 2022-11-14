@@ -93,10 +93,14 @@ export const CourseAssignment = ({
           breadcrumbs={props.breadcrumbs}
           secondary={<DateDisplay date={item.datemodified} />}
         />
-        <Absatz view value={item.content} />
-        {item.files?.map((file, index) => (
-          <FileChip {...file} sx={{ mr: 1, mb: 1 }} key={index} />
-        ))}
+        <Absatz noDense view value={item.content} />
+        {item.files?.length && (
+          <Box sx={{ mt: 2 }}>
+            {item.files?.map((file, index) => (
+              <FileChip {...file} sx={{ mr: 1, mb: 1 }} key={index} />
+            ))}
+          </Box>
+        )}
         {item.datedue && (
           <Typography
             variant="body1"
