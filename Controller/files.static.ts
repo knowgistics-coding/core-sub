@@ -18,7 +18,7 @@ export type ExcelData = {
   mimetype: string;
   data: { name: string; data: ExcelRowData[] }[];
 };
-export type ExcelRowData = (string | number)[]
+export type ExcelRowData = (string | number)[];
 
 export class FileCtl extends MainStatic {
   static browse(accept?: string, multiple?: boolean): Promise<File[]> {
@@ -67,8 +67,10 @@ export class FileCtl extends MainStatic {
         .catch(reject);
     });
   }
-  static createDownloadFile(text: string): string {
-    const data = new Blob([text], { type: "text/plain" });
+  static createDownloadFile(text: string, isCsv: boolean = false): string {
+    const data = new Blob(isCsv ? ["\ufeff", text] : [text], {
+      type: "text/plain;charset=utf8",
+    });
     const url = window.URL.createObjectURL(data);
     return url;
   }
