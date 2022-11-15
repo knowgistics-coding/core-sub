@@ -169,6 +169,7 @@ export type LocaleKey =
   | "$Name Removed"
   | "$Name Review"
   | "$Name Selected"
+  | "$Name Summation"
   | "NameTitle"
   | "Next"
   | "No"
@@ -505,6 +506,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "$Name Removed": ["{{name}} removed", "ลบ{{name}}แล้ว"],
   "$Name Review": ["{{name}} Review", "ตรวจ{{name}}"],
   "$Name Selected": ["{{name}} rows selected", "เลือกจำนวน {{name}} แถว"],
+  "$Name Summation": ["{{name}} Summation", "ผลรวมของ{{name}}"],
   NameTitle: ["Title", "คำนำหน้า"],
   Next: ["Next", "ต่อไป"],
   No: ["No", "ไม่ใช่"],
