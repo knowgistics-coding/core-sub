@@ -122,6 +122,8 @@ import {
   faWalking,
   faXmark,
   faXmarkCircle,
+  faShareNodes,
+  faStar,
 } from "@fortawesome/pro-regular-svg-icons";
 import { faYoutube, faFacebook } from "@fortawesome/free-brands-svg-icons";
 import {
@@ -254,7 +256,9 @@ const iconLists = [
   faUser,
   faFile,
   faFileCircleCheck,
-  faFileCircleQuestion
+  faFileCircleQuestion,
+  faShareNodes,
+  faStar,
 ] as IconDefinition[];
 
 library.add(...iconLists);
@@ -363,10 +367,12 @@ export type PickIconName =
   | "save"
   | "school"
   | "search"
+  | "share-nodes"
   | "ship"
   | "sign-in"
   | "sign-out"
   | "spinner"
+  | "star"
   | "subway"
   | "sync-alt"
   | "table"

@@ -23,7 +23,7 @@ import { useCore } from "../../context";
 import { KuiButton } from "../../KuiButton";
 import { usePopup } from "../../Popup";
 import { PickIcon } from "../../PickIcon";
-import { QuestionData } from "components/core-sub/Controller";
+import { QuestionData } from "../../Controller";
 
 const AnswerBox = styled(Box)(({ theme }) => ({
   border: `solid 1px ${theme.palette.grey[300]}`,

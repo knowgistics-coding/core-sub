@@ -158,6 +158,7 @@ export type LocaleKey =
   | "More"
   | "Move Up"
   | "Move Down"
+  | "Move to $Name"
   | "Multiple Choice"
   | "My $Name"
   | "My Course"
@@ -186,6 +187,7 @@ export type LocaleKey =
   | "Or"
   | "Other"
   | "Others"
+  | "Owner"
   | "Page"
   | "Paragraph"
   | "Password"
@@ -242,6 +244,7 @@ export type LocaleKey =
   | "Sign In"
   | "Sign Out"
   | "SignOut"
+  | "Size"
   | "Sharing"
   | "Shuffle"
   | "Slide"
@@ -252,6 +255,7 @@ export type LocaleKey =
   | "Specify Others"
   | "Spacing"
   | "Staff"
+  | "Stars"
   | "Start"
   | "Start writting or type"
   | "Status"
@@ -315,6 +319,7 @@ export type LocaleKey =
   | "Identify if the following true or false"
   | "Match the answers to the questions"
   | "Sorting the answer options"
+  | "Shared with me"
   | "POST"
   | "BOOK"
   | "SLIDESHOW"
@@ -438,8 +443,8 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Filter: ["Filter", "ตัวกรอง"],
   "First Name": ["First Name", "ชื่อ"],
   Folder: ["Folder", "โฟลเดอร์"],
-  "Followers": ["Followers", "ผู้ติดตาม"],
-  "Following": ["Following", "การติดตาม"],
+  Followers: ["Followers", "ผู้ติดตาม"],
+  Following: ["Following", "การติดตาม"],
   "Forget Password": ["Forget Password", "ลืมรหัสผ่าน"],
   From: ["From", "จาก"],
   "From URL": ["From  URL", "จาก URL"],
@@ -495,6 +500,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   More: ["More", "อื่น ๆ"],
   "Move Up": ["Move Up", "เลื่อนขึ้น"],
   "Move Down": ["Move Down", "เลื่อนลง"],
+  "Move to $Name": ["Move to {{name}}", "ย้ายไปที่{{name}}"],
   "Multiple Choice": ["Multiple Choice", "หลายตัวเลือก"],
   "My $Name": ["My {{name}}", "{{name}}ของฉัน"],
   "My Course": ["My Course", "หลักสูตรของฉัน"],
@@ -523,6 +529,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Or: ["Or", "หรือ"],
   Other: ["Other", "อื่นๆ"],
   Others: ["Others", "อื่นๆ"],
+  Owner: ["Owner", "เจ้าของ"],
   Page: ["Page", "เพจ"],
   Paragraph: ["Paragraph", "ย่อหน้า"],
   Password: ["Password", "รหัสผ่าน"],
@@ -588,6 +595,8 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "Sign In": ["Sign In", "เข้าสู่ระบบ"],
   "Sign Out": ["Sign out", "ออกจากระบบ"],
   SignOut: ["Sign out", "ออกจากระบบ"],
+  Size: ["Size", "ขนาด"],
+  "Shared with me": ["Shared with me", "แบ่งปันกับฉัน"],
   Sharing: ["Sharing", "แบ่งปัน"],
   Shuffle: ["Shuffle", "สลับ"],
   Slide: ["Slide", "สไลด์"],
@@ -598,6 +607,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Spacing: ["Spacing", "ระยะห่าง"],
   "Specify Others": ["Others (please specify)", "อื่นๆ (โปรดระบุ)"],
   Staff: ["Staff", "บุคลากร"],
+  Stars: ["Stars", "ติดดาว"],
   Start: ["Start", "เริ่มต้น"],
   "Start writting or type": ["Start writting or type", "เริ่มการพิมพ์"],
   Status: ["Status", "สถานะ"],
