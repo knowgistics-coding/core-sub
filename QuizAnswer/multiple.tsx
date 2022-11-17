@@ -1,30 +1,28 @@
-import { Fragment, useEffect, useState } from 'react'
-import { arrayShuffle } from '../func'
-import { dataTypes } from '../QuizEditor/context'
-import { QDImgDisplay } from '../QuizEditor/img'
-import { useQD } from './context'
-import { ListButton } from './list.button'
-import { QDParagraph } from './paragraph'
+import { Fragment, useEffect, useState } from "react";
+import { QuestionData } from "../Controller";
+import { arrayShuffle } from "../func";
+import { QDImgDisplay } from "../QuizEditor/img";
+import { useQD } from "./context";
+import { ListButton } from "./list.button";
+import { QDParagraph } from "./paragraph";
 
 export const QDMultiple = () => {
-  const { answer, quiz } = useQD()
-  const [options, setOptions] = useState<dataTypes[]>([])
+  const { answer, quiz } = useQD();
+  const [options, setOptions] = useState<QuestionData[]>([]);
 
   useEffect(() => {
-    if (quiz?.multiple?.options) {
-      const options = quiz.shuffle
-        ? arrayShuffle(quiz.multiple.options)
-        : quiz.multiple.options
-      setOptions(options)
+    if (quiz.options) {
+      const options = quiz.shuffle ? arrayShuffle(quiz.options) : quiz.options;
+      setOptions(options);
     }
-  }, [quiz])
+  }, [quiz]);
 
   return (
     <Fragment>
       {options.map((option) => {
-        if(answer?.multiple === option.key /*|| quiz.multiple?.answer === option.key*/){
+        if (answer?.answer === option.key) {
           switch (option.type) {
-            case 'image':
+            case "image":
               return (
                 <ListButton
                   label={
@@ -32,11 +30,11 @@ export const QDMultiple = () => {
                       <QDImgDisplay id={option.image._id} />
                     ) : null
                   }
-                  correct={quiz.multiple?.answer === option.key}
+                  correct={quiz.answer === option.key}
                   key={option.key}
                 />
-              )
-            case 'paragraph':
+              );
+            case "paragraph":
               return (
                 <ListButton
                   label={
@@ -44,16 +42,16 @@ export const QDMultiple = () => {
                       <QDParagraph value={option?.paragraph} />
                     ) : null
                   }
-                  correct={quiz.multiple?.answer === option.key}
+                  correct={quiz.answer === option.key}
                   key={option.key}
                 />
-              )
+              );
             default:
-              return null
+              return null;
           }
         }
-        return null
+        return null;
       })}
     </Fragment>
-  )
-}
+  );
+};

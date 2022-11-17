@@ -77,18 +77,30 @@ export class MainStatic {
   }
 }
 
+export type DateAllowType = Timestamp | Date | number;
+export type DateMainCtlConstructor = {
+  datecreate: DateAllowType;
+  datemodified: DateAllowType;
+};
+
 export class MainCtl {
   datecreate: number;
   datemodified: number;
 
-  constructor(data?: Partial<MainCtl>) {
+  constructor(
+    data?: Partial<
+      Omit<MainCtl, "datecreate" | "datemodified"> & DateMainCtlConstructor
+    >
+  ) {
     this.datecreate = this.dateToNumber(data?.datecreate);
     this.datemodified = this.dateToNumber(data?.datemodified);
   }
 
-  protected dateToNumber(date?: number | Timestamp): number {
+  protected dateToNumber(date?: DateAllowType): number {
     if (typeof date === "number") {
       return date;
+    } else if (date instanceof Date) {
+      return date.getTime();
     } else if (date instanceof Timestamp) {
       return date.toMillis();
     } else {

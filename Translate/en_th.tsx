@@ -161,6 +161,7 @@ export type LocaleKey =
   | "More"
   | "Move Up"
   | "Move Down"
+  | "Move to $Name"
   | "Multiple Choice"
   | "My $Name"
   | "My Course"
@@ -172,6 +173,7 @@ export type LocaleKey =
   | "$Name Removed"
   | "$Name Review"
   | "$Name Selected"
+  | "$Name Summation"
   | "NameTitle"
   | "Next"
   | "No"
@@ -188,6 +190,7 @@ export type LocaleKey =
   | "Or"
   | "Other"
   | "Others"
+  | "Owner"
   | "Page"
   | "Paragraph"
   | "Password"
@@ -245,6 +248,7 @@ export type LocaleKey =
   | "Sign In"
   | "Sign Out"
   | "SignOut"
+  | "Size"
   | "Sharing"
   | "Shuffle"
   | "Slide"
@@ -255,6 +259,7 @@ export type LocaleKey =
   | "Specify Others"
   | "Spacing"
   | "Staff"
+  | "Stars"
   | "Start"
   | "Start writting or type"
   | "Status"
@@ -292,6 +297,7 @@ export type LocaleKey =
   | "Unenroll"
   | "Undefined"
   | "University"
+  | "Unlimited $Name"
   | "Unsort"
   | "Unsubmit"
   | "Untitled"
@@ -317,6 +323,7 @@ export type LocaleKey =
   | "Identify if the following true or false"
   | "Match the answers to the questions"
   | "Sorting the answer options"
+  | "Shared with me"
   | "POST"
   | "BOOK"
   | "SLIDESHOW"
@@ -500,6 +507,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   More: ["More", "อื่น ๆ"],
   "Move Up": ["Move Up", "เลื่อนขึ้น"],
   "Move Down": ["Move Down", "เลื่อนลง"],
+  "Move to $Name": ["Move to {{name}}", "ย้ายไปที่{{name}}"],
   "Multiple Choice": ["Multiple Choice", "หลายตัวเลือก"],
   "My $Name": ["My {{name}}", "{{name}}ของฉัน"],
   "My Course": ["My Course", "หลักสูตรของฉัน"],
@@ -511,6 +519,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "$Name Removed": ["{{name}} removed", "ลบ{{name}}แล้ว"],
   "$Name Review": ["{{name}} Review", "ตรวจ{{name}}"],
   "$Name Selected": ["{{name}} rows selected", "เลือกจำนวน {{name}} แถว"],
+  "$Name Summation": ["{{name}} Summation", "ผลรวมของ{{name}}"],
   NameTitle: ["Title", "คำนำหน้า"],
   Next: ["Next", "ต่อไป"],
   No: ["No", "ไม่ใช่"],
@@ -527,6 +536,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Or: ["Or", "หรือ"],
   Other: ["Other", "อื่นๆ"],
   Others: ["Others", "อื่นๆ"],
+  Owner: ["Owner", "เจ้าของ"],
   Page: ["Page", "เพจ"],
   Paragraph: ["Paragraph", "ย่อหน้า"],
   Password: ["Password", "รหัสผ่าน"],
@@ -593,6 +603,8 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "Sign In": ["Sign In", "เข้าสู่ระบบ"],
   "Sign Out": ["Sign out", "ออกจากระบบ"],
   SignOut: ["Sign out", "ออกจากระบบ"],
+  Size: ["Size", "ขนาด"],
+  "Shared with me": ["Shared with me", "แบ่งปันกับฉัน"],
   Sharing: ["Sharing", "แบ่งปัน"],
   Shuffle: ["Shuffle", "สลับ"],
   Slide: ["Slide", "สไลด์"],
@@ -603,6 +615,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Spacing: ["Spacing", "ระยะห่าง"],
   "Specify Others": ["Others (please specify)", "อื่นๆ (โปรดระบุ)"],
   Staff: ["Staff", "บุคลากร"],
+  Stars: ["Stars", "ติดดาว"],
   Start: ["Start", "เริ่มต้น"],
   "Start writting or type": ["Start writting or type", "เริ่มการพิมพ์"],
   Status: ["Status", "สถานะ"],
@@ -639,6 +652,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   TypeHere: ["Type Here", "พิมพ์ที่นี่"],
   Unenroll: ["Unenroll", "เพิกถอน"],
   Undefined: ["Undefined", "ไม่ได้กำหนด"],
+  "Unlimited $Name": ["Unlimited {{name}}", "{{name}}ไม่จำกัด"],
   University: ["University", "มหาวิทยาลัย"],
   Unsort: ["Unsort", "ยกเลิกการเรียง"],
   Unsubmit: ["Unsubmit", "ยกเลิกการส่ง"],

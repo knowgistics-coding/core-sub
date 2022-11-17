@@ -11,7 +11,6 @@ import { QDParagraph } from "./paragraph";
 import { arrayShuffle } from "../func";
 import { arrayMoveImmutable } from "array-move";
 import { QDImgDisplay } from "../QuizEditor/img";
-import update from "react-addons-update";
 import { PickIcon } from "../PickIcon";
 
 const SortContainer = SortableContainer<GridProps>((props: GridProps) => (
@@ -19,7 +18,7 @@ const SortContainer = SortableContainer<GridProps>((props: GridProps) => (
 ));
 
 const SortItem = SortableElement<GridProps>((props: GridProps) => (
-  <Grid item xs={12} {...props} sx={{zIndex:1300}} />
+  <Grid item xs={12} {...props} sx={{ zIndex: 1300 }} />
 ));
 
 export const QDSorting = () => {
@@ -29,18 +28,18 @@ export const QDSorting = () => {
     const { oldIndex, newIndex } = data;
     if (oldIndex !== newIndex && value?.sorting) {
       const newValue = arrayMoveImmutable(value.sorting, oldIndex, newIndex);
-      onChange(update(value || {}, { sorting: { $set: newValue } }));
+      onChange((answer) => answer.setSorting(newValue));
     }
   };
 
   useEffect(() => {
     if (
       quiz.type === "sorting" &&
-      quiz.sorting?.options &&
-      Boolean(value?.sorting) === false
+      quiz.options &&
+      (value?.sorting ?? 0) < quiz.options.length
     ) {
-      const sorting = arrayShuffle(quiz.sorting.options.map((opt) => opt.key));
-      onChange({ sorting });
+      const sorting = arrayShuffle(quiz.options.map((opt) => opt.key));
+      onChange((answer) => answer.setSorting(sorting));
     }
   }, [quiz, onChange, value]);
 
@@ -48,9 +47,7 @@ export const QDSorting = () => {
     <Fragment>
       <SortContainer onSortEnd={handleSortEnd}>
         {value?.sorting?.map((id, index) => {
-          const option = quiz.sorting?.options.find(
-            (option) => option.key === id
-          );
+          const option = quiz.options.find((option) => option.key === id);
           if (option) {
             return (
               <SortItem index={index} key={id}>

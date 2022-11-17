@@ -29,6 +29,9 @@ const Item = styled(Box, { shouldForwardProp: (prop) => prop !== "correct" })<{
   "& .MuiSelect-select": {
     color: correct ? theme.palette.success.contrastText : undefined,
   },
+  "& .KuiAbsatz-root": {
+    color: correct ? theme.palette.success.contrastText : undefined,
+  },
 }));
 
 export const QDMatching = () => {
@@ -36,16 +39,14 @@ export const QDMatching = () => {
   const { quiz, answer } = useQD();
   const [options, setOptions] = useState<(string | undefined)[]>([]);
 
-  const getValue = (key: number) => {
+  const getValue = (key: string) => {
     const value = answer?.matching?.[key] || "";
     return options.includes(value) ? value : "";
   };
 
   useEffect(() => {
-    if (quiz?.type === "matching" && quiz?.matching?.options?.length) {
-      const options = arrayShuffle(
-        quiz.matching.options.map((opt) => opt.value)
-      );
+    if (quiz.type === "matching" && quiz.options.length) {
+      const options = arrayShuffle(quiz.options.map((opt) => opt.value));
       setOptions(options);
     }
   }, [quiz]);
@@ -53,7 +54,7 @@ export const QDMatching = () => {
   return (
     <Fragment>
       <Grid container spacing={1}>
-        {quiz?.matching?.options?.map((option) => (
+        {quiz.options.map((option) => (
           <Grid item xs={12} key={option.key}>
             <Item correct={option.value === answer?.matching?.[option.key]}>
               <Grid container alignItems="center" spacing={1}>
@@ -94,11 +95,6 @@ export const QDMatching = () => {
                         </MenuItem>
                       ))}
                     </Select>
-                    {/* {option.value !== answer?.matching?.[option.key] && (
-                      <Typography variant="caption" sx={{ mt: 0.5 }}>
-                        {option.value}
-                      </Typography>
-                    )} */}
                   </FormControl>
                 </Grid>
               </Grid>
