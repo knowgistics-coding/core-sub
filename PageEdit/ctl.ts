@@ -5,30 +5,7 @@ import { StockDisplayProps } from "../StockDisplay";
 import { VideoContent } from "../VideoDisplay";
 import update from "react-addons-update";
 import { StockImageTypes } from "../StockPicker";
-
-export type ShowTypes =
-  | "title"
-  | "feature"
-  | "visibility"
-  | "heading"
-  | "paragraph"
-  | "image"
-  | "video"
-  | "cover"
-  | "slide"
-  | "highlight"
-  | "card"
-  | "book"
-  | "table"
-  | "divider"
-  | "file";
-
-export interface SlideItem {
-  feature?: StockDisplayProps;
-  title?: string;
-  id?: string;
-  link?: { from?: "url" | "post" | "book" | "page"; value?: string };
-}
+import { ShowTypes, SlideItem } from "../Controller/page";
 
 export interface PageContentTypes {
   key: string;

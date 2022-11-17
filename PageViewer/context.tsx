@@ -1,11 +1,11 @@
 import { Breakpoint } from "@mui/material";
 import { createContext } from "react";
 import { ContentHeaderProps } from "../ContentHeader";
+import { PageDoc } from "../Controller/page";
 import { MainContainerProps } from "../MainContainer";
-import { PageDocument } from "../PageEdit";
 
 export interface PageViewerProps {
-  data: PageDocument;
+  data: PageDoc;
   children?: React.ReactNode;
   maxWidth?: Breakpoint;
   breadcrumbs?: ContentHeaderProps["breadcrumbs"];
@@ -16,5 +16,5 @@ export interface PageViewerProps {
 
 export interface PageViewerContextType extends PageViewerProps {}
 export const PageViewerContext = createContext<PageViewerContextType>({
-  data: {},
+  data: new PageDoc(),
 });

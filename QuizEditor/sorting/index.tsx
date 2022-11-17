@@ -8,12 +8,10 @@ import {
   styled,
   Typography,
 } from "@mui/material";
-import { Fragment, useEffect } from "react";
-import { dataTypes, useQEC } from "../context";
+import { Fragment } from "react";
+import { useQEC } from "../context";
 import { Panel } from "../panel";
 import { SelectType } from "../select.type";
-import { arrayMoveImmutable } from "array-move";
-
 
 import {
   SortableContainer,
@@ -22,10 +20,10 @@ import {
   SortEnd,
 } from "react-sortable-hoc";
 import { useCore } from "../../context";
-import update from "react-addons-update";
 import { KuiButton } from "../../KuiButton";
 import { usePopup } from "../../Popup";
 import { PickIcon } from "../../PickIcon";
+import { QuestionData } from "../../Controller";
 
 const AnswerBox = styled(Box)(({ theme }) => ({
   border: `solid 1px ${theme.palette.grey[300]}`,
@@ -51,69 +49,23 @@ const SortList = SortableContainer<ListProps>((props: ListProps) => {
 
 export const OptionsSorting = () => {
   const { t } = useCore();
-  const { genKey, open, data, setData, onTabOpen } = useQEC();
+  const { open, data, setData, onTabOpen } = useQEC();
   const { Popup } = usePopup();
 
   const handleChangeOption =
-    (index: number, key: number) => (data: Omit<dataTypes, "key">) => {
-      setData((d) =>
-        update(d, {
-          sorting: { options: { [index]: { $set: { ...data, key } } } },
-        })
-      );
-    };
-  const handleMove = ({ newIndex, oldIndex }: SortEnd) => {
-    if (data.sorting?.options) {
-      const options = arrayMoveImmutable(
-        data.sorting?.options,
-        oldIndex,
-        newIndex
-      );
-      const answers = options.map((opt) => opt.key);
-      setData((d) =>
-        update(d, {
-          sorting: { options: { $set: options }, answers: { $set: answers } },
-        })
-      );
-    }
-  };
-  const handleRemove = (key: number) => () => {
+    (index: number) => (option: Omit<QuestionData, "key">) =>
+      setData(data.setOption(index, option));
+  const handleMove = ({ newIndex, oldIndex }: SortEnd) =>
+    setData(data.moveOption(oldIndex, newIndex));
+  const handleRemove = (key: string) => () => {
     Popup.remove({
       title: t("Remove"),
       text: t("Do You Want To Remove $Name", { name: t("Choice") }),
       icon: "trash",
-      onConfirm: () => {
-        if (data?.sorting?.options) {
-          const options = data.sorting.options.filter((opt) => opt.key !== key);
-          const answers = options.map((opt) => opt.key);
-          setData((d) =>
-            update(d, { sorting: { $set: { options, answers } } })
-          );
-        }
-      },
+      onConfirm: () => setData(data.removeOption(key)),
     });
   };
-  const handleAdd = () => {
-    if (data?.sorting?.options) {
-      const options = data.sorting.options.concat({
-        key: genKey(),
-        type: "paragraph",
-      });
-      const answers = options.map((opt) => opt.key);
-      setData((d) => update(d, { sorting: { $set: { options, answers } } }));
-    }
-  };
-
-  useEffect(() => {
-    if (!data?.sorting?.options && data?.type === "sorting") {
-      const options: dataTypes[] = Array.from(Array(4).keys()).map(() => ({
-        key: genKey(),
-        type: "paragraph",
-      }));
-      const answers = options.map((opt) => opt.key);
-      setData((d) => update(d, { sorting: { $set: { options, answers } } }));
-    }
-  }, [data, genKey, setData]);
+  const handleAdd = () => setData(data.addOption());
 
   return (
     <Panel
@@ -122,13 +74,13 @@ export const OptionsSorting = () => {
       onChange={onTabOpen("answer")}
     >
       <SortList onSortEnd={handleMove} useDragHandle>
-        {data?.sorting?.options?.map((option, index, options) => (
+        {data.options.map((option, index, options) => (
           <SortListItem index={index} key={option.key}>
             <SelectType
               type={option.type}
               image={option.image}
               paragraph={option.paragraph}
-              onChange={handleChangeOption(index, option.key)}
+              onChange={handleChangeOption(index)}
               actions={
                 <Fragment>
                   <SortHandle />

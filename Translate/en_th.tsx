@@ -143,6 +143,7 @@ export type LocaleKey =
   | "Lesson Content"
   | "Level"
   | "Like"
+  | "Liked"
   | "Light"
   | "Line"
   | "Line Application"
@@ -216,6 +217,7 @@ export type LocaleKey =
   | "Remove Last Point"
   | "Remove $Name"
   | "Rename"
+  | "Report"
   | "Reverse"
   | "Right Answer"
   | "Role"
@@ -480,6 +482,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "Lesson Content": ["Lesson Content", "เนื้อหาบทเรียน"],
   Level: ["Level", "ระดับ"],
   Like: ["Like", "ถูกใจ"],
+  Liked: ["Liked", "ถูกใจแล้ว"],
   Light: ["Light", "สว่าง"],
   Line: ["Line", "ไลน์"],
   "Line Application": ["Line Application", "แอปพลิเคชันไลน์"],
@@ -555,6 +558,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "Remove Last Point": ["Remove Last Point", "ลบจุดสุดท้าย"],
   "Remove $Name": ["Remove {{name}}", "ลบ{{name}}"],
   Rename: ["Rename", "เปลี่ยนชื่อ"],
+  Report: ["Report", "รายงาน"],
   Reverse: ["Reverse", "กลับด้าน"],
   "Right Answer": ["Right answer", "คำตอบที่ถูกต้อง"],
   Role: ["Role", "บทบาท"],

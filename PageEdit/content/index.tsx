@@ -9,7 +9,6 @@ import {
   Stack,
 } from "@mui/material";
 import React, { MouseEvent, useCallback, useState } from "react";
-import update from "react-addons-update";
 import {
   SortableContainer as SC,
   SortableElement as SE,
@@ -47,7 +46,6 @@ export const PEContent = () => {
     data,
     setData,
     state: { selected },
-    pageData,
     show,
     maxWidth,
     breadcrumbs,
@@ -58,7 +56,7 @@ export const PEContent = () => {
   const { addAlert } = useAlerts();
 
   const handleSortEnd = ({ oldIndex, newIndex }: SortEnd) => {
-    setData(pageData.content.sorting(oldIndex, newIndex).toJSON());
+    setData(data.contentSorting(oldIndex, newIndex));
     setIsStart(false);
   };
 
@@ -75,14 +73,15 @@ export const PEContent = () => {
         try {
           const newData = JSON.parse(text);
           if (newData?.contents) {
-            setData((d) => update(d, { contents: { $set: newData.contents } }));
+            data.contents = newData.contents
+            setData(data);
           }
         } catch (err) {
           console.log(err);
         }
       });
     }
-  }, [setData]);
+  }, [data, setData]);
 
   const debounceFn = debounce((e: MouseEvent<HTMLButtonElement>) => {
     if (e.detail === 1) {

@@ -10,27 +10,18 @@ export const PEEditorParagraph = ({ index, content }: PEEditorProps) => {
   const { t } = useCore();
   const {
     state: { focus },
-    setState,
+    data,
     setData,
-    pageData,
   } = usePE();
 
   const handleChange = (value: string) => {
-    setData(
-      pageData.content.update(content.key, "paragraph", { value }).toJSON()
-    );
+    setData(data.contentSet(content.key, "paragraph", { value }));
   };
   const handleEnter = (paragraphs: string[]) => {
-    setData(
-      pageData.paragraph
-        .enter(content.key, paragraphs, (focus) => {
-          setState((s) => ({ ...s, focus }));
-        })
-        .toJSON()
-    );
+    setData(data.paragraphEnter(content.key, paragraphs));
   };
   const handleConvertToHeading = () =>
-    setData(pageData.paragraph.convertToHeading(content.key).toJSON());
+    setData(data.paragraphToHeading(content.key));
 
   return (
     <PEPanel

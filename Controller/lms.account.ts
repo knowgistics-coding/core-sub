@@ -1,4 +1,3 @@
-import { db } from "../../../controllers/firebase";
 import { User } from "firebase/auth";
 import {
   collection,
@@ -10,6 +9,7 @@ import {
   where,
 } from "firebase/firestore";
 import { cleanObject } from "../func";
+import { db } from "./firebase";
 
 export class LMSAccount {
   email: string;

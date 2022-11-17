@@ -1,4 +1,3 @@
-import { db } from "../../../controllers/firebase"
 import { User } from "firebase/auth";
 import {
   collection,
@@ -19,6 +18,7 @@ import {
 } from "firebase/firestore";
 import { cleanObject } from "../func";
 import { VisibilityTabsValue } from "../VisibilityTabs";
+import { db } from "./firebase";
 
 export type MapType = "mappack" | "marker" | "route" | "area";
 export type MapPosition = Record<"lat" | "lng", number>;
@@ -27,6 +27,8 @@ export type ExcludeMethods<T> = Pick<
   T,
   { [K in keyof T]: T[K] extends Function ? never : K }[keyof T]
 >;
+
+export type MapJson = ExcludeMethods<Omit<Map, "datecreate" | "datemodified">>
 
 export class Map {
   id: string;
@@ -38,10 +40,17 @@ export class Map {
   visibility: VisibilityTabsValue;
   color: string;
   user?: string;
-  maps?: Map[];
+  maps: string[];
   datecreate: number;
   datemodified: number;
   cat: string;
+
+  private TypesName: Record<MapType, string> = {
+    mappack: "Map Pack",
+    marker: "Marker",
+    route: "Route",
+    area: "Area",
+  };
 
   constructor(
     data?: Partial<Map> &
@@ -142,7 +151,11 @@ export class Map {
     return this;
   }
 
-  toJSON(): ExcludeMethods<Omit<Map, "datecreate" | "datemodified">> {
+  properType(): string {
+    return this.TypesName[this.type];
+  }
+
+  toJSON(): MapJson {
     return Object.assign(
       {},
       ...Object.entries(this)
@@ -247,5 +260,9 @@ export class Map {
       throw err;
     });
     return item;
+  }
+
+  static validLatLng(latLng?:Record<"lat"|"lng", number>):boolean{
+    return Boolean(latLng?.lat && latLng.lng)
   }
 }

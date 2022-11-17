@@ -52,16 +52,21 @@ import {
   faDownload,
   faDrawPolygon,
   faEdit,
+  faEllipsisH,
   faEllipsisV,
   faEnvelope,
   faExchangeAlt,
   faExclamationTriangle,
   faEye,
   faEyeSlash,
+  faFile,
   faFileAlt,
+  faFileCircleCheck,
+  faFileCircleQuestion,
   faFileCircleXmark,
   faFileDownload,
   faFileSlash,
+  faFlag,
   faFolder,
   faFolderDownload,
   faFolderOpen,
@@ -252,7 +257,12 @@ const iconLists = [
   faCircleChevronUp,
   faUser,
   faHeart,
-  faComment
+  faComment,
+  faFile,
+  faFileCircleCheck,
+  faFileCircleQuestion,
+  faEllipsisH,
+  faFlag,
 ] as IconDefinition[];
 
 library.add(...iconLists);
@@ -310,6 +320,7 @@ export type PickIconName =
   | "download"
   | "draw-polygon"
   | "edit"
+  | "ellipsis-h"
   | "ellipsis-v"
   | "envelope"
   | "exchange-alt"
@@ -317,10 +328,14 @@ export type PickIconName =
   | "eye"
   | "eye-slash"
   | "facebook"
+  | "file"
   | "file-alt"
+  | "file-circle-check"
+  | "file-circle-question"
   | "file-circle-xmark"
   | "file-download"
   | "file-slash"
+  | "flag"
   | "folder"
   | "folder-download"
   | "folder-open"

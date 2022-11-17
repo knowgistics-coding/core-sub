@@ -93,7 +93,7 @@ export const BookView = (props: BookViewProps) => {
               { label: props.value?.title || "Book" },
               { label: props.posts?.[pagesPost[selected]]?.title },
             ]}
-            data={props.posts?.[pagesPost[selected]].toJSON()}
+            data={props.posts?.[pagesPost[selected]]}
             noContainer
           />
         ) : (

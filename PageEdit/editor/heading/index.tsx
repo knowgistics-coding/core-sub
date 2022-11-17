@@ -15,24 +15,26 @@ export const PEEditorHeading = ({ index, content }: PEEditorProps) => {
   const {
     state: { focus },
     setState,
+    data,
     setData,
-    pageData,
   } = usePE();
 
   const handleChange = (value: string) => {
-    setData(
-      pageData.content.update(content.key, "heading", { value }).toJSON()
-    );
+    setData(data.contentMerge(content.key, "heading", { value }));
   };
-  const handleChangeOption = (key: string, value: any) => {
-    setData(
-      pageData.content.update(content.key, "heading", { [key]: value }).toJSON()
-    );
+  const handleChangeOption = (key: string, value: unknown) => {
+    setData(data.contentMerge(content.key, "heading", { [key]: value }));
   };
   const handleFocus = (value: boolean) => () =>
     setState((s) => ({ ...s, focus: value ? content.key : null }));
   const handleConvertToParagraph = () => {
-    setData(pageData.content.convertToParagraph(content.key).toJSON());
+    setData(data.headingToParagraph(content.key));
+  };
+  const handleEnter = (values: string[]) => {
+    if (process.env.NODE_ENV === "development") {
+      console.log(values);
+      // setData(data.paragraphEnter(content.key, paragraphs));
+    }
   };
 
   return (
@@ -61,6 +63,7 @@ export const PEEditorHeading = ({ index, content }: PEEditorProps) => {
         onChange={handleChange}
         variant={content.heading?.variant}
         onChangeOption={handleChangeOption}
+        onEnter={handleEnter}
       />
     </PEPanel>
   );

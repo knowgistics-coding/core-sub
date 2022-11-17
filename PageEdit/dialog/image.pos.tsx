@@ -3,7 +3,6 @@ import { usePE } from "../context";
 import { useDialog } from "../dialog.manager";
 import { Slider } from "../../DialogImagePosition/slider";
 import { useState } from "react";
-import update from "react-addons-update";
 import { useCore } from "../../context";
 import { KuiButton } from "../../KuiButton";
 import { StockDisplay } from "../../StockDisplay";
@@ -17,11 +16,8 @@ export interface PosTypes {
 export const DialogImagePosition = () => {
   const { t } = useCore();
   const { isOpen, setOpen, key } = useDialog();
-  const {
-    data: { contents },
-    setData,
-  } = usePE();
-  const content = contents?.find((c) => c.key === key);
+  const { data, setData } = usePE();
+  const content = data.contents?.find((c) => c.key === key);
 
   const [pos, setPos] = useState<PosTypes>({
     left: "50%",
@@ -31,14 +27,8 @@ export const DialogImagePosition = () => {
   const handleChange = (key: string) => (n: number) =>
     setPos((s) => ({ ...s, [key]: `${n}%` }));
   const handleSave = () => {
-    const index = contents?.findIndex((c) => c.key === key);
-    if (typeof index === "number" && index > -1) {
-      setData((d) => ({
-        ...d,
-        contents: update(d?.contents || [], {
-          [index]: { image: { pos: { $set: pos } } },
-        }),
-      }));
+    if (key) {
+      setData(data.contentMerge(String(key), "image", { pos }));
       setOpen("", "image_pos", false);
     }
   };
@@ -52,9 +42,7 @@ export const DialogImagePosition = () => {
     >
       <Grid container alignItems="center" spacing={2}>
         <Grid item xs={12}>
-          {content?.image && (
-            <StockDisplay {...content.image} pos={pos} />
-          )}
+          {content?.image && <StockDisplay {...content.image} pos={pos} />}
         </Grid>
         <Grid item xs={12}>
           <Slider

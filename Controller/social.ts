@@ -1,7 +1,9 @@
 import { User } from "firebase/auth";
 import {
+  addDoc,
   arrayRemove,
   arrayUnion,
+  collection,
   collectionGroup,
   doc,
   getDoc,
@@ -9,14 +11,17 @@ import {
   onSnapshot,
   query,
   runTransaction,
+  serverTimestamp,
   Timestamp,
   Unsubscribe,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { PickIconName } from "../PickIcon";
 import { StockDisplayProps } from "../StockDisplay";
 import { VisibilityTabsValue } from "../VisibilityTabs";
 import { db } from "./firebase";
+import { MainCtl } from "./main.static";
 import { PageDate, PageDoc } from "./page";
 import { User as MekUser } from "./user";
 
@@ -157,15 +162,133 @@ export class Feeds {
   }
 }
 
-export class Comment {
+/**
+ *  $$$$$$\   $$$$$$\  $$\      $$\ $$\      $$\ $$$$$$$$\ $$\   $$\ $$$$$$$$\
+ * $$  __$$\ $$  __$$\ $$$\    $$$ |$$$\    $$$ |$$  _____|$$$\  $$ |\__$$  __|
+ * $$ /  \__|$$ /  $$ |$$$$\  $$$$ |$$$$\  $$$$ |$$ |      $$$$\ $$ |   $$ |
+ * $$ |      $$ |  $$ |$$\$$\$$ $$ |$$\$$\$$ $$ |$$$$$\    $$ $$\$$ |   $$ |
+ * $$ |      $$ |  $$ |$$ \$$$  $$ |$$ \$$$  $$ |$$  __|   $$ \$$$$ |   $$ |
+ * $$ |  $$\ $$ |  $$ |$$ |\$  /$$ |$$ |\$  /$$ |$$ |      $$ |\$$$ |   $$ |
+ * \$$$$$$  | $$$$$$  |$$ | \_/ $$ |$$ | \_/ $$ |$$$$$$$$\ $$ | \$$ |   $$ |
+ *  \______/  \______/ \__|     \__|\__|     \__|\________|\__|  \__|   \__|
+ */
+export type CommentJSON = Omit<
+  Comment,
+  | "id"
+  | "set"
+  | "remove"
+  | "toJSON"
+  | "stockToDisplay"
+  | "datecreate"
+  | "datemodified"
+  | "userInfo"
+>;
+export class Comment extends MainCtl {
+  id: string;
+  reactId: string;
   value: string;
   parent: string;
+  user: string;
+  visibility: VisibilityTabsValue;
+  history: Omit<Comment, "value" | "datecreate">[];
+  userInfo: MekUser | null;
 
   constructor(data?: Partial<Comment>) {
+    super(data);
+
+    this.id = data?.id ?? "";
+    this.reactId = data?.reactId ?? "";
     this.value = data?.value ?? "";
     this.parent = data?.parent ?? "";
+    this.user = data?.user ?? "";
+    this.visibility = data?.visibility ?? "public";
+    this.history = data?.history ?? [];
+    this.userInfo = data?.userInfo ?? null;
+  }
+
+  set<T extends keyof CommentJSON | "userInfo">(
+    field: T,
+    value: this[T]
+  ): this {
+    this[field] = value;
+    return this;
+  }
+
+  toJSON(): CommentJSON {
+    const {
+      id,
+      toJSON,
+      stockToDisplay,
+      datecreate,
+      datemodified,
+      remove,
+      ...data
+    } = this;
+    return data;
+  }
+
+  async remove() {
+    if (this.reactId && this.id) {
+      await updateDoc(doc(db, "reactions", this.reactId, "comments", this.id), {
+        visibility: "trash",
+      });
+    }
+  }
+
+  static async submit(
+    reaction: Reaction,
+    user: User,
+    value: string,
+    parent: string = ""
+  ) {
+    if (reaction.id) {
+      const comment = new Comment({ value, parent, user: user.uid });
+      await addDoc(collection(db, "reactions", reaction.id, "comments"), {
+        ...comment.toJSON(),
+        datecreate: serverTimestamp(),
+        datemodified: serverTimestamp(),
+      });
+    }
+  }
+
+  static watch(
+    user: User,
+    reactId: string,
+    callback: (comments: Comment[]) => void
+  ): Unsubscribe {
+    return onSnapshot(
+      query(
+        collection(db, "reactions", reactId, "comments"),
+        where("visibility", "==", "public")
+      ),
+      async (snapshot) => {
+        const comments = snapshot.docs.map(
+          (doc) => new Comment({ ...doc.data(), id: doc.id, reactId })
+        );
+        const users: MekUser[] = await MekUser.getUsers(
+          user,
+          comments.map((c) => c.user)
+        );
+        callback(
+          comments.map((c) =>
+            c.set("userInfo", users.find((u) => u.uid === c.user) ?? null)
+          )
+        );
+      }
+    );
   }
 }
+
+/**
+ * $$$$$$$\  $$$$$$$$\  $$$$$$\   $$$$$$\ $$$$$$$$\ $$$$$$\  $$$$$$\  $$\   $$\
+ * $$  __$$\ $$  _____|$$  __$$\ $$  __$$\\__$$  __|\_$$  _|$$  __$$\ $$$\  $$ |
+ * $$ |  $$ |$$ |      $$ /  $$ |$$ /  \__|  $$ |     $$ |  $$ /  $$ |$$$$\ $$ |
+ * $$$$$$$  |$$$$$\    $$$$$$$$ |$$ |        $$ |     $$ |  $$ |  $$ |$$ $$\$$ |
+ * $$  __$$< $$  __|   $$  __$$ |$$ |        $$ |     $$ |  $$ |  $$ |$$ \$$$$ |
+ * $$ |  $$ |$$ |      $$ |  $$ |$$ |  $$\   $$ |     $$ |  $$ |  $$ |$$ |\$$$ |
+ * $$ |  $$ |$$$$$$$$\ $$ |  $$ |\$$$$$$  |  $$ |   $$$$$$\  $$$$$$  |$$ | \$$ |
+ * \__|  \__|\________|\__|  \__| \______/   \__|   \______| \______/ \__|  \__|
+ */
 
 export class Reaction {
   id: string;
@@ -178,23 +301,43 @@ export class Reaction {
     this.comments = data?.comments ?? [];
   }
 
-  async like(user: User, like: boolean): Promise<this> {
-    const ref = doc(db, "reactions", this.id);
-    await runTransaction(db, async (transaction) => {
-      const doc = await transaction.get(ref);
-      if (doc.exists()) {
-        await transaction.update(ref, {
-          liked: like ? arrayUnion(user.uid) : arrayRemove(user.uid),
-        });
-      } else {
-        await transaction.set(ref, {
-          liked: like ? [user.uid] : [],
-        });
-      }
-    });
-    this.liked = like
-      ? this.liked.concat(user.uid)
-      : this.liked.filter((uid) => uid !== user.uid);
+  async like(user: User): Promise<this> {
+    if (this.id) {
+      const ref = doc(db, "reactions", this.id);
+      await runTransaction(db, async (transaction) => {
+        const doc = await transaction.get(ref);
+        if (doc.exists()) {
+          const liked = doc.data().liked ?? [];
+          await transaction.update(ref, {
+            liked: liked.includes(user.uid)
+              ? arrayRemove(user.uid)
+              : arrayUnion(user.uid),
+          });
+        } else {
+          await transaction.set(
+            ref,
+            {
+              liked: [user.uid],
+            },
+            { merge: true }
+          );
+        }
+      });
+      this.liked = this.liked.includes(user.uid)
+        ? this.liked.filter((uid) => uid !== user.uid)
+        : this.liked.concat(user.uid);
+      return this;
+    } else {
+      throw new Error("'ID' not found");
+    }
+  }
+
+  isLiked(user?: User | null) {
+    return this.liked.includes(user?.uid ?? "");
+  }
+
+  set<T extends keyof this>(field: T, value: this[T]): this {
+    this[field] = value;
     return this;
   }
 
@@ -203,6 +346,6 @@ export class Reaction {
   }
   static async get(id: string): Promise<Reaction> {
     const reaction = await this.getLike(id);
-    return new Reaction({ ...reaction });
+    return new Reaction({ ...reaction, id });
   }
 }

@@ -17,11 +17,11 @@ import {
 } from "@mui/material";
 import { Fragment } from "react";
 import { TitleDebounce } from "../../TitleDebounce";
-import update from "react-addons-update";
 import { useAlerts } from "../../Alerts";
 import { useNavigate } from "react-router-dom";
 import { usePopup } from "../../Popup";
 import { PickIcon } from "../../PickIcon";
+import { PEMaps } from "./maps";
 
 export const PESidebar = () => {
   const { t } = useCore();
@@ -99,16 +99,14 @@ export const PESidebar = () => {
       {show.includes("title") && (
         <TitleDebounce
           value={data.title}
-          onChange={(value) =>
-            setData((d) => update(d, { title: { $set: value } }))
-          }
+          onChange={(value) => setData(data.set("title", value))}
         />
       )}
       {show.includes("feature") && (
         <FeatureImageEdit
           value={data.feature}
-          onChange={(feature) => setData((d) => ({ ...d, feature }))}
-          onRemove={() => setData((d) => ({ ...d, feature: null }))}
+          onChange={(feature) => setData(data.set("feature", feature))}
+          onRemove={() => setData(data.set("feature", null))}
         />
       )}
       {show.includes("visibility") && (
@@ -120,7 +118,7 @@ export const PESidebar = () => {
               value={data.visibility || ""}
               onChange={(event: SelectChangeEvent<string>) => {
                 const value = event.target.value as "private" | "public";
-                setData((d) => ({ ...d, visibility: value }));
+                setData(data.set("visibility", value));
               }}
             >
               <MenuItem value="" disabled>
@@ -132,6 +130,7 @@ export const PESidebar = () => {
           </FormControl>
         </ListItem>
       )}
+      {show.includes("maps") && <PEMaps />}
       <List>
         <ListItemButton
           divider

@@ -1,19 +1,20 @@
 import { Fab } from "@mui/material";
 import { debounce } from "lodash";
 import React from "react";
+import { ShowTypes } from "../../Controller/page";
 import { PickIcon } from "../../PickIcon";
-import { ShowTypes, usePE } from "../context";
+import { usePE } from "../context";
 import { Blocks } from "./blocks";
 
 const scrollToBottom = debounce(() => {
   window.scrollTo(0, document.body.scrollHeight);
-}, 250)
+}, 250);
 
 export const PEContentAddButton = () => {
-  const { show, setData, pageData } = usePE();
+  const { show, data, setData } = usePE();
   const handleAddContent = (type: ShowTypes) => () => {
-    setData(pageData.content.add(type).toJSON());
-    scrollToBottom()
+    setData(data.contentAdd(type));
+    scrollToBottom();
   };
 
   return (
