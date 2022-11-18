@@ -215,8 +215,10 @@ export type LocaleKey =
   | "Remove"
   | "Removed"
   | "Remove Last Point"
+  | "Remove Permanent"
   | "Remove $Name"
   | "Rename"
+  | "Restore"
   | "Reverse"
   | "Right Answer"
   | "Role"
@@ -559,8 +561,10 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Remove: ["Remove", "ลบ"],
   Removed: ["Removed", "ลบแล้ว"],
   "Remove Last Point": ["Remove Last Point", "ลบจุดสุดท้าย"],
+  "Remove Permanent": ["Remove Permanent","ลบถาวร"],
   "Remove $Name": ["Remove {{name}}", "ลบ{{name}}"],
   Rename: ["Rename", "เปลี่ยนชื่อ"],
+  Restore: ["Restore", "คืนค่า"],
   Reverse: ["Reverse", "กลับด้าน"],
   "Right Answer": ["Right answer", "คำตอบที่ถูกต้อง"],
   Role: ["Role", "บทบาท"],
