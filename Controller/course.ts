@@ -259,7 +259,7 @@ export class Section {
   }
 
   //ANCHOR - collection
-  private static collection(): CollectionReference<DocumentData> {
+  static collection(): CollectionReference<DocumentData> {
     return collection(db, "lms", `${this.prefix}`, "sections");
   }
 
