@@ -30,6 +30,8 @@ import { cleanObject } from "../func";
 import update from "react-addons-update";
 import { arrayMoveImmutable } from "array-move";
 import { genKey } from "draft-js";
+import { MainStatic } from "./main.static";
+import { DateCtl } from "./date.ctl";
 
 export interface CourseMongoDocument {
   _id?: string;
@@ -206,6 +208,73 @@ export class Course extends MainCtl {
     return course;
   }
 }
+
+//SECTION - SECTION
+export class Section {
+  id: string;
+  title: string;
+  datecreate: number;
+  datemodified: number;
+  parent: string;
+  regard: Record<string, boolean>;
+  students: string[];
+  ta: string[];
+  type: "section" = "section";
+  user: string;
+  weights: Record<string, { score: number; weight: 6 }>;
+
+  constructor(data?: Partial<Section>) {
+    this.id = data?.id ?? "";
+    this.title = data?.title ?? "";
+    this.datecreate = DateCtl.toNumber(data?.datecreate);
+    this.datemodified = DateCtl.toNumber(data?.datemodified);
+    this.parent = data?.parent ?? "";
+    this.regard = data?.regard ?? {};
+    this.students = data?.students ?? [];
+    this.ta = data?.ta ?? [];
+    this.user = data?.user ?? "";
+    this.weights = data?.weights ?? {};
+  }
+
+  async update<T extends keyof this>(
+    field: T,
+    value: this[T] | FieldValue | unknown
+  ): Promise<void> {
+    if (this.id) {
+      await updateDoc(Section.doc(this.id), {
+        [field]: value,
+        datemodified: serverTimestamp(),
+      });
+    }
+  }
+
+  //SECTION - STATIC
+  //ANCHOR - prefix
+  static prefix = MainStatic.prefix;
+
+  //ANCHOR - doc
+  private static doc(id: string): DocumentReference<DocumentData> {
+    return doc(db, "lms", `${this.prefix}`, "sections", id);
+  }
+
+  //ANCHOR - collection
+  private static collection(): CollectionReference<DocumentData> {
+    return collection(db, "lms", `${this.prefix}`, "sections");
+  }
+
+  //ANCHOR - watch
+  static watch(
+    sectionId: string,
+    callback: (section: Section) => void
+  ): Unsubscribe {
+    return onSnapshot(this.doc(sectionId), (snapshot) => {
+      const section = new Section({ ...snapshot.data(), id: sectionId });
+      callback(section);
+    });
+  }
+  //!SECTION
+}
+//!SECTION
 
 /**
  *  $$$$$$\  $$\   $$\ $$$$$$\ $$$$$$$$\
