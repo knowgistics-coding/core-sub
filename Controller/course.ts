@@ -26,12 +26,13 @@ import { MainCtl } from "./main.static";
 import { VisibilityTabsValue } from "../VisibilityTabs";
 import { User } from "firebase/auth";
 import { ExcludeMethods } from "./map";
-import { cleanObject } from "../func";
+import { arrayShuffle, cleanObject } from "../func";
 import update from "react-addons-update";
 import { arrayMoveImmutable } from "array-move";
 import { genKey } from "draft-js";
 import { MainStatic } from "./main.static";
 import { DateCtl } from "./date.ctl";
+import { Material } from "./course.material";
 
 export interface CourseMongoDocument {
   _id?: string;
@@ -442,12 +443,13 @@ export class Quiz extends MainCtl {
   static async preview(
     user: User,
     id: string
-  ): Promise<{ quiz: Quiz; questions: Question[] }> {
-    const quiz = await Quiz.getOne(id);
-    if (!quiz) throw new Error("Quiz not found");
-
-    const questions = await Question.getFromParent(user, id);
-    return { quiz, questions };
+  ): Promise<{ material: Material; questions: Question[] }> {
+    const material = await Material.getOne(id);
+    const questions = await Question.getFromParent(user, material.quizId);
+    return {
+      material,
+      questions: arrayShuffle(questions).slice(0, material.amount),
+    };
   }
   static async add(user: User, parent: string, title: string): Promise<Quiz> {
     const quiz = new Quiz({ title, parent, user: user.uid });

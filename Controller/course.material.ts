@@ -6,10 +6,11 @@ import {
   doc,
   DocumentData,
   DocumentReference,
+  getDoc,
   serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
-import { DateMainCtlConstructor, MainCtl, MainStatic } from ".";
+import { DateMainCtlConstructor, MainStatic } from ".";
 import { cleanObject } from "../func";
 import { PickIconName } from "../PickIcon";
 import { LocaleKey } from "../Translate/en_th";
@@ -18,9 +19,10 @@ import { db } from "./firebase";
 import { ExcludeMethods } from "./map";
 import { FileCtl, FileDocument } from "./files.static";
 import { User } from "firebase/auth";
+import { DateCtl } from './date.ctl'
 
 export type MaterialFileType = { name: string; url: string };
-export class Material extends MainCtl {
+export class Material {
   id: string;
   title: string;
   parent: string;
@@ -29,6 +31,8 @@ export class Material extends MainCtl {
   user: string;
   type: "lesson" | "assignment" | "quiz";
   schedule: Schedule;
+  datecreate: number
+  datemodified: number
 
   // Quiz
   amount: number;
@@ -44,8 +48,6 @@ export class Material extends MainCtl {
   weight: number;
 
   constructor(data?: Partial<Material & DateMainCtlConstructor>) {
-    super(data);
-
     this.id = data?.id ?? "";
     this.title = data?.title ?? "";
     this.type = data?.type ?? "lesson";
@@ -62,6 +64,8 @@ export class Material extends MainCtl {
     this.amount = data?.amount ?? 0;
     this.attemps = data?.attemps ?? -1;
     this.quizId = data?.quizId ?? "";
+    this.datecreate = DateCtl.toNumber(data?.datecreate)
+    this.datemodified = DateCtl.toNumber(data?.datemodified)
   }
 
   set<T extends keyof this>(
@@ -120,7 +124,6 @@ export class Material extends MainCtl {
       setQuiz,
       toJSON,
       set,
-      stockToDisplay,
       schedule,
       isComplete,
       remove,
@@ -168,11 +171,18 @@ export class Material extends MainCtl {
     }
   }
 
+  static prefix:string = `${process.env.REACT_APP_PREFIX}`
+
   protected static collection(): CollectionReference<DocumentData> {
     return collection(db, "lms", this.prefix, "courses");
   }
   protected static doc(id: string): DocumentReference<DocumentData> {
     return doc(db, "lms", this.prefix, "courses", id);
+  }
+
+  static async getOne(id: string):Promise<Material> {
+    const snapshot = await getDoc(this.doc(id));
+    return new Material({ ...snapshot.data(), id });
   }
 
   static lists: Record<
