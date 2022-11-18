@@ -122,6 +122,12 @@ import {
   faWalking,
   faXmark,
   faXmarkCircle,
+  faShareNodes,
+  faStar,
+  faFileExcel,
+  faFileWord,
+  faFilePdf,
+  faFilePowerpoint,
 } from "@fortawesome/pro-regular-svg-icons";
 import { faYoutube, faFacebook } from "@fortawesome/free-brands-svg-icons";
 import {
@@ -254,6 +260,13 @@ const iconLists = [
   faUser,
   faFile,
   faFileCircleCheck,
+  faFileCircleQuestion,
+  faShareNodes,
+  faStar,
+  faFileExcel,
+  faFileWord,
+  faFilePdf,
+  faFilePowerpoint,
   faFileCircleQuestion
 ] as IconDefinition[];
 
@@ -324,7 +337,11 @@ export type PickIconName =
   | "file-circle-question"
   | "file-circle-xmark"
   | "file-download"
+  | "file-excel"
+  | "file-pdf"
+  | "file-powerpoint"
   | "file-slash"
+  | "file-word"
   | "folder"
   | "folder-download"
   | "folder-open"
@@ -363,10 +380,12 @@ export type PickIconName =
   | "save"
   | "school"
   | "search"
+  | "share-nodes"
   | "ship"
   | "sign-in"
   | "sign-out"
   | "spinner"
+  | "star"
   | "subway"
   | "sync-alt"
   | "table"
