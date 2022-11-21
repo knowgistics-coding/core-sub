@@ -1,4 +1,4 @@
-import { Avatar, Chip, ChipProps } from "@mui/material";
+import { Avatar, Box, Chip, ChipProps, styled } from "@mui/material";
 import { FileCtl } from "../Controller";
 import { PickIcon } from "../PickIcon";
 
@@ -21,3 +21,14 @@ export const FileChip = ({ url, name, ...props }: FileChipProps) => {
     />
   );
 };
+
+export const FileChipContainer = styled(Box)(({theme}) => ({
+  display: "flex",
+  flexDirection: "row",
+  flexWrap: "wrap",
+  marginBottom: theme.spacing(-1),
+  "& .MuiChip-root": {
+    marginRight: theme.spacing(1),
+    marginBottom: theme.spacing(1)
+  }
+}));

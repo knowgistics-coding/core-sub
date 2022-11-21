@@ -1,15 +1,13 @@
 import { Typography } from "@mui/material";
-import { useCore } from '../context'
-import { quizAnswerCheck } from "../func";
-import { QuizAnswerTypes } from "../QuizDisplay";
-import { QuizDocument } from "../QuizEditor";
+import { useCore } from "../context";
+import { Question, QuestionAnswer } from "../Controller";
 
 export const ScoreDisplay = ({
   questions,
   answers,
 }: {
-  answers: Record<string, QuizAnswerTypes>;
-  questions: (QuizDocument & { id: string })[];
+  answers: Record<string, QuestionAnswer>;
+  questions: Question[];
 }) => {
   const { t } = useCore();
 
@@ -18,9 +16,10 @@ export const ScoreDisplay = ({
       <Typography variant="h4" textAlign="center" sx={{ mb: 3 }}>
         {t("Score")}&nbsp;
         {questions.reduce((score, question) => {
-          return quizAnswerCheck(question, answers[question.id])
-            ? score + 1
-            : score;
+          if (question.id && answers[question.id]) {
+            return answers[question.id].check(question) ? score + 1 : score;
+          }
+          return score;
         }, 0)}
         /{questions.length || 0}
       </Typography>

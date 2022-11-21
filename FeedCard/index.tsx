@@ -16,10 +16,10 @@ import { Feeds } from "../Controller/social";
 import { DateDisplay } from "../DateDisplay";
 import { KuiActionIcon } from "../KuiActionIcon";
 import { PickIcon } from "../PickIcon";
+import { ReactionBox } from "../ReactionBox";
 import { StockDisplay } from "../StockDisplay";
 
 const Root = styled(List)(({ theme }) => ({
-  cursor: "pointer",
   borderRadius: theme.spacing(2),
   backgroundColor: theme.palette.background.paper,
   boxShadow: theme.shadows[2],
@@ -38,14 +38,20 @@ export type FeedCardProps = {
   title?: string;
   date?: number;
   uid?: string;
+  commenting?: boolean;
+  onCommenting?: () => void;
 };
 export const FeedCard = ({ feed, ...props }: FeedCardProps) => {
   const { user } = useCore();
 
   const handleEdit = async () => {
     if (user.data && feed) {
-      const link = await CrossSite.getSignInLink(user.data, 'post', `/post/editor/${feed.id}`);
-      if(link){
+      const link = await CrossSite.getSignInLink(
+        user.data,
+        "post",
+        `/post/editor/${feed.id}`
+      );
+      if (link) {
         window.open(link);
       }
     }
@@ -110,6 +116,11 @@ export const FeedCard = ({ feed, ...props }: FeedCardProps) => {
             </Typography>
           )}
         </Content>
+        <ReactionBox
+          doc={feed.id}
+          commenting={props.commenting}
+          onCommenting={props.onCommenting}
+        />
       </Root>
     );
   } else {

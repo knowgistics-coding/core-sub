@@ -18,7 +18,7 @@ import { Breadcrumb, ContentHeader } from "../ContentHeader";
 import { TFunction, useCore } from "../context";
 import { FileCtl } from "../Controller";
 import { DateDisplay } from "../DateDisplay";
-import { FileChip } from "../FileChip";
+import { FileChip, FileChipContainer } from "../FileChip";
 import { SpliceImmutable } from "../func";
 import { KuiActionIcon } from "../KuiActionIcon";
 import { KuiButton } from "../KuiButton";
@@ -93,10 +93,14 @@ export const CourseAssignment = ({
           breadcrumbs={props.breadcrumbs}
           secondary={<DateDisplay date={item.datemodified} />}
         />
-        <Absatz view value={item.content} />
-        {item.files?.map((file, index) => (
-          <FileChip {...file} sx={{ mr: 1, mb: 1 }} key={index} />
-        ))}
+        <Absatz noDense view value={item.content} />
+        {item.files?.length && (
+          <FileChipContainer>
+            {item.files?.map((file, index) => (
+              <FileChip {...file} key={index} />
+            ))}
+          </FileChipContainer>
+        )}
         {item.datedue && (
           <Typography
             variant="body1"
@@ -125,11 +129,14 @@ export const CourseAssignment = ({
               {t("Answer")}
             </Typography>
             <Paper sx={{ p: 2, pt: 0 }}>
-              <Absatz view value={submit.data.content} />
-              {Boolean(submit.data.files.length) &&
-                submit.data.files.map((file, index) => (
-                  <FileChip {...file} key={index} sx={{ mb: 1, mr: 1 }} />
-                ))}
+              <Absatz view value={submit.data.content} noDense />
+              {Boolean(submit.data.files.length) && (
+                <FileChipContainer>
+                  {submit.data.files.map((file, index) => (
+                    <FileChip {...file} key={index} sx={{ mb: 1, mr: 1 }} />
+                  ))}
+                </FileChipContainer>
+              )}
               <Box
                 display="flex"
                 justifyContent="space-between"
@@ -186,6 +193,7 @@ export const CourseAssignment = ({
             <Absatz
               value={data.content}
               onChange={(content) => setData((d) => ({ ...d, content }))}
+              noDense
             />
             <Box sx={{ mt: 2 }}>
               <KuiButton

@@ -233,9 +233,11 @@ export const PageViewer = (props: PageViewerProps) => {
                 ) : null;
               case "divider":
                 return (
-                  <Container maxWidth="post" key={content.key}>
-                    <Divider />
-                  </Container>
+                  <Wrapper key={content.key}>
+                    <Container maxWidth="post">
+                      <Divider />
+                    </Container>
+                  </Wrapper>
                 );
               default:
                 return process.env.NODE_ENV === "development" ? (

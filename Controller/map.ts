@@ -1,4 +1,3 @@
-import { db } from "../../../controllers/firebase";
 import { User } from "firebase/auth";
 import {
   collection,
@@ -19,6 +18,7 @@ import {
 } from "firebase/firestore";
 import { cleanObject } from "../func";
 import { VisibilityTabsValue } from "../VisibilityTabs";
+import { db } from "./firebase";
 
 export type MapType = "mappack" | "marker" | "route" | "area";
 export type MapPosition = Record<"lat" | "lng", number>;

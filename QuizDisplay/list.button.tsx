@@ -48,6 +48,9 @@ export const ListButton = styled(
     "& .MuiListItemIcon-root": {
       color: "inherit",
     },
+    "& .KuiAbsatz-root": {
+      color: "inherit",
+    },
     "& .MuiTypography-root": {
       color: "inherit",
     },

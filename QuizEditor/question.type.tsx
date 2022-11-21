@@ -6,10 +6,11 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
-import { QuizDocument, useQEC } from "./context";
+import { useQEC } from "./context";
 import { Fragment } from "react";
 import { useCore } from "../context";
 import { LocaleKey } from "../Translate/en_th";
+import { Question } from "../Controller";
 
 const lists: { label: LocaleKey; value: string }[] = [
   { label: "Multiple Choice", value: "multiple" },
@@ -25,8 +26,7 @@ export const QuestionType = () => {
   const handleChangeType = ({
     target: { value },
   }: SelectChangeEvent<string>) => {
-    const type = value as QuizDocument["type"];
-    setData({ type });
+    setData(data.set("type", value as Question["type"]));
   };
 
   const getLabel = (): LocaleKey =>

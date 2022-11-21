@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Panel } from "./panel";
 import {
   Box,
@@ -12,12 +12,11 @@ import {
 
 import { useQEC } from "./context";
 import { useCore } from "../context";
-import update from "react-addons-update";
 import { StockImageTypes, StockPicker } from "../StockPicker";
-import { StockDisplayImageTypes } from "../StockDisplay";
 import { QDImgDisplay } from "./img";
 import { Absatz } from "../Absatz";
 import { PickIcon } from "../PickIcon";
+import { QuestionData } from "../Controller";
 
 export const Question = () => {
   const { t } = useCore();
@@ -26,33 +25,24 @@ export const Question = () => {
 
   const handleChangeQType = ({
     target: { value },
-  }: SelectChangeEvent<string>) => {
-    setData((d) => update(d, { question: { type: { $set: value } } }));
+  }: SelectChangeEvent<QuestionData["type"]>) => {
+    const type = value as QuestionData["type"];
+    setData(data.set("question", null, (data) => ({ ...data, type })));
   };
   const handleChangeImage = ([img]: StockImageTypes[]) => {
     if (img) {
-      const { blurhash, _id, width, height, credit } = img;
-      const image: StockDisplayImageTypes = {
-        blurhash,
-        _id,
-        width,
-        height,
-        credit,
-      };
-      setData((d) => update(d, { question: { image: { $set: image } } }));
+      setData(
+        data.set("question", null, (q) => ({
+          ...q,
+          image: data.stockToDisplay(img),
+        }))
+      );
     }
   };
-  const handleChangeParagraph = (value: string) => {
-    setData((d) => update(d, { question: { paragraph: { $set: value } } }));
-  };
+  const handleChangeParagraph = (paragraph: string) =>
+    setData(data.set("question", null, (q) => ({ ...q, paragraph })));
 
-  useEffect(() => {
-    if (!data?.question) {
-      setData((d) => ({ ...d, question: { type: "paragraph" } }));
-    }
-  }, [data?.question, setData]);
-
-  return data?.question ? (
+  return (
     <Panel
       expanded={open["question"]}
       title={t("Question")}
@@ -106,7 +96,5 @@ export const Question = () => {
         }
       })()}
     </Panel>
-  ) : (
-    <div></div>
   );
 };

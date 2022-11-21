@@ -48,6 +48,9 @@ export const ListButton = styled(
     border: `solid 1px ${theme.palette.success.dark}`,
     backgroundColor: theme.palette.success.main,
     color: theme.palette.success.contrastText,
+    "& .KuiAbsatz-root": {
+      color: theme.palette.success.contrastText,
+    },
     "&:hover": {
       backgroundColor: theme.palette.success.dark,
     },

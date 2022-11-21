@@ -15,6 +15,7 @@ import {
 import * as React from "react";
 import { KuiButton } from "../KuiButton";
 import { PickIcon, PickIconName } from "../PickIcon";
+import { IconDefinition } from '@fortawesome/pro-regular-svg-icons'
 
 const DialogStyled = styled(Dialog)({
   "& .MuiPaper-root:not(.MuiDialog-paperFullScreen)": {
@@ -45,7 +46,7 @@ const TitleStyled = styled(Box)({
 export type DialogCompactProps = {
   open: boolean;
   maxWidth?: Breakpoint | false;
-  icon?: PickIconName;
+  icon?: PickIconName | IconDefinition;
 
   title?: React.ReactNode;
   children?: React.ReactNode;

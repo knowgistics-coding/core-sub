@@ -17,7 +17,6 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { db } from "../../../controllers/firebase";
 import { StockDisplayProps } from "../StockDisplay";
 import { VisibilityTabsValue } from "../VisibilityTabs";
 import { ExcludeMethods } from "./map";
@@ -26,6 +25,7 @@ import update from "react-addons-update";
 import { arrayMoveImmutable } from "array-move";
 import { MainStatic } from "./main.static";
 import { Post } from "./post";
+import { db } from "./firebase";
 
 export type BookContentItem = {
   title: string;

@@ -36,7 +36,7 @@ export class User extends MainStatic {
       "POST",
       JSON.stringify({ uids })
     );
-    return result;
+    return result.map((doc) => new User(doc));
   }
   static async getUserFromEmail(user: FBUser, email: string): Promise<User> {
     const result = await this.get<User>(

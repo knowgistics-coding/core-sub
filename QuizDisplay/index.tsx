@@ -14,7 +14,6 @@ const Root = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
 }));
 
-export type { QuizAnswerTypes } from "./context";
 export const QuizDisplay = ({
   quiz,
   value,

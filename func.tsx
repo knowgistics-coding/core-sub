@@ -1,10 +1,4 @@
-import draftToHtml from "draftjs-to-html";
 import { Timestamp } from "firebase/firestore";
-import { QuizAnswerTypes } from "./QuizDisplay";
-import { QuizDocument } from "./QuizEditor";
-import { dataTypes } from "./QuizEditor/context";
-import { StockDisplayImageTypes } from "./StockDisplay";
-import { StockImageTypes } from "./StockPicker";
 
 export const validateEmail = (email: string): boolean => {
   const re =
@@ -40,6 +34,10 @@ export const cleanObject = <T extends unknown>(data: T): T | null => {
     return data.map((item) => cleanObject(item)) as T;
   } else if (data instanceof Date) {
     return data;
+  } else if (data instanceof Timestamp) {
+    return data
+  } else if (data === null) {
+    return null
   } else if (typeof data === "object") {
     let newData = Object.assign({}, data) as Record<string, unknown>;
     Object.entries(newData as Object).forEach(([key, value]) => {
@@ -71,151 +69,6 @@ export function arrayShuffle<T>(oldArray: T[]): T[] {
   }
   return array;
 }
-
-const quizConvertGetImage = (
-  id: string
-): Promise<StockDisplayImageTypes | undefined> => {
-  return new Promise(async (res) => {
-    const result = await fetch(`https://s1.phra.in:8086/file/ref/${id}`)
-      .then((res) => res.json())
-      .catch((err) => {
-        console.log(err);
-        res(undefined);
-      });
-    if (result) {
-      const { _id, blurhash, width, height } = result as StockImageTypes;
-      const image: StockDisplayImageTypes = {
-        _id,
-        blurhash,
-        width,
-        height,
-      };
-      res(image);
-    } else {
-      res(undefined);
-    }
-  });
-};
-export const quizConvert = async (data: any): Promise<QuizDocument> => {
-  if (Boolean(data?.[data?.type])) {
-    return data;
-  }
-
-  let question: QuizDocument["question"] = {
-    type: data?.qtype || "paragraph",
-  };
-  if (data?.qtype !== "image") {
-    const htmlstring = draftToHtml(data.question);
-    if (typeof htmlstring === "string") {
-      question.paragraph = htmlstring;
-    }
-  } else if (typeof data?.question?.id === "string") {
-    question.image = await quizConvertGetImage(data.question.id);
-  }
-
-  let doc: QuizDocument = {
-    question,
-    type: data?.type,
-  };
-
-  if (doc.type === "multiple") {
-    doc.multiple = {
-      options: await Promise.all(
-        data.options.map(
-          async (d: any) =>
-            ({
-              key: d.key,
-              type: d.type,
-              paragraph:
-                d.type === "paragraph" ? draftToHtml(d.value) : undefined,
-              image: d?.data?.id
-                ? await quizConvertGetImage(d?.data?.id)
-                : undefined,
-            } as dataTypes)
-        )
-      ),
-      answer: data.answer,
-    };
-  } else if (doc.type === "matching") {
-    doc.matching = {
-      options: await Promise.all(
-        data?.answers?.map(
-          async (answer: any): Promise<dataTypes & { value?: string }> => ({
-            value: answer.value,
-            key: answer.key,
-            type: answer.type,
-            paragraph:
-              answer.type !== "image" ? draftToHtml(answer.label) : undefined,
-            image:
-              answer.type === "image"
-                ? await quizConvertGetImage(answer.data.id)
-                : undefined,
-          })
-        ) || []
-      ),
-    };
-  } else if (doc.type === "truefalse") {
-    doc.truefalse = {
-      answer: `${data.answers}`,
-    };
-  } else if (doc.type === "sorting") {
-    doc.sorting = {
-      options: await Promise.all(
-        data.options.map(
-          async (option: any): Promise<dataTypes> => ({
-            key: option.key,
-            type: option.type,
-            paragraph:
-              option.type !== "image" ? draftToHtml(option.value) : undefined,
-            image:
-              option.type === "image"
-                ? await quizConvertGetImage(option.data.id)
-                : undefined,
-          })
-        )
-      ),
-      answers: data.answers,
-    };
-  }
-  return doc;
-};
-
-export const quizAnswerCheck = (
-  data: QuizDocument,
-  answer: QuizAnswerTypes
-): boolean => {
-  if (
-    data.type === "truefalse" &&
-    data.truefalse?.answer !== undefined &&
-    answer?.truefalse
-  ) {
-    return Boolean(data.truefalse.answer) === Boolean(answer.truefalse);
-  } else if (
-    data.type === "multiple" &&
-    data.multiple?.answer !== undefined &&
-    answer?.multiple
-  ) {
-    return data.multiple.answer === answer.multiple;
-  } else if (
-    data.type === "matching" &&
-    data.matching?.options &&
-    answer?.matching
-  ) {
-    const result = data.matching.options.every((option) => {
-      return answer.matching?.[option.key] === option.value;
-    });
-    return result;
-  } else if (
-    data.type === "sorting" &&
-    data.sorting?.answers &&
-    answer?.sorting
-  ) {
-    return data.sorting.answers.every(
-      (key, index) => key === answer.sorting?.[index]
-    );
-  }
-  return false;
-};
 
 export const coverToStock = (id: string, prefix?: string) => {
   return new Promise((resolved, reject) => {

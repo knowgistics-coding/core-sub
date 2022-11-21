@@ -52,6 +52,7 @@ export type LocaleKey =
   | "Close Path"
   | "Collection"
   | "Contact"
+  | "Comment"
   | "Component"
   | "Composition"
   | "Confirm"
@@ -101,6 +102,7 @@ export type LocaleKey =
   | "Filter"
   | "First Name"
   | "Folder"
+  | "Follow"
   | "Followers"
   | "Following"
   | "Forget Password"
@@ -141,6 +143,8 @@ export type LocaleKey =
   | "Lesson"
   | "Lesson Content"
   | "Level"
+  | "Like"
+  | "Liked"
   | "Light"
   | "Line"
   | "Line Application"
@@ -158,6 +162,7 @@ export type LocaleKey =
   | "More"
   | "Move Up"
   | "Move Down"
+  | "Move to $Name"
   | "Multiple Choice"
   | "My $Name"
   | "My Course"
@@ -169,6 +174,7 @@ export type LocaleKey =
   | "$Name Removed"
   | "$Name Review"
   | "$Name Selected"
+  | "$Name Summation"
   | "NameTitle"
   | "Next"
   | "No"
@@ -185,6 +191,7 @@ export type LocaleKey =
   | "Or"
   | "Other"
   | "Others"
+  | "Owner"
   | "Page"
   | "Paragraph"
   | "Password"
@@ -197,6 +204,7 @@ export type LocaleKey =
   | "Profile Image"
   | "Project"
   | "Public"
+  | "QR code"
   | "Question"
   | "Question Bank"
   | "Question Title"
@@ -212,8 +220,11 @@ export type LocaleKey =
   | "Remove"
   | "Removed"
   | "Remove Last Point"
+  | "Remove Permanent"
   | "Remove $Name"
   | "Rename"
+  | "Report"
+  | "Restore"
   | "Reverse"
   | "Right Answer"
   | "Role"
@@ -241,6 +252,7 @@ export type LocaleKey =
   | "Sign In"
   | "Sign Out"
   | "SignOut"
+  | "Size"
   | "Sharing"
   | "Shuffle"
   | "Slide"
@@ -251,6 +263,7 @@ export type LocaleKey =
   | "Specify Others"
   | "Spacing"
   | "Staff"
+  | "Stars"
   | "Start"
   | "Start writting or type"
   | "Status"
@@ -287,7 +300,9 @@ export type LocaleKey =
   | "TypeHere"
   | "Unenroll"
   | "Undefined"
+  | "Unfollow"
   | "University"
+  | "Unlimited $Name"
   | "Unsort"
   | "Unsubmit"
   | "Untitled"
@@ -313,6 +328,7 @@ export type LocaleKey =
   | "Identify if the following true or false"
   | "Match the answers to the questions"
   | "Sorting the answer options"
+  | "Shared with me"
   | "POST"
   | "BOOK"
   | "SLIDESHOW"
@@ -374,6 +390,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Close: ["Close", "ปิด"],
   "Close Path": ["Close Path", "ปิดเส้นทาง"],
   Collection: ["Collection", "คอลเล็คชัน"],
+  Comment: ["Comment", "ความเห็น"],
   Component: ["Component", "ส่วนประกอบ"],
   Composition: ["Composition", "จัดองค์ประกอบภาพ"],
   Confirm: ["Confirm", "ยืนยัน"],
@@ -436,8 +453,9 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Filter: ["Filter", "ตัวกรอง"],
   "First Name": ["First Name", "ชื่อ"],
   Folder: ["Folder", "โฟลเดอร์"],
-  "Followers": ["Followers", "ผู้ติดตาม"],
-  "Following": ["Following", "การติดตาม"],
+  Follow: ["Follow", "ติดตาม"],
+  Followers: ["Followers", "ผู้ติดตาม"],
+  Following: ["Following", "การติดตาม"],
   "Forget Password": ["Forget Password", "ลืมรหัสผ่าน"],
   From: ["From", "จาก"],
   "From URL": ["From  URL", "จาก URL"],
@@ -476,6 +494,8 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Lesson: ["Lesson", "บทเรียน"],
   "Lesson Content": ["Lesson Content", "เนื้อหาบทเรียน"],
   Level: ["Level", "ระดับ"],
+  Like: ["Like", "ถูกใจ"],
+  Liked: ["Liked", "ถูกใจแล้ว"],
   Light: ["Light", "สว่าง"],
   Line: ["Line", "ไลน์"],
   "Line Application": ["Line Application", "แอปพลิเคชันไลน์"],
@@ -493,6 +513,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   More: ["More", "อื่น ๆ"],
   "Move Up": ["Move Up", "เลื่อนขึ้น"],
   "Move Down": ["Move Down", "เลื่อนลง"],
+  "Move to $Name": ["Move to {{name}}", "ย้ายไปที่{{name}}"],
   "Multiple Choice": ["Multiple Choice", "หลายตัวเลือก"],
   "My $Name": ["My {{name}}", "{{name}}ของฉัน"],
   "My Course": ["My Course", "หลักสูตรของฉัน"],
@@ -504,6 +525,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "$Name Removed": ["{{name}} removed", "ลบ{{name}}แล้ว"],
   "$Name Review": ["{{name}} Review", "ตรวจ{{name}}"],
   "$Name Selected": ["{{name}} rows selected", "เลือกจำนวน {{name}} แถว"],
+  "$Name Summation": ["{{name}} Summation", "ผลรวมของ{{name}}"],
   NameTitle: ["Title", "คำนำหน้า"],
   Next: ["Next", "ต่อไป"],
   No: ["No", "ไม่ใช่"],
@@ -520,6 +542,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Or: ["Or", "หรือ"],
   Other: ["Other", "อื่นๆ"],
   Others: ["Others", "อื่นๆ"],
+  Owner: ["Owner", "เจ้าของ"],
   Page: ["Page", "เพจ"],
   Paragraph: ["Paragraph", "ย่อหน้า"],
   Password: ["Password", "รหัสผ่าน"],
@@ -532,6 +555,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "Profile Image": ["Profile Image", "รูปประจำตัว"],
   Project: ["Project", "โครงการ"],
   Public: ["Public", "สาธารณะ"],
+  "QR code": ["QR code", "คิวอาร์โค้ด"],
   Question: ["Question", "คำถาม"],
   "Question Bank": ["Question Bank", "คลังแบบทดสอบ"],
   "Question Title": ["Question Title", "ชื่อข้อสอบ"],
@@ -549,8 +573,11 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Remove: ["Remove", "ลบ"],
   Removed: ["Removed", "ลบแล้ว"],
   "Remove Last Point": ["Remove Last Point", "ลบจุดสุดท้าย"],
+  "Remove Permanent": ["Remove Permanent","ลบถาวร"],
   "Remove $Name": ["Remove {{name}}", "ลบ{{name}}"],
   Rename: ["Rename", "เปลี่ยนชื่อ"],
+  Report: ["Report", "รายงาน"],
+  Restore: ["Restore", "คืนค่า"],
   Reverse: ["Reverse", "กลับด้าน"],
   "Right Answer": ["Right answer", "คำตอบที่ถูกต้อง"],
   Role: ["Role", "บทบาท"],
@@ -585,6 +612,8 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "Sign In": ["Sign In", "เข้าสู่ระบบ"],
   "Sign Out": ["Sign out", "ออกจากระบบ"],
   SignOut: ["Sign out", "ออกจากระบบ"],
+  Size: ["Size", "ขนาด"],
+  "Shared with me": ["Shared with me", "แบ่งปันกับฉัน"],
   Sharing: ["Sharing", "แบ่งปัน"],
   Shuffle: ["Shuffle", "สลับ"],
   Slide: ["Slide", "สไลด์"],
@@ -595,6 +624,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Spacing: ["Spacing", "ระยะห่าง"],
   "Specify Others": ["Others (please specify)", "อื่นๆ (โปรดระบุ)"],
   Staff: ["Staff", "บุคลากร"],
+  Stars: ["Stars", "ติดดาว"],
   Start: ["Start", "เริ่มต้น"],
   "Start writting or type": ["Start writting or type", "เริ่มการพิมพ์"],
   Status: ["Status", "สถานะ"],
@@ -631,6 +661,8 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   TypeHere: ["Type Here", "พิมพ์ที่นี่"],
   Unenroll: ["Unenroll", "เพิกถอน"],
   Undefined: ["Undefined", "ไม่ได้กำหนด"],
+  Unfollow: ["Unfollow", "เลิกติดตาม"],
+  "Unlimited $Name": ["Unlimited {{name}}", "{{name}}ไม่จำกัด"],
   University: ["University", "มหาวิทยาลัย"],
   Unsort: ["Unsort", "ยกเลิกการเรียง"],
   Unsubmit: ["Unsubmit", "ยกเลิกการส่ง"],

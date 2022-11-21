@@ -6,24 +6,24 @@ import { Progress } from "./progress";
 import { ReactMaxAttemps } from "./reach.max.attemps";
 import { ScoreDisplay } from "./score";
 import { Breadcrumb, ContentHeader } from "../ContentHeader";
-import { QuizDocument } from "../QuizEditor";
 import { LoadingBox } from "./loading.box";
 import { QuizAnswer } from "../QuizAnswer";
 import { useCore } from "../context";
 import { useAlerts } from "../Alerts";
-import { QuizDisplay, QuizAnswerTypes } from "../QuizDisplay";
+import { QuizDisplay } from "../QuizDisplay";
 import { PickIcon } from "../PickIcon";
+import { Question, QuestionAnswer } from "../Controller";
 
 export type QuizingDataType = {
   title?: string;
-  questions: (QuizDocument & { id: string })[];
+  questions: Question[];
 };
 
 export type QuizingProps = {
   loading?: boolean;
   data?: QuizingDataType;
   breadcrumbs?: Breadcrumb[];
-  onConfirm: (answers: Record<string, QuizAnswerTypes>) => Promise<void>;
+  onConfirm: (answers: Record<string, QuestionAnswer>) => Promise<void>;
   onRedo: () => Promise<void>;
   back: string;
   limit?: Boolean;
@@ -43,7 +43,7 @@ export const Quizing = ({ data, ...props }: QuizingProps) => {
     loading: true,
   });
   const [step, setStep] = useState<number>(0);
-  const [answers, setAnswers] = useState<Record<string, QuizAnswerTypes>>({});
+  const [answers, setAnswers] = useState<Record<string, QuestionAnswer>>({});
   const { addAlert } = useAlerts();
   const nav = useNavigate();
 
@@ -51,7 +51,7 @@ export const Quizing = ({ data, ...props }: QuizingProps) => {
     if (data?.questions) {
       return data.questions
         .map((q) => q.id)
-        .every((id) => Boolean(answers[id]));
+        .every((id) => Boolean(answers[id!]));
     }
     return false;
   };
@@ -96,7 +96,7 @@ export const Quizing = ({ data, ...props }: QuizingProps) => {
           {data?.questions.map((q) => (
             <QuizAnswer
               quiz={q}
-              answer={answers[q.id]}
+              answer={answers[q.id!]}
               key={q.id}
               containerProps={{ sx: { mb: 2 } }}
             />
@@ -130,34 +130,43 @@ export const Quizing = ({ data, ...props }: QuizingProps) => {
           {props.loading ? (
             <LoadingBox />
           ) : (
-            data?.questions.map((question, index, array) => (
-              <div hidden={index !== step} key={question.id}>
-                <QuizDisplay
-                  quiz={question}
-                  value={answers[question.id]}
-                  onChange={(value) =>
-                    setAnswers((s) => ({ ...s, [question.id]: value }))
-                  }
-                  containerProps={{ sx: { my: 2 } }}
-                />
-                <Box display={"flex"}>
-                  {index !== 0 && <PrevButton onClick={handleBack} />}
-                  <Box flex={1} />
-                  {array.length - 1 !== index && (
-                    <NextButton
-                      onClick={handleNext}
-                      disabled={!Boolean(answers[question.id])}
+            data?.questions.map(
+              (question, index, array) =>
+                question.id && (
+                  <div hidden={index !== step} key={question.id}>
+                    <QuizDisplay
+                      quiz={question}
+                      value={answers[question.id]}
+                      onChange={(dispatch) =>
+                        setAnswers((s) => ({
+                          ...s,
+                          [question.id!]: dispatch(
+                            s[question.id!] ??
+                              new QuestionAnswer({ type: question.type })
+                          ),
+                        }))
+                      }
+                      containerProps={{ sx: { my: 2 } }}
                     />
-                  )}
-                  {array.length - 1 === index && (
-                    <SendButton
-                      disabled={!isComplete()}
-                      onClick={handleConfirm}
-                    />
-                  )}
-                </Box>
-              </div>
-            ))
+                    <Box display={"flex"}>
+                      {index !== 0 && <PrevButton onClick={handleBack} />}
+                      <Box flex={1} />
+                      {array.length - 1 !== index && (
+                        <NextButton
+                          onClick={handleNext}
+                          disabled={!Boolean(answers[question.id!])}
+                        />
+                      )}
+                      {array.length - 1 === index && (
+                        <SendButton
+                          disabled={!isComplete()}
+                          onClick={handleConfirm}
+                        />
+                      )}
+                    </Box>
+                  </div>
+                )
+            )
           )}
         </>
       ) : (

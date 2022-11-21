@@ -10,19 +10,19 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { dataTypes, TypeTypes } from "./context";
 import { useCore } from "../context";
 import { StockImageTypes, StockPicker } from "../StockPicker";
 import { StockDisplayImageTypes } from "../StockDisplay";
 import { QDImgDisplay } from "./img";
 import { Absatz } from "../Absatz";
 import { PickIcon } from "../PickIcon";
+import { QuestionData } from "../Controller";
 
 interface SelectTypeProps {
-  type: TypeTypes;
+  type: QuestionData["type"];
   image?: StockDisplayImageTypes;
   paragraph?: string;
-  onChange?: (option: Omit<dataTypes, "key">) => void;
+  onChange?: (option: Omit<QuestionData, "key">) => void;
   title?: React.ReactNode;
   actions?: React.ReactNode;
 }
@@ -39,8 +39,8 @@ export const SelectType = ({
 
   const handleChangeType = ({
     target: { value },
-  }: SelectChangeEvent<TypeTypes>) =>
-    onChange?.({ type: value as dataTypes["type"], image, paragraph });
+  }: SelectChangeEvent<QuestionData["type"]>) =>
+    onChange?.({ type: value as QuestionData["type"], image, paragraph });
   const handleChangeImage = ([img]: StockImageTypes[]) => {
     if (img) {
       const { blurhash, _id, width, height, credit } = img;

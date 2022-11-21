@@ -1,5 +1,11 @@
 import { User } from "firebase/auth";
-import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
+import {
+  DocumentData,
+  QueryDocumentSnapshot,
+  Timestamp,
+} from "firebase/firestore";
+import { StockDisplayImageTypes } from "../StockDisplay";
+import { StockImageTypes } from "../StockPicker";
 import { VisibilityValue } from "../Visibility";
 
 export type BaseUrlOptions = {
@@ -69,4 +75,43 @@ export class MainStatic {
     const filtered = docs.filter((doc) => doc.visibility === visibility);
     return filtered;
   }
+}
+
+export type DateAllowType = Timestamp | Date | number;
+export type DateMainCtlConstructor = {
+  datecreate: DateAllowType;
+  datemodified: DateAllowType;
+};
+
+export class MainCtl {
+  datecreate: number;
+  datemodified: number;
+
+  constructor(
+    data?: Partial<
+      Omit<MainCtl, "datecreate" | "datemodified"> & DateMainCtlConstructor
+    >
+  ) {
+    this.datecreate = this.dateToNumber(data?.datecreate);
+    this.datemodified = this.dateToNumber(data?.datemodified);
+  }
+
+  protected dateToNumber(date?: DateAllowType): number {
+    if (typeof date === "number") {
+      return date;
+    } else if (date instanceof Date) {
+      return date.getTime();
+    } else if (date instanceof Timestamp) {
+      return date.toMillis();
+    } else {
+      return Date.now();
+    }
+  }
+
+  stockToDisplay(image: StockImageTypes): StockDisplayImageTypes {
+    const { blurhash, _id, width, height, credit } = image;
+    return { blurhash, _id, width, height, credit };
+  }
+
+  protected static prefix: string = `${process.env.REACT_APP_PREFIX}`;
 }

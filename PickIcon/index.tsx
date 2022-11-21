@@ -44,6 +44,7 @@ import {
   faClock,
   faCodeBranch,
   faCog,
+  faComment,
   faCopy,
   faCopyright,
   faCrop,
@@ -51,16 +52,21 @@ import {
   faDownload,
   faDrawPolygon,
   faEdit,
+  faEllipsisH,
   faEllipsisV,
   faEnvelope,
   faExchangeAlt,
   faExclamationTriangle,
   faEye,
   faEyeSlash,
+  faFile,
   faFileAlt,
+  faFileCircleCheck,
+  faFileCircleQuestion,
   faFileCircleXmark,
   faFileDownload,
   faFileSlash,
+  faFlag,
   faFolder,
   faFolderDownload,
   faFolderOpen,
@@ -70,6 +76,7 @@ import {
   faGripDotsVertical,
   faGripLines,
   faHeading,
+  faHeart,
   faHome,
   faHorizontalRule,
   faHospital,
@@ -119,6 +126,12 @@ import {
   faWalking,
   faXmark,
   faXmarkCircle,
+  faShareNodes,
+  faStar,
+  faFileExcel,
+  faFileWord,
+  faFilePdf,
+  faFilePowerpoint,
   IconDefinition,
 } from "@fortawesome/pro-regular-svg-icons";
 import { faYoutube, faFacebook } from "@fortawesome/free-brands-svg-icons";
@@ -250,6 +263,20 @@ const iconLists = [
   faCircleChevronRight,
   faCircleChevronUp,
   faUser,
+  faHeart,
+  faComment,
+  faFile,
+  faFileCircleCheck,
+  faFileCircleQuestion,
+  faEllipsisH,
+  faFlag,
+  faShareNodes,
+  faStar,
+  faFileExcel,
+  faFileWord,
+  faFilePdf,
+  faFilePowerpoint,
+  faFileCircleQuestion,
 ] as IconDefinition[];
 
 library.add(...iconLists);
@@ -299,6 +326,7 @@ export type PickIconName =
   | "clock"
   | "code-branch"
   | "cog"
+  | "comment"
   | "copy"
   | "copyright"
   | "crop"
@@ -306,6 +334,7 @@ export type PickIconName =
   | "download"
   | "draw-polygon"
   | "edit"
+  | "ellipsis-h"
   | "ellipsis-v"
   | "envelope"
   | "exchange-alt"
@@ -313,10 +342,18 @@ export type PickIconName =
   | "eye"
   | "eye-slash"
   | "facebook"
+  | "file"
   | "file-alt"
+  | "file-circle-check"
+  | "file-circle-question"
   | "file-circle-xmark"
   | "file-download"
+  | "file-excel"
+  | "file-pdf"
+  | "file-powerpoint"
   | "file-slash"
+  | "flag"
+  | "file-word"
   | "folder"
   | "folder-download"
   | "folder-open"
@@ -326,6 +363,7 @@ export type PickIconName =
   | "grip-dots-vertical"
   | "grip-lines"
   | "heading"
+  | "heart"
   | "home"
   | "horizontal-rule"
   | "hospital"
@@ -355,10 +393,12 @@ export type PickIconName =
   | "save"
   | "school"
   | "search"
+  | "share-nodes"
   | "ship"
   | "sign-in"
   | "sign-out"
   | "spinner"
+  | "star"
   | "subway"
   | "sync-alt"
   | "table"
