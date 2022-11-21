@@ -25,6 +25,7 @@ import { MainCtl } from "./main.static";
 import { PageDate, PageDoc } from "./page";
 import { User as MekUser } from "./user";
 
+//SECTION - CALSS: Social
 export class Social {
   followers: string[];
   followering: string[];
@@ -34,6 +35,46 @@ export class Social {
     this.followers = data?.followers ?? [];
     this.followering = data?.followering ?? [];
     this.user = user;
+  }
+
+  async follow(userId: string) {
+    await runTransaction(db, async transaction => {
+      const ref = Social.doc(this.user.uid)
+      const doc = await transaction.get(ref)
+      if(doc.exists()){
+        await transaction.update(ref, { followering:arrayUnion(userId) })
+      } else {
+        await transaction.set(ref, { followering:[userId] })
+      }
+    })
+    await runTransaction(db, async transaction => {
+      const ref = Social.doc(userId)
+      const doc = await transaction.get(ref)
+      if(doc.exists()){
+        await transaction.update(ref, { followers:arrayUnion(this.user.uid) })
+      } else {
+        await transaction.set(ref, { followers:[this.user.uid] })
+      }
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+
+  async unfollow(userId: string) {
+    await runTransaction(db, async transaction => {
+      const ref = Social.doc(this.user.uid)
+      const doc = await transaction.get(ref)
+      if(doc.exists()){
+        await transaction.update(ref, { followering:arrayRemove(userId) })
+      }
+    })
+    await runTransaction(db, async transaction => {
+      const ref = Social.doc(userId)
+      const doc = await transaction.get(ref)
+      if(doc.exists()){
+        await transaction.update(ref, { followers:arrayRemove(this.user.uid) })
+      }
+    })
   }
 
   /**
@@ -46,16 +87,31 @@ export class Social {
    *
    * ========================================
    */
+  //SECTION - STATIC
+  //ANCHOR - doc
   static doc(uid: string) {
     return doc(db, "socials", uid);
   }
+  //ANCHOR - getInfo
   static getInfo(user: User, callback: (data: Social) => void): Unsubscribe {
     return onSnapshot(this.doc(user.uid), (snapshot) => {
       callback(new Social(user, snapshot.data()));
     });
   }
-}
 
+  //ANCHOR - getInfoFromUid
+  static async getInfoFromUid(
+    user: User,
+    uid: string
+  ): Promise<MekUser | null> {
+    const users = await MekUser.getUsers(user, [uid]);
+    return users.length > 0 ? users[0] : null;
+  }
+  //!SECTION
+}
+//!SECTION
+
+//SECTION - CLASS: Feeds
 export class Feeds {
   id: string;
   title: string;
@@ -81,6 +137,7 @@ export class Feeds {
     this.userInfo = data?.userInfo;
   }
 
+  //ANCHOR - dateToNumber
   private dateToNumber(date?: PageDate): number {
     if (date instanceof Date) {
       return date.getTime();
@@ -93,10 +150,12 @@ export class Feeds {
     }
   }
 
+  //ANCHOR - getIcon
   getIcon(): PickIconName {
     return this.type === "book" ? "book" : "file-alt";
   }
 
+  //ANCHOR - getPreview
   getPreview(): string {
     const html = this.contents
       .filter(
@@ -114,6 +173,8 @@ export class Feeds {
     return div.innerText;
   }
 
+  //SECTION - STATIC
+  //ANCHOR - getDate
   private static getDate(): [Date, Date] {
     const newDate = new Date(),
       start = new Date(),
@@ -126,6 +187,7 @@ export class Feeds {
     end.setTime(Date.UTC(year, month, day, 23, 59, 59) + timezone);
     return [start, end];
   }
+  //ANCHOR - getFeeds
   static getFeeds(user: User): Promise<Feeds[]> {
     return new Promise((resolve) => {
       const [start, end] = this.getDate();
@@ -160,7 +222,9 @@ export class Feeds {
       });
     });
   }
+  //!SECTION
 }
+//!SECTION
 
 /**
  *  $$$$$$\   $$$$$$\  $$\      $$\ $$\      $$\ $$$$$$$$\ $$\   $$\ $$$$$$$$\
@@ -183,6 +247,7 @@ export type CommentJSON = Omit<
   | "datemodified"
   | "userInfo"
 >;
+//SECTION - CLASS: Comment
 export class Comment extends MainCtl {
   id: string;
   reactId: string;
@@ -206,6 +271,7 @@ export class Comment extends MainCtl {
     this.userInfo = data?.userInfo ?? null;
   }
 
+  //ANCHOR - set
   set<T extends keyof CommentJSON | "userInfo">(
     field: T,
     value: this[T]
@@ -214,6 +280,7 @@ export class Comment extends MainCtl {
     return this;
   }
 
+  //ANCHOR - toJSON
   toJSON(): CommentJSON {
     const {
       id,
@@ -227,6 +294,7 @@ export class Comment extends MainCtl {
     return data;
   }
 
+  //ANCHOR - remove
   async remove() {
     if (this.reactId && this.id) {
       await updateDoc(doc(db, "reactions", this.reactId, "comments", this.id), {
@@ -235,6 +303,8 @@ export class Comment extends MainCtl {
     }
   }
 
+  //SECTION - STATIC
+  //ANCHOR - submit
   static async submit(
     reaction: Reaction,
     user: User,
@@ -251,6 +321,7 @@ export class Comment extends MainCtl {
     }
   }
 
+  //ANCHOR - watch
   static watch(
     user: User,
     reactId: string,
@@ -277,7 +348,9 @@ export class Comment extends MainCtl {
       }
     );
   }
+  //!SECTION
 }
+//!SECTION
 
 /**
  * $$$$$$$\  $$$$$$$$\  $$$$$$\   $$$$$$\ $$$$$$$$\ $$$$$$\  $$$$$$\  $$\   $$\
@@ -290,6 +363,7 @@ export class Comment extends MainCtl {
  * \__|  \__|\________|\__|  \__| \______/   \__|   \______| \______/ \__|  \__|
  */
 
+//SECTION - CLASS: Reaction
 export class Reaction {
   id: string;
   liked: string[];
@@ -301,6 +375,7 @@ export class Reaction {
     this.comments = data?.comments ?? [];
   }
 
+  //ANCHOR - like
   async like(user: User): Promise<this> {
     if (this.id) {
       const ref = doc(db, "reactions", this.id);
@@ -332,20 +407,26 @@ export class Reaction {
     }
   }
 
+  //ANCHOR - isLike
   isLiked(user?: User | null) {
     return this.liked.includes(user?.uid ?? "");
   }
 
+  //ANCHOR - set
   set<T extends keyof this>(field: T, value: this[T]): this {
     this[field] = value;
     return this;
   }
 
+  //ANCHOR - getLike
   static async getLike(id: string) {
     return (await getDoc(doc(db, "reactions", id))).data();
   }
+
+  //ANCHOR - get
   static async get(id: string): Promise<Reaction> {
     const reaction = await this.getLike(id);
     return new Reaction({ ...reaction, id });
   }
 }
+//!SECTION

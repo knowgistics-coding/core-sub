@@ -102,6 +102,7 @@ export type LocaleKey =
   | "Filter"
   | "First Name"
   | "Folder"
+  | "Follow"
   | "Followers"
   | "Following"
   | "Forget Password"
@@ -203,6 +204,7 @@ export type LocaleKey =
   | "Profile Image"
   | "Project"
   | "Public"
+  | "QR code"
   | "Question"
   | "Question Bank"
   | "Question Title"
@@ -296,6 +298,7 @@ export type LocaleKey =
   | "TypeHere"
   | "Unenroll"
   | "Undefined"
+  | "Unfollow"
   | "University"
   | "Unlimited $Name"
   | "Unsort"
@@ -448,6 +451,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Filter: ["Filter", "ตัวกรอง"],
   "First Name": ["First Name", "ชื่อ"],
   Folder: ["Folder", "โฟลเดอร์"],
+  Follow: ["Follow", "ติดตาม"],
   Followers: ["Followers", "ผู้ติดตาม"],
   Following: ["Following", "การติดตาม"],
   "Forget Password": ["Forget Password", "ลืมรหัสผ่าน"],
@@ -549,6 +553,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "Profile Image": ["Profile Image", "รูปประจำตัว"],
   Project: ["Project", "โครงการ"],
   Public: ["Public", "สาธารณะ"],
+  "QR code": ["QR code", "คิวอาร์โค้ด"],
   Question: ["Question", "คำถาม"],
   "Question Bank": ["Question Bank", "คลังแบบทดสอบ"],
   "Question Title": ["Question Title", "ชื่อข้อสอบ"],
@@ -652,6 +657,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   TypeHere: ["Type Here", "พิมพ์ที่นี่"],
   Unenroll: ["Unenroll", "เพิกถอน"],
   Undefined: ["Undefined", "ไม่ได้กำหนด"],
+  Unfollow: ["Unfollow", "เลิกติดตาม"],
   "Unlimited $Name": ["Unlimited {{name}}", "{{name}}ไม่จำกัด"],
   University: ["University", "มหาวิทยาลัย"],
   Unsort: ["Unsort", "ยกเลิกการเรียง"],

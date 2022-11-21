@@ -7,6 +7,7 @@ import "firebase/auth";
 import { initializeFirestore, serverTimestamp } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
+import { getMessaging } from 'firebase/messaging'
 
 export let firebaseConfig = {
   apiKey: process.env.REACT_APP_apiKey,
@@ -25,3 +26,4 @@ export const db = initializeFirestore(app, {
 export const auth = getAuth(app);
 export const storage = getStorage(app);
 export const dbTimestamp = () => serverTimestamp();
+export const messaging = getMessaging(app);
