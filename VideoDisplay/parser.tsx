@@ -24,6 +24,12 @@ export const youtube_parser = (url: string): string => {
 };
 
 export const loom_parser = (url: string): string => {
+  const div = document.createElement('div')
+  div.innerHTML = url
+  const iframe = div.querySelector("iframe")
+  if(iframe && iframe.src){
+    return iframe.src
+  }
   const preg = /<iframe.*src="(.*)" frame.*><\/iframe>/;
   let results = url.match(preg);
   if (results?.[1]) {

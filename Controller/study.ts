@@ -1,20 +1,24 @@
+//SECTION - IMPORT
 import { MainStatic } from "./main.static";
 import { User } from "firebase/auth";
-import { Quiz, Question } from "./course";
+import { Quiz, Question, QuestionAnswer } from "./course";
 import {
   collection,
   doc,
-  onSnapshot,
+  getDocs,
   query,
   Timestamp,
-  Unsubscribe,
   where,
 } from "firebase/firestore";
 import { db } from "./firebase";
 import { DateCtl } from "./date.ctl";
+//!SECTION
 
+//SECTION - CLASS: Study
 export class Study extends MainStatic {}
+//!SECTION
 
+//SECTION - CLASS: Score
 export class Score {
   id: string;
   date: number;
@@ -39,6 +43,7 @@ export class Score {
     this.user = data?.user ?? "";
   }
 }
+//!SECTION
 
 /**
  *  $$$$$$\ $$$$$$$$\ $$\   $$\ $$$$$$$\ $$\     $$\
@@ -60,11 +65,13 @@ export class Score {
  *      \___|
  */
 
+//SECTION - StudyQuiz
 export class StudyQuiz extends MainStatic {
   quiz: Quiz;
   questions: Question[];
   attemps: Score[];
 
+  //ANCHOR - constructor
   constructor(data?: Partial<StudyQuiz>) {
     super();
 
@@ -75,11 +82,13 @@ export class StudyQuiz extends MainStatic {
     this.attemps = data?.attemps ?? [];
   }
 
+  //ANCHOR - set
   set<T extends keyof this>(field: T, value: this[T]): this {
     this[field] = value;
     return this;
   }
 
+  //ANCHOR - quizable
   quizable(): boolean {
     if (parseInt(`${this.quiz.attemps}`) === -1) {
       return true;
@@ -90,13 +99,41 @@ export class StudyQuiz extends MainStatic {
     }
   }
 
+  static async submit(
+    user: User,
+    sectionId: string,
+    quizId: string,
+    answers: Record<string, QuestionAnswer>,
+    ids: string[]
+  ): Promise<Score> {
+    const result = await this.get<Score>(
+      user,
+      `${this.baseUrl()}/student/quiz/submit`,
+      "PUT",
+      JSON.stringify({
+        prefix: this.prefix,
+        sectionId,
+        quizId,
+        answers,
+        questions: ids,
+      })
+    );
+    return result;
+  }
+
+  //SECTION - STATIC
+
+  //ANCHOR - collection
   protected static collection(path: string, ...pathSegments: string[]) {
     return collection(db, "lms", `${this.prefix}`, path, ...pathSegments);
   }
+
+  //ANCHOR - doc
   protected static doc(path: string, ...pathSegments: string[]) {
     return doc(db, "lms", `${this.prefix}`, path, ...pathSegments);
   }
 
+  //ANCHOR - getQuiz
   private static getQuiz(
     user: User,
     sectionId: string,
@@ -120,25 +157,36 @@ export class StudyQuiz extends MainStatic {
     });
   }
 
-  static watch(
+  //ANCHOR - getScores
+  static async getScores(
     user: User,
     sectionId: string,
-    quizId: string,
-    callback: (data: StudyQuiz) => void
-  ): Unsubscribe {
-    return onSnapshot(
+    quizId: string
+  ): Promise<Score[]> {
+    const snapshot = await getDocs(
       query(
         this.collection("sections", sectionId, `scores`),
         where("user", "==", user.uid),
         where("quizId", "==", quizId)
-      ),
-      async (snapshot) => {
-        const docs = snapshot.docs.map(
-          (doc) => new Score({ ...doc.data(), id: doc.id })
-        );
-        const quiz = await this.getQuiz(user, sectionId, quizId);
-        callback(quiz.set("attemps", docs));
-      }
+      )
     );
+    const docs = snapshot.docs.map(
+      (doc) => new Score({ ...doc.data(), id: doc.id })
+    );
+    return docs;
   }
+
+  //ANCHOR - watch
+  static async getOne(
+    user: User,
+    sectionId: string,
+    quizId: string
+  ): Promise<StudyQuiz> {
+    const quiz = await this.getQuiz(user, sectionId, quizId);
+    const scores = await this.getScores(user, sectionId, quizId);
+    return quiz.set("attemps", scores);
+  }
+
+  //!SECTION
 }
+//!SECTION
