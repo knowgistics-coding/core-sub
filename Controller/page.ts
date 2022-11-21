@@ -8,6 +8,7 @@ import { StockDisplayProps } from "../StockDisplay";
 import { StockImageTypes } from "../StockPicker";
 import { VideoContent } from "../VideoDisplay";
 import { VisibilityTabsValue } from "../VisibilityTabs";
+import { MekFile } from "./file";
 import { Map, MapJson } from "./map";
 
 export type ShowTypes =
@@ -51,6 +52,7 @@ export interface PageContentTypes {
   cover?: StockDisplayProps;
   slide?: SlideItem[];
   table?: DataGridEditorData;
+  file?: MekFile;
   mt?: number;
   mb?: number;
 }
@@ -235,12 +237,12 @@ export class PageDoc {
 
   /**
    * ==================================================
-   *   _   _                   _  _               
-   *  | | | |  ___   __ _   __| |(_) _ __    __ _ 
+   *   _   _                   _  _
+   *  | | | |  ___   __ _   __| |(_) _ __    __ _
    *  | |_| | / _ \ / _` | / _` || || '_ \  / _` |
    *  |  _  ||  __/| (_| || (_| || || | | || (_| |
    *  |_| |_| \___| \__,_| \__,_||_||_| |_| \__, |
-   *                                        |___/ 
+   *                                        |___/
    * ==================================================
    */
 

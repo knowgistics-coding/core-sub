@@ -19,6 +19,7 @@ import { DGETable } from "../DataGridEditor";
 import { PickIcon } from "../PickIcon";
 import { ShowTypes } from "../Controller/page";
 import { LeafletContainer, LeafletMap } from "../LeafLet";
+import { FileDisplay } from "../FileDisplay";
 
 const getDate = (date: any) => {
   if (date?.toMillis?.()) {
@@ -215,6 +216,21 @@ export const PageViewer = (props: PageViewerProps) => {
                     />
                   </Wrapper>
                 );
+              case "file":
+                return content.file?.content ? (
+                  <Wrapper key={content.key}>
+                    <FileDisplay
+                      content={{
+                        value: {
+                          name: content.file.content.name,
+                          size: content.file.content.size,
+                          original: content.file.content.downloadURL,
+                        },
+                      }}
+                      Link={content.file.content.downloadURL}
+                    />
+                  </Wrapper>
+                ) : null;
               case "divider":
                 return (
                   <Container maxWidth="post" key={content.key}>
@@ -233,11 +249,11 @@ export const PageViewer = (props: PageViewerProps) => {
           {data.maps.length > 0 && (
             <Container maxWidth="post">
               <Box
-                sx={theme => ({
+                sx={(theme) => ({
                   width: theme.sidebarWidth * 1.5,
                   maxWidth: "100%",
-                  margin: '0 auto 1rem',
-                  position: 'relative',
+                  margin: "0 auto 1rem",
+                  position: "relative",
                   "&:before": {
                     content: "''",
                     display: "block",
@@ -245,7 +261,11 @@ export const PageViewer = (props: PageViewerProps) => {
                   },
                 })}
               >
-                <LeafletContainer rootProps={{ sx: theme => ({ ...theme.mixins.absoluteFluid }) }}>
+                <LeafletContainer
+                  rootProps={{
+                    sx: (theme) => ({ ...theme.mixins.absoluteFluid }),
+                  }}
+                >
                   <LeafletMap maps={data.maps} />
                 </LeafletContainer>
               </Box>

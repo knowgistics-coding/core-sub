@@ -1,4 +1,4 @@
-import { library, IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faAlignCenter,
   faAlignLeft,
@@ -119,6 +119,7 @@ import {
   faWalking,
   faXmark,
   faXmarkCircle,
+  IconDefinition,
 } from "@fortawesome/pro-regular-svg-icons";
 import { faYoutube, faFacebook } from "@fortawesome/free-brands-svg-icons";
 import {
@@ -248,7 +249,7 @@ const iconLists = [
   faCircleChevronLeft,
   faCircleChevronRight,
   faCircleChevronUp,
-  faUser
+  faUser,
 ] as IconDefinition[];
 
 library.add(...iconLists);
@@ -376,8 +377,13 @@ export type PickIconName =
   | "xmark-circle"
   | "youtube";
 export type PickIconProps = Omit<FontAwesomeIconProps, "icon"> & {
-  icon: PickIconName;
+  icon: PickIconName | IconDefinition;
 };
 export const PickIcon = ({ icon, ...props }: PickIconProps) => {
-  return <FontAwesomeIcon icon={["far", icon]} {...props} />;
+  return (
+    <FontAwesomeIcon
+      icon={typeof icon === "string" ? ["far", icon] : icon}
+      {...props}
+    />
+  );
 };

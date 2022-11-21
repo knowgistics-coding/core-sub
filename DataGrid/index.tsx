@@ -11,7 +11,7 @@ const DataGridStyled = styled(DG)(({ theme }) => ({
   },
 }));
 
-export interface DataGridProps extends Omit<DGP, "autoHeight"> {
+export interface DataGridProps extends DGP {
   height?: number;
   searchable?: boolean;
 }

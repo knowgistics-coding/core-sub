@@ -57,6 +57,7 @@ export interface PageEditProps {
   show: ShowTypes[];
   setData: (doc:PageDoc) => void;
   onSave: () => Promise<boolean> | boolean;
+  hash?: string
 
   children?: React.ReactNode;
   back?: string;

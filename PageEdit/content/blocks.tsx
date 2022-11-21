@@ -16,6 +16,6 @@ export const Blocks: {
   { title: "Highlight", icon: "newspaper", key: "highlight" },
   { title: "Card", icon: "table", key: "card" },
   { title: "Table", icon: "table", key: "table" },
-  { title: "Divider", icon: "horizontal-rule", key: "divider" },
   { title: "File", icon: "file-alt", key: "file" },
+  { title: "Divider", icon: "horizontal-rule", key: "divider" },
 ];

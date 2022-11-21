@@ -36,6 +36,7 @@ import { PEContentSelectAll } from "./select.all";
 import { PEContentSpacingButton } from "./spacing.button";
 import debounce from "lodash.debounce";
 import { PickIcon } from "../../PickIcon";
+import { PEEditorFile } from "../editor/file";
 
 const SortableContainer = SC<BoxProps>(Box);
 const SortableElement = SE<BoxProps>(Box);
@@ -73,7 +74,7 @@ export const PEContent = () => {
         try {
           const newData = JSON.parse(text);
           if (newData?.contents) {
-            data.contents = newData.contents
+            data.contents = newData.contents;
             setData(data);
           }
         } catch (err) {
@@ -164,6 +165,12 @@ export const PEContent = () => {
                 return (
                   <SortableElement index={index} key={content.key}>
                     <PEEditorTable content={content} index={index} />
+                  </SortableElement>
+                );
+              case "file":
+                return (
+                  <SortableElement index={index} key={content.key}>
+                    <PEEditorFile content={content} index={index} />
                   </SortableElement>
                 );
               case "divider":

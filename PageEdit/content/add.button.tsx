@@ -1,4 +1,4 @@
-import { Fab } from "@mui/material";
+import { Fab, Tooltip } from "@mui/material";
 import { debounce } from "lodash";
 import React from "react";
 import { ShowTypes } from "../../Controller/page";
@@ -20,14 +20,11 @@ export const PEContentAddButton = () => {
   return (
     <React.Fragment>
       {Blocks.filter((block) => show.includes(block.key)).map((block) => (
-        <Fab
-          size="small"
-          color="info"
-          key={block.key}
-          onClick={handleAddContent(block.key)}
-        >
-          <PickIcon icon={block.icon} />
-        </Fab>
+        <Tooltip placement="left-end" title={block.title} key={block.key}>
+          <Fab size="small" color="info" onClick={handleAddContent(block.key)}>
+            <PickIcon icon={block.icon} />
+          </Fab>
+        </Tooltip>
       ))}
     </React.Fragment>
   );
