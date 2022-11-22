@@ -14,6 +14,7 @@ import {
   orderBy,
   FirestoreError,
   runTransaction,
+  getDocs,
 } from "firebase/firestore";
 import { User } from "firebase/auth";
 import moment from "moment";
@@ -22,6 +23,7 @@ import { db } from "./firebase";
 import { cleanObject } from "../func";
 import { FileDocument } from "./files.static";
 import { MainStatic } from "./main.static";
+import { PickIconName } from "../PickIcon";
 
 //ANCHOR - NestFile Type
 export type NestFile = {
@@ -33,6 +35,9 @@ export type NestFile = {
   user: string;
   downloadURL: string;
 };
+
+//ANCHOR - TYPE: MekFileQueryOptions
+export type MekFileQueryOptions = "file" | "shared" | "star" | "trash";
 
 //ANCHOR - FileParentList
 export type FileParentList = Record<"title" | "keyId", string>;
@@ -51,7 +56,7 @@ export class MekFile {
   type: "folder" | "file";
   datecreate?: number;
   datemodified?: number;
-  visibility?: VisibilityTabsValue;
+  visibility?: VisibilityTabsValue | "parent-trash";
 
   constructor(data?: Partial<MekFile>) {
     this.id = data?.id ?? "";
@@ -114,13 +119,22 @@ export class MekFile {
   //ANCHOR - update
   async update<Key extends keyof this>(
     field: Key,
-    value: this[Key]
+    value: this[Key] | ((data: this[Key]) => this[Key])
   ): Promise<void> {
     if (this.user && this.id) {
       await updateDoc(MekFile.doc(this.user, this.id), {
-        [field]: value,
+        [field]: value instanceof Function ? value(this[field]) : value,
         datemodified: serverTimestamp(),
       });
+    }
+  }
+
+  //ANCHOR - updateAllFolder
+  async updateAllFolder(): Promise<void> {
+    if (this.user && this.id) {
+      await this.update("visibility", "trash");
+      const docs = await MekFile.getChildren(this.user, this.id);
+      docs.forEach((doc) => doc.update("visibility", "parent-trash"));
     }
   }
 
@@ -155,7 +169,19 @@ export class MekFile {
   //ANCHOR - remove
   async remove(): Promise<void> {
     if (this.user && this.id) {
-      await deleteDoc(MekFile.doc(this.user, this.id));
+      if (this.visibility === "trash" || this.visibility === "parent-trash") {
+        const docs = await MekFile.getChildren(this.user, this.id);
+        await Promise.all(docs.map((doc) => doc.remove()));
+        await deleteDoc(MekFile.doc(this.user, this.id));
+      } else {
+        if (this.type === "folder") {
+          const docs = await MekFile.getChildren(this.user, this.id);
+          await Promise.all(
+            docs.map((doc) => doc.update("visibility", "parent-trash"))
+          );
+        }
+        await this.update("visibility", "trash");
+      }
     }
   }
 
@@ -177,6 +203,17 @@ export class MekFile {
     }
   }
 
+  //ANCHOR - restore
+  async restore() {
+    if (this.visibility === "trash" || this.visibility === "parent-trash") {
+      if (this.user && this.id && this.type === "folder") {
+        const docs = await MekFile.getChildren(this.user, this.id);
+        await Promise.all(docs.map((doc) => doc.restore()));
+      }
+      await this.update("visibility", "private");
+    }
+  }
+
   //SECTION - static
 
   //ANCHOR - doc
@@ -189,17 +226,68 @@ export class MekFile {
     return collection(db, "users", uid, "docs");
   }
 
-  //ANCHOR - watch
-  static watch(
+  //ANCHOR - watchMany
+  static watchMany(
     user: User,
-    callback: (docs: MekFile[]) => void,
+    callback: (docs: MekFile[], parent: FileParentList[]) => void,
     parent: string = "0"
-  ): Unsubscribe {
+  ) {
     return onSnapshot(
       query(
         this.collection(user.uid),
         where("type", "in", ["file", "folder"]),
         where("parent", "==", parent)
+      ),
+      async (snapshot) => {
+        const docs = snapshot.docs
+          .map((doc) => new MekFile({ ...doc.data(), id: doc.id }))
+          .filter(
+            (doc) =>
+              !(["trash", "parent-trash"] as MekFile["visibility"][]).includes(
+                doc.visibility
+              )
+          );
+        const list = await this.getParent(user, parent);
+        callback(docs, list);
+      }
+    );
+  }
+
+  //ANCHOR - watchStar
+  static watchStar(
+    user: User,
+    callback: (docs: MekFile[]) => void
+  ): Unsubscribe {
+    return onSnapshot(
+      query(
+        this.collection(user.uid),
+        where("type", "in", ["file", "folder"]),
+        where("star", "==", true)
+      ),
+      (snapshot) => {
+        const docs = snapshot.docs
+          .map((doc) => new MekFile({ ...doc.data(), id: doc.id }))
+          .filter(
+            (doc) =>
+              doc.visibility !== "parent-trash" &&
+              doc.visibility !== "trash" &&
+              doc.star
+          );
+        callback(docs);
+      }
+    );
+  }
+
+  //ANCHOR - watchTrash
+  static watchTrash(
+    user: User,
+    callback: (docs: MekFile[]) => void
+  ): Unsubscribe {
+    return onSnapshot(
+      query(
+        this.collection(user.uid),
+        where("type", "in", ["file", "folder"]),
+        where("visibility", "==", "trash")
       ),
       (snapshot) => {
         const docs = snapshot.docs.map(
@@ -258,7 +346,7 @@ export class MekFile {
 
   //ANCHOR - fileSize
   static fileSize(size: number): string {
-    size = size / 1000;
+    size = Math.round(size / 1000);
     if (size > 1000) {
       return `${size / 1000} MB`;
     } else {
@@ -281,6 +369,24 @@ export class MekFile {
       }
     }
     return [];
+  }
+
+  //ANCHOR - getChildren
+  static async getChildren(user: string, parent: string): Promise<MekFile[]> {
+    const docs = (
+      await Promise.all(
+        (
+          await getDocs(
+            query(this.collection(user), where("parent", "==", parent))
+          )
+        ).docs.map(async (doc) => {
+          const file = new MekFile({ ...doc.data(), id: doc.id });
+          const files = await this.getChildren(user, doc.id);
+          return [file].concat(...files);
+        })
+      )
+    ).reduce((total, docs) => total.concat(...docs), []);
+    return docs;
   }
 
   //ANCHOR - watchFolder
@@ -306,27 +412,34 @@ export class MekFile {
     );
   }
 
-  //ANCHOR - watchMany
-  static watchMany(
-    user: User,
-    callback: (docs: MekFile[], parent: FileParentList[]) => void,
-    parent: string = "0"
-  ) {
-    return onSnapshot(
-      query(
-        this.collection(user.uid),
-        where("type", "in", ["file", "folder"]),
-        where("parent", "==", parent)
-      ),
-      async (snapshot) => {
-        const docs = snapshot.docs.map(
-          (doc) => new MekFile({ ...doc.data(), id: doc.id })
-        );
-        const list = await this.getParent(user, parent);
-        callback(docs, list);
+  //ANCHOR - getIcon
+  static getIcon = (file: MekFile): PickIconName => {
+    if (file.content) {
+      switch (file.content.ext) {
+        case "xlsx":
+        case "xls":
+          return "file-excel";
+        case "doc":
+        case "docx":
+        case "xml":
+          return "file-word";
+        case "pdf":
+          return "file-pdf";
+        case "pot":
+        case "potx":
+        case "ppt":
+        case "pptx":
+          return "file-powerpoint";
+        default:
+          if (/image/.test(file.content.mime)) {
+            return "image";
+          }
+          return "file-circle-question";
       }
-    );
-  }
+    } else {
+      return "folder";
+    }
+  };
 
   //!SECTION
 }
