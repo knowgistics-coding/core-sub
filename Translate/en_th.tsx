@@ -90,6 +90,7 @@ export type LocaleKey =
   | "Edit $Name"
   | "Email"
   | "Empty"
+  | "Empty Trash"
   | "End"
   | "English"
   | "Enroll"
@@ -441,6 +442,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "Edit $Name": ["Edit {{name}}", "แก้ไข{{name}}"],
   Email: ["Email", "อีเมล"],
   Empty: ["Empty", "ว่างเปล่า"],
+  "Empty Trash": ["Empty Trash", "ล้างถังขยะ"],
   End: ["End", "สิ้นสุด"],
   English: ["English", "อังกฤษ"],
   Enroll: ["English", "ลงทะเบียน"],
