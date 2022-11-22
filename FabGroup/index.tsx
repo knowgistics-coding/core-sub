@@ -9,20 +9,25 @@ import {
 } from "@mui/material";
 import * as React from "react";
 import { PickIcon, PickIconName, PickIconProps } from "../PickIcon";
+import { IconDefinition } from "@fortawesome/pro-regular-svg-icons";
 
 export type FabIconProps = FabProps & {
-  icon: PickIconName;
+  icon: PickIconName | IconDefinition;
   iconProps?: Omit<PickIconProps, "icon">;
 };
 export const FabIcon = styled(
-  ({ icon, iconProps, ...props }: FabIconProps) => (
-    <Fab {...props}>
-      <PickIcon icon={icon} {...iconProps} />
-    </Fab>
+  React.forwardRef<HTMLButtonElement, FabIconProps>(
+    ({ icon, iconProps, ...props }, ref) => {
+      return (
+        <Fab ref={ref} {...props}>
+          <PickIcon icon={icon} {...iconProps} />
+        </Fab>
+      );
+    }
   )
-)<FabIconProps>(() => (({theme}) => ({
-  fontSize: theme.typography.body1.fontSize
-})));
+)<FabIconProps>(() => ({ theme }) => ({
+  fontSize: theme.typography.body1.fontSize,
+}));
 FabIcon.defaultProps = {
   color: "neutral",
   size: "small",
