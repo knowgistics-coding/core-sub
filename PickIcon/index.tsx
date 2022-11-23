@@ -1,4 +1,4 @@
-import { library, IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faAlignCenter,
   faAlignLeft,
@@ -44,6 +44,7 @@ import {
   faClock,
   faCodeBranch,
   faCog,
+  faComment,
   faCopy,
   faCopyright,
   faCrop,
@@ -51,6 +52,7 @@ import {
   faDownload,
   faDrawPolygon,
   faEdit,
+  faEllipsisH,
   faEllipsisV,
   faEnvelope,
   faExchangeAlt,
@@ -64,6 +66,7 @@ import {
   faFileCircleXmark,
   faFileDownload,
   faFileSlash,
+  faFlag,
   faFolder,
   faFolderDownload,
   faFolderOpen,
@@ -73,6 +76,7 @@ import {
   faGripDotsVertical,
   faGripLines,
   faHeading,
+  faHeart,
   faHome,
   faHorizontalRule,
   faHospital,
@@ -128,6 +132,7 @@ import {
   faFileWord,
   faFilePdf,
   faFilePowerpoint,
+  IconDefinition,
 } from "@fortawesome/pro-regular-svg-icons";
 import { faYoutube, faFacebook } from "@fortawesome/free-brands-svg-icons";
 import {
@@ -258,16 +263,20 @@ const iconLists = [
   faCircleChevronRight,
   faCircleChevronUp,
   faUser,
+  faHeart,
+  faComment,
   faFile,
   faFileCircleCheck,
   faFileCircleQuestion,
+  faEllipsisH,
+  faFlag,
   faShareNodes,
   faStar,
   faFileExcel,
   faFileWord,
   faFilePdf,
   faFilePowerpoint,
-  faFileCircleQuestion
+  faFileCircleQuestion,
 ] as IconDefinition[];
 
 library.add(...iconLists);
@@ -317,6 +326,7 @@ export type PickIconName =
   | "clock"
   | "code-branch"
   | "cog"
+  | "comment"
   | "copy"
   | "copyright"
   | "crop"
@@ -324,6 +334,7 @@ export type PickIconName =
   | "download"
   | "draw-polygon"
   | "edit"
+  | "ellipsis-h"
   | "ellipsis-v"
   | "envelope"
   | "exchange-alt"
@@ -341,6 +352,7 @@ export type PickIconName =
   | "file-pdf"
   | "file-powerpoint"
   | "file-slash"
+  | "flag"
   | "file-word"
   | "folder"
   | "folder-download"
@@ -351,6 +363,7 @@ export type PickIconName =
   | "grip-dots-vertical"
   | "grip-lines"
   | "heading"
+  | "heart"
   | "home"
   | "horizontal-rule"
   | "hospital"
@@ -404,8 +417,13 @@ export type PickIconName =
   | "xmark-circle"
   | "youtube";
 export type PickIconProps = Omit<FontAwesomeIconProps, "icon"> & {
-  icon: PickIconName;
+  icon: PickIconName | IconDefinition;
 };
 export const PickIcon = ({ icon, ...props }: PickIconProps) => {
-  return <FontAwesomeIcon icon={["far", icon]} {...props} />;
+  return (
+    <FontAwesomeIcon
+      icon={typeof icon === "string" ? ["far", icon] : icon}
+      {...props}
+    />
+  );
 };

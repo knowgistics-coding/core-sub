@@ -10,16 +10,17 @@ import {
   styled,
   Typography,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 import { useCore } from "../context";
 import { CrossSite } from "../Controller/cross.site";
 import { Feeds } from "../Controller/social";
 import { DateDisplay } from "../DateDisplay";
 import { KuiActionIcon } from "../KuiActionIcon";
 import { PickIcon } from "../PickIcon";
+import { ReactionBox } from "../ReactionBox";
 import { StockDisplay } from "../StockDisplay";
 
 const Root = styled(List)(({ theme }) => ({
-  cursor: "pointer",
   borderRadius: theme.spacing(2),
   backgroundColor: theme.palette.background.paper,
   boxShadow: theme.shadows[2],
@@ -27,8 +28,14 @@ const Root = styled(List)(({ theme }) => ({
 }));
 
 const Content = styled(Box)(({ theme }) => ({
+  cursor: "pointer",
   backgroundColor: theme.palette.background.default,
   padding: theme.spacing(1, 2),
+}));
+
+const LinkStyled = styled(Link)(({ theme }) => ({
+  color: theme.palette.text.primary,
+  textDecoration: "none",
 }));
 
 export type FeedCardProps = {
@@ -38,14 +45,21 @@ export type FeedCardProps = {
   title?: string;
   date?: number;
   uid?: string;
+  commenting?: boolean;
+  onCommenting?: () => void;
+  to?: string;
 };
 export const FeedCard = ({ feed, ...props }: FeedCardProps) => {
   const { user } = useCore();
 
   const handleEdit = async () => {
     if (user.data && feed) {
-      const link = await CrossSite.getSignInLink(user.data, 'post', `/post/editor/${feed.id}`);
-      if(link){
+      const link = await CrossSite.getSignInLink(
+        user.data,
+        "post",
+        `/post/editor/${feed.id}`
+      );
+      if (link) {
         window.open(link);
       }
     }
@@ -98,18 +112,25 @@ export const FeedCard = ({ feed, ...props }: FeedCardProps) => {
             )}
           </ListItemSecondaryAction>
         </ListItem>
-        {feed.feature && <StockDisplay {...feed.feature} ratio={1 / 4} />}
-        <Content>
-          <Typography variant="h6">
-            <PickIcon icon={feed.getIcon()} style={{ marginRight: "1ch" }} />
-            {feed.title}
-          </Typography>
-          {feed.getPreview() && (
-            <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
-              {feed.getPreview()}
+        <LinkStyled to={props.to ?? "#"}>
+          {feed.feature && <StockDisplay {...feed.feature} ratio={1 / 4} />}
+          <Content>
+            <Typography variant="h6">
+              <PickIcon icon={feed.getIcon()} style={{ marginRight: "1ch" }} />
+              {feed.title}
             </Typography>
-          )}
-        </Content>
+            {feed.getPreview() && (
+              <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
+                {feed.getPreview()}
+              </Typography>
+            )}
+          </Content>
+        </LinkStyled>
+        <ReactionBox
+          doc={feed.id}
+          commenting={props.commenting}
+          onCommenting={props.onCommenting}
+        />
       </Root>
     );
   } else {

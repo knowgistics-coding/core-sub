@@ -19,6 +19,7 @@ import { DGETable } from "../DataGridEditor";
 import { PickIcon } from "../PickIcon";
 import { ShowTypes } from "../Controller/page";
 import { LeafletContainer, LeafletMap } from "../LeafLet";
+import { FileDisplay } from "../FileDisplay";
 
 const getDate = (date: any) => {
   if (date?.toMillis?.()) {
@@ -215,6 +216,21 @@ export const PageViewer = (props: PageViewerProps) => {
                     />
                   </Wrapper>
                 );
+              case "file":
+                return content.file?.content ? (
+                  <Wrapper key={content.key}>
+                    <FileDisplay
+                      content={{
+                        value: {
+                          name: content.file.content.name,
+                          size: content.file.content.size,
+                          original: content.file.content.downloadURL,
+                        },
+                      }}
+                      Link={content.file.content.downloadURL}
+                    />
+                  </Wrapper>
+                ) : null;
               case "divider":
                 return (
                   <Wrapper key={content.key}>

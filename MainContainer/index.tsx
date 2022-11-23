@@ -16,6 +16,7 @@ import { MCSignInBox } from "./signin.box";
 import { MCRightbar } from "./rightbar";
 import { useLocation } from "react-router-dom";
 import { CrossSite } from "../Controller/cross.site";
+import { FilePicker } from "../FilePicker";
 
 export * from "./ctx";
 export const MainContainer = (props: MainContainerProps) => {
@@ -27,6 +28,7 @@ export const MainContainer = (props: MainContainerProps) => {
   });
   const [state, setState] = useState<MCContextTypes["state"]>({
     anchorProfile: null,
+    onFilePickerConfirm: null
   });
   const location = useLocation();
 
@@ -82,6 +84,7 @@ export const MainContainer = (props: MainContainerProps) => {
         <MCSetting />
       </ProfileMenuNotSign>
       <MCSignInBox />
+      <FilePicker />
     </MCContext.Provider>
   );
 };
