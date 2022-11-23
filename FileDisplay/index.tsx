@@ -30,7 +30,7 @@ export const FileDisplay = ({ content }: FileDisplayProps) => {
     <Fragment>
       {" "}
       <ListItemBlock divider>
-        <ListItemIcon>
+        <ListItemIcon sx={{ pr: 2 }}>
           <PickIcon icon={"file-alt"} size="2x" />
         </ListItemIcon>
         <ListItemText

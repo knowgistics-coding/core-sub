@@ -29,4 +29,7 @@ export class DateCtl {
       return -1;
     }
   }
+  static toDateString(date:number):string{
+    return moment(date).format("YYYY-MM-DD HH:mm")
+  }
 }

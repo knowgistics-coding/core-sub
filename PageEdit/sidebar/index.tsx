@@ -22,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { usePopup } from "../../Popup";
 import { PickIcon } from "../../PickIcon";
 import { PEMaps } from "./maps";
+import { simpleHash } from "../../func";
 
 export const PESidebar = () => {
   const { t } = useCore();
@@ -35,6 +36,7 @@ export const PESidebar = () => {
     back,
     onPreview,
     sidebarActions,
+    hash,
   } = usePE();
   const { Popup } = usePopup();
   const { addAlert } = useAlerts();
@@ -51,21 +53,25 @@ export const PESidebar = () => {
   const handleChangeHideToolbar = (value: boolean) =>
     setState((s) => ({ ...s, hideToolbar: value }));
   const handleBack = () => {
-    Popup.confirm({
-      title: t("Confirm"),
-      text: t("Save Before Leave"),
-      icon: "question-circle",
-      onConfirm: async () => {
-        setState((s) => ({ ...s, loading: true }));
-        const result = await onSave();
-        if (result) {
-          addAlert({ label: t("Saved") });
-        }
-        setState((s) => ({ ...s, loading: false }));
-        nav(back!);
-      },
-      onAbort: () => nav(back!),
-    });
+    if (hash !== simpleHash(JSON.stringify(data))) {
+      Popup.confirm({
+        title: t("Confirm"),
+        text: t("Save Before Leave"),
+        icon: "question-circle",
+        onConfirm: async () => {
+          setState((s) => ({ ...s, loading: true }));
+          const result = await onSave();
+          if (result) {
+            addAlert({ label: t("Saved") });
+          }
+          setState((s) => ({ ...s, loading: false }));
+          nav(back!);
+        },
+        onAbort: () => nav(back!),
+      });
+    } else {
+      nav(back!);
+    }
   };
 
   return (
