@@ -1,16 +1,12 @@
 import { styled, Typography } from "@mui/material";
-import {
-  ContentState,
-  convertFromHTML,
-  EditorState,
-  RawDraftContentState,
-} from "draft-js";
+import { EditorState, RawDraftContentState } from "draft-js";
 import { useEffect, useState } from "react";
 import { Editor, EditorProps } from "react-draft-wysiwyg";
 import { variants, VariantSetting } from "./variant.setting";
 import draftToHTML from "draftjs-to-html";
 import { useCore } from "../context";
 import draftToHtml from "draftjs-to-html";
+import { AbsatzCtl } from "../Absatz/ctl";
 
 export const toolbar = {
   options: ["history", "textAlign"],
@@ -72,10 +68,7 @@ export const HeaderEditor = styled(
 
     useEffect(() => {
       if (!editorState && value) {
-        const { contentBlocks, entityMap } = convertFromHTML(value);
-        const editorState = EditorState.createWithContent(
-          ContentState.createFromBlockArray(contentBlocks, entityMap)
-        );
+        const editorState = AbsatzCtl.htmlToEditor(value);
         setEditorState(editorState);
       }
     }, [value, editorState]);
