@@ -10,6 +10,7 @@ import {
   styled,
   Typography,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 import { useCore } from "../context";
 import { CrossSite } from "../Controller/cross.site";
 import { Feeds } from "../Controller/social";
@@ -27,8 +28,14 @@ const Root = styled(List)(({ theme }) => ({
 }));
 
 const Content = styled(Box)(({ theme }) => ({
+  cursor: "pointer",
   backgroundColor: theme.palette.background.default,
   padding: theme.spacing(1, 2),
+}));
+
+const LinkStyled = styled(Link)(({ theme }) => ({
+  color: theme.palette.text.primary,
+  textDecoration: "none",
 }));
 
 export type FeedCardProps = {
@@ -40,6 +47,7 @@ export type FeedCardProps = {
   uid?: string;
   commenting?: boolean;
   onCommenting?: () => void;
+  to?: string;
 };
 export const FeedCard = ({ feed, ...props }: FeedCardProps) => {
   const { user } = useCore();
@@ -104,18 +112,20 @@ export const FeedCard = ({ feed, ...props }: FeedCardProps) => {
             )}
           </ListItemSecondaryAction>
         </ListItem>
-        {feed.feature && <StockDisplay {...feed.feature} ratio={1 / 4} />}
-        <Content>
-          <Typography variant="h6">
-            <PickIcon icon={feed.getIcon()} style={{ marginRight: "1ch" }} />
-            {feed.title}
-          </Typography>
-          {feed.getPreview() && (
-            <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
-              {feed.getPreview()}
+        <LinkStyled to={props.to ?? "#"}>
+          {feed.feature && <StockDisplay {...feed.feature} ratio={1 / 4} />}
+          <Content>
+            <Typography variant="h6">
+              <PickIcon icon={feed.getIcon()} style={{ marginRight: "1ch" }} />
+              {feed.title}
             </Typography>
-          )}
-        </Content>
+            {feed.getPreview() && (
+              <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
+                {feed.getPreview()}
+              </Typography>
+            )}
+          </Content>
+        </LinkStyled>
         <ReactionBox
           doc={feed.id}
           commenting={props.commenting}
