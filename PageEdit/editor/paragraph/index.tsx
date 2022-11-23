@@ -10,6 +10,7 @@ export const PEEditorParagraph = ({ index, content }: PEEditorProps) => {
   const { t } = useCore();
   const {
     state: { focus },
+    setState,
     data,
     setData,
   } = usePE();
@@ -18,7 +19,11 @@ export const PEEditorParagraph = ({ index, content }: PEEditorProps) => {
     setData(data.contentSet(content.key, "paragraph", { value }));
   };
   const handleEnter = (paragraphs: string[]) => {
-    setData(data.paragraphEnter(content.key, paragraphs));
+    setData(
+      data.paragraphEnter(content.key, paragraphs, (key) => {
+        setState((s) => ({ ...s, focus: key }));
+      })
+    );
   };
   const handleConvertToHeading = () =>
     setData(data.paragraphToHeading(content.key));
