@@ -1,4 +1,4 @@
-import { library } from "@fortawesome/fontawesome-svg-core";
+import { IconProp, library } from "@fortawesome/fontawesome-svg-core";
 import {
   faAlignCenter,
   faAlignLeft,
@@ -279,7 +279,7 @@ const iconLists = [
   faFileCircleQuestion,
 ] as IconDefinition[];
 
-library.add(...iconLists);
+library.add(...iconLists as any[]);
 
 export type PickIconName =
   | "align-center"
@@ -422,7 +422,7 @@ export type PickIconProps = Omit<FontAwesomeIconProps, "icon"> & {
 export const PickIcon = ({ icon, ...props }: PickIconProps) => {
   return (
     <FontAwesomeIcon
-      icon={typeof icon === "string" ? ["far", icon] : icon}
+      icon={(typeof icon === "string" ? ["far", icon] : icon) as IconProp}
       {...props}
     />
   );
