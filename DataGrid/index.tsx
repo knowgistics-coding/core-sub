@@ -1,4 +1,4 @@
-import { Box, styled, TextField } from "@mui/material";
+import { Box, Stack, styled, TextField, Typography } from "@mui/material";
 import { deepmerge } from "@mui/utils";
 import { DataGrid as DG, DataGridProps as DGP } from "@mui/x-data-grid";
 import { useState } from "react";
@@ -28,7 +28,12 @@ export const DataGrid = ({
 
   const searchFilter = (): readonly any[] => {
     if (q) {
-      const splited = q.split(" ");
+      const splited = `${q}`.split(" ");
+      console.log(
+        rows.filter((row) =>
+          splited.every((txt) => JSON.stringify(row).includes(txt))
+        )
+      );
       return rows.filter((row) =>
         splited.every((txt) => JSON.stringify(row).includes(txt))
       );
@@ -43,15 +48,21 @@ export const DataGrid = ({
   return (
     <>
       {searchable && (
-        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+        <Stack spacing={1} sx={{ mb: 2 }}>
           <TextField
             fullWidth
             size="small"
             placeholder={t("Search")}
-            sx={{ mb: 2, backgroundColor: "background.paper" }}
+            sx={{ backgroundColor: "background.paper" }}
             onChange={({ target: { value } }) => setQ(value)}
           />
-        </Box>
+          {q.length > 0 && (
+            <Typography variant="caption" color="textSecondary">
+              "{q}"{" "}
+              {t("Found $Amount", { amount: searchFilter().length.toString() })}
+            </Typography>
+          )}
+        </Stack>
       )}
       <Box sx={{ height }}>
         <DataGridStyled
