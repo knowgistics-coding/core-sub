@@ -104,6 +104,7 @@ export type LocaleKey =
   | "Followers"
   | "Following"
   | "Forget Password"
+  | "Found $Amount"
   | "From"
   | "From URL"
   | "Gender"
@@ -446,6 +447,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Followers: ["Followers", "ผู้ติดตาม"],
   Following: ["Following", "การติดตาม"],
   "Forget Password": ["Forget Password", "ลืมรหัสผ่าน"],
+  "Found $Amount": ["Found {{amount}} results", "พบ {{amount}} ผลลัพธ์"],
   From: ["From", "จาก"],
   "From URL": ["From  URL", "จาก URL"],
   Gender: ["Gender", "เพศ"],
@@ -713,5 +715,5 @@ export const getLocale = (lang: string): { [key: string]: string } => {
 
 export type TFunction = (
   text: LocaleKey,
-  dict?: Partial<Record<"name" | "email", string>>
+  dict?: Partial<Record<"name" | "email" | "amount", string>>
 ) => string;
