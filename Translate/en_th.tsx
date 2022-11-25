@@ -642,7 +642,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "Sub Type": ["Sub Type", "ประเภทย่อย"],
   "Student ID": ["Student ID", "รหัสนักเรียน/นิสิต/นักศึกษา"],
   "Student ID Exists": ["Student ID Exists", "รหัสนี้มีอยู่แล้ว"],
-  Syllabus: ["Syllabus", "ประมวลรายวิชา"],
+  Syllabus: ["Syllabus", "ประมวลหลักสูตร"],
   SystemDefault: ["System Default", "ค่าเริ่มต้นของระบบ"],
   Table: ["Table", "ตาราง"],
   "Target Group": ["Target Group", "กลุ่มเป้าหมาย"],
