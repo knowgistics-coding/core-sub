@@ -619,7 +619,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Size: ["Size", "ขนาด"],
   "Shared with me": ["Shared with me", "แบ่งปันกับฉัน"],
   Sharing: ["Sharing", "แบ่งปัน"],
-  Shuffle: ["Shuffle", "สลับ"],
+  Shuffle: ["Shuffle", "สลับตัวเลือก"],
   Slide: ["Slide", "สไลด์"],
   "Show columns": ["Show columns", "แสดงคอลัมน์"],
   "Sort by ASC": ["Sort by ASC", "เรียงจากน้อยไปมาก"],
