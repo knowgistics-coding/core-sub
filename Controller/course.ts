@@ -217,8 +217,8 @@ export class Course extends MainCtl {
       await Promise.all(sections.map((section) => section.remove()));
       await Promise.all(questions.map((question) => question.remove()));
       await Promise.all(quiz.map((q) => q.remove()));
-      
-      await deleteDoc(Course.doc(this.id))
+
+      await deleteDoc(Course.doc(this.id));
     }
   }
 
@@ -565,6 +565,15 @@ export class Quiz extends MainCtl {
     await quiz.save();
     return quiz;
   }
+
+  static async managerPreview(
+    user: User,
+    quizId: string
+  ): Promise<{ quiz: Quiz; questions: Question[] }> {
+    const quiz = await this.getOne(quizId);
+    const questions = await Question.getFromParent(user, quizId);
+    return { quiz, questions };
+  }
 }
 
 export type QuestionData = {
@@ -771,7 +780,7 @@ export class Question extends MainCtl {
   addOption(): this {
     const key = genKey();
     this.options = this.options.concat({ key, type: "paragraph" });
-    this.answers = this.answers.concat(key);
+    this.answers = this.options.map((op) => op.key);
     return this;
   }
 
@@ -815,7 +824,7 @@ export class Question extends MainCtl {
         [this.type]: {
           options: this.options,
           answer: this.answer,
-          answers: this.answers,
+          answers: this.options.map((op) => op.key),
         },
       });
       if (this.id) {

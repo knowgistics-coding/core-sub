@@ -17,11 +17,12 @@ import { toolbar } from "./toolbar";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 const Root = styled(Box, {
-  shouldForwardProp: (prop) => !["view", "variant", "noDense"].includes(String(prop)),
+  shouldForwardProp: (prop) =>
+    !["view", "variant", "noDense"].includes(String(prop)),
 })<{
   view?: boolean;
   variant?: Variant;
-  noDense?: boolean
+  noDense?: boolean;
 }>(({ theme, view, variant, noDense }) => ({
   color: theme.palette.text.primary,
   backgroundColor: view ? undefined : theme.palette.background.paper,
@@ -47,11 +48,13 @@ const Root = styled(Box, {
     overflow: "hidden",
   },
   "& .public-DraftStyleDefault-block": {
+    paddingTop: 4,
+    paddingBottom: 4,
     margin: noDense ? theme.spacing(0.5, 0) : 0,
   },
   "& .public-DraftEditorPlaceholder-inner": {
     margin: noDense ? theme.spacing(0.5, 0) : 0,
-  }
+  },
 }));
 
 export type AbsatzProps = Pick<BoxProps, "id" | "sx"> & {
@@ -63,7 +66,7 @@ export type AbsatzProps = Pick<BoxProps, "id" | "sx"> & {
   onEnter?: (values: string[]) => void;
   autoFocus?: boolean;
   autoHideToolbar?: boolean;
-  noDense?: boolean
+  noDense?: boolean;
   componentProps?: {
     root?: Omit<BoxProps, "children" | "sx" | "id">;
     editor?: EditorProps;
@@ -92,6 +95,7 @@ const reducer = (
       return {
         ...state,
         contentState: action.contentState ?? state.contentState,
+        html: draftToHtml(action.contentState ?? state.contentState),
       };
     case "init":
       return action.html && state.html !== action.html
@@ -129,7 +133,7 @@ export const Absatz = React.memo((props: AbsatzProps) => {
     if (props.value) {
       dispatch({ type: "init", html: props.value });
     }
-  }, [props.value, state.html]);
+  }, [props.value]);
 
   const handleFocus = useCallback(
     (value?: boolean) => {
