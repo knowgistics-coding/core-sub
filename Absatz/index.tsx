@@ -53,6 +53,8 @@ const Root = styled(Box, {
     margin: noDense ? theme.spacing(0.5, 0) : 0,
   },
   "& .public-DraftEditorPlaceholder-inner": {
+    paddingTop: 4,
+    paddingBottom: 4,
     margin: noDense ? theme.spacing(0.5, 0) : 0,
   },
 }));
