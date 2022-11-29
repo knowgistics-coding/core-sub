@@ -24,6 +24,7 @@ import { db } from "./firebase";
 import { MainCtl } from "./main.static";
 import { PageDate, PageDoc } from "./page";
 import { User as MekUser } from "./user";
+import { Notify } from "./notify";
 
 //SECTION - CALSS: Social
 export class Social {
@@ -38,43 +39,45 @@ export class Social {
   }
 
   async follow(userId: string) {
-    await runTransaction(db, async transaction => {
-      const ref = Social.doc(this.user.uid)
-      const doc = await transaction.get(ref)
-      if(doc.exists()){
-        await transaction.update(ref, { followering:arrayUnion(userId) })
+    await runTransaction(db, async (transaction) => {
+      const ref = Social.doc(this.user.uid);
+      const doc = await transaction.get(ref);
+      if (doc.exists()) {
+        await transaction.update(ref, { followering: arrayUnion(userId) });
       } else {
-        await transaction.set(ref, { followering:[userId] })
+        await transaction.set(ref, { followering: [userId] });
       }
-    })
-    await runTransaction(db, async transaction => {
-      const ref = Social.doc(userId)
-      const doc = await transaction.get(ref)
-      if(doc.exists()){
-        await transaction.update(ref, { followers:arrayUnion(this.user.uid) })
+    });
+    await runTransaction(db, async (transaction) => {
+      const ref = Social.doc(userId);
+      const doc = await transaction.get(ref);
+      if (doc.exists()) {
+        await transaction.update(ref, { followers: arrayUnion(this.user.uid) });
       } else {
-        await transaction.set(ref, { followers:[this.user.uid] })
+        await transaction.set(ref, { followers: [this.user.uid] });
       }
-    }).catch(err => {
-      console.log(err)
-    })
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
   async unfollow(userId: string) {
-    await runTransaction(db, async transaction => {
-      const ref = Social.doc(this.user.uid)
-      const doc = await transaction.get(ref)
-      if(doc.exists()){
-        await transaction.update(ref, { followering:arrayRemove(userId) })
+    await runTransaction(db, async (transaction) => {
+      const ref = Social.doc(this.user.uid);
+      const doc = await transaction.get(ref);
+      if (doc.exists()) {
+        await transaction.update(ref, { followering: arrayRemove(userId) });
       }
-    })
-    await runTransaction(db, async transaction => {
-      const ref = Social.doc(userId)
-      const doc = await transaction.get(ref)
-      if(doc.exists()){
-        await transaction.update(ref, { followers:arrayRemove(this.user.uid) })
+    });
+    await runTransaction(db, async (transaction) => {
+      const ref = Social.doc(userId);
+      const doc = await transaction.get(ref);
+      if (doc.exists()) {
+        await transaction.update(ref, {
+          followers: arrayRemove(this.user.uid),
+        });
       }
-    })
+    });
   }
 
   /**
@@ -183,7 +186,7 @@ export class Feeds {
     const month = newDate.getMonth();
     const day = newDate.getDate();
     const timezone = newDate.getTimezoneOffset() * 60 * 1000;
-    start.setTime(Date.UTC(year, month - 1, day, 0, 0, 0) + timezone);
+    start.setTime(Date.UTC(year, month - 6, day, 0, 0, 0) + timezone);
     end.setTime(Date.UTC(year, month, day, 23, 59, 59) + timezone);
     return [start, end];
   }
@@ -376,7 +379,7 @@ export class Reaction {
   }
 
   //ANCHOR - like
-  async like(user: User): Promise<this> {
+  async like(user: User, ownerId: string): Promise<this> {
     if (this.id) {
       const ref = doc(db, "reactions", this.id);
       await runTransaction(db, async (transaction) => {
@@ -398,9 +401,13 @@ export class Reaction {
           );
         }
       });
+
       this.liked = this.liked.includes(user.uid)
         ? this.liked.filter((uid) => uid !== user.uid)
         : this.liked.concat(user.uid);
+      if (this.liked.includes(user.uid)) {
+        Notify.like(user, this.id, user.uid, ownerId);
+      }
       return this;
     } else {
       throw new Error("'ID' not found");

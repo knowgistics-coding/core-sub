@@ -120,6 +120,7 @@ export const FeedCard = ({ feed, ...props }: FeedCardProps) => {
           doc={feed.id}
           commenting={props.commenting}
           onCommenting={props.onCommenting}
+          userId={feed.user}
         />
       </Root>
     );

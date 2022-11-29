@@ -20,6 +20,7 @@ const Header = styled(Box)(({ theme }) => ({
 const CommentSection = styled(Box)({});
 
 export type ReactionBoxProps = {
+  userId: string;
   doc: string;
   commenting?: boolean;
   onCommenting?: () => void;
@@ -48,7 +49,7 @@ export const ReactionBox = (props: ReactionBoxProps) => {
   const handleLike = async () => {
     if (user.data) {
       state.reaction
-        .like(user.data)
+        .like(user.data, props.userId)
         .then((reaction) => setState((s) => ({ ...s, reaction })));
     }
   };
