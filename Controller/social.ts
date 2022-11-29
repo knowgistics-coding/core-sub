@@ -38,43 +38,53 @@ export class Social {
   }
 
   async follow(userId: string) {
-    await runTransaction(db, async transaction => {
-      const ref = Social.doc(this.user.uid)
-      const doc = await transaction.get(ref)
-      if(doc.exists()){
-        await transaction.update(ref, { followering:arrayUnion(userId) })
+    await runTransaction(db, async (transaction) => {
+      const ref = Social.doc(this.user.uid);
+      const doc = await transaction.get(ref);
+      if (doc.exists()) {
+        await transaction.update(ref, { followering: arrayUnion(userId) });
       } else {
-        await transaction.set(ref, { followering:[userId] })
+        await transaction.set(ref, { followering: [userId] });
       }
-    })
-    await runTransaction(db, async transaction => {
-      const ref = Social.doc(userId)
-      const doc = await transaction.get(ref)
-      if(doc.exists()){
-        await transaction.update(ref, { followers:arrayUnion(this.user.uid) })
+    });
+    await runTransaction(db, async (transaction) => {
+      const ref = Social.doc(userId);
+      const doc = await transaction.get(ref);
+      if (doc.exists()) {
+        await transaction.update(ref, { followers: arrayUnion(this.user.uid) });
       } else {
-        await transaction.set(ref, { followers:[this.user.uid] })
+        await transaction.set(ref, { followers: [this.user.uid] });
       }
-    }).catch(err => {
-      console.log(err)
-    })
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
   async unfollow(userId: string) {
-    await runTransaction(db, async transaction => {
-      const ref = Social.doc(this.user.uid)
-      const doc = await transaction.get(ref)
-      if(doc.exists()){
-        await transaction.update(ref, { followering:arrayRemove(userId) })
+    await runTransaction(db, async (transaction) => {
+      const ref = Social.doc(this.user.uid);
+      const doc = await transaction.get(ref);
+      if (doc.exists()) {
+        await transaction.update(ref, { followering: arrayRemove(userId) });
       }
-    })
-    await runTransaction(db, async transaction => {
-      const ref = Social.doc(userId)
-      const doc = await transaction.get(ref)
-      if(doc.exists()){
-        await transaction.update(ref, { followers:arrayRemove(this.user.uid) })
+    });
+    await runTransaction(db, async (transaction) => {
+      const ref = Social.doc(userId);
+      const doc = await transaction.get(ref);
+      if (doc.exists()) {
+        await transaction.update(ref, {
+          followers: arrayRemove(this.user.uid),
+        });
       }
-    })
+    });
+  }
+
+  async getFollowsInfo(user: User): Promise<Record<string, MekUser>> {
+    const uids = this.followers
+      .concat(...this.followering)
+      .filter((id, index, ids) => ids.indexOf(id) === index);
+    const users = await MekUser.getUsers(user, uids);
+    return Object.assign({}, ...users.map((u) => ({ [u.uid]: u })));
   }
 
   /**

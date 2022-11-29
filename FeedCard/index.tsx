@@ -10,7 +10,6 @@ import {
   styled,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
 import { useCore } from "../context";
 import { CrossSite } from "../Controller/cross.site";
 import { Feeds } from "../Controller/social";
@@ -31,11 +30,6 @@ const Content = styled(Box)(({ theme }) => ({
   cursor: "pointer",
   backgroundColor: theme.palette.background.default,
   padding: theme.spacing(1, 2),
-}));
-
-const LinkStyled = styled(Link)(({ theme }) => ({
-  color: theme.palette.text.primary,
-  textDecoration: "none",
 }));
 
 export type FeedCardProps = {
@@ -112,7 +106,7 @@ export const FeedCard = ({ feed, ...props }: FeedCardProps) => {
             )}
           </ListItemSecondaryAction>
         </ListItem>
-        <LinkStyled to={props.to ?? "#"}>
+        <Box onClick={() => props.to && window.open(props.to)}>
           {feed.feature && <StockDisplay {...feed.feature} ratio={1 / 4} />}
           <Content>
             <Typography variant="h6">
@@ -125,7 +119,7 @@ export const FeedCard = ({ feed, ...props }: FeedCardProps) => {
               </Typography>
             )}
           </Content>
-        </LinkStyled>
+        </Box>
         <ReactionBox
           doc={feed.id}
           commenting={props.commenting}
