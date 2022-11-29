@@ -212,7 +212,7 @@ export class PageDoc {
    * ============================================================
    */
 
-  paragraphEnter(key: string, paragraphs: string[]): this {
+  paragraphEnter(key: string, paragraphs: string[], focus?: (key:string) => void): this {
     const index = this.findIndex(key);
     if (index > -1) {
       const newParagraphs: PageContentTypes[] = paragraphs.map((value) => ({
@@ -220,6 +220,12 @@ export class PageDoc {
         type: "paragraph",
         paragraph: { value },
       }));
+      if(newParagraphs.length > 0){
+        const key = newParagraphs.slice(-1)[0].key
+        if(key){
+          focus?.(key)
+        }
+      }
       this.contents.splice(index, 1, ...newParagraphs);
     }
     return this;

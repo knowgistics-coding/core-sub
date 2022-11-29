@@ -107,6 +107,7 @@ export type LocaleKey =
   | "Followers"
   | "Following"
   | "Forget Password"
+  | "Found $Amount"
   | "From"
   | "From URL"
   | "Gender"
@@ -459,6 +460,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Followers: ["Followers", "ผู้ติดตาม"],
   Following: ["Following", "การติดตาม"],
   "Forget Password": ["Forget Password", "ลืมรหัสผ่าน"],
+  "Found $Amount": ["Found {{amount}} results", "พบ {{amount}} ผลลัพธ์"],
   From: ["From", "จาก"],
   "From URL": ["From  URL", "จาก URL"],
   Gender: ["Gender", "เพศ"],
@@ -617,7 +619,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Size: ["Size", "ขนาด"],
   "Shared with me": ["Shared with me", "แบ่งปันกับฉัน"],
   Sharing: ["Sharing", "แบ่งปัน"],
-  Shuffle: ["Shuffle", "สลับ"],
+  Shuffle: ["Shuffle", "สลับตัวเลือก"],
   Slide: ["Slide", "สไลด์"],
   "Show columns": ["Show columns", "แสดงคอลัมน์"],
   "Sort by ASC": ["Sort by ASC", "เรียงจากน้อยไปมาก"],
@@ -640,7 +642,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "Sub Type": ["Sub Type", "ประเภทย่อย"],
   "Student ID": ["Student ID", "รหัสนักเรียน/นิสิต/นักศึกษา"],
   "Student ID Exists": ["Student ID Exists", "รหัสนี้มีอยู่แล้ว"],
-  Syllabus: ["Syllabus", "ประมวลรายวิชา"],
+  Syllabus: ["Syllabus", "ประมวลหลักสูตร"],
   SystemDefault: ["System Default", "ค่าเริ่มต้นของระบบ"],
   Table: ["Table", "ตาราง"],
   "Target Group": ["Target Group", "กลุ่มเป้าหมาย"],
@@ -733,5 +735,5 @@ export const getLocale = (lang: string): { [key: string]: string } => {
 
 export type TFunction = (
   text: LocaleKey,
-  dict?: Partial<Record<"name" | "email", string>>
+  dict?: Partial<Record<"name" | "email" | "amount", string>>
 ) => string;
