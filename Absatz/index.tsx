@@ -51,12 +51,16 @@ const Root = styled(Box, {
     paddingTop: 4,
     paddingBottom: 4,
     margin: noDense ? theme.spacing(0.5, 0) : 0,
+    textAlign: "inherit"
   },
   "& .public-DraftEditorPlaceholder-inner": {
     paddingTop: 4,
     paddingBottom: 4,
     margin: noDense ? theme.spacing(0.5, 0) : 0,
   },
+  "& .rdw-center-align-block": { textAlign: "center" },
+  "& .rdw-left-align-block": { textAlign: "left" },
+  "& .rdw-right-align-block": { textAlign: "right" },
 }));
 
 export type AbsatzProps = Pick<BoxProps, "id" | "sx"> & {

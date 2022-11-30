@@ -33,6 +33,7 @@ import { genKey } from "draft-js";
 import { MainStatic } from "./main.static";
 import { DateCtl } from "./date.ctl";
 import { Material } from "./course.material";
+import { User as MekUser } from "./user";
 
 export interface CourseMongoDocument {
   _id?: string;
@@ -310,6 +311,8 @@ export class Section {
   type: "section" = "section";
   user: string;
   weights: Record<string, { score: number; weight: 6 }>;
+  course: null | Course;
+  userinfo: null | MekUser;
 
   constructor(data?: Partial<Section>) {
     this.id = data?.id ?? "";
@@ -322,6 +325,13 @@ export class Section {
     this.ta = data?.ta ?? [];
     this.user = data?.user ?? "";
     this.weights = data?.weights ?? {};
+    this.course = data?.course ? new Course(data.course) : null;
+    this.userinfo = data?.userinfo ? new MekUser(data.userinfo) : null;
+  }
+
+  set<T extends keyof this>(field: T, value: this[T]): this {
+    this[field] = value;
+    return this;
   }
 
   //ANCHOR - update
