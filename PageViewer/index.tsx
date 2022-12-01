@@ -13,22 +13,13 @@ import {
   SlideItemFeature,
 } from "../Slide";
 import { useCore } from "../context";
-import moment from "moment";
 import { Absatz } from "../Absatz";
 import { DGETable } from "../DataGridEditor";
 import { PickIcon } from "../PickIcon";
 import { ShowTypes } from "../Controller/page";
 import { LeafletContainer, LeafletMap } from "../LeafLet";
-
-const getDate = (date: any) => {
-  if (date?.toMillis?.()) {
-    return date?.toMillis?.();
-  } else if (date?.getTime?.()) {
-    return date.getTime();
-  } else {
-    return Date.now();
-  }
-};
+import { FileDisplay } from "../FileDisplay";
+import { DateDisplay } from "../DateDisplay";
 
 const PageContainer = ({
   children,
@@ -66,25 +57,7 @@ export const PageViewer = (props: PageViewerProps) => {
               <ContentHeader
                 label={data.title}
                 breadcrumbs={props.breadcrumbs}
-                secondary={
-                  data.datemodified ? (
-                    <>
-                      <PickIcon
-                        icon={"calendar"}
-                        style={{ marginRight: "0.5rem" }}
-                      />
-                      {moment(getDate(data.datemodified)).format("LL")}
-                      <Box display="inline-block" sx={{ px: 1 }}>
-                        |
-                      </Box>
-                      <PickIcon
-                        icon={"clock"}
-                        style={{ marginRight: "0.5rem" }}
-                      />
-                      {moment(getDate(data.datemodified)).format("LT")}
-                    </>
-                  ) : undefined
-                }
+                secondary={<DateDisplay date={data.datemodified} />}
               />
             )}
           </Container>
@@ -215,6 +188,21 @@ export const PageViewer = (props: PageViewerProps) => {
                     />
                   </Wrapper>
                 );
+              case "file":
+                return content.file?.content ? (
+                  <Wrapper key={content.key}>
+                    <FileDisplay
+                      content={{
+                        value: {
+                          name: content.file.content.name,
+                          size: content.file.content.size,
+                          original: content.file.content.downloadURL,
+                        },
+                      }}
+                      Link={content.file.content.downloadURL}
+                    />
+                  </Wrapper>
+                ) : null;
               case "divider":
                 return (
                   <Wrapper key={content.key}>

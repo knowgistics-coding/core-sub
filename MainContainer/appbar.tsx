@@ -36,7 +36,11 @@ export const MCAppbar = () => {
             <SiteHomeLink>
               <SiteLogo logo={logo} />
               {sitename && !isMobile && (
-                <Typography className="site-name" variant="h6" sx={{ pl: 1 }}>
+                <Typography
+                  className="site-name"
+                  variant="h6"
+                  sx={{ pl: 1, fontFamily: "sarabun" }}
+                >
                   {t(sitename)}
                 </Typography>
               )}

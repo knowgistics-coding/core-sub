@@ -1,84 +1,74 @@
-// import { User } from "firebase/auth";
+import { User } from "firebase/auth";
 import { io, Socket } from "socket.io-client";
-// import { SkeMongo, Options } from "./ske";
-import { SkeMongo } from "./ske";
 
-export type Unwatch = () => void;
-export type GetIdResult = { error?: Error; id?: string };
+export class ChatAuth {
+  uid: string;
+  name: string;
+  picture: string;
 
-export type Message = {
-  type: "text";
-  text?: string;
-};
-export type Payload = {
-  chatId: string;
-  message: Message;
-};
-
-type UserMini = {
-  email: string;
-  photoURL?: string;
-  displayName?: string;
-};
-export type UserLists = Record<string, UserMini>;
-
-export interface MessageDocument {
-  _id: string;
-  sender: string;
-  chatId: string;
-  timestamp: number;
-  member: string[];
-  type: "message";
-  content: {
-    _id: string;
-    type: "text";
-    text?: string;
-  };
+  constructor(data?: Partial<ChatAuth>) {
+    this.uid = data?.uid ?? "";
+    this.name = data?.name ?? "";
+    this.picture = data?.picture ?? "";
+  }
 }
 
-export class ChatSocket extends SkeMongo {
-  readonly room = {
-    list: () => {
-      
-    }
-  }
+export class Room {
+  _id: string;
+  members: Record<string, ChatAuth>;
+  type: "room";
 
-  async open(friendUid: string): Promise<string> {
-    const chatId = await this.get<string>(
-      `${this.baseUrl}/chat/open/${friendUid}`,
-      "GET"
+  constructor(data?: Partial<Room>) {
+    this._id = data?._id ?? "";
+    this.members = Object.assign(
+      {},
+      ...Object.entries(data?.members ?? {}).map(([uid, data]) => ({
+        [uid]: new ChatAuth(data),
+      }))
     );
-    return chatId;
+    this.type = data?.type ?? "room";
   }
 
-  async init(socket: Socket, room: string) {
-    socket.emit("initChat", room);
+  getName(user: User): { name: string; picture: string[] } {
+    const users = Object.values(this.members).filter(
+      (member) => member.uid! === user.uid
+    );
+    return {
+      name: users.map((u) => u.name).join(", "),
+      picture: users.map((u) => u.picture).filter((u) => u),
+    };
+  }
+}
+
+export class ChatRoom {
+  constructor(private socket: Socket, private room: Room) {}
+
+  disconnect() {
+    this.socket.disconnect();
   }
 
-  async connect(): Promise<Socket> {
-    const token = await this.user.getIdToken();
-    const socket = io(`${this.baseUrl}`, {
+  static async watch(
+    user: User,
+    friendUid: string,
+    callback: (room: ChatRoom) => void
+  ) {
+    const token = await user.getIdToken();
+    const socket = io("http://localhost:8080", {
       extraHeaders: {
+        friendUid,
         Authorization: `Bearer ${token}`,
       },
     });
-    return socket;
-  }
-
-  async push(socket: Socket, chatId: string, msg: Message) {
-    const payload: Payload = { chatId, message: msg };
-    socket.emit("msgToServer", payload);
-  }
-
-  async loadmore(room: string, last: Date): Promise<MessageDocument[]> {
-    const messages = await this.get<MessageDocument[]>(
-      `${this.baseUrl}/chat/loadmore`,
-      "POST",
-      JSON.stringify({
-        room,
-        last,
-      })
-    );
-    return messages;
+    socket.on("connect", () => {
+      console.log("Connected");
+    });
+    socket.on("receive", (data) => {
+      const room = new ChatRoom(socket, new Room(data));
+      console.log(room);
+      callback(room)
+    });
+    socket.on("disconnect", () => {
+      console.log("Disconnected");
+    });
   }
 }

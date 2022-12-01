@@ -38,6 +38,16 @@ export class User extends MainStatic {
     );
     return result.map((doc) => new User(doc));
   }
+  static async getUsersDict(
+    user: FBUser,
+    uids: string[]
+  ): Promise<Record<string, User>> {
+    const result = await this.getUsers(user, uids);
+    return Object.assign(
+      {},
+      ...result.map((doc) => ({ [doc.uid]: new User(doc) }))
+    );
+  }
   static async getUserFromEmail(user: FBUser, email: string): Promise<User> {
     const result = await this.get<User>(
       user,

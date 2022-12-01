@@ -80,6 +80,14 @@ export class Social {
     });
   }
 
+  async getFollowsInfo(user: User): Promise<Record<string, MekUser>> {
+    const uids = this.followers
+      .concat(...this.followering)
+      .filter((id, index, ids) => ids.indexOf(id) === index);
+    const users = await MekUser.getUsers(user, uids);
+    return Object.assign({}, ...users.map((u) => ({ [u.uid]: u })));
+  }
+
   /**
    * ========================================
    *   ____   _          _    _

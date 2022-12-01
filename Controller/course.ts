@@ -18,7 +18,7 @@ import {
   where,
 } from "firebase/firestore";
 import { StockDisplayImageTypes, StockDisplayProps } from "../StockDisplay";
-import { db } from "./firebase";
+import { db, dbTimestamp } from "./firebase";
 import { SkeMongo } from "./ske";
 import { PageDoc, PageDocInitType } from "./page";
 import moment from "moment";
@@ -157,6 +157,7 @@ export class Schedule {
  *  \______/  \______/  \______/ \__|  \__| \______/ \________|
  */
 
+//SECTION - CLASS: Course
 export class Course extends MainCtl {
   id: string;
   title: string;
@@ -165,6 +166,7 @@ export class Course extends MainCtl {
   type: "course" = "course";
   schedule: Schedule;
   user: string;
+  visibility: VisibilityTabsValue;
 
   constructor(data?: Partial<Course>) {
     super(data);
@@ -175,6 +177,18 @@ export class Course extends MainCtl {
     this.syllabus = data?.syllabus ? new PageDoc({ ...data?.syllabus }) : null;
     this.schedule = new Schedule(data?.schedule);
     this.user = data?.user ?? "";
+    this.visibility = this.getVisibiliy(data?.visibility);
+  }
+
+  getVisibiliy(visibility?: VisibilityTabsValue): VisibilityTabsValue {
+    if (visibility) {
+      return visibility;
+    } else if (this.schedule) {
+      const { end, timezone } = this.schedule;
+      const dateend = new Date(`${end}:00.0000${timezone}`);
+      return dateend.getTime() > Date.now() ? "public" : "private";
+    }
+    return "private";
   }
 
   async update<T extends keyof this>(
@@ -187,28 +201,101 @@ export class Course extends MainCtl {
     });
   }
 
+  //FIXME - Course.remove(user)
+  async remove(user: User) {
+    if (this.id) {
+      const quiz = await Quiz.getMany(user, this.id);
+      const questions = (
+        await Promise.all(
+          quiz.map(async (q) =>
+            q.id ? await Question.getFromParent(user, q.id) : []
+          )
+        )
+      ).reduce((total, qs) => total.concat(...qs), []);
+      const sections = await Section.getMany(user, this.id);
+
+      await Promise.all(sections.map((section) => section.remove()));
+      await Promise.all(questions.map((question) => question.remove()));
+      await Promise.all(quiz.map((q) => q.remove()));
+
+      await deleteDoc(Course.doc(this.id));
+    }
+  }
+
+  //SECTION - STATIC
+  //ANCHOR - doc
   private static doc(id: string): DocumentReference<DocumentData> {
     return doc(db, "lms", this.prefix, "courses", id);
   }
+  //ANCHOR - collection
   private static collection(): CollectionReference<DocumentData> {
     return collection(db, "lms", this.prefix, "courses");
   }
+  //ANCHOR - genId
   private static genId(): string {
     return doc(this.collection()).id;
   }
 
+  //ANCHOR - watchOne
   static watchOne(id: string, callback: (doc: Course) => void) {
     return onSnapshot(this.doc(id), (snapshot) => {
       const course = new Course({ ...snapshot.data(), id });
       callback(course);
     });
   }
+
+  //ANCHOR - watchMany
+  static watchMany(user: User, callback: (docs: Course[]) => void) {
+    return onSnapshot(
+      query(
+        this.collection(),
+        where("type", "==", "course"),
+        where("user", "==", user.uid)
+      ),
+      (snapshot) => {
+        const docs = snapshot.docs.map(
+          (doc) => new Course({ ...doc.data(), id: doc.id })
+        );
+        callback(docs);
+      }
+    );
+  }
+
+  //ANCHOR - getOne
   static async getOne(id: string): Promise<Course> {
     const snapshot = await getDoc(this.doc(id));
     const course = new Course({ ...snapshot.data(), id });
     return course;
   }
+
+  //ANCHOR - getVisibility
+  static getVisibility(courses: Course[], value: VisibilityTabsValue) {
+    switch (value) {
+      case "public":
+        return courses.filter((course) => course.visibility === "public");
+      case "private":
+        return courses.filter((course) => course.visibility === "private");
+      case "trash":
+        return courses.filter((course) => course.visibility === "trash");
+      default:
+        return [];
+    }
+  }
+
+  //ANCHOR - Add
+  static async add(user: User, title: string) {
+    const data = {
+      title,
+      datecreate: dbTimestamp(),
+      datemodified: dbTimestamp(),
+      user: user.uid,
+      type: "course",
+    };
+    return await addDoc(this.collection(), data);
+  }
+  //!SECTION
 }
+//!SECTION
 
 //SECTION - SECTION
 export class Section {
@@ -237,6 +324,7 @@ export class Section {
     this.weights = data?.weights ?? {};
   }
 
+  //ANCHOR - update
   async update<T extends keyof this>(
     field: T,
     value: this[T] | FieldValue | unknown
@@ -246,6 +334,12 @@ export class Section {
         [field]: value,
         datemodified: serverTimestamp(),
       });
+    }
+  }
+
+  async remove() {
+    if (this.id) {
+      await deleteDoc(Section.doc(this.id));
     }
   }
 
@@ -272,6 +366,21 @@ export class Section {
       const section = new Section({ ...snapshot.data(), id: sectionId });
       callback(section);
     });
+  }
+
+  //ANCHOR - getMany
+  static async getMany(user: User, courseId: string): Promise<Section[]> {
+    const snapshot = await getDocs(
+      query(
+        this.collection(),
+        where("user", "==", user.uid),
+        where("parent", "==", courseId)
+      )
+    );
+    const docs = snapshot.docs.map(
+      (doc) => new Section({ ...doc.data(), id: doc.id })
+    );
+    return docs;
   }
   //!SECTION
 }
@@ -455,6 +564,15 @@ export class Quiz extends MainCtl {
     const quiz = new Quiz({ title, parent, user: user.uid });
     await quiz.save();
     return quiz;
+  }
+
+  static async managerPreview(
+    user: User,
+    quizId: string
+  ): Promise<{ quiz: Quiz; questions: Question[] }> {
+    const quiz = await this.getOne(quizId);
+    const questions = await Question.getFromParent(user, quizId);
+    return { quiz, questions };
   }
 }
 
@@ -662,7 +780,7 @@ export class Question extends MainCtl {
   addOption(): this {
     const key = genKey();
     this.options = this.options.concat({ key, type: "paragraph" });
-    this.answers = this.answers.concat(key);
+    this.answers = this.options.map((op) => op.key);
     return this;
   }
 
@@ -706,7 +824,7 @@ export class Question extends MainCtl {
         [this.type]: {
           options: this.options,
           answer: this.answer,
-          answers: this.answers,
+          answers: this.options.map((op) => op.key),
         },
       });
       if (this.id) {

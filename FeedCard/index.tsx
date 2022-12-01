@@ -27,6 +27,7 @@ const Root = styled(List)(({ theme }) => ({
 }));
 
 const Content = styled(Box)(({ theme }) => ({
+  cursor: "pointer",
   backgroundColor: theme.palette.background.default,
   padding: theme.spacing(1, 2),
 }));
@@ -40,6 +41,7 @@ export type FeedCardProps = {
   uid?: string;
   commenting?: boolean;
   onCommenting?: () => void;
+  to?: string;
 };
 export const FeedCard = ({ feed, ...props }: FeedCardProps) => {
   const { user } = useCore();
@@ -104,18 +106,20 @@ export const FeedCard = ({ feed, ...props }: FeedCardProps) => {
             )}
           </ListItemSecondaryAction>
         </ListItem>
-        {feed.feature && <StockDisplay {...feed.feature} ratio={1 / 4} />}
-        <Content>
-          <Typography variant="h6">
-            <PickIcon icon={feed.getIcon()} style={{ marginRight: "1ch" }} />
-            {feed.title}
-          </Typography>
-          {feed.getPreview() && (
-            <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
-              {feed.getPreview()}
+        <Box onClick={() => props.to && window.open(props.to)}>
+          {feed.feature && <StockDisplay {...feed.feature} ratio={1 / 4} />}
+          <Content>
+            <Typography variant="h6">
+              <PickIcon icon={feed.getIcon()} style={{ marginRight: "1ch" }} />
+              {feed.title}
             </Typography>
-          )}
-        </Content>
+            {feed.getPreview() && (
+              <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
+                {feed.getPreview()}
+              </Typography>
+            )}
+          </Content>
+        </Box>
         <ReactionBox
           doc={feed.id}
           commenting={props.commenting}

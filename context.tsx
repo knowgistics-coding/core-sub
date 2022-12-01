@@ -6,6 +6,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useReducer,
   useState,
 } from "react";
 import {
@@ -30,6 +31,7 @@ import "./style.css";
 import { watchDarkmode } from "./watch.darkmode";
 import { LocaleKey, TFunction } from "./Translate/en_th";
 import { PickIconName } from "./PickIcon";
+import { Noti, NotiAction, NotiState } from "./Noti";
 
 if (process.env.NODE_ENV === "development") {
   [
@@ -102,6 +104,8 @@ export interface CoreContextTypes
   setOpen: Dispatch<SetStateAction<Record<string, boolean>>>;
   systemState: SystemState;
   setSystemState: Dispatch<SetStateAction<SystemState>>;
+  noti: NotiState,
+  setNoti: Dispatch<NotiAction>
 }
 
 const CoreContext = createContext<CoreContextTypes>({
@@ -122,6 +126,8 @@ const CoreContext = createContext<CoreContextTypes>({
     mode: "default",
   },
   setSystemState: () => {},
+  noti: new NotiState(),
+  setNoti: () => {}
 });
 
 export const CoreProvider = React.memo(
@@ -137,6 +143,7 @@ export const CoreProvider = React.memo(
       darkmode: false,
       mode: "default",
     });
+    const [noti,setNoti] = useReducer(NotiState.reducer, new NotiState())
 
     const getTheme = useCallback((): Theme => {
       const mode: "dark" | "light" =
@@ -161,6 +168,8 @@ export const CoreProvider = React.memo(
       setOpen,
       systemState,
       setSystemState,
+      noti,
+      setNoti
     };
 
     useEffect(() => {
@@ -221,6 +230,7 @@ export const CoreProvider = React.memo(
           <Alerts>
             <PopupProvider trans={trans}>{props.children}</PopupProvider>
           </Alerts>
+          <Noti />
         </CoreContext.Provider>
       </ThemeProvider>
     );

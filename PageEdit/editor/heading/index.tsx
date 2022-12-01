@@ -1,8 +1,9 @@
 import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { useCore } from "../../../context";
+import { PageContentTypes } from "../../../Controller/page";
 import { HeaderEditor } from "../../../HeaderEditor";
 import { PickIcon } from "../../../PickIcon";
-import { PageContentTypes, usePE } from "../../context";
+import { usePE } from "../../context";
 import { PEPanel } from "../../panel";
 
 export interface PEEditorProps {
