@@ -208,7 +208,7 @@ export class Feeds {
           where("type", "in", ["post", "book"]),
           where("datecreate", ">=", start),
           where("datecreate", "<=", end),
-          where("visibility", "==", "private")
+          where("visibility", "==", "public")
         )
       ).then(async (snapshot) => {
         const uids = snapshot.docs

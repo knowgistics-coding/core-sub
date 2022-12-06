@@ -9,7 +9,17 @@ import { CommentField } from "./comment.field";
 import { MenuItem, MoreMenu, MoreMenuProps } from "./more.menu";
 import { ReportDialog } from "./report";
 
-const Root = styled(Box)({});
+const Root = styled(Box, { shouldForwardProp: (prop) => prop !== "borders" })<{
+  borders?: boolean;
+}>(({ theme, borders }) => ({
+  overflow: 'hidden',
+  border: borders ? `solid 1px ${theme.palette.divider}` : "none",
+  backgroundColor: theme.palette.background.paper,
+  borderRadius: borders ? theme.spacing(2) : 0,
+  "& .reaction-header": {
+    borderBottom: borders ? `solid 1px ${theme.palette.divider}` : "none"
+  }
+}));
 const Header = styled(Box)(({ theme }) => ({
   display: "flex",
   "& .MuiButton-root": {
@@ -25,6 +35,7 @@ export type ReactionBoxProps = {
   type: Feeds["type"];
   commenting?: boolean;
   onCommenting?: () => void;
+  borders?: boolean;
 };
 
 export const ReactionBox = (props: ReactionBoxProps) => {
@@ -104,8 +115,8 @@ export const ReactionBox = (props: ReactionBoxProps) => {
   }, [user, props.doc, props.commenting]);
 
   return (
-    <Root>
-      <Header>
+    <Root borders={props.borders}>
+      <Header className="reaction-header">
         <Button
           color={state.reaction.isLiked(user.data) ? "primary" : "neutral"}
           startIcon={<PickIcon icon="heart" />}

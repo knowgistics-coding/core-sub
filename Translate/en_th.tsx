@@ -97,7 +97,7 @@ export type LocaleKey =
   | "Error"
   | "False"
   | "Feature Image"
-  | "FEEDS"
+  | "Feeds"
   | "Female"
   | "File"
   | "Filter"
@@ -451,7 +451,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Error: ["Error", "เกิดข้อผิดพลาด"],
   False: ["False", "ผิด"],
   "Feature Image": ["Feature Image", "ภาพปก"],
-  FEEDS: ["FEEDS", "ฟีดส์"],
+  Feeds: ["Feeds", "ฟีดส์"],
   Female: ["Female", "หญิง"],
   File: ["File", "ไฟล์"],
   Filter: ["Filter", "ตัวกรอง"],
