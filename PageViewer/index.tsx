@@ -219,7 +219,6 @@ export const PageViewer = (props: PageViewerProps) => {
                 ) : null;
             }
           })}
-          <Container maxWidth={props.maxWidth}>{props.children}</Container>
           {data.maps.length > 0 && (
             <Container maxWidth="post">
               <Box
@@ -245,6 +244,7 @@ export const PageViewer = (props: PageViewerProps) => {
               </Box>
             </Container>
           )}
+          <Container maxWidth={props.maxWidth}>{props.children}</Container>
         </Box>
       </PageContainer>
     </PageViewerContext.Provider>

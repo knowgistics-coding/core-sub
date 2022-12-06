@@ -205,10 +205,17 @@ export class Feeds {
       getDocs(
         query(
           collectionGroup(db, "docs"),
+<<<<<<< HEAD
           where("type", "in", ["book"]),
           // where("datecreate", ">=", start),
           // where("datecreate", "<=", end),
           // where("visibility", "==", "private")
+=======
+          where("type", "in", ["post", "book"]),
+          where("datecreate", ">=", start),
+          where("datecreate", "<=", end),
+          where("visibility", "==", "public")
+>>>>>>> efda25bbdcac4e2bccb9f2d9018f96a7a688068c
         )
       ).then(async (snapshot) => {
         const uids = snapshot.docs
@@ -387,7 +394,7 @@ export class Reaction {
   }
 
   //ANCHOR - like
-  async like(user: User, ownerId: string): Promise<this> {
+  async like(user: User, ownerId: string, type: Feeds["type"]): Promise<this> {
     if (this.id) {
       const ref = doc(db, "reactions", this.id);
       await runTransaction(db, async (transaction) => {
@@ -414,7 +421,7 @@ export class Reaction {
         ? this.liked.filter((uid) => uid !== user.uid)
         : this.liked.concat(user.uid);
       if (this.liked.includes(user.uid)) {
-        Notify.like(user, this.id, user.uid, ownerId);
+        Notify.like(user, this.id, type, user.uid, ownerId);
       }
       return this;
     } else {

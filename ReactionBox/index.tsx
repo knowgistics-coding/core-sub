@@ -1,7 +1,7 @@
 import { Box, Button, List, styled } from "@mui/material";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useCore } from "../context";
-import { Comment, Reaction } from "../Controller/social";
+import { Comment, Feeds, Reaction } from "../Controller/social";
 import { PickIcon } from "../PickIcon";
 import { usePopup } from "../Popup";
 import { CommentBox } from "./comment.box";
@@ -9,7 +9,17 @@ import { CommentField } from "./comment.field";
 import { MenuItem, MoreMenu, MoreMenuProps } from "./more.menu";
 import { ReportDialog } from "./report";
 
-const Root = styled(Box)({});
+const Root = styled(Box, { shouldForwardProp: (prop) => prop !== "borders" })<{
+  borders?: boolean;
+}>(({ theme, borders }) => ({
+  overflow: 'hidden',
+  border: borders ? `solid 1px ${theme.palette.divider}` : "none",
+  backgroundColor: theme.palette.background.paper,
+  borderRadius: borders ? theme.spacing(2) : 0,
+  "& .reaction-header": {
+    borderBottom: borders ? `solid 1px ${theme.palette.divider}` : "none"
+  }
+}));
 const Header = styled(Box)(({ theme }) => ({
   display: "flex",
   "& .MuiButton-root": {
@@ -22,8 +32,10 @@ const CommentSection = styled(Box)({});
 export type ReactionBoxProps = {
   userId: string;
   doc: string;
+  type: Feeds["type"];
   commenting?: boolean;
   onCommenting?: () => void;
+  borders?: boolean;
 };
 
 export const ReactionBox = (props: ReactionBoxProps) => {
@@ -49,7 +61,7 @@ export const ReactionBox = (props: ReactionBoxProps) => {
   const handleLike = async () => {
     if (user.data) {
       state.reaction
-        .like(user.data, props.userId)
+        .like(user.data, props.userId, props.type)
         .then((reaction) => setState((s) => ({ ...s, reaction })));
     }
   };
@@ -103,8 +115,8 @@ export const ReactionBox = (props: ReactionBoxProps) => {
   }, [user, props.doc, props.commenting]);
 
   return (
-    <Root>
-      <Header>
+    <Root borders={props.borders}>
+      <Header className="reaction-header">
         <Button
           color={state.reaction.isLiked(user.data) ? "primary" : "neutral"}
           startIcon={<PickIcon icon="heart" />}

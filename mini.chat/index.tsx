@@ -1,15 +1,27 @@
-import { Box, Divider, Paper, Stack, styled, TextField } from "@mui/material";
+import {
+  Box,
+  Chip,
+  Divider,
+  Paper,
+  Stack,
+  styled,
+  TextField,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import {
   createContext,
   Dispatch,
   useContext,
   useEffect,
   useReducer,
+  useState,
 } from "react";
 import { Socket } from "socket.io-client";
 import ActionIcon from "../ActionIcon";
 import { useCore } from "../context";
-import { ChatRoom } from "../Controller";
+import { ChatRoom, MessagePayload } from "../Controller";
+import { Time } from "../Controller/time";
 import { User } from "../Controller/user";
 import { ChatBox } from "./chatbox";
 
@@ -21,6 +33,8 @@ type MiniChatAction =
   | { type: "socket"; value: Socket }
   | { type: "setusers"; value: Record<string, User> }
   | { type: "set_room"; value: ChatRoom }
+  | { type: "push_message"; value: MessagePayload }
+  | { type: "shift_message"; value: MessagePayload[] }
   | { type: "room_disconnect" };
 export class MiniChatState {
   //ANCHOR - VALUE
@@ -39,8 +53,11 @@ export class MiniChatState {
     this.chatroom = data?.chatroom ?? null;
   }
 
-  set<T extends keyof this>(field: T, value: this[T]): this {
-    this[field] = value;
+  set<T extends keyof this>(
+    field: T,
+    value: this[T] | ((data: this[T]) => this[T])
+  ): this {
+    this[field] = value instanceof Function ? value(this[field]) : value;
     return this;
   }
 
@@ -88,6 +105,20 @@ export class MiniChatState {
         return new MiniChatState(state.set("socket", action.value));
       case "set_room":
         return new MiniChatState(state.set("chatroom", action.value));
+      case "push_message":
+        return new MiniChatState(
+          state.set(
+            "chatroom",
+            (chatroom) => chatroom?.pushMessage(action.value) ?? null
+          )
+        );
+      case "shift_message":
+        return new MiniChatState(
+          state.set(
+            "chatroom",
+            (chatroom) => chatroom?.shiftMessage(action.value) ?? null
+          )
+        );
       case "room_disconnect":
         return new MiniChatState(state.roomDisconnect());
       default:
@@ -119,14 +150,24 @@ const ChatContext = createContext<{
 
 //SECTION - MiniChat
 export const MiniChat = () => {
-  const { user } = useCore();
+  const { user, t } = useCore();
   const { state, dispatch } = useContext(ChatContext);
+  const [message, setMessage] = useState<{ loading: boolean; value: string }>({
+    loading: false,
+    value: "",
+  });
 
   const handleOpen = (uid: string) => () =>
     dispatch({ type: "open", value: uid });
   const handleHide = (uid: string) => () =>
     dispatch({ type: "hide", value: uid });
-  const handleSend = (uid: string) => () => {};
+  const handleSend = async () => {
+    if (state.chatroom && user.data) {
+      setMessage((s) => ({ ...s, loading: true }));
+      await state.chatroom.sendMessage(user.data, message.value);
+      setMessage((s) => ({ ...s, value: "", loading: false }));
+    }
+  };
 
   //SECTION - USEEFFECT
   useEffect(() => {
@@ -139,9 +180,19 @@ export const MiniChat = () => {
 
   useEffect(() => {
     if (user.loading === false && user.data && state.uid) {
-      ChatRoom.watch(user.data, state.uid, (room) => {
-        dispatch({ type: "set_room", value: room });
-      });
+      ChatRoom.watch(
+        user.data,
+        state.uid,
+        (room) => {
+          dispatch({ type: "set_room", value: room });
+        },
+        (messages) => {
+          dispatch({ type: "shift_message", value: messages });
+        },
+        (message) => {
+          dispatch({ type: "push_message", value: message });
+        }
+      );
       return () => dispatch({ type: "room_disconnect" });
     }
   }, [user, state.uid, dispatch]);
@@ -167,16 +218,60 @@ export const MiniChat = () => {
             />
           </ChatBox.Head>
           <ChatBox.Body in={!Boolean(state.hide[state.uid])}>
-            <Paper elevation={0}>12345</Paper>
+            <Paper elevation={0}>
+              <Stack direction={"column-reverse"} spacing={1} sx={{ p: 1 }}>
+                {state.chatroom?.messages.map((msg, i) => (
+                  <Box
+                    key={msg.message.id}
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: msg.isYourMessage(user?.data)
+                        ? "flex-end"
+                        : "flex-start",
+                    }}
+                  >
+                    <Tooltip title={new Time(msg.timestamp).toShort()}>
+                      <Chip
+                        label={msg.message.text}
+                        color={
+                          msg.isYourMessage(user?.data) ? "primary" : "default"
+                        }
+                      />
+                    </Tooltip>
+                    {i === 0 && (
+                      <Typography variant="caption" color="textSecondary" sx={{mt:0.5,pr:1}}>
+                        {new Time(msg.timestamp).toShort()}
+                      </Typography>
+                    )}
+                  </Box>
+                ))}
+              </Stack>
+            </Paper>
             <Divider />
             <Stack direction="row" spacing={1} sx={{ p: 1 }}>
               <TextField
                 fullWidth
+                autoFocus
                 size="small"
-                value="qwer"
-                inputProps={{ readOnly: true }}
+                value={message.value}
+                onChange={({ target: { value } }) =>
+                  setMessage((s) => ({ ...s, value }))
+                }
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSend();
+                    e.preventDefault();
+                  }
+                }}
+                placeholder={t("Message")}
+                disabled={message.loading}
               />
-              <ActionIcon icon="paper-plane" onClick={handleSend(state.uid)} />
+              <ActionIcon
+                icon="paper-plane"
+                onClick={handleSend}
+                disabled={message.loading || !Boolean(message.value)}
+              />
             </Stack>
           </ChatBox.Body>
         </ChatBox.Root>

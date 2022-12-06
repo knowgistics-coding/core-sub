@@ -122,6 +122,7 @@ export const FeedCard = ({ feed, ...props }: FeedCardProps) => {
         </Box>
         <ReactionBox
           doc={feed.id}
+          type={feed.type}
           commenting={props.commenting}
           onCommenting={props.onCommenting}
           userId={feed.user}
