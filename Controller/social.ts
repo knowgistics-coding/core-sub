@@ -205,10 +205,10 @@ export class Feeds {
       getDocs(
         query(
           collectionGroup(db, "docs"),
-          where("type", "in", ["post", "book"]),
-          where("datecreate", ">=", start),
-          where("datecreate", "<=", end),
-          where("visibility", "==", "private")
+          where("type", "in", ["book"]),
+          // where("datecreate", ">=", start),
+          // where("datecreate", "<=", end),
+          // where("visibility", "==", "private")
         )
       ).then(async (snapshot) => {
         const uids = snapshot.docs

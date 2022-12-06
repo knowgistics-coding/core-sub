@@ -350,6 +350,7 @@ export class Book {
         if (full) {
           doc = await doc.getFull(user);
         }
+        console.log(doc)
         resolve(doc);
       } else {
         reject(Error("Access denied"));
