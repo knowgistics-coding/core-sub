@@ -1,7 +1,7 @@
 import { Box, Button, List, styled } from "@mui/material";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useCore } from "../context";
-import { Comment, Reaction } from "../Controller/social";
+import { Comment, Feeds, Reaction } from "../Controller/social";
 import { PickIcon } from "../PickIcon";
 import { usePopup } from "../Popup";
 import { CommentBox } from "./comment.box";
@@ -22,6 +22,7 @@ const CommentSection = styled(Box)({});
 export type ReactionBoxProps = {
   userId: string;
   doc: string;
+  type: Feeds["type"];
   commenting?: boolean;
   onCommenting?: () => void;
 };
@@ -49,7 +50,7 @@ export const ReactionBox = (props: ReactionBoxProps) => {
   const handleLike = async () => {
     if (user.data) {
       state.reaction
-        .like(user.data, props.userId)
+        .like(user.data, props.userId, props.type)
         .then((reaction) => setState((s) => ({ ...s, reaction })));
     }
   };

@@ -183,6 +183,7 @@ export type LocaleKey =
   | "No Data"
   | "No rows"
   | "No Title"
+  | "Notification"
   | "$Name not found"
   | "Number"
   | "Number Of $Name"
@@ -536,6 +537,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "No Data": ["No Data", "ไม่พบข้อมูล"],
   "No rows": ["No rows", "ไม่มีข้อมูล"],
   "No Title": ["No Title", "ไม่มีชื่อเรื่อง"],
+  "Notification": ["Notification", "การแจ้งเตือน"],
   "$Name not found": ["{{name}} not found", "ไม่พบ{{name}}"],
   Number: ["Number", "ตัวเลข"],
   "Number Of $Name": ["Number of {{name}}", "จำนวน{{name}}"],
