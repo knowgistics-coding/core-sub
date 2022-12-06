@@ -30,6 +30,7 @@ export const ChatBox = {
   Body: styled(Collapse)(({ theme }) => ({
     "& .MuiPaper-root": {
       height: theme.sidebarWidth,
+      overflow: "auto",
     },
   })),
 };
