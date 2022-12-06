@@ -24,6 +24,7 @@ import { db } from "./firebase";
 import { MainCtl } from "./main.static";
 import { PageDate, PageDoc } from "./page";
 import { User as MekUser } from "./user";
+import { Notify } from "./notify";
 
 //SECTION - CALSS: Social
 export class Social {
@@ -193,7 +194,7 @@ export class Feeds {
     const month = newDate.getMonth();
     const day = newDate.getDate();
     const timezone = newDate.getTimezoneOffset() * 60 * 1000;
-    start.setTime(Date.UTC(year, month - 1, day, 0, 0, 0) + timezone);
+    start.setTime(Date.UTC(year, month - 6, day, 0, 0, 0) + timezone);
     end.setTime(Date.UTC(year, month, day, 23, 59, 59) + timezone);
     return [start, end];
   }
@@ -386,7 +387,7 @@ export class Reaction {
   }
 
   //ANCHOR - like
-  async like(user: User): Promise<this> {
+  async like(user: User, ownerId: string): Promise<this> {
     if (this.id) {
       const ref = doc(db, "reactions", this.id);
       await runTransaction(db, async (transaction) => {
@@ -408,9 +409,13 @@ export class Reaction {
           );
         }
       });
+
       this.liked = this.liked.includes(user.uid)
         ? this.liked.filter((uid) => uid !== user.uid)
         : this.liked.concat(user.uid);
+      if (this.liked.includes(user.uid)) {
+        Notify.like(user, this.id, user.uid, ownerId);
+      }
       return this;
     } else {
       throw new Error("'ID' not found");
