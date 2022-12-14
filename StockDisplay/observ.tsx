@@ -1,23 +1,24 @@
-import { MutableRefObject, useEffect, useState } from "react";
+import { MutableRefObject, useCallback, useEffect, useState } from "react";
 
 export function useOnScreen(ref: MutableRefObject<HTMLDivElement | undefined>) {
   const [isIntersecting, setIntersecting] = useState(false);
-  const [observer] = useState(
-    new IntersectionObserver(([entry]) => setIntersecting(entry.isIntersecting))
+
+  const unwatch = useCallback(
+    (ref: Element) => {
+      const observer = new IntersectionObserver((entries) => {
+        setIntersecting(entries.some((e) => e.isIntersecting));
+      });
+      observer.observe(ref);
+      return () => observer.disconnect();
+    },
+    [setIntersecting]
   );
 
   useEffect(() => {
     if (ref.current) {
-      observer.observe(ref.current);
-      return () => {
-        observer.disconnect();
-      };
-    } else {
-      return () => {
-        observer.disconnect();
-      };
+      return unwatch(ref.current);
     }
-  }, [ref, observer]);
+  }, [ref, unwatch]);
 
   return isIntersecting;
 }

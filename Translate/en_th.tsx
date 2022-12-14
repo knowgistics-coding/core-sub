@@ -715,7 +715,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   ],
   POST: ["POST", "โพสต์"],
   BOOK: ["BOOK", "บุ๊ค"],
-  SLIDESHOW: ["SLIDESHOW", "สไลด์โชว์"],
+  SLIDESHOW: ["Slideshow", "สไลด์โชว์"],
   PROFILE: ["PROFILE", "โปรไฟล์"],
   IMAGES: ["IMAGES", "ภาพ"],
   FILES: ["FILES", "ไฟล์"],
