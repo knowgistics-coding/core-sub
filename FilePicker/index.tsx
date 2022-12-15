@@ -165,12 +165,12 @@ export const FilePicker = () => {
           <Knopf
             icon="upload"
             sx={{ ml: 2 }}
-            color="inherit"
+            color="info"
             onClick={handleBrowse}
           >
             {t("Upload")}
           </Knopf>
-          <Knopf icon="folder-plus" color="inherit" onClick={handleAddFolder}>
+          <Knopf icon="folder-plus" color="info" onClick={handleAddFolder}>
             {t("Create $Name", { name: t("Folder") })}
           </Knopf>
           {state.selection.length > 0 && (
@@ -226,7 +226,11 @@ export const FilePicker = () => {
           {
             field: "icon",
             headerName: " ",
-            renderCell: ({ row }) => <MekFileIcon file={row} />,
+            renderCell: ({ row }) => (
+              <Typography variant="body1" sx={{color:"info.main"}}>
+                <MekFileIcon file={row} />
+              </Typography>
+            ),
             align: "center",
             width: 48,
             sortable: false,

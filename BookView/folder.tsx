@@ -51,6 +51,7 @@ export const Folder = ({ label, length, children }: FolderProps) => {
         dense
         sx={{
           backgroundColor: "var(--bg)",
+          color: "white",
           "&:hover": { backgroundColor: "var(--bg-hover)" },
           "& .MuiListItemIcon-root": { color: "inherit" },
         }}

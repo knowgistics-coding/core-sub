@@ -61,12 +61,13 @@ export const BookEditContents = () => {
   const { data, setData, setState } = useBookEdit();
   const { Popup } = usePopup();
 
-  const handleEditTitleFolder = (index: number) => () => {
+  const handleEditTitleFolder = (content: BookContent, index: number) => () => {
     if (data.contents) {
       Popup.prompt({
         title: t("Edit $Name", { name: t("Title") }),
         text: t("Title"),
         icon: "plus-circle",
+        defaultValue: content.title,
         onConfirm: (value) => {
           if (value) {
             setData(data.setContent(index, "title", value));
@@ -76,23 +77,25 @@ export const BookEditContents = () => {
     }
   };
 
-  const handleEditTitleOutFolder = (index: number) => () => {
-    if (data.contents) {
-      Popup.prompt({
-        title: t("Edit $Name", { name: t("Title") }),
-        text: t("Title"),
-        icon: "plus-circle",
-        onConfirm: (value) => {
-          if (value) {
-            setData(data.setContent(index, "title", value));
-          }
-        },
-      });
-    }
-  };
+  const handleEditTitleOutFolder =
+    (content: BookContent, index: number) => () => {
+      if (data.contents) {
+        Popup.prompt({
+          title: t("Edit $Name", { name: t("Title") }),
+          text: t("Title"),
+          icon: "plus-circle",
+          defaultValue: content.title,
+          onConfirm: (value) => {
+            if (value) {
+              setData(data.setContent(index, "title", value));
+            }
+          },
+        });
+      }
+    };
 
   const handleEditTitleInFolder =
-    (folderIndex: number, itemIndex: number) => () => {
+    (content: BookContentItem, folderIndex: number, itemIndex: number) => () => {
       if (data.contents) {
         const folder = data?.contents[folderIndex];
         if (folder.items) {
@@ -100,6 +103,7 @@ export const BookEditContents = () => {
             title: t("Edit $Name", { name: t("Title") }),
             text: t("Title"),
             icon: "plus-circle",
+            defaultValue: content.title,
             onConfirm: (value) => {
               if (value) {
                 setData(
@@ -178,7 +182,7 @@ export const BookEditContents = () => {
 
                       <KuiActionIcon
                         tx="edit"
-                        onClick={handleEditTitleFolder(index)}
+                        onClick={handleEditTitleFolder(content, index)}
                       />
                       <KuiActionIcon
                         tx="remove"
@@ -212,7 +216,11 @@ export const BookEditContents = () => {
                           />
                           <KuiActionIcon
                             tx="edit"
-                            onClick={handleEditTitleInFolder(index, itemIndex)}
+                            onClick={handleEditTitleInFolder(
+                              item,
+                              index,
+                              itemIndex
+                            )}
                           />
                           <KuiActionIcon
                             tx="remove"
@@ -256,7 +264,7 @@ export const BookEditContents = () => {
                     />
                     <KuiActionIcon
                       tx="edit"
-                      onClick={handleEditTitleOutFolder(index)}
+                      onClick={handleEditTitleOutFolder(content, index)}
                     />
                     <KuiActionIcon
                       tx="remove"

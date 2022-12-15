@@ -10,8 +10,8 @@ import { Fragment } from "react";
 import { useBookView } from ".";
 import { BackLink } from "../BackLink";
 import { PickIcon } from "../PickIcon";
-import { TitleSidebar } from "../TitleSidebar";
 import { Folder, ListItemChildPost } from "./folder";
+import { BookViewTitle } from "./title";
 
 const ListItemPost = styled(ListItemChildPost)({
   borderRight: `solid 4px currentColor`,
@@ -28,11 +28,14 @@ export const BookViewSidebar = () => {
   return (
     <Fragment>
       <div>
-        {back && <BackLink divider to={back} />}
-        <TitleSidebar
-          dense
-          divider
+        {Boolean(back) && typeof back === "string" ? (
+          <BackLink divider to={back} />
+        ) : (
+          back
+        )}
+        <BookViewTitle
           title={value?.title}
+          userId={value?.user}
           selected={selected === "cover"}
           onClick={handleSelect("cover")}
         />
