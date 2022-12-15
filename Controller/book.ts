@@ -97,6 +97,16 @@ export class Book {
     );
   }
 
+  data():ExcludeMethods<Book> {
+    const data = Object.entries(this)
+      .filter(([_key, value]) => !Boolean(value instanceof Function))
+      .reduce(
+        (data, [key, value]) => Object.assign(data, { [key]: value }),
+        {} as ExcludeMethods<Book>
+      );
+    return data;
+  }
+
   set<T extends keyof this>(field: T, value: this[T]) {
     this[field] = value;
     return this;
@@ -350,7 +360,6 @@ export class Book {
         if (full) {
           doc = await doc.getFull(user);
         }
-        console.log(doc)
         resolve(doc);
       } else {
         reject(Error("Access denied"));

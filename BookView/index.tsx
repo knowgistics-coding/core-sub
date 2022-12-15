@@ -4,6 +4,7 @@ import { Container } from "../Container";
 import { ContentHeaderProps } from "../ContentHeader";
 import { Book } from "../Controller/book";
 import { Post } from "../Controller/post";
+import { User } from "../Controller/user";
 import { MainContainer } from "../MainContainer";
 import { NotFound } from "../NotFound";
 import { PageViewer } from "../PageViewer";
@@ -12,7 +13,7 @@ import { BookViewSidebar } from "./sidebar";
 
 export interface BookViewProps {
   loading?: boolean;
-  back?: string;
+  back?: string | React.ReactNode;
   value?: Book;
   posts?: Record<string, Post>;
   breadcrumbs?: ContentHeaderProps["breadcrumbs"];
@@ -24,12 +25,18 @@ const BookViewContext = React.createContext<
     setSelect: React.Dispatch<React.SetStateAction<string>>;
     pages: string[];
     pagesPost: Record<string, string>;
+    user: { loading: boolean; user: User | null };
+    setUser: React.Dispatch<
+      React.SetStateAction<{ loading: boolean; user: User | null }>
+    >;
   }
 >({
   selected: "",
   setSelect: () => {},
   pages: [],
   pagesPost: {},
+  user: { loading: true, user: null },
+  setUser: () => {},
 });
 
 export const useBookView = () => React.useContext(BookViewContext);
@@ -49,6 +56,11 @@ const Paginate = styled(Box)(({ theme }) => ({
 
 export const BookView = (props: BookViewProps) => {
   const [selected, setSelect] = React.useState<string>("cover");
+  const [user, setUser] = React.useState<{
+    loading: boolean;
+    user: User | null;
+  }>({ loading: true, user: null });
+
   const pages =
     props.value?.contents?.reduce((total: string[], content) => {
       if (content.type === "item") {
@@ -78,7 +90,7 @@ export const BookView = (props: BookViewProps) => {
 
   return (
     <BookViewContext.Provider
-      value={{ ...props, selected, setSelect, pages, pagesPost }}
+      value={{ ...props, selected, setSelect, pages, pagesPost, user, setUser }}
     >
       <MainContainer
         loading={props.loading}

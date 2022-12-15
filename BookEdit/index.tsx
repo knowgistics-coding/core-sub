@@ -1,3 +1,5 @@
+import Button from "@mui/material/Button";
+import ListItem from "@mui/material/ListItem";
 import * as React from "react";
 import { BackLink } from "../BackLink";
 import { Container } from "../Container";
@@ -8,6 +10,7 @@ import { Post } from "../Controller/post";
 import { FabGroup, FabIcon } from "../FabGroup";
 import { FeatureImageEdit } from "../FeatureImage";
 import { MainContainer, MainContainerProps } from "../MainContainer";
+import { PickIcon } from "../PickIcon";
 import { usePopup } from "../Popup";
 import { TitleEdit } from "../TitleEdit";
 import { VisibilityEdit } from "../VisibilityEdit";
@@ -25,6 +28,7 @@ export type BookEditProps = {
   setData: (data: Book) => void;
   containerProps?: Omit<MainContainerProps, "children" | "sidebar">;
   onSave: () => void;
+  onPreview?: () => void;
 };
 
 type contentType = Pick<BookEditProps, "data" | "setData" | "onSave"> & {
@@ -90,6 +94,19 @@ export const BookEdit = (props: BookEditProps) => {
         sidebar={
           <>
             <BackLink divider to="/" />
+            {props.onPreview && (
+              <ListItem divider>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  size="large"
+                  startIcon={<PickIcon icon="eye" />}
+                  onClick={props.onPreview}
+                >
+                  {t("Preview")}
+                </Button>
+              </ListItem>
+            )}
             <TitleEdit
               value={props.data.title}
               onChange={handleChangeField("title")}
@@ -119,8 +136,12 @@ export const BookEdit = (props: BookEditProps) => {
           </pre>
         </Container>
         <FabGroup>
-          <FabIcon icon="folder-plus" onClick={handleAddFolder} />
-          <FabIcon icon="file-download" onClick={() => setOpen(true)} />
+          <FabIcon icon="folder-plus" color="info" onClick={handleAddFolder} />
+          <FabIcon
+            icon="file-download"
+            color="info"
+            onClick={() => setOpen(true)}
+          />
           <FabIcon icon="save" color="success" onClick={props.onSave} />
         </FabGroup>
         <PostAdd

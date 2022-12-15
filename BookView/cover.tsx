@@ -57,14 +57,15 @@ const Wrapper = styled(Box)(({ theme }) => ({
   boxSizing: "border-box",
 }));
 
-const ReadIcon = styled(IconButton)(({theme}) => ({
+const ReadIcon = styled(IconButton)(({ theme }) => ({
   fontSize: theme.spacing(8),
   padding: 0,
-}))
+  color: "white"
+}));
 
 export const BookViewCover = () => {
   const { t } = useCore();
-  const { value, selected, setSelect, pages } = useBookView();
+  const { value, selected, setSelect, pages, user } = useBookView();
 
   const handleOpen = () => pages.length && setSelect(pages[0]);
 
@@ -74,14 +75,14 @@ export const BookViewCover = () => {
         <Toolbar />
         <Content>
           <Wrapper>
-            <Typography variant="body1" sx={{mb:3}}>
+            <Typography variant="body1" sx={{ mb: 3 }}>
               <PickIcon icon="book" style={{ marginRight: "1ch" }} />
               {t("BOOK")}
             </Typography>
             <Typography variant="h1" align="center">
               {value?.title}
             </Typography>
-            <Typography variant="body2" sx={{mb:3}}>
+            <Typography variant="body2" sx={{ mb: 3 }}>
               <PickIcon icon={"calendar"} style={{ marginRight: "0.5rem" }} />
               {moment(value?.datemodified || new Date()).format("LL")}
               <VerticalLine />
@@ -91,9 +92,11 @@ export const BookViewCover = () => {
               <PickIcon icon={"eye"} style={{ marginRight: "0.5rem" }} />
               {value?.view ?? 0}
             </Typography>
-            {value?.displayName && <Typography mb={3}>
-              <PickIcon icon="user" /> {value?.displayName}
-            </Typography>}
+            {value?.displayName && (
+              <Typography mb={3}>
+                <PickIcon icon="user" /> {value?.displayName ?? user.user?.displayName}
+              </Typography>
+            )}
             <ReadIcon onClick={handleOpen}>
               <PickIcon icon="circle-chevron-right" />
             </ReadIcon>
