@@ -19,7 +19,7 @@ export const DGETable = (props: DataGridEditorData) => {
               <TableCell
                 key={column.field}
                 width={column.width || "auto"}
-                align="center"
+                align={column.align ?? "left"}
               >
                 <Typography variant="body2" fontWeight="bold">
                   {column.headerName}
