@@ -92,11 +92,10 @@ export const PESidebar = () => {
         <ListItem divider>
           <Button
             fullWidth
-            variant="contained"
+            variant="outlined"
             size="large"
             startIcon={<PickIcon icon={"eye"} />}
             onClick={onPreview}
-            color="neutral"
           >
             {t("Preview")}
           </Button>

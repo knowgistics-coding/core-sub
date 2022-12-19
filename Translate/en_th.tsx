@@ -713,7 +713,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
     "Sorting the answer options.",
     "ให้เรียงลำดับตัวเลือกให้ถูกต้อง",
   ],
-  POST: ["POST", "โพสต์"],
+  POST: ["Post", "โพสต์"],
   BOOK: ["BOOK", "บุ๊ค"],
   SLIDESHOW: ["Slideshow", "สไลด์โชว์"],
   PROFILE: ["PROFILE", "โปรไฟล์"],
