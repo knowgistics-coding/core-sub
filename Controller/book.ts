@@ -97,7 +97,7 @@ export class Book {
     );
   }
 
-  data():ExcludeMethods<Book> {
+  data(): ExcludeMethods<Book> {
     const data = Object.entries(this)
       .filter(([_key, value]) => !Boolean(value instanceof Function))
       .reduce(
@@ -169,7 +169,7 @@ export class Book {
     if (this.contents?.[postIndex]) {
       const { title, value, uid } = this.contents[postIndex];
       if (value && uid) {
-        console.log("UID OK")
+        console.log("UID OK");
         const newItem: BookContentItem = { key: genKey(), title, value, uid };
         const pushed = update(this.contents, {
           [folderIndex]: {
@@ -188,13 +188,14 @@ export class Book {
 
   pullFromFolder(folderIndex: number, itemIndex: number): this {
     if (this.contents?.[folderIndex]?.items?.[itemIndex]) {
-      const { title, value, uid } = this.contents[folderIndex].items![itemIndex];
+      const { title, value, uid } =
+        this.contents[folderIndex].items![itemIndex];
       const newItem: BookContent = {
         title,
         value,
         key: genKey(),
         type: "item",
-        uid
+        uid,
       };
       this.contents = update(this.contents, {
         [folderIndex]: { items: { $splice: [[itemIndex, 1]] } },
@@ -227,7 +228,7 @@ export class Book {
     const lists = this.contents
       .reduce((lists, content) => {
         const newLists = (
-          content.type
+          content.type === "folder"
             ? content.items?.map(({ uid, value }) => ({ uid, value })) ?? []
             : [{ uid: content.uid, value: content.value }]
         ).filter(
