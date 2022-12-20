@@ -19,6 +19,7 @@ import {
 import { cleanObject } from "../func";
 import { VisibilityTabsValue } from "../VisibilityTabs";
 import { db } from "./firebase";
+import L from "leaflet";
 
 export type MapType = "mappack" | "marker" | "route" | "area";
 export type MapPosition = Record<"lat" | "lng", number>;
@@ -28,7 +29,7 @@ export type ExcludeMethods<T> = Pick<
   { [K in keyof T]: T[K] extends Function ? never : K }[keyof T]
 >;
 
-export type MapJson = ExcludeMethods<Omit<Map, "datecreate" | "datemodified">>
+export type MapJson = ExcludeMethods<Omit<Map, "datecreate" | "datemodified">>;
 
 export class Map {
   id: string;
@@ -262,7 +263,25 @@ export class Map {
     return item;
   }
 
-  static validLatLng(latLng?:Record<"lat"|"lng", number>):boolean{
-    return Boolean(latLng?.lat && latLng.lng)
+  static validLatLng(latLng?: Record<"lat" | "lng", number>): boolean {
+    return Boolean(latLng?.lat && latLng.lng);
+  }
+
+  //ANCHOR - getBounds
+  static getBounds(maps: Map[]): L.LatLngBounds {
+    const bounds = new L.LatLngBounds([]);
+    maps.forEach((item) => {
+      if (item.type === "marker" && item.latLng) {
+        bounds.extend(item.latLng);
+      } else if (
+        ["area", "route"].includes(item.type) &&
+        item.latLngs?.length
+      ) {
+        item.latLngs.forEach((latLng) => {
+          bounds.extend(latLng);
+        });
+      }
+    });
+    return bounds;
   }
 }
