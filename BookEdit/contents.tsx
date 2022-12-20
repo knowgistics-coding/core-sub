@@ -138,10 +138,14 @@ export const BookEditContents = () => {
         },
       });
     };
-  const handleMoveOutFolder = (folderIndex: number, itemIndex: number) => () =>
+  const handleMoveOutFolder = (folderIndex: number, itemIndex: number) => () => {
     setData(data.pullFromFolder(folderIndex, itemIndex));
-  const handleMoveUpInFolder = (folderIndex: number, itemIndex: number) => () =>
+  }
+  
+  const handleMoveUpInFolder = (folderIndex: number, itemIndex: number) => () => {
     setData(data.moveContentItem(folderIndex, itemIndex, itemIndex - 1));
+  }
+    
   const handleMoveDownInFolder =
     (folderIndex: number, itemIndex: number) => () =>
       setData(data.moveContentItem(folderIndex, itemIndex, itemIndex + 1));

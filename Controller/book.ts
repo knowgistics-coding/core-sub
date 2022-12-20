@@ -169,6 +169,7 @@ export class Book {
     if (this.contents?.[postIndex]) {
       const { title, value, uid } = this.contents[postIndex];
       if (value && uid) {
+        console.log("UID OK")
         const newItem: BookContentItem = { key: genKey(), title, value, uid };
         const pushed = update(this.contents, {
           [folderIndex]: {
@@ -187,12 +188,13 @@ export class Book {
 
   pullFromFolder(folderIndex: number, itemIndex: number): this {
     if (this.contents?.[folderIndex]?.items?.[itemIndex]) {
-      const { title, value } = this.contents[folderIndex].items![itemIndex];
+      const { title, value, uid } = this.contents[folderIndex].items![itemIndex];
       const newItem: BookContent = {
         title,
         value,
         key: genKey(),
         type: "item",
+        uid
       };
       this.contents = update(this.contents, {
         [folderIndex]: { items: { $splice: [[itemIndex, 1]] } },
