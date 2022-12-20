@@ -79,8 +79,8 @@ export const LeafletMap = ({ onMapClick, ...props }: LeafletMapProps) => {
   const map = useMap();
 
   useEffect(() => {
-    if (props.maps?.length) {
-      const bounds = MekMap.getBounds(props.maps);
+    if ((props.maps?.length ?? 0) > 1) {
+      const bounds = MekMap.getBounds(props.maps!);
       map.fitBounds(bounds, { padding: [24, 24] });
     }
 

@@ -36,8 +36,8 @@ export class Map {
   title: string;
   type: MapType;
   address: Record<string, string>;
-  latLng?: MapPosition;
-  latLngs?: MapPosition[];
+  latLng: MapPosition;
+  latLngs: MapPosition[];
   visibility: VisibilityTabsValue;
   color: string;
   user?: string;
@@ -64,8 +64,8 @@ export class Map {
     this.title = data?.title || "";
     this.type = data?.type || "marker";
     this.address = data?.address || {};
-    this.latLng = data?.latLng;
-    this.latLngs = data?.latLngs;
+    this.latLng = data?.latLng ?? {lat:0,lng:0};
+    this.latLngs = data?.latLngs ?? [];
     this.visibility = data?.visibility || "private";
     this.user = data?.user;
     this.color = data?.color || "#CC0000";
@@ -269,6 +269,9 @@ export class Map {
 
   //ANCHOR - getBounds
   static getBounds(maps: Map[]): L.LatLngBounds {
+    if(maps.length < 2){
+      throw new Error('Maps length less then 2');
+    }
     const bounds = new L.LatLngBounds([]);
     maps.forEach((item) => {
       if (item.type === "marker" && item.latLng) {
