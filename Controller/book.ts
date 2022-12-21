@@ -137,6 +137,43 @@ export class Book {
     return this;
   }
 
+  rename(title: string, parent: BookContent, child?: BookContentItem): this {
+    const parentIndex = this.contents.findIndex((c) => c.key === parent.key);
+    if (parentIndex > -1) {
+      if (child) {
+        const childIndex = (this.contents[parentIndex].items ?? []).findIndex(
+          (c) => c.key === child.key
+        );
+        if (childIndex > -1) {
+          this.contents = update(this.contents, {
+            [parentIndex]: {
+              items: { [childIndex]: { title: { $set: title } } },
+            },
+          });
+        }
+      } else {
+        this.contents = update(this.contents, {
+          [parentIndex]: { title: { $set: title } },
+        });
+      }
+    }
+    return this;
+  }
+
+  rmContent(parent: BookContent, child?: BookContentItem): this {
+    const parentIndex = this.contents.findIndex((c) => c.key === parent.key);
+    if (parentIndex > -1) {
+      if (child) {
+        this.contents[parentIndex].items = (
+          this.contents[parentIndex].items ?? []
+        ).filter((item) => item.key !== child.key);
+      } else {
+        this.contents.splice(parentIndex, 1);
+      }
+    }
+    return this;
+  }
+
   removeContent(key: string): this {
     this.contents = this.contents.filter((content) => content.key !== key);
     return this;
@@ -169,7 +206,6 @@ export class Book {
     if (this.contents?.[postIndex]) {
       const { title, value, uid } = this.contents[postIndex];
       if (value && uid) {
-        console.log("UID OK");
         const newItem: BookContentItem = { key: genKey(), title, value, uid };
         const pushed = update(this.contents, {
           [folderIndex]: {

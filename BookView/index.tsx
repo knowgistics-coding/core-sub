@@ -2,6 +2,7 @@ import { alpha, Box, Pagination, styled } from "@mui/material";
 import * as React from "react";
 import { Container } from "../Container";
 import { ContentHeaderProps } from "../ContentHeader";
+import { useCore } from "../context";
 import { Book } from "../Controller/book";
 import { Post } from "../Controller/post";
 import { User } from "../Controller/user";
@@ -55,6 +56,7 @@ const Paginate = styled(Box)(({ theme }) => ({
 }));
 
 export const BookView = (props: BookViewProps) => {
+  const {t} = useCore()
   const [selected, setSelect] = React.useState<string>("cover");
   const [user, setUser] = React.useState<{
     loading: boolean;
@@ -101,7 +103,7 @@ export const BookView = (props: BookViewProps) => {
           <PageViewer
             maxWidth="post"
             breadcrumbs={[
-              { label: "Home", to: "/" },
+              { label: t("Home"), to: "/" },
               { label: props.value?.title || "Book" },
               { label: props.posts?.[pagesPost[selected]]?.title },
             ]}
