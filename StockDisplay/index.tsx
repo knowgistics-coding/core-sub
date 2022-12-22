@@ -228,7 +228,7 @@ export const StockDisplay = ({
         <TransImg src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" />
       </Wrapper>
       {children}
-      {cstate.data && <CreditDisplay isAbsolute {...cstate.data} />}
+      {cstate.data && <CreditDisplay className="stock-display-credit" isAbsolute {...cstate.data} />}
     </Root>
   );
 };

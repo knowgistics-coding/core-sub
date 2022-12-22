@@ -1,18 +1,20 @@
-import { Box, BoxProps, Link, styled, Typography } from "@mui/material";
+import { Box, BoxProps, styled } from "@mui/material";
 import L from "leaflet";
-import { useCallback } from "react";
+import { ComponentType } from "react";
 import { Fragment, useEffect } from "react";
 import {
   MapContainer,
   Marker,
   TileLayer,
-  Popup,
   MapContainerProps,
   useMap,
+  Polyline,
+  Polygon,
 } from "react-leaflet";
 import { Map as MekMap } from "../Controller/map";
 import { getMarkerIcon } from "../Maps";
 import "./index.css";
+import { PopupWithLatLng } from "./popup";
 
 const Icon = new L.Icon({
   iconUrl: getMarkerIcon("travel").url,
@@ -55,6 +57,19 @@ export const LeafletContainer = ({
   );
 };
 
+export const useLeaflet =
+  <T extends Record<any, unknown>>(Comp: ComponentType<T>) =>
+  (props: T): JSX.Element => {
+    return (
+      <MapContainer
+        center={{ lat: 13.74574175868472, lng: 100.50150775714611 }}
+        zoom={13}
+      >
+        <Comp {...props} />
+      </MapContainer>
+    );
+  };
+
 export type LeafletMapProps = {
   onMapClick?: (event: L.LeafletMouseEvent) => void;
   maps?: MekMap[];
@@ -63,22 +78,17 @@ export type LeafletMapProps = {
 export const LeafletMap = ({ onMapClick, ...props }: LeafletMapProps) => {
   const map = useMap();
 
-  const mapFilter = useCallback((): MekMap[] => {
-    return props.maps?.filter((map) => MekMap.validLatLng(map.latLng)) ?? [];
-  }, [props.maps]);
-
   useEffect(() => {
-    if (mapFilter().length) {
-      const bounds = L.latLngBounds([]);
-      mapFilter().map((m) => bounds.extend(m.latLng!));
-      map.fitBounds(bounds);
+    if ((props.maps?.length ?? 0) > 1) {
+      const bounds = MekMap.getBounds(props.maps!);
+      map.fitBounds(bounds, { padding: [24, 24] });
     }
 
     map.addEventListener("click", (e) => onMapClick?.(e));
     return () => {
       map.removeEventListener("click");
     };
-  }, [map, onMapClick, mapFilter]);
+  }, [map, onMapClick, props.maps]);
 
   return (
     <Fragment>
@@ -89,28 +99,39 @@ export const LeafletMap = ({ onMapClick, ...props }: LeafletMapProps) => {
         url="http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
         subdomains={["mt0", "mt1", "mt2", "mt3"]}
       />
-      {props.maps?.map(
-        (map) =>
-          MekMap.validLatLng(map.latLng) && (
-            <Marker position={map.latLng!} icon={Icon} key={map.id}>
-              <Popup>
-                <Typography
-                  variant="body1"
-                  fontWeight="bold"
-                  sx={{ pb: 1, margin: "0 !important" }}
-                >
-                  {map.title}
-                </Typography>
-                <Link
-                  href={`https://www.google.com/maps/dir/Current+Location/${map.latLng?.lat},${map.latLng?.lng}`}
-                  target="_blank"
-                >
-                  Open in Google Maps
-                </Link>
-              </Popup>
-            </Marker>
-          )
-      )}
+      {props.maps?.map((item) => {
+        switch (item.type) {
+          case "route":
+            return (
+              <Polyline
+                positions={item.latLngs!}
+                color={item.color}
+                key={item.id}
+              >
+                <PopupWithLatLng title={item.title} />
+              </Polyline>
+            );
+          case "area":
+            return (
+              <Polygon
+                positions={item.latLngs!}
+                color={item.color}
+                fillOpacity={0.5}
+                key={item.id}
+              >
+                <PopupWithLatLng title={item.title} />
+              </Polygon>
+            );
+          case "marker":
+            return (
+              <Marker position={item.latLng!} icon={Icon} key={item.id}>
+                <PopupWithLatLng title={item.title} latLng={item.latLng} />
+              </Marker>
+            );
+          default:
+            return null;
+        }
+      })}
       {props.children}
     </Fragment>
   );

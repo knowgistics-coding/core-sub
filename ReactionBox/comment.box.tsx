@@ -6,9 +6,9 @@ import {
   ListItemAvatar,
   ListItemText,
   styled,
+  Stack,
   Typography,
 } from "@mui/material";
-import { Stack } from "@mui/system";
 import React from "react";
 import ActionIcon from "../ActionIcon";
 import { Comment } from "../Controller/social";

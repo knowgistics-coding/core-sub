@@ -59,4 +59,13 @@ export class User extends MainStatic {
     );
     return result;
   }
+
+  static async getInfo(
+    uid: string
+  ): Promise<User> {
+    const result = await fetch(
+      `${this.baseUrl()}/user/info/${uid}`
+    ).then((res) => res.json());
+    return new User(result);
+  }
 }

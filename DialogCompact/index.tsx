@@ -15,26 +15,31 @@ import {
 import * as React from "react";
 import { KuiButton } from "../KuiButton";
 import { PickIcon, PickIconName } from "../PickIcon";
-import { IconDefinition } from '@fortawesome/pro-regular-svg-icons'
+import { IconDefinition } from "@fortawesome/pro-regular-svg-icons";
 
-const DialogStyled = styled(Dialog)({
+const DialogStyled = styled(Dialog)(({ theme }) => ({
   "& .MuiPaper-root:not(.MuiDialog-paperFullScreen)": {
     borderRadius: 24,
   },
-});
+  "& .MuiDialogActions-root": {
+    padding: theme.spacing(0, 2, 2),
+  },
+}));
 DialogStyled.defaultProps = {
   TransitionComponent: Grow,
 };
 
 const DialogTitleStyled = styled(DialogTitle)(({ theme }) => ({
-  padding: theme.spacing(3, 3, 2),
+  padding: theme.spacing(3, 2, 2),
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
   flexDirection: "column",
 }));
 const DialogContentStyled = styled(DialogContent)(({ theme }) => ({
+  padding: theme.spacing(2),
   paddingTop: theme.spacing(1) + "!important",
+  marginTop: theme.spacing(-1),
 }));
 
 const TitleStyled = styled(Box)({

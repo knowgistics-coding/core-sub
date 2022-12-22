@@ -21,6 +21,7 @@ export const DataGrid = ({
   rows,
   initialState,
   componentsProps,
+  sx,
   ...props
 }: DataGridProps) => {
   const { t } = useCore();

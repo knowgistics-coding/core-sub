@@ -172,7 +172,13 @@ export const DataGridEditor = (props: DataGridEditorProps) => {
   return (
     <DataGridEditorContext.Provider value={{ ...props, data, setData }}>
       {props.view ? (
-        <DGETable rows={data.rows} columns={data.columns} />
+        <DGETable
+          rows={data.rows}
+          columns={data.columns.map((column) => ({
+            ...column,
+            headerAlign: column.align ?? "center",
+          }))}
+        />
       ) : (
         <DataGrid
           rows={data.rows}
@@ -192,46 +198,48 @@ export const DataGridEditor = (props: DataGridEditorProps) => {
                   align: "center",
                 },
               ] as GridEnrichedColDef[])
-          ).concat(
-            data.columns.map(
-              (column): GridEnrichedColDef => ({
-                ...column,
-                editable: props.view !== true ? true : false,
-                sortable: false,
-                renderHeader: (col) => {
-                  return (
-                    <Box
-                      sx={{
-                        width: "100%",
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Typography
-                        variant="inherit"
-                        noWrap
-                        sx={{ flex: 1 }}
-                        textAlign={column.align}
+          )
+            .concat(
+              data.columns.map(
+                (column): GridEnrichedColDef => ({
+                  ...column,
+                  editable: props.view !== true ? true : false,
+                  sortable: false,
+                  renderHeader: (col) => {
+                    return (
+                      <Box
+                        sx={{
+                          width: "100%",
+                          display: "flex",
+                          alignItems: "center",
+                        }}
                       >
-                        {column.headerName}
-                      </Typography>
-                      {props.view !== true && (
-                        <IconButton
-                          icon="ellipsis-v"
-                          onClick={handleOpenColMenu(col.field)}
-                        />
-                      )}
-                    </Box>
-                  );
-                },
-              })
+                        <Typography
+                          variant="inherit"
+                          noWrap
+                          sx={{ flex: 1 }}
+                          textAlign={column.align}
+                        >
+                          {column.headerName}
+                        </Typography>
+                        {props.view !== true && (
+                          <IconButton
+                            icon="ellipsis-v"
+                            onClick={handleOpenColMenu(col.field)}
+                          />
+                        )}
+                      </Box>
+                    );
+                  },
+                })
+              )
             )
-          ).map(doc => {
-            if(doc.align && typeof doc.align !== "string"){
-              delete doc.align
-            }
-            return doc
-          })}
+            .map((doc) => {
+              if (doc.align && typeof doc.align !== "string") {
+                delete doc.align;
+              }
+              return doc;
+            })}
           autoHeight
           disableSelectionOnClick
           hideFooter
