@@ -18,7 +18,7 @@ export const ChatBox = {
   Head: styled(Stack)(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
     borderBottom: `solid 1px ${theme.palette.divider}`,
-    color: theme.palette.info.contrastText,
+    color: theme.palette.text.primary,
     padding: theme.spacing(1, 1.5),
   })),
   Avatar: styled(Avatar)({
