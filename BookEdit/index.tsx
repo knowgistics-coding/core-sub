@@ -24,6 +24,7 @@ type StateType = {
 
 export type BookEditProps = {
   breadcrumbs?: Breadcrumb[];
+  back?: string;
   data: Book;
   setData: (data: Book) => void;
   containerProps?: Omit<MainContainerProps, "children" | "sidebar">;
@@ -93,7 +94,7 @@ export const BookEdit = (props: BookEditProps) => {
         signInOnly
         sidebar={
           <>
-            <BackLink divider to="/" />
+            <BackLink divider to={props.back ?? "/"} />
             {props.onPreview && (
               <ListItem divider>
                 <Button
