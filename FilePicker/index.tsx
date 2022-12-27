@@ -164,7 +164,6 @@ export const FilePicker = () => {
         <>
           <Knopf
             icon="upload"
-            sx={{ ml: 2 }}
             color="info"
             onClick={handleBrowse}
           >
