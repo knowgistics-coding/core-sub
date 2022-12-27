@@ -90,14 +90,14 @@ export class Book {
       ...Object.entries(this)
         .filter(
           ([key, value]) =>
-            typeof value !== "function" &&
+            value instanceof Function === false &&
             ["id", "displayName"].includes(key) === false
         )
         .map(([key, value]) => ({ [key]: value ?? null }))
     );
   }
 
-  data():ExcludeMethods<Book> {
+  data(): ExcludeMethods<Book> {
     const data = Object.entries(this)
       .filter(([_key, value]) => !Boolean(value instanceof Function))
       .reduce(
@@ -133,6 +133,43 @@ export class Book {
       this.contents[folderIndex] = update(this.contents[folderIndex], {
         items: { [itemIndex]: { [field]: { $set: value } } },
       });
+    }
+    return this;
+  }
+
+  rename(title: string, parent: BookContent, child?: BookContentItem): this {
+    const parentIndex = this.contents.findIndex((c) => c.key === parent.key);
+    if (parentIndex > -1) {
+      if (child) {
+        const childIndex = (this.contents[parentIndex].items ?? []).findIndex(
+          (c) => c.key === child.key
+        );
+        if (childIndex > -1) {
+          this.contents = update(this.contents, {
+            [parentIndex]: {
+              items: { [childIndex]: { title: { $set: title } } },
+            },
+          });
+        }
+      } else {
+        this.contents = update(this.contents, {
+          [parentIndex]: { title: { $set: title } },
+        });
+      }
+    }
+    return this;
+  }
+
+  rmContent(parent: BookContent, child?: BookContentItem): this {
+    const parentIndex = this.contents.findIndex((c) => c.key === parent.key);
+    if (parentIndex > -1) {
+      if (child) {
+        this.contents[parentIndex].items = (
+          this.contents[parentIndex].items ?? []
+        ).filter((item) => item.key !== child.key);
+      } else {
+        this.contents.splice(parentIndex, 1);
+      }
     }
     return this;
   }
@@ -187,12 +224,14 @@ export class Book {
 
   pullFromFolder(folderIndex: number, itemIndex: number): this {
     if (this.contents?.[folderIndex]?.items?.[itemIndex]) {
-      const { title, value } = this.contents[folderIndex].items![itemIndex];
+      const { title, value, uid } =
+        this.contents[folderIndex].items![itemIndex];
       const newItem: BookContent = {
         title,
         value,
         key: genKey(),
         type: "item",
+        uid,
       };
       this.contents = update(this.contents, {
         [folderIndex]: { items: { $splice: [[itemIndex, 1]] } },
@@ -225,7 +264,7 @@ export class Book {
     const lists = this.contents
       .reduce((lists, content) => {
         const newLists = (
-          content.type
+          content.type === "folder"
             ? content.items?.map(({ uid, value }) => ({ uid, value })) ?? []
             : [{ uid: content.uid, value: content.value }]
         ).filter(
@@ -363,6 +402,23 @@ export class Book {
         resolve(doc);
       } else {
         reject(Error("Access denied"));
+      }
+    });
+  }
+
+  static getView(userId: string, bookId: string): Promise<Book> {
+    return new Promise(async (resolve, reject) => {
+      const bookSnapshot = await getDoc(this.doc(userId, bookId));
+      if (bookSnapshot.exists()) {
+        let book = new Book({
+          ...bookSnapshot.data(),
+          id: bookSnapshot.id,
+          user: userId,
+        });
+        book = book.set("posts", await book.getPosts())
+        resolve(book)
+      } else {
+        reject("Book not found");
       }
     });
   }

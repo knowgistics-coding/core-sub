@@ -133,6 +133,7 @@ import {
   faFilePdf,
   faFilePowerpoint,
   IconDefinition,
+  faScroll,
 } from "@fortawesome/pro-regular-svg-icons";
 import { faYoutube, faFacebook } from "@fortawesome/free-brands-svg-icons";
 import {
@@ -277,6 +278,7 @@ const iconLists = [
   faFilePdf,
   faFilePowerpoint,
   faFileCircleQuestion,
+  faScroll
 ] as IconDefinition[];
 
 library.add(...iconLists as any[]);
@@ -392,6 +394,7 @@ export type PickIconName =
   | "route"
   | "save"
   | "school"
+  | "scroll"
   | "search"
   | "share-nodes"
   | "ship"

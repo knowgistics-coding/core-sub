@@ -164,6 +164,7 @@ export type LocaleKey =
   | "More"
   | "Move Up"
   | "Move Down"
+  | "Move from $Name"
   | "Move to $Name"
   | "Multiple Choice"
   | "My $Name"
@@ -518,6 +519,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   More: ["More", "อื่น ๆ"],
   "Move Up": ["Move Up", "เลื่อนขึ้น"],
   "Move Down": ["Move Down", "เลื่อนลง"],
+  "Move from $Name": ["Move from {{name}}", "ย้ายออกจาก{{name}}"],
   "Move to $Name": ["Move to {{name}}", "ย้ายไปที่{{name}}"],
   "Multiple Choice": ["Multiple Choice", "หลายตัวเลือก"],
   "My $Name": ["My {{name}}", "{{name}}ของฉัน"],

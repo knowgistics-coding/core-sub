@@ -114,6 +114,7 @@ export const PEEditorImage = ({ index, content }: PEEditorProps) => {
                 ...theme.typography.caption,
                 padding: theme.spacing(0, 0.5),
                 backgroundColor: "#000A",
+                color: "#FFFFFF"
               })}
             >
               <PickIcon icon={"link"} style={{ marginRight: "0.5rem" }} />
