@@ -82,6 +82,8 @@ export const LeafletMap = ({ onMapClick, ...props }: LeafletMapProps) => {
     if ((props.maps?.length ?? 0) > 1) {
       const bounds = MekMap.getBounds(props.maps!);
       map.fitBounds(bounds, { padding: [24, 24] });
+    } else if((props.maps?.length ?? 0) === 1){
+      map.setView(props.maps![0].latLng, 15)
     }
 
     map.addEventListener("click", (e) => onMapClick?.(e));
