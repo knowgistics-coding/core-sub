@@ -1,4 +1,10 @@
-import { Button, IconButton, IconButtonProps, styled } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  IconButtonProps,
+  styled,
+  Tooltip,
+} from "@mui/material";
 import { useCore } from "../context";
 import { PickIcon, PickIconProps } from "../PickIcon";
 
@@ -10,6 +16,15 @@ const IconButtonStyled = styled(IconButton)({
 IconButtonStyled.defaultProps = {
   color: "primary",
 };
+
+const ButtonStyled = styled(Button)({
+  "& div": {
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    maxWidth: 72,
+  },
+});
 
 export type KnopfProps = Pick<
   IconButtonProps,
@@ -34,24 +49,28 @@ export const Knopf = ({
   const { isMobile } = useCore();
 
   return isMobile ? (
-    <IconButtonStyled
-      onClick={onClick}
-      sx={sx}
-      color={color}
-      {...props.componentProps?.iconButton}
-    >
-      <PickIcon icon={icon} />
-    </IconButtonStyled>
+    <Tooltip placement="top" title={children ?? ""}>
+      <IconButtonStyled
+        onClick={onClick}
+        sx={sx}
+        color={color}
+        {...props.componentProps?.iconButton}
+      >
+        <PickIcon icon={icon} />
+      </IconButtonStyled>
+    </Tooltip>
   ) : (
-    <Button
-      {...props.componentProps?.button}
-      variant="outlined"
-      startIcon={<PickIcon icon={icon} />}
-      onClick={onClick}
-      color={color}
-      sx={sx}
-    >
-      {children}
-    </Button>
+    <Tooltip placement="top" title={children ?? ""}>
+      <ButtonStyled
+        {...props.componentProps?.button}
+        variant="outlined"
+        startIcon={<PickIcon icon={icon} />}
+        onClick={onClick}
+        color={color}
+        sx={sx}
+      >
+        <div>{children}</div>
+      </ButtonStyled>
+    </Tooltip>
   );
 };
