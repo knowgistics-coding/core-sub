@@ -227,7 +227,7 @@ export const FilePicker = () => {
             field: "icon",
             headerName: " ",
             renderCell: ({ row }) => (
-              <Typography variant="body1" sx={{color:"info.main"}}>
+              <Typography variant="body1" sx={{ color: "info.main" }}>
                 <MekFileIcon file={row} />
               </Typography>
             ),
@@ -243,7 +243,12 @@ export const FilePicker = () => {
             renderCell: ({ row, value }) => (
               <Stack direction="row" spacing={1}>
                 {row.type === "folder" ? (
-                  <Button onClick={handleOpenFolder(row.id)}>{value}</Button>
+                  <Button
+                    onClick={handleOpenFolder(row.id)}
+                    sx={{ textTransform: "none" }}
+                  >
+                    {value}
+                  </Button>
                 ) : (
                   <Typography variant="inherit">{value}</Typography>
                 )}
