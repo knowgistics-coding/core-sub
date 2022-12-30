@@ -3,9 +3,10 @@ import { To } from "react-router-dom";
 import { FirebaseApp } from "firebase/app";
 import { get, getDatabase, ref } from "firebase/database";
 import { PickIconName } from "./PickIcon";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 export type AppMenu = {
-  icon?: PickIconName;
+  icon?: PickIconName | IconProp;
   label?: React.ReactNode;
   to?: To;
   href?: string;

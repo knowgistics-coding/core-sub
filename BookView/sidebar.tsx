@@ -1,4 +1,5 @@
 import {
+  Button,
   ListItem,
   ListItemButton,
   ListItemText,
@@ -8,6 +9,8 @@ import {
 import { Fragment } from "react";
 import { useBookView } from ".";
 import { BackLink } from "../BackLink";
+import { useCore } from "../context";
+import { PickIcon } from "../PickIcon";
 import { Folder, ListItemChildPost } from "./folder";
 import { BookViewTitle } from "./title";
 
@@ -19,7 +22,8 @@ const ListItemPost = styled(ListItemChildPost)(({ theme }) => ({
 }));
 
 export const BookViewSidebar = () => {
-  const { back, value, selected, setSelect } = useBookView();
+  const { t } = useCore();
+  const { back, onBack, value, selected, setSelect } = useBookView();
 
   const handleSelect = (key: string) => () => {
     setSelect(key);
@@ -31,6 +35,17 @@ export const BookViewSidebar = () => {
   return (
     <Fragment>
       <div>
+        {onBack && (
+          <ListItem divider>
+            <Button
+              color="neutral"
+              startIcon={<PickIcon icon="chevron-left" />}
+              onClick={onBack}
+            >
+              {t("Back")}
+            </Button>
+          </ListItem>
+        )}
         {Boolean(back) && typeof back === "string" ? (
           <BackLink divider to={back} />
         ) : (

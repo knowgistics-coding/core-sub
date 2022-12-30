@@ -20,6 +20,7 @@ import { cleanObject } from "../func";
 import { VisibilityTabsValue } from "../VisibilityTabs";
 import { db } from "./firebase";
 import L from "leaflet";
+import { getMarkerIcon, MarkerCatDict, MarkerCatType } from "../Maps";
 
 export type MapType = "mappack" | "marker" | "route" | "area";
 export type MapPosition = Record<"lat" | "lng", number>;
@@ -64,7 +65,10 @@ export class Map {
     this.title = data?.title || "";
     this.type = data?.type || "marker";
     this.address = data?.address || {};
-    this.latLng = data?.latLng ?? {lat:0,lng:0};
+    this.latLng = data?.latLng ?? {
+      lat: 13.74574175868472,
+      lng: 100.50150775714611,
+    };
     this.latLngs = data?.latLngs ?? [];
     this.visibility = data?.visibility || "private";
     this.user = data?.user;
@@ -204,6 +208,20 @@ export class Map {
     return await deleteDoc(Map.doc(this.id));
   }
 
+  getIcon(): L.Icon {
+    let url = getMarkerIcon("travel").url;
+    if (MarkerCatDict?.[this.cat]) {
+      url = getMarkerIcon(this.cat as MarkerCatType).url;
+    }
+    return new L.Icon({
+      iconUrl: url,
+      iconRetinaUrl: url,
+      iconSize: new L.Point(40, 40),
+      iconAnchor: new L.Point(20, 40),
+      popupAnchor: new L.Point(0, -40),
+    });
+  }
+
   /**
    * ========================================
    *   ____   _          _    _
@@ -269,8 +287,8 @@ export class Map {
 
   //ANCHOR - getBounds
   static getBounds(maps: Map[]): L.LatLngBounds {
-    if(maps.length < 2){
-      throw new Error('Maps length less then 2');
+    if (maps.length < 2) {
+      throw new Error("Maps length less then 2");
     }
     const bounds = new L.LatLngBounds([]);
     maps.forEach((item) => {

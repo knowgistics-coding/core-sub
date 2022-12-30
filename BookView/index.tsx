@@ -15,10 +15,17 @@ import { BookViewSidebar } from "./sidebar";
 export interface BookViewProps {
   loading?: boolean;
   back?: string | React.ReactNode;
+  onBack?: () => void;
   value?: Book;
   posts?: Record<string, Post>;
   breadcrumbs?: ContentHeaderProps["breadcrumbs"];
 }
+
+type UserState = {
+  loading: boolean;
+  user: User | null;
+  posts: Record<string, Post>;
+};
 
 const BookViewContext = React.createContext<
   BookViewProps & {
@@ -26,17 +33,15 @@ const BookViewContext = React.createContext<
     setSelect: React.Dispatch<React.SetStateAction<string>>;
     pages: string[];
     pagesPost: Record<string, string>;
-    user: { loading: boolean; user: User | null };
-    setUser: React.Dispatch<
-      React.SetStateAction<{ loading: boolean; user: User | null }>
-    >;
+    user: UserState;
+    setUser: React.Dispatch<React.SetStateAction<UserState>>;
   }
 >({
   selected: "",
   setSelect: () => {},
   pages: [],
   pagesPost: {},
-  user: { loading: true, user: null },
+  user: { loading: true, user: null, posts: {} },
   setUser: () => {},
 });
 
@@ -59,10 +64,11 @@ const Paginate = styled(Box)(({ theme }) => ({
 export const BookView = (props: BookViewProps) => {
   const { t } = useCore();
   const [selected, setSelect] = React.useState<string>("cover");
-  const [user, setUser] = React.useState<{
-    loading: boolean;
-    user: User | null;
-  }>({ loading: true, user: null });
+  const [user, setUser] = React.useState<UserState>({
+    loading: true,
+    user: null,
+    posts: {},
+  });
 
   const pages =
     props.value?.contents?.reduce((total: string[], content) => {
@@ -90,6 +96,24 @@ export const BookView = (props: BookViewProps) => {
         []
       ) || [])
     ) || {};
+  const getPost = React.useCallback(
+    (id: string) => {
+      if (props.posts?.[id]) {
+        return props.posts[id];
+      } else if(user.posts?.[id]){
+        return user.posts[id]
+      }
+    },
+    [props.posts, user.posts]
+  );
+
+  React.useEffect(() => {
+    if (!props.posts && props.value) {
+      props.value.getPosts().then((posts) => {
+        setUser((s) => ({ ...s, posts }));
+      });
+    }
+  }, [props.value, props.posts]);
 
   return (
     <BookViewContext.Provider
@@ -100,15 +124,15 @@ export const BookView = (props: BookViewProps) => {
         dense
         sidebar={<BookViewSidebar />}
       >
-        {props.posts?.[pagesPost[selected]] ? (
+        {getPost(pagesPost[selected]) ? (
           <PageViewer
             maxWidth="post"
             breadcrumbs={[
               { label: t("Home"), to: "/" },
               { label: props.value?.title || "Book" },
-              { label: props.posts?.[pagesPost[selected]]?.title },
+              { label: getPost(pagesPost[selected])?.title },
             ]}
-            data={props.posts?.[pagesPost[selected]]}
+            data={getPost(pagesPost[selected])!}
             noContainer
           />
         ) : (

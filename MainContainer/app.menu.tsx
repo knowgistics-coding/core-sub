@@ -17,6 +17,7 @@ import Icons from "./icons";
 import { LocaleKey } from "../Translate/en_th";
 import { faQuestion } from "@fortawesome/pro-regular-svg-icons";
 import { PickIcon, PickIconName, PickIconProps } from "../PickIcon";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 const MenuContainer = styled(Box)(({ theme }) => ({
   width: theme.sidebarWidth * 1.25,
@@ -79,15 +80,15 @@ const FAStyled = styled((props: PickIconProps) => (
 }));
 
 type MekIconProps = SVGProps<any> & {
-  icon?: PickIconName;
+  icon?: PickIconName | IconProp;
 };
 const MekIcon = styled(({ icon, ...props }: MekIconProps) => {
   const key = Array.isArray(icon) ? icon[1] : null;
   if (key && Icons?.[key]) {
     const Comp = Icons[key];
     return <Comp {...props} />;
-  } else if(icon) {
-    return <FAStyled icon={icon} />;
+  } else if(typeof icon === "string") {
+    return <FAStyled icon={icon as PickIconName} />;
   } else {
     return <FAStyled icon={"question"} />;
   }
@@ -143,8 +144,8 @@ export const MCAppMenu = (props: BoxProps) => {
                       onClick={handleClose}
                     >
                       <ASpan>
-                        <FAStyled icon={icon || faQuestion} />
-                        {label}
+                        <MekIcon icon={icon || faQuestion} />
+                        <Typography variant="body2">{t(String(label) as LocaleKey)}</Typography>
                       </ASpan>
                     </Link>
                   </Grid>

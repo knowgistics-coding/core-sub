@@ -90,7 +90,7 @@ export class Book {
       ...Object.entries(this)
         .filter(
           ([key, value]) =>
-            typeof value !== "function" &&
+            value instanceof Function === false &&
             ["id", "displayName"].includes(key) === false
         )
         .map(([key, value]) => ({ [key]: value ?? null }))
@@ -402,6 +402,23 @@ export class Book {
         resolve(doc);
       } else {
         reject(Error("Access denied"));
+      }
+    });
+  }
+
+  static getView(userId: string, bookId: string): Promise<Book> {
+    return new Promise(async (resolve, reject) => {
+      const bookSnapshot = await getDoc(this.doc(userId, bookId));
+      if (bookSnapshot.exists()) {
+        let book = new Book({
+          ...bookSnapshot.data(),
+          id: bookSnapshot.id,
+          user: userId,
+        });
+        book = book.set("posts", await book.getPosts())
+        resolve(book)
+      } else {
+        reject("Book not found");
       }
     });
   }
