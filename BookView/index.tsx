@@ -47,16 +47,17 @@ const Paginate = styled(Box)(({ theme }) => ({
   bottom: 0,
   left: 0,
   width: "100%",
-  backgroundColor: alpha(theme.palette.background.paper, 0.25),
+  backgroundColor: alpha(theme.palette.neutral.main, 0.25),
   padding: theme.spacing(3, 0),
   backdropFilter: "blur(3px)",
   [theme.breakpoints.up("sm")]: {
     paddingLeft: theme.sidebarWidth,
   },
+  zIndex: theme.zIndex.appBar - 1,
 }));
 
 export const BookView = (props: BookViewProps) => {
-  const {t} = useCore()
+  const { t } = useCore();
   const [selected, setSelect] = React.useState<string>("cover");
   const [user, setUser] = React.useState<{
     loading: boolean;
@@ -122,7 +123,12 @@ export const BookView = (props: BookViewProps) => {
                   pages.indexOf(selected) > -1 ? pages.indexOf(selected) + 1 : 1
                 }
                 count={pages.length}
-                onChange={(_e, page) => setSelect(pages[page - 1] || "cover")}
+                onChange={(_e, page) => {
+                  setSelect(pages[page - 1] || "cover");
+                  setTimeout(() => {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }, 500);
+                }}
               />
             </Box>
           </Container>

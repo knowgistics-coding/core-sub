@@ -1,7 +1,6 @@
 import {
   ListItem,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
   Stack,
   styled,
@@ -9,21 +8,25 @@ import {
 import { Fragment } from "react";
 import { useBookView } from ".";
 import { BackLink } from "../BackLink";
-import { PickIcon } from "../PickIcon";
 import { Folder, ListItemChildPost } from "./folder";
 import { BookViewTitle } from "./title";
 
-const ListItemPost = styled(ListItemChildPost)({
-  borderRight: `solid 4px currentColor`,
+const ListItemPost = styled(ListItemChildPost)(({ theme }) => ({
+  borderRight: `solid 1px ${theme.palette.grey[700]}`,
   "&.Mui-selected": {
     borderRight: `none`,
   },
-});
+}));
 
 export const BookViewSidebar = () => {
   const { back, value, selected, setSelect } = useBookView();
 
-  const handleSelect = (key: string) => () => setSelect(key);
+  const handleSelect = (key: string) => () => {
+    setSelect(key);
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 500)
+  };
 
   return (
     <Fragment>
@@ -58,9 +61,6 @@ export const BookViewSidebar = () => {
                           selected={selected === item.key}
                           onClick={handleSelect(item.key)}
                         >
-                          <ListItemIcon>
-                            <PickIcon icon={"file-alt"} />
-                          </ListItemIcon>
                           <ListItemText primary={item.title} />
                         </ListItemChildPost>
                       ))}
@@ -79,9 +79,6 @@ export const BookViewSidebar = () => {
                       onClick={handleSelect(content.key)}
                       selected={selected === content.key}
                     >
-                      <ListItemIcon>
-                        <PickIcon icon={"file-alt"} />
-                      </ListItemIcon>
                       <ListItemText primary={content.title} />
                     </ListItemPost>
                   );
