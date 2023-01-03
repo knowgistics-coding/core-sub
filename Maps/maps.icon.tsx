@@ -209,7 +209,7 @@ export const getRouteIcon = (
   anchor: size === "small" ? { x: 10, y: 10 } : { x: 15, y: 15 },
 });
 
-const MarkerIconSVG = (icon: MapCatItem) => {
+const MarkerIconSVG = (icon: MapCatItem, noIcon: boolean = false) => {
   const faIcon = Object.values(far).find((i) => i.iconName === icon.icon);
   return `<?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
@@ -254,7 +254,7 @@ const MarkerIconSVG = (icon: MapCatItem) => {
 		L18,0z"/>
 </svg>
 ${
-  faIcon?.icon
+  faIcon?.icon && noIcon === false
     ? `
 <svg x="9px" y="8px" width="18px" height="18px" viewBox="0 0 ${faIcon?.icon?.[0]} ${faIcon?.icon?.[1]}">
   <g transform="translateX(-50%)">
@@ -267,12 +267,15 @@ ${
 </svg>`;
 };
 
-export const getMarkerIcon = (cat?: MarkerCatType): any | undefined => {
+export const getMarkerIcon = (
+  cat?: MarkerCatType,
+  index?: number
+): any | undefined => {
   const IconMap = MarkerCat.find((icon) => icon.id === cat);
   const icon: any = IconMap
     ? {
         url: `data:image/svg+xml;charset=UTF-8;base64,${window.btoa(
-          MarkerIconSVG(IconMap)
+          MarkerIconSVG(IconMap, typeof index === "number")
         )}`,
         scaledSize: { width: 40, height: 40, f: "px", b: "px" },
         labelOrigin: { x: 20, y: 16 },
