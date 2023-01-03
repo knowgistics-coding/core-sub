@@ -19,7 +19,7 @@ import {
 } from "firebase/firestore";
 import { StockDisplayProps } from "../StockDisplay";
 import { VisibilityTabsValue } from "../VisibilityTabs";
-import { ExcludeMethods } from "./map";
+import { ExcludeMethods, Map } from "./map";
 import { genKey } from "draft-js";
 import update from "react-addons-update";
 import { arrayMoveImmutable } from "array-move";
@@ -260,6 +260,15 @@ export class Book {
     return this;
   }
 
+  queryMap(posts: Post[]): Map[] {
+    const maps = posts
+      .reduce((docs, post) => docs.concat(...post.maps), [] as Map[])
+      .filter(
+        (map, index, maps) => maps.findIndex((m) => m.id === map.id) === index
+      );
+    return maps
+  }
+
   async getPosts(): Promise<Record<string, Post>> {
     const lists = this.contents
       .reduce((lists, content) => {
@@ -415,8 +424,8 @@ export class Book {
           id: bookSnapshot.id,
           user: userId,
         });
-        book = book.set("posts", await book.getPosts())
-        resolve(book)
+        book = book.set("posts", await book.getPosts());
+        resolve(book);
       } else {
         reject("Book not found");
       }
