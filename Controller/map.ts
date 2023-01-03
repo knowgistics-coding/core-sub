@@ -305,4 +305,61 @@ export class Map {
     });
     return bounds;
   }
+
+  //ANCHOR - queryBounds
+  static queryBounds(maps: Map[]): Record<"lat" | "lng", number>[] {
+    const latLngs = maps.reduce(
+      (l, map) => l.concat(map.type === "marker" ? map.latLng : map.latLngs),
+      [] as Record<"lat" | "lng", number>[]
+    );
+    if (latLngs.length > 1) {
+      const bounds = new L.LatLngBounds([]);
+      latLngs.map((latLng) => bounds.extend(latLng));
+      return [bounds.getNorthEast(), bounds.getSouthWest()];
+    } else if (latLngs.length > 0) {
+      return latLngs;
+    } else {
+      return [];
+    }
+  }
 }
+
+//SECTION - MapIcon
+export class MapIcon {
+  static toBase64(data: string): string {
+    return `data:image/svg+xml;charset=UTF-8;base64,${window.btoa(data)}`;
+  }
+  static current(): string {
+    return this.toBase64(`<?xml version="1.0" encoding="UTF-8"?>
+    <svg id="uuid-f7f5ca3d-1c1d-4b32-b045-1484fb009976" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20.1 20">
+      <defs>
+        <style>
+          .uuid-f5379e62-af41-4d3b-b8ed-9ff8326f05ae {
+            fill: #5488f5;
+          }
+        </style>
+      </defs>
+      <path class="uuid-f5379e62-af41-4d3b-b8ed-9ff8326f05ae" d="m10.95,20h-1.78c0-.17,0-.32,0-.48,0-.61,0-1.22,0-1.82,0-.09-.02-.12-.12-.13-3.17-.4-5.81-2.82-6.5-5.95-.05-.24-.09-.48-.13-.74H0v-1.76h2.42c.21-1.78.93-3.31,2.19-4.57,1.26-1.26,2.78-2,4.56-2.23V0h1.78v2.29c.47.11.92.18,1.36.32,2.81.93,4.56,2.85,5.27,5.72.05.22.08.44.11.67.01.1.05.12.14.12.71,0,1.42,0,2.12,0,.05,0,.09,0,.14,0v1.76h-2.38c-.08.36-.14.72-.23,1.06-.73,2.78-3.05,4.97-5.85,5.52-.19.04-.38.08-.57.1-.1.01-.12.04-.12.13,0,.64,0,1.28,0,1.92,0,.12,0,.25,0,.38Zm-.89-3.29c3.7,0,6.7-2.95,6.76-6.65.06-3.77-2.96-6.86-6.75-6.87-3.71,0-6.65,2.95-6.76,6.54-.12,3.8,2.91,6.95,6.75,6.97Z"/>
+      <path class="uuid-f5379e62-af41-4d3b-b8ed-9ff8326f05ae" d="m6.3,9.95c0-2.11,1.69-3.77,3.82-3.77,2.04,0,3.73,1.72,3.73,3.78,0,2.1-1.7,3.77-3.83,3.76-2.04,0-3.72-1.71-3.71-3.78Z"/>
+    </svg>`);
+  }
+  static me() {
+    return this.toBase64(`<?xml version="1.0" encoding="utf-8"?>
+    <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+    <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+    <g>
+      <circle opacity="0.5" fill="#547DBF" cx="12" cy="12" r="12"/>
+      <g>
+        <path fill="#547DBF" d="M12,17.961c-3.287,0-5.961-2.674-5.961-5.961c0-3.287,2.674-5.96,5.961-5.96s5.961,2.674,5.961,5.96
+          C17.961,15.287,15.287,17.961,12,17.961z"/>
+        <path fill="#FFFFFF" d="M12,7.04c2.74,0,4.961,2.221,4.961,4.96c0,2.739-2.221,4.961-4.961,4.961S7.039,14.739,7.039,12
+          C7.039,9.26,9.26,7.04,12,7.04 M12,5.04c-3.838,0-6.961,3.123-6.961,6.96S8.162,18.961,12,18.961c3.838,0,6.961-3.123,6.961-6.961
+          S15.838,5.04,12,5.04L12,5.04z"/>
+      </g>
+    </g>
+    </svg>`);
+  }
+}
+//!SECTION
