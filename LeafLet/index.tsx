@@ -126,13 +126,15 @@ export const LeafletMap = ({ onMapClick, ...props }: LeafletMapProps) => {
   const map = useMap();
 
   useEffect(() => {
-    if ((props.maps?.length ?? 0) > 1) {
-      const bounds = MekMap.getBounds(props.maps!);
+    const latLngs = MekMap.queryBounds(props.maps ?? []);
+    if (latLngs.length > 1) {
+      const bounds = new L.LatLngBounds([]);
+      latLngs.forEach(latLng => bounds.extend(latLng))
       map.fitBounds(bounds, { padding: [24, 24] });
-    } else if ((props.maps?.length ?? 0) > 0) {
+    } else if (latLngs.length > 0) {
       setTimeout(() => {
-        if (props.maps?.[0].latLng) {
-          map.setView(props.maps[0].latLng, 16);
+        if (latLngs[0]) {
+          map.setView(latLngs[0], 16);
         }
       }, 500);
     }
@@ -201,7 +203,6 @@ export const LeafletMap = ({ onMapClick, ...props }: LeafletMapProps) => {
         }}
       >
         <ActionIcon
-          size="medium"
           icon="ellipsis-v"
           color="primary"
           onClick={({ currentTarget }) =>
