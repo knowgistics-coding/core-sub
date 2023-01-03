@@ -134,6 +134,7 @@ import {
   faFilePowerpoint,
   IconDefinition,
   faScroll,
+  faMapLocationDot,
 } from "@fortawesome/pro-regular-svg-icons";
 import { faYoutube, faFacebook } from "@fortawesome/free-brands-svg-icons";
 import {
@@ -278,7 +279,8 @@ const iconLists = [
   faFilePdf,
   faFilePowerpoint,
   faFileCircleQuestion,
-  faScroll
+  faScroll,
+  faMapLocationDot
 ] as IconDefinition[];
 
 library.add(...iconLists as any[]);
@@ -377,6 +379,7 @@ export type PickIconName =
   | "list-ol"
   | "magnifying-glass-minus"
   | "magnifying-glass-plus"
+  | "map-location-dot"
   | "map-marker-alt"
   | "mobile"
   | "mug-saucer"
