@@ -235,6 +235,7 @@ export type LocaleKey =
   | "Save"
   | "Save Before Leave"
   | "Saved"
+  | "Saved $Name"
   | "Send Email"
   | "Set As $Name"
   | "Schedule"
@@ -247,6 +248,7 @@ export type LocaleKey =
   | "Select"
   | "Select $Name"
   | "Selected"
+  | "Selected $Amount items"
   | "Select?"
   | "Select Answer"
   | "Send Reset Password"
@@ -596,6 +598,8 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
     "คุณต้องการบันทึกการแก้ไขก่อนออกจากหน้านี้หรือไม่?",
   ],
   Saved: ["Saved", "บันทึกสำเร็จ"],
+  "Saved $Name": ["Saved {{name}}", "{{name}}ที่บันทึกไว้"],
+  "Selected $Amount items": ["Selected {{amount}} items", "{{amount}} รายการที่เลือก"],
   "Send Email": ["Send E-mail", "ส่งอีเมล"],
   "Set As $Name": ["Set as {{name}}", "ตั้งค่าเป็น{{name}}"],
   Schedule: ["Schedule", "กำหนดการ"],
