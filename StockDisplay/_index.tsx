@@ -64,21 +64,16 @@ const LinkStyled = styled("a")(({ theme }) => ({
 interface rootProps {
   ratio?: number;
   hover?: boolean;
-  checked?: boolean;
 }
 const Root = styled(Box, {
-  shouldForwardProp: (prop) =>
-    !["ratio", "hover", "checked"].includes(String(prop)),
-})<rootProps>(({ ratio, hover, checked, theme }) => ({
+  shouldForwardProp: (prop) => prop !== "hover",
+})<rootProps>(({ ratio, hover, theme }) => ({
   position: "relative",
   backgroundColor: theme.palette.neutral.main,
   "&:after": {
     content: "''",
     display: "block",
     paddingTop: `calc(100% * ${ratio || 1})`,
-  },
-  "& img, canvas": {
-    filter: checked ? `brightness(0.6) grayscale(50%)` : undefined,
   },
   "&:hover img": {
     objectFit: hover ? "contain" : undefined,
@@ -102,12 +97,8 @@ const ImgStyled = styled("img")<{
 
 const CheckboxStyled = styled(Checkbox)({
   position: "absolute",
+  top: "0.5rem",
   left: "0.5rem",
-  bottom: "0.5rem",
-  "& svg": {
-    color: "white",
-    filter: "drop-shadow(0 0 4px #000)",
-  },
 });
 
 export interface StockDisplayImageTypes {
@@ -116,7 +107,6 @@ export interface StockDisplayImageTypes {
   width?: number;
   height?: number;
   credit?: CreditDisplayProps;
-  thumbnail?: string;
 }
 
 export interface StockDisplayProps {
@@ -137,8 +127,6 @@ export interface StockDisplayProps {
   hover?: boolean;
   size?: "small" | "medium" | "large";
   url?: string;
-  source?: { id: string; uri: string };
-  blurhash?: string
 }
 
 export const StockDisplay = ({
@@ -151,7 +139,6 @@ export const StockDisplay = ({
   rootProps,
   hover,
   size,
-  source,
   ...props
 }: StockDisplayProps) => {
   const divRef = useRef<HTMLDivElement>();
@@ -212,29 +199,17 @@ export const StockDisplay = ({
         getCredit(image._id, (result) => {
           setCState((s) => ({ ...s, loading: false, data: result }));
         });
-      } else if (source?.id) {
-        setCState((s) => ({ ...s, loading: true }));
-        getCredit(source.id, (result) => {
-          setCState((s) => ({ ...s, loading: false, data: result }));
-        });
       }
     }
     return () => {};
-  }, [image, cstate, source]);
+  }, [image, cstate]);
 
   return (
-    <Root
-      className="StockDisplay-root"
-      ref={divRef}
-      ratio={getRatio()}
-      {...rootProps}
-      hover={hover}
-      checked={checked}
-    >
+    <Root ref={divRef} ratio={getRatio()} {...rootProps} hover={hover}>
       <Wrapper>
-        {(image?.blurhash || props.blurhash) && (
+        {image?.blurhash && (
           <BlurhashImage
-            hash={image?.blurhash ?? props.blurhash ?? ""}
+            hash={image?.blurhash}
             canvasProps={{
               style: {
                 position: "absolute",
@@ -247,20 +222,13 @@ export const StockDisplay = ({
           />
         )}
         {isVisible && image?._id && !err && (
-          <ImgStyled
-            src={image?.thumbnail ?? getSrc(image)}
-            pos={posProps}
-            onError={handleError}
-          />
+          <ImgStyled src={getSrc(image)} pos={posProps} onError={handleError} />
         )}
-        {source && <ImgStyled src={source.uri} pos={posProps} />}
-        {checkbox && (
-          <CheckboxStyled checked={Boolean(checked)} onChange={onCheck} />
-        )}
+        {checkbox && <CheckboxStyled checked={checked} onChange={onCheck} />}
         <TransImg src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" />
       </Wrapper>
       {children}
-      {cstate.data && <CreditDisplay isAbsolute {...cstate.data} />}
+      {cstate.data && <CreditDisplay className="stock-display-credit" isAbsolute {...cstate.data} />}
     </Root>
   );
 };
