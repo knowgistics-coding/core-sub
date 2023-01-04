@@ -1,15 +1,18 @@
 import { alpha, Box, Pagination, styled } from "@mui/material";
 import * as React from "react";
+import ActionIcon from "../ActionIcon";
 import { Container } from "../Container";
 import { ContentHeaderProps } from "../ContentHeader";
 import { useCore } from "../context";
 import { Book } from "../Controller/book";
+import { Map } from "../Controller/map";
 import { Post } from "../Controller/post";
 import { User } from "../Controller/user";
 import { MainContainer } from "../MainContainer";
 import { NotFound } from "../NotFound";
 import { PageViewer } from "../PageViewer";
 import { BookViewCover } from "./cover";
+import { BookViewMaps } from "./maps";
 import { BookViewSidebar } from "./sidebar";
 
 export interface BookViewProps {
@@ -52,12 +55,13 @@ const Paginate = styled(Box)(({ theme }) => ({
   bottom: 0,
   left: 0,
   width: "100%",
-  backgroundColor: alpha(theme.palette.background.paper, 0.25),
+  backgroundColor: alpha(theme.palette.neutral.main, 0.25),
   padding: theme.spacing(3, 0),
   backdropFilter: "blur(3px)",
   [theme.breakpoints.up("sm")]: {
     paddingLeft: theme.sidebarWidth,
   },
+  zIndex: theme.zIndex.appBar - 1,
 }));
 
 export const BookView = (props: BookViewProps) => {
@@ -78,7 +82,7 @@ export const BookView = (props: BookViewProps) => {
       }
       return total;
     }, []) || [];
-  const pagesPost =
+  const pagesPost: Record<string, string> =
     Object.assign(
       {},
       ...(props.value?.contents?.reduce(
@@ -99,12 +103,35 @@ export const BookView = (props: BookViewProps) => {
     (id: string) => {
       if (props.posts?.[id]) {
         return props.posts[id];
-      } else if(user.posts?.[id]){
-        return user.posts[id]
+      } else if (user.posts?.[id]) {
+        return user.posts[id];
       }
     },
     [props.posts, user.posts]
   );
+  const getMaps = React.useCallback((): Map[] => {
+    if (props.value) {
+      const posts = Object.assign({}, user.posts, props.posts);
+      return props.value.queryMap(Object.values(posts));
+    }
+    return [];
+  }, [props.value, user.posts, props.posts]);
+
+  const handleMapClick = (id: string) => {
+    const posts = Object.values(Object.assign({}, props.posts, user.posts));
+    const post = posts.find((post) =>
+      post.maps.map((m) => m.id).includes(id)
+    );
+    if (post) {
+      const postsKey = Object.entries(pagesPost).reduce(
+        (docs, [key, value]) => Object.assign(docs, { [value]: key }),
+        {} as Record<string, string>
+      );
+      if(postsKey?.[post.id]){
+        setSelect(postsKey[post.id]);
+      }
+    }
+  }
 
   React.useEffect(() => {
     if (!props.posts && props.value) {
@@ -122,35 +149,58 @@ export const BookView = (props: BookViewProps) => {
         loading={props.loading}
         dense
         sidebar={<BookViewSidebar />}
+        endActions={
+          getMaps().length > 0 ? (
+            <ActionIcon
+              size="large"
+              icon="map-location-dot"
+              onClick={() => setSelect("maps")}
+            />
+          ) : undefined
+        }
       >
-        {getPost(pagesPost[selected]) ? (
-          <PageViewer
-            maxWidth="post"
-            breadcrumbs={[
-              { label: t("Home"), to: "/" },
-              { label: props.value?.title || "Book" },
-              { label: getPost(pagesPost[selected])?.title },
-            ]}
-            data={getPost(pagesPost[selected])!}
-            noContainer
-          />
+        {["cover", "maps"].includes(selected) === false &&
+          (getPost(pagesPost[selected]) ? (
+            <PageViewer
+              maxWidth="post"
+              breadcrumbs={[
+                { label: t("Home"), to: "/" },
+                { label: props.value?.title || "Book" },
+                { label: getPost(pagesPost[selected])?.title },
+              ]}
+              data={getPost(pagesPost[selected])!}
+              noContainer
+            />
+          ) : (
+            <NotFound noButton />
+          ))}
+        {selected === "maps" ? (
+          <BookViewMaps maps={getMaps()} onClick={handleMapClick} />
         ) : (
-          <NotFound noButton />
+          <>
+            <Box sx={{ pb: 12 }} />
+            <Paginate>
+              <Container maxWidth="post">
+                <Box display={"flex"} justifyContent="center">
+                  <Pagination
+                    page={
+                      pages.indexOf(selected) > -1
+                        ? pages.indexOf(selected) + 1
+                        : 1
+                    }
+                    count={pages.length}
+                    onChange={(_e, page) => {
+                      setSelect(pages[page - 1] || "cover");
+                      setTimeout(() => {
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      }, 500);
+                    }}
+                  />
+                </Box>
+              </Container>
+            </Paginate>
+          </>
         )}
-        <Box sx={{ pb: 12 }} />
-        <Paginate>
-          <Container maxWidth="post">
-            <Box display={"flex"} justifyContent="center">
-              <Pagination
-                page={
-                  pages.indexOf(selected) > -1 ? pages.indexOf(selected) + 1 : 1
-                }
-                count={pages.length}
-                onChange={(_e, page) => setSelect(pages[page - 1] || "cover")}
-              />
-            </Box>
-          </Container>
-        </Paginate>
         <BookViewCover />
       </MainContainer>
     </BookViewContext.Provider>

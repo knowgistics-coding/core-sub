@@ -137,6 +137,7 @@ import {
   faFolderImage,
   faFileImage,
   faFilter,
+  faMapLocationDot,
 } from "@fortawesome/pro-regular-svg-icons";
 import { faYoutube, faFacebook } from "@fortawesome/free-brands-svg-icons";
 import {
@@ -284,7 +285,8 @@ const iconLists = [
   faScroll,
   faFolderImage,
   faFileImage,
-  faFilter
+  faFilter,
+  faMapLocationDot
 ] as IconDefinition[];
 
 library.add(...iconLists as any[]);
@@ -386,6 +388,7 @@ export type PickIconName =
   | "list-ol"
   | "magnifying-glass-minus"
   | "magnifying-glass-plus"
+  | "map-location-dot"
   | "map-marker-alt"
   | "mobile"
   | "mug-saucer"

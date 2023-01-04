@@ -30,17 +30,27 @@ export class CrossSite extends MainStatic {
           window.location.href = decodeURIComponent(data.redirect);
         });
       }
+    } else if (data.as) {
+      signInWithCustomToken(auth, data.as).then(() => {
+        window.location.href = window.location.origin;
+      });
     }
   }
 
-  static async getSignInLink(user: User, appName:string, path:string): Promise<string|null> {
-    if(process.env.REACT_APP_DOMAIN){
-      const redirect = encodeURIComponent(`https://${appName}.${process.env.REACT_APP_DOMAIN}${path}`)
+  static async getSignInLink(
+    user: User,
+    appName: string,
+    path: string
+  ): Promise<string | null> {
+    if (process.env.REACT_APP_DOMAIN) {
+      const redirect = encodeURIComponent(
+        `https://${appName}.${process.env.REACT_APP_DOMAIN}${path}`
+      );
       const token = await user.getIdToken();
       const link = `https://${appName}.${process.env.REACT_APP_DOMAIN}/#as=${token}&redirect=${redirect}`;
       return link;
     } else {
-      return null
+      return null;
     }
   }
 }

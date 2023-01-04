@@ -31,3 +31,40 @@ export const CreateButton = ():HTMLElement => {
   );
   return newbutton;
 };
+
+export const CreateCustomButton = (callback?: (btn:HTMLElement) => HTMLElement):HTMLElement => {
+  let newbutton = document.createElement("DIV");
+  newbutton.style.margin = "10px 10px 0px";
+  newbutton.style.borderRadius = "2px";
+  newbutton.style.border = "none";
+  newbutton.style.backgroundColor = "white";
+  newbutton.style.fontSize = "17px";
+  newbutton.style.color = "rgb(86, 86, 86)";
+  newbutton.style.height = "40px";
+  newbutton.style.paddingLeft = "10px";
+  newbutton.style.paddingRight = "10px";
+  newbutton.style.display = "flex";
+  newbutton.style.alignItems = "center";
+  newbutton.style.cursor = "pointer";
+  newbutton.style.boxShadow = "rgb(0 0 0 / 30%) 0px 1px 4px -1px";
+  newbutton.addEventListener(
+    "mouseover",
+    function () {
+      newbutton.style.color = "#000";
+      newbutton.style.backgroundColor = "#DDD";
+    },
+    false
+  );
+  newbutton.addEventListener(
+    "mouseout",
+    function () {
+      newbutton.style.color = "rgb(86, 86, 86)";
+      newbutton.style.backgroundColor = "white";
+    },
+    false
+  );
+  if(callback){
+    newbutton = callback(newbutton);
+  }
+  return newbutton;
+};

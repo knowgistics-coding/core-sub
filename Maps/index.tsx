@@ -2,10 +2,12 @@ import * as React from "react";
 import {
   GoogleMap,
   GoogleMapProps,
+  Marker,
   useJsApiLoader,
 } from "@react-google-maps/api";
 import { minimalOptions } from "./set.minimal";
-import { CreateButton } from "./create.button";
+import { CreateButton, CreateCustomButton } from "./create.button";
+import { MapIcon } from "../Controller/map";
 
 const containerStyle = {
   width: "100%",
@@ -55,10 +57,19 @@ export const GoogleMaps = React.memo(
       googleMapsApiKey: `${process.env.REACT_APP_MAP_API_KEY}`,
       libraries: libs,
     });
+    const [state, setState] = React.useState<{
+      map: google.maps.Map | null;
+      current: Record<"lat" | "lng", number> | null;
+      pushed: boolean;
+    }>({
+      current: null,
+      map: null,
+      pushed: false,
+    });
 
-    if(!Boolean(process.env.REACT_APP_MAP_API_KEY)){ console.warn(`Map API not found`) }
-
-    const [, setMap] = React.useState<google.maps.Map | null>(null);
+    if (!Boolean(process.env.REACT_APP_MAP_API_KEY)) {
+      console.warn(`Map API not found`);
+    }
 
     const onLoad = React.useCallback(
       function callback(map: google.maps.Map) {
@@ -66,7 +77,8 @@ export const GoogleMaps = React.memo(
         const bounds = new window.google.maps.LatLngBounds();
         thailangBounds.forEach((latlng) => bounds.extend(latlng));
         map.fitBounds(bounds);
-        setMap(map);
+
+        setState((s) => ({ ...s, map }));
 
         // MINIMAL
         const customMapType = new google.maps.StyledMapType(minimalOptions, {
@@ -97,6 +109,8 @@ export const GoogleMaps = React.memo(
         if (onMapLoad) {
           onMapLoad?.(map);
         }
+
+        setState((s) => ({ ...s, map }));
       },
       [onMapLoad, searchRef, onSearchEnd]
     );
@@ -104,9 +118,37 @@ export const GoogleMaps = React.memo(
     const onUnmount = React.useCallback(function callback(
       _map: google.maps.Map
     ) {
-      setMap(null);
+      setState((s) => ({ ...s, map: null }));
     },
     []);
+
+    React.useEffect(() => {
+      if (navigator.geolocation) {
+        const watchId = navigator.geolocation.watchPosition(({ coords }) => {
+          setState((s) => {
+            const current = { lat: coords.latitude, lng: coords.longitude };
+
+            if (s.map && s.pushed === false) {
+              const btn = CreateCustomButton((btn) => {
+                btn.innerHTML = `<img src="${MapIcon.current()}" style="width:20px;height:20px" />`;
+                btn.addEventListener("click", () => {
+                  s.map?.setCenter(current);
+                });
+                return btn;
+              });
+
+              s.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(btn);
+              return { ...s, current, pushed: true };
+            } else {
+              return { ...s, current };
+            }
+          });
+        });
+        return () => {
+          navigator.geolocation.clearWatch(watchId);
+        };
+      }
+    }, []);
 
     return isLoaded ? (
       <GoogleMap
@@ -119,7 +161,11 @@ export const GoogleMaps = React.memo(
       >
         {children}
         {/* Child components, such as markers, info windows, etc. */}
-        <></>
+        <>
+          {state.current && (
+            <Marker position={state.current} icon={MapIcon.me()} />
+          )}
+        </>
       </GoogleMap>
     ) : (
       <></>

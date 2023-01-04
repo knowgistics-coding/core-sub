@@ -52,6 +52,7 @@ if (process.env.NODE_ENV === "development") {
     "REACT_APP_ICON_FAV",
     "REACT_APP_ICON_192",
     "REACT_APP_ICON_512",
+    "REACT_APP_MAP_API_KEY"
   ].forEach((key) => {
     if (!Boolean(process.env[key])) {
       console.warn(`ENV "${key}" not found`);
@@ -155,7 +156,7 @@ export const CoreProvider = React.memo(
       PopupReducer.reducer,
       new PopupReducer(t)
     );
-
+    
     const getTheme = useCallback((): Theme => {
       const mode: "dark" | "light" =
         systemState.mode === "default"
