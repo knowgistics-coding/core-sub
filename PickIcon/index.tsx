@@ -134,6 +134,9 @@ import {
   faFilePowerpoint,
   IconDefinition,
   faScroll,
+  faFolderImage,
+  faFileImage,
+  faFilter,
 } from "@fortawesome/pro-regular-svg-icons";
 import { faYoutube, faFacebook } from "@fortawesome/free-brands-svg-icons";
 import {
@@ -278,7 +281,10 @@ const iconLists = [
   faFilePdf,
   faFilePowerpoint,
   faFileCircleQuestion,
-  faScroll
+  faScroll,
+  faFolderImage,
+  faFileImage,
+  faFilter
 ] as IconDefinition[];
 
 library.add(...iconLists as any[]);
@@ -351,13 +357,16 @@ export type PickIconName =
   | "file-circle-xmark"
   | "file-download"
   | "file-excel"
+  | "file-image"
   | "file-pdf"
   | "file-powerpoint"
   | "file-slash"
+  | "filter"
   | "flag"
   | "file-word"
   | "folder"
   | "folder-download"
+  | "folder-image"
   | "folder-open"
   | "folder-plus"
   | "folder-upload"
