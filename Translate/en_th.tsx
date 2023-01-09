@@ -173,6 +173,7 @@ export type LocaleKey =
   | "$Name Added"
   | "$Name Name"
   | "$Name Has Removed"
+  | "$Name Information"
   | "$Name Not Found"
   | "$Name Removed"
   | "$Name Review"
@@ -530,6 +531,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "$Name Added": ["{{name}} Added", "เพิ่ม{{name}}แล้ว"],
   "$Name Name": ["{{name}} name", "ชื่อ{{name}}"],
   "$Name Has Removed": ["{{name}} has removed", "{{name}} ได้ถูกลบแล้ว"],
+  "$Name Information": ["{{name}} Information", "ข้อมูล{{name}}"],
   "$Name Not Found": ["{{name}} not found", "ไม่พบ{{name}}"],
   "$Name Removed": ["{{name}} removed", "ลบ{{name}}แล้ว"],
   "$Name Review": ["{{name}} Review", "ตรวจ{{name}}"],
@@ -599,7 +601,10 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   ],
   Saved: ["Saved", "บันทึกสำเร็จ"],
   "Saved $Name": ["Saved {{name}}", "{{name}}ที่บันทึกไว้"],
-  "Selected $Amount items": ["Selected {{amount}} items", "{{amount}} รายการที่เลือก"],
+  "Selected $Amount items": [
+    "Selected {{amount}} items",
+    "{{amount}} รายการที่เลือก",
+  ],
   "Send Email": ["Send E-mail", "ส่งอีเมล"],
   "Set As $Name": ["Set as {{name}}", "ตั้งค่าเป็น{{name}}"],
   Schedule: ["Schedule", "กำหนดการ"],

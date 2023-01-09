@@ -1,5 +1,5 @@
 import { Box, BoxProps, Checkbox, styled } from "@mui/material";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useOnScreen } from "../StockDisplay/observ";
 import { BlurhashImage } from "../StockDisplay/blurhash.image";
 import { ImageCredit } from "../Controller/image";
@@ -24,11 +24,12 @@ class ImageDisplayData {
 type RootProps = BoxProps & {
   ratio: number;
   hover?: boolean;
+  checked?: boolean;
 };
 const Root = styled(Box, {
   shouldForwardProp: (prop) =>
-    ["ratio", "src", "hover"].includes(prop.toString()) === false,
-})<RootProps>(({ theme, ratio, hover }) => ({
+    ["ratio", "src", "checked", "hover"].includes(prop.toString()) === false,
+})<RootProps>(({ theme, checked, ratio, hover }) => ({
   cursor: "pointer",
   position: "relative",
   borderRadius: theme.spacing(2),
@@ -55,6 +56,9 @@ const Root = styled(Box, {
     height: "100%",
     objectFit: "cover",
   },
+  "& .ImageDisplay-img": {
+    filter: checked ? "brightness(0.5)" : undefined,
+  },
 }));
 //!SECTION
 
@@ -74,8 +78,8 @@ export type ImageDisplayProps = {
   hash?: string;
   checkbox?: boolean;
   checked?: boolean;
-  onCheck?: (event: ChangeEvent<HTMLInputElement>, checked: boolean) => void;
-  onClick?: BoxProps["onClick"]
+  onCheck?: (checked: boolean) => void;
+  onClick?: BoxProps["onClick"];
 };
 
 export const ImageDisplay = (props: ImageDisplayProps) => {
@@ -108,9 +112,12 @@ export const ImageDisplay = (props: ImageDisplayProps) => {
       className="ImageDisplay-root"
       ratio={1}
       hover={props.hover}
+      checked={props.checked}
     >
       {props.hash && <BlurhashImage hash={props.hash} />}
-      {showing && state.url && <img src={state.url} alt="preview" />}
+      {showing && state.url && (
+        <img className="ImageDisplay-img" src={state.url} alt="preview" />
+      )}
       <img
         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
         alt="transparent"
@@ -128,7 +135,7 @@ export const ImageDisplay = (props: ImageDisplayProps) => {
       {props.checkbox && (
         <CheckStyled
           checked={Boolean(props.checked)}
-          onChange={props.onCheck}
+          onChange={(_e, checked) => props.onCheck?.(checked)}
         />
       )}
     </Root>

@@ -61,7 +61,7 @@ export class RealmImage {
     this.rating = data?.rating ?? 0;
     this.visibility = data?.visibility ?? "private";
 
-    this.meta = data?.meta ?? null
+    this.meta = data?.meta ?? null;
   }
 
   update<T extends keyof this>(
@@ -69,11 +69,31 @@ export class RealmImage {
     field: T,
     value: this[T] | ((data: this[T]) => this[T])
   ): RealmImage {
-    RealmImage.getPrivate(token, "62bd7c145cb69738fb9166b1").then(data => {
+    RealmImage.getPrivate(token, "62bd7c145cb69738fb9166b1").then((data) => {
       console.log(data);
     });
     this[field] = value instanceof Function ? value(this[field]) : value;
     return new RealmImage(this);
+  }
+
+  getModel(): string | null {
+    return this.meta?.exif?.image?.Model ?? null;
+  }
+
+  getFNumber(): string {
+    return this.meta?.exif?.exif?.FNumber ?? null;
+  }
+
+  getISO(): string | null {
+    return this.meta?.exif?.exif?.ISO ?? null;
+  }
+
+  getFocalLength(): string | null {
+    return this.meta?.exif?.exif?.FocalLengthIn35mmFormat ?? null;
+  }
+
+  getLensModel(): string | null {
+    return this.meta?.exif?.exif?.LensModel ?? null;
   }
 
   //SECTION - STATIC

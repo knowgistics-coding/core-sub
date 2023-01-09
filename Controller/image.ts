@@ -489,9 +489,13 @@ export class StockImage extends MainStatic {
       throw new Error("ID not found");
     }
   }
-  static display(id: string, token?: string) {
+  static display(
+    id: string,
+    token?: string,
+    size: "small" | "medium" | "large" = "medium"
+  ) {
     return token
-      ? `https://nest.phra.in/image/view/private/${id}/${token}/medium`
+      ? `https://nest.phra.in/image/view/private/${id}/${token}/${size}`
       : "";
   }
 }

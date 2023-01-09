@@ -173,8 +173,13 @@ export const StockDisplay = ({
       1
     );
   }, [props.ratio, image]);
+  
   const getSrc = useCallback(
     (image: StockDisplayImageTypes) => {
+      if(image.thumbnail?.includes("http")){
+        return image.thumbnail;
+      }
+
       switch (size) {
         case "small":
           return `${apiURL}/file/id/${image._id}/thumbnail`;
@@ -248,7 +253,7 @@ export const StockDisplay = ({
         )}
         {isVisible && image?._id && !err && (
           <ImgStyled
-            src={image?.thumbnail ?? getSrc(image)}
+            src={getSrc(image)}
             pos={posProps}
             onError={handleError}
           />
