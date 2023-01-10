@@ -1,7 +1,7 @@
 import { Timestamp } from "firebase/firestore";
 import moment from "moment";
 
-export type AnyDateType = Timestamp | Date | number;
+export type AnyDateType = Timestamp | Date | number | undefined;
 export class DateCtl {
   static toNumber(date?: Timestamp | Date | number): number {
     if (date instanceof Date) {

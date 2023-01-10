@@ -2,19 +2,20 @@ import {
   Box,
   IconButton,
   Slide,
+  Stack,
   styled,
   Toolbar,
   Typography,
 } from "@mui/material";
-import moment from "moment";
 import { useBookView } from ".";
 import { useCore } from "../context";
-import { apiURL } from "../Controller";
+import { apiURL, DateCtl } from "../Controller";
 import { Counter } from "../Counter";
+import { CoverUser } from "../CoverUser";
 import { PickIcon } from "../PickIcon";
 
 const VerticalLine = styled("span")(({ theme }) => ({
-  padding: theme.spacing(0, 1),
+  padding: theme.spacing(0, 0.5),
   "&:before": {
     content: '"|"',
     display: "inline-block",
@@ -61,12 +62,12 @@ const Wrapper = styled(Box)(({ theme }) => ({
 const ReadIcon = styled(IconButton)(({ theme }) => ({
   fontSize: theme.spacing(8),
   padding: 0,
-  color: "white"
+  color: "white",
 }));
 
 export const BookViewCover = () => {
   const { t } = useCore();
-  const { value, selected, setSelect, pages, user } = useBookView();
+  const { value, selected, setSelect, pages } = useBookView();
 
   const handleOpen = () => pages.length && setSelect(pages[0]);
 
@@ -83,21 +84,21 @@ export const BookViewCover = () => {
             <Typography variant="h1" align="center">
               {value?.title}
             </Typography>
-            <Typography variant="body2" sx={{ mb: 3 }}>
-              <PickIcon icon={"calendar"} style={{ marginRight: "0.5rem" }} />
-              {moment(value?.datemodified || new Date()).format("LL")}
-              <VerticalLine />
-              <PickIcon icon={"clock"} style={{ marginRight: "0.5rem" }} />
-              {moment(value?.datemodified || new Date()).format("LT")}
-              <VerticalLine />
-              <PickIcon icon={"eye"} style={{ marginRight: "0.5rem" }} />
-              <Counter id={value?.id} />
+            <Typography variant="body2" component="div" sx={{ mb: 3 }}>
+              <Stack direction="row" alignItems="center" spacing={1}>
+                <PickIcon icon={"calendar"} />
+                <span>{DateCtl.toCoverDate(value?.datemodified)}</span>
+                <VerticalLine />
+                <PickIcon icon={"clock"} />
+                <span>{DateCtl.toCoverTime(value?.datemodified)}</span>
+                <VerticalLine />
+                <PickIcon icon={"eye"} />
+                <span>
+                  <Counter id={value?.id} />
+                </span>
+              </Stack>
             </Typography>
-            {value?.displayName && (
-              <Typography mb={3}>
-                <PickIcon icon="user" /> {value?.displayName ?? user.user?.displayName}
-              </Typography>
-            )}
+            {value?.user && <CoverUser value={value.user} sx={{ mb: 3 }} />}
             <ReadIcon onClick={handleOpen}>
               <PickIcon icon="circle-chevron-right" />
             </ReadIcon>

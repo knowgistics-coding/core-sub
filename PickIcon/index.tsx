@@ -144,6 +144,7 @@ import {
   FontAwesomeIcon,
   FontAwesomeIconProps,
 } from "@fortawesome/react-fontawesome";
+import { forwardRef } from "react";
 
 const iconLists = [
   faChevronLeft,
@@ -434,11 +435,12 @@ export type PickIconName =
 export type PickIconProps = Omit<FontAwesomeIconProps, "icon"> & {
   icon: PickIconName | IconDefinition;
 };
-export const PickIcon = ({ icon, ...props }: PickIconProps) => {
+export const PickIcon = forwardRef<any, PickIconProps>(({ icon, ...props }, ref) => {
   return (
     <FontAwesomeIcon
+      forwardedRef={ref}
       icon={(typeof icon === "string" ? ["far", icon] : icon) as IconProp}
       {...props}
     />
   );
-};
+});
