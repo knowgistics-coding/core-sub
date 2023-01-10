@@ -60,12 +60,12 @@ export class User extends MainStatic {
     return result;
   }
 
-  static async getInfo(
-    uid: string
-  ): Promise<User> {
-    const result = await fetch(
-      `${this.baseUrl()}/user/info/${uid}`
-    ).then((res) => res.json());
+  static async getInfo(uid: string): Promise<User> {
+    const result = await fetch(`${this.baseUrl()}/user/info/${uid}`)
+      .then((res) => res.json())
+    if(result?.statusCode === 500){
+      throw new Error("user not found")
+    }
     return new User(result);
   }
 }

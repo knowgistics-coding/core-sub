@@ -1,5 +1,5 @@
 import { Skeleton } from "@mui/material";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 class CounterCtl {
   static async get(
@@ -17,7 +17,7 @@ class CounterCtl {
   }
 }
 
-export const Counter = (props: { id?: string }) => {
+export const Counter = React.memo((props: { id?: string }) => {
   const [state, setState] = useState<{ loading: boolean; counter: number }>({
     loading: true,
     counter: 0,
@@ -36,4 +36,4 @@ export const Counter = (props: { id?: string }) => {
   return <span className="KGCounter-root">
     {state.loading ? <Skeleton width={32} /> : state.counter}
   </span>;
-};
+});
