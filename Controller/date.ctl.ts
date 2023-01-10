@@ -1,6 +1,7 @@
 import { Timestamp } from "firebase/firestore";
 import moment from "moment";
 
+export type AnyDateType = Timestamp | Date | number;
 export class DateCtl {
   static toNumber(date?: Timestamp | Date | number): number {
     if (date instanceof Date) {
@@ -31,5 +32,13 @@ export class DateCtl {
   }
   static toDateString(date:number):string{
     return moment(date).format("YYYY-MM-DD HH:mm")
+  }
+  static toCoverDate(date:AnyDateType):string {
+    const numberDate = this.toNumber(date);
+    return moment(numberDate).format("DD MMMM YYYY")
+  }
+  static toCoverTime(date:AnyDateType):string {
+    const numberDate = this.toNumber(date);
+    return moment(numberDate).format("HH:mm")
   }
 }

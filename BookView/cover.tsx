@@ -10,6 +10,7 @@ import moment from "moment";
 import { useBookView } from ".";
 import { useCore } from "../context";
 import { apiURL } from "../Controller";
+import { Counter } from "../Counter";
 import { PickIcon } from "../PickIcon";
 
 const VerticalLine = styled("span")(({ theme }) => ({
@@ -90,7 +91,7 @@ export const BookViewCover = () => {
               {moment(value?.datemodified || new Date()).format("LT")}
               <VerticalLine />
               <PickIcon icon={"eye"} style={{ marginRight: "0.5rem" }} />
-              {value?.view ?? 0}
+              <Counter id={value?.id} />
             </Typography>
             {value?.displayName && (
               <Typography mb={3}>
