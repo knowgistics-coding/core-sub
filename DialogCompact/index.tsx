@@ -39,7 +39,7 @@ const DialogTitleStyled = styled(DialogTitle)(({ theme }) => ({
 const DialogContentStyled = styled(DialogContent)(({ theme }) => ({
   padding: theme.spacing(2),
   paddingTop: theme.spacing(1) + "!important",
-  marginTop: theme.spacing(-3),
+  marginTop: theme.spacing(-1),
 }));
 
 const TitleStyled = styled(Box)({

@@ -32,6 +32,9 @@ import { watchDarkmode } from "./watch.darkmode";
 import { LocaleKey, TFunction } from "./Translate/en_th";
 import { PickIconName } from "./PickIcon";
 import { Noti, NotiAction, NotiState } from "./Noti";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { KuiPopup } from "./KuiPopup";
+import { PopupReducer, PopupReducerAction } from "./KuiPopup/state";
 
 if (process.env.NODE_ENV === "development") {
   [
@@ -49,6 +52,7 @@ if (process.env.NODE_ENV === "development") {
     "REACT_APP_ICON_FAV",
     "REACT_APP_ICON_192",
     "REACT_APP_ICON_512",
+    "REACT_APP_MAP_API_KEY"
   ].forEach((key) => {
     if (!Boolean(process.env[key])) {
       console.warn(`ENV "${key}" not found`);
@@ -81,7 +85,7 @@ export interface CoreProviderProps {
   endActions?: React.ReactNode;
   profileMenu?: React.ReactNode;
   appMenu?: {
-    icon?: PickIconName;
+    icon?: PickIconName | IconProp;
     label?: React.ReactNode;
     to?: To;
     href?: string;
@@ -104,8 +108,10 @@ export interface CoreContextTypes
   setOpen: Dispatch<SetStateAction<Record<string, boolean>>>;
   systemState: SystemState;
   setSystemState: Dispatch<SetStateAction<SystemState>>;
-  noti: NotiState,
-  setNoti: Dispatch<NotiAction>
+  noti: NotiState;
+  setNoti: Dispatch<NotiAction>;
+  popup: PopupReducer;
+  dispatchPopup: Dispatch<PopupReducerAction>;
 }
 
 const CoreContext = createContext<CoreContextTypes>({
@@ -127,7 +133,9 @@ const CoreContext = createContext<CoreContextTypes>({
   },
   setSystemState: () => {},
   noti: new NotiState(),
-  setNoti: () => {}
+  setNoti: () => {},
+  popup: new PopupReducer(() => ""),
+  dispatchPopup: () => {},
 });
 
 export const CoreProvider = React.memo(
@@ -143,8 +151,12 @@ export const CoreProvider = React.memo(
       darkmode: false,
       mode: "default",
     });
-    const [noti,setNoti] = useReducer(NotiState.reducer, new NotiState())
-
+    const [noti, setNoti] = useReducer(NotiState.reducer, new NotiState());
+    const [popup, dispatchPopup] = useReducer(
+      PopupReducer.reducer,
+      new PopupReducer(t)
+    );
+    
     const getTheme = useCallback((): Theme => {
       const mode: "dark" | "light" =
         systemState.mode === "default"
@@ -169,7 +181,9 @@ export const CoreProvider = React.memo(
       systemState,
       setSystemState,
       noti,
-      setNoti
+      setNoti,
+      popup,
+      dispatchPopup,
     };
 
     useEffect(() => {
@@ -231,6 +245,7 @@ export const CoreProvider = React.memo(
             <PopupProvider trans={trans}>{props.children}</PopupProvider>
           </Alerts>
           <Noti />
+          <KuiPopup />
         </CoreContext.Provider>
       </ThemeProvider>
     );

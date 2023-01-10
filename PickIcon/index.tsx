@@ -133,6 +133,11 @@ import {
   faFilePdf,
   faFilePowerpoint,
   IconDefinition,
+  faScroll,
+  faFolderImage,
+  faFileImage,
+  faFilter,
+  faMapLocationDot,
 } from "@fortawesome/pro-regular-svg-icons";
 import { faYoutube, faFacebook } from "@fortawesome/free-brands-svg-icons";
 import {
@@ -277,6 +282,11 @@ const iconLists = [
   faFilePdf,
   faFilePowerpoint,
   faFileCircleQuestion,
+  faScroll,
+  faFolderImage,
+  faFileImage,
+  faFilter,
+  faMapLocationDot
 ] as IconDefinition[];
 
 library.add(...iconLists as any[]);
@@ -349,13 +359,16 @@ export type PickIconName =
   | "file-circle-xmark"
   | "file-download"
   | "file-excel"
+  | "file-image"
   | "file-pdf"
   | "file-powerpoint"
   | "file-slash"
+  | "filter"
   | "flag"
   | "file-word"
   | "folder"
   | "folder-download"
+  | "folder-image"
   | "folder-open"
   | "folder-plus"
   | "folder-upload"
@@ -375,6 +388,7 @@ export type PickIconName =
   | "list-ol"
   | "magnifying-glass-minus"
   | "magnifying-glass-plus"
+  | "map-location-dot"
   | "map-marker-alt"
   | "mobile"
   | "mug-saucer"
@@ -392,6 +406,7 @@ export type PickIconName =
   | "route"
   | "save"
   | "school"
+  | "scroll"
   | "search"
   | "share-nodes"
   | "ship"

@@ -164,6 +164,7 @@ export type LocaleKey =
   | "More"
   | "Move Up"
   | "Move Down"
+  | "Move from $Name"
   | "Move to $Name"
   | "Multiple Choice"
   | "My $Name"
@@ -172,6 +173,7 @@ export type LocaleKey =
   | "$Name Added"
   | "$Name Name"
   | "$Name Has Removed"
+  | "$Name Information"
   | "$Name Not Found"
   | "$Name Removed"
   | "$Name Review"
@@ -234,6 +236,7 @@ export type LocaleKey =
   | "Save"
   | "Save Before Leave"
   | "Saved"
+  | "Saved $Name"
   | "Send Email"
   | "Set As $Name"
   | "Schedule"
@@ -246,6 +249,7 @@ export type LocaleKey =
   | "Select"
   | "Select $Name"
   | "Selected"
+  | "Selected $Amount items"
   | "Select?"
   | "Select Answer"
   | "Send Reset Password"
@@ -518,6 +522,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   More: ["More", "อื่น ๆ"],
   "Move Up": ["Move Up", "เลื่อนขึ้น"],
   "Move Down": ["Move Down", "เลื่อนลง"],
+  "Move from $Name": ["Move from {{name}}", "ย้ายออกจาก{{name}}"],
   "Move to $Name": ["Move to {{name}}", "ย้ายไปที่{{name}}"],
   "Multiple Choice": ["Multiple Choice", "หลายตัวเลือก"],
   "My $Name": ["My {{name}}", "{{name}}ของฉัน"],
@@ -526,6 +531,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "$Name Added": ["{{name}} Added", "เพิ่ม{{name}}แล้ว"],
   "$Name Name": ["{{name}} name", "ชื่อ{{name}}"],
   "$Name Has Removed": ["{{name}} has removed", "{{name}} ได้ถูกลบแล้ว"],
+  "$Name Information": ["{{name}} Information", "ข้อมูล{{name}}"],
   "$Name Not Found": ["{{name}} not found", "ไม่พบ{{name}}"],
   "$Name Removed": ["{{name}} removed", "ลบ{{name}}แล้ว"],
   "$Name Review": ["{{name}} Review", "ตรวจ{{name}}"],
@@ -537,7 +543,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "No Data": ["No Data", "ไม่พบข้อมูล"],
   "No rows": ["No rows", "ไม่มีข้อมูล"],
   "No Title": ["No Title", "ไม่มีชื่อเรื่อง"],
-  "Notification": ["Notification", "การแจ้งเตือน"],
+  Notification: ["Notification", "การแจ้งเตือน"],
   "$Name not found": ["{{name}} not found", "ไม่พบ{{name}}"],
   Number: ["Number", "ตัวเลข"],
   "Number Of $Name": ["Number of {{name}}", "จำนวน{{name}}"],
@@ -579,7 +585,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Remove: ["Remove", "ลบ"],
   Removed: ["Removed", "ลบแล้ว"],
   "Remove Last Point": ["Remove Last Point", "ลบจุดสุดท้าย"],
-  "Remove Permanent": ["Remove Permanent","ลบถาวร"],
+  "Remove Permanent": ["Remove Permanent", "ลบถาวร"],
   "Remove $Name": ["Remove {{name}}", "ลบ{{name}}"],
   Rename: ["Rename", "เปลี่ยนชื่อ"],
   Report: ["Report", "รายงาน"],
@@ -594,6 +600,11 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
     "คุณต้องการบันทึกการแก้ไขก่อนออกจากหน้านี้หรือไม่?",
   ],
   Saved: ["Saved", "บันทึกสำเร็จ"],
+  "Saved $Name": ["Saved {{name}}", "{{name}}ที่บันทึกไว้"],
+  "Selected $Amount items": [
+    "Selected {{amount}} items",
+    "{{amount}} รายการที่เลือก",
+  ],
   "Send Email": ["Send E-mail", "ส่งอีเมล"],
   "Set As $Name": ["Set as {{name}}", "ตั้งค่าเป็น{{name}}"],
   Schedule: ["Schedule", "กำหนดการ"],
@@ -634,7 +645,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Start: ["Start", "เริ่มต้น"],
   "Start writting or type": ["Start writting or type", "เริ่มการพิมพ์"],
   Status: ["Status", "สถานะ"],
-  STUDY: ["STUDY", "เรียน"],
+  STUDY: ["Study", "เรียน"],
   Student: ["Student", "ผู้เรียน"],
   "Student List": ["Student List", "รายชื่อผู้เรียน"],
   "Sub Question": ["Sub Question", "คำถามย่อยที่"],
@@ -649,7 +660,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Table: ["Table", "ตาราง"],
   "Target Group": ["Target Group", "กลุ่มเป้าหมาย"],
   Task: ["Task", "งาน"],
-  TEACH: ["TEACH", "สอน"],
+  TEACH: ["Teach", "สอน"],
   Teacher: ["Teacher", "ผู้สอน"],
   "Teacher List": ["Teacher List", "รายชื่อผู้สอน"],
   Telephone: ["Telephone", "โทรศัพท์"],
@@ -714,12 +725,12 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
     "ให้เรียงลำดับตัวเลือกให้ถูกต้อง",
   ],
   POST: ["Post", "โพสต์"],
-  BOOK: ["BOOK", "บุ๊ค"],
+  BOOK: ["Book", "บุ๊ค"],
   SLIDESHOW: ["Slideshow", "สไลด์โชว์"],
-  PROFILE: ["PROFILE", "โปรไฟล์"],
-  IMAGES: ["IMAGES", "ภาพ"],
-  FILES: ["FILES", "ไฟล์"],
-  MAPS: ["MAPS", "แผนที่"],
+  PROFILE: ["Profile", "โปรไฟล์"],
+  IMAGES: ["Images", "ภาพ"],
+  FILES: ["Files", "ไฟล์"],
+  MAPS: ["Maps", "แผนที่"],
 };
 
 export const getLocale = (lang: string): { [key: string]: string } => {
