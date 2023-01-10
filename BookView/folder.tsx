@@ -3,7 +3,7 @@ import {
   Collapse,
   List,
   ListItemButton,
-  ListItemIcon,
+  ListItemSecondaryAction,
   ListItemText,
   styled,
 } from "@mui/material";
@@ -56,14 +56,14 @@ export const Folder = ({ label, length, children }: FolderProps) => {
         }}
         onClick={handleToggle}
       >
-        <ListItemIcon>
+        <ListItemText primary={`${label} (${length || 0})`} />
+        <ListItemSecondaryAction>
           <PickIcon
-            icon={"caret-down"}
+            icon={"chevron-down"}
             rotation={open ? 180 : undefined}
             style={{ transition: `all 0.25s` }}
           />
-        </ListItemIcon>
-        <ListItemText primary={`${label} (${length || 0})`} />
+        </ListItemSecondaryAction>
       </ListItemButton>
       <Collapse in={open}>
         <FolderContainer>{children}</FolderContainer>
