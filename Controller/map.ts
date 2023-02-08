@@ -273,6 +273,10 @@ export class Map {
       }
     );
   }
+  static async getFromIds(ids:string[]):Promise<Record<string, Map>>{
+    const docs = (await Promise.all(ids.map(async id => ({ [id]: await Map.getOne(id) }))))
+    return Object.assign({}, ...docs)
+  }
   static async add(user: User, title: string, type: MapType) {
     const item = new Map({ user: user.uid, title, type });
     await item.save().catch((err) => {
