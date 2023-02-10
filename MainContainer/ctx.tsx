@@ -19,6 +19,8 @@ export interface MainContainerProps {
   startActions?: React.ReactNode;
   endActions?: React.ReactNode;
   disableSidebarPadding?: boolean;
+  //ANCHOR - logo
+  overrideLogo?: string;
 }
 export type MCContextTypes = MainContainerProps & {
   open: {
