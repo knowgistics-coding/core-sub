@@ -3,6 +3,7 @@ import { deepmerge } from "@mui/utils";
 import { DataGrid as DG, DataGridProps as DGP } from "@mui/x-data-grid";
 import { useState } from "react";
 import { useCore } from "../context";
+import { VisibilityTabsValue } from "../VisibilityTabs";
 
 const DataGridStyled = styled(DG)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -14,6 +15,7 @@ const DataGridStyled = styled(DG)(({ theme }) => ({
 export interface DataGridProps extends DGP {
   height?: number;
   searchable?: boolean;
+  visibility?: VisibilityTabsValue;
 }
 export const DataGrid = ({
   height,
@@ -22,6 +24,7 @@ export const DataGrid = ({
   initialState,
   componentsProps,
   sx,
+  visibility,
   ...props
 }: DataGridProps) => {
   const { t } = useCore();
@@ -39,6 +42,11 @@ export const DataGrid = ({
         splited.every((txt) => JSON.stringify(row).includes(txt))
       );
     }
+
+    if (typeof visibility === "string") {
+      rows = rows.filter((row) => row.visibility === visibility);
+    }
+
     return rows;
   };
 
