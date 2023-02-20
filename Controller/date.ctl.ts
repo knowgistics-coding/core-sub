@@ -1,13 +1,18 @@
 import { Timestamp } from "firebase/firestore";
 import moment from "moment";
 
-export type AnyDateType = Timestamp | Date | number | undefined;
+export type AnyDateType = Timestamp | Date | string | number | undefined;
 export class DateCtl {
-  static toNumber(date?: Timestamp | Date | number): number {
+  static toNumber(date?: AnyDateType): number {
     if (date instanceof Date) {
       return date.getTime();
     } else if (date instanceof Timestamp) {
       return date.toMillis();
+    } else if (
+      typeof date === "string" &&
+      /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})\.(\d{3})Z$/.test(date)
+    ) {
+      return new Date(date).getTime();
     } else if (typeof date === "number") {
       return date;
     } else {
@@ -30,15 +35,15 @@ export class DateCtl {
       return -1;
     }
   }
-  static toDateString(date:number):string{
-    return moment(date).format("YYYY-MM-DD HH:mm")
+  static toDateString(date: number): string {
+    return moment(date).format("YYYY-MM-DD HH:mm");
   }
-  static toCoverDate(date:AnyDateType):string {
+  static toCoverDate(date: AnyDateType): string {
     const numberDate = this.toNumber(date);
-    return moment(numberDate).format("DD MMMM YYYY")
+    return moment(numberDate).format("DD MMMM YYYY");
   }
-  static toCoverTime(date:AnyDateType):string {
+  static toCoverTime(date: AnyDateType): string {
     const numberDate = this.toNumber(date);
-    return moment(numberDate).format("HH:mm")
+    return moment(numberDate).format("HH:mm");
   }
 }
