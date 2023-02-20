@@ -33,6 +33,15 @@ export class SlideshowSlide {
     return new SlideshowSlide(this);
   }
 
+  readonly featuring = {
+    pos: (pos: Record<"top" | "left", string>): SlideshowSlide => {
+      if (this.feature) {
+        this.feature.pos = pos;
+      }
+      return new SlideshowSlide(this);
+    },
+  };
+
   val(): SlideshowSlideVal {
     const { title, desc, feature, key } = this;
     return { title, desc, feature, key };
@@ -104,10 +113,17 @@ export class Slideshow {
     }
   }
 
-  add = {
-    slide: (): Slideshow => {
+  readonly slide = {
+    add: (): Slideshow => {
       this.slides = this.slides.concat(new SlideshowSlide());
       return new Slideshow(this);
+    },
+    replace: (slide: SlideshowSlide): Slideshow => {
+      const index = this.slides.findIndex((s) => s.key === slide.key);
+      if (index > -1) {
+        this.slides[index] = new SlideshowSlide(slide);
+      }
+      return new Slideshow({ ...this });
     },
   };
 
