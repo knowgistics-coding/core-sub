@@ -69,8 +69,8 @@ export const genColumn = {
   title: (t: TFunction, to: string): GridEnrichedColDef => ({
     field: "title",
     headerName: t("Title"),
-    renderCell: ({ row }) => (
-      <Link component={RLink} to={`${to}/${row.id}`} target="_blank">
+    renderCell: ({ row, id }) => (
+      <Link component={RLink} to={`${to}/${id}`} target="_blank">
         {row.title}
       </Link>
     ),
