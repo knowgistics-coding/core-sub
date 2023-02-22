@@ -16,7 +16,7 @@ export type SlideShowEditProps = {
   back: string;
   value: Slideshow;
   onChange: (data: Slideshow) => void;
-  onPreview?: () => void
+  onPreview?: () => void;
   onSave: () => Promise<boolean>;
 };
 
@@ -62,6 +62,12 @@ export const SlideShowEdit = (props: SlideShowEditProps) => {
   const handlePositionChange = (pos: Record<"top" | "left", string>) => {
     if (state.position?.feature) {
       onChange(value.slide.replace(state.position.featuring.pos(pos)));
+    }
+  };
+  const handleRemoveSlide = () => {
+    if (menu?.slide) {
+      onChange(value.slide.remove(menu.slide.key));
+      setMenu(null);
     }
   };
 
@@ -110,7 +116,10 @@ export const SlideShowEdit = (props: SlideShowEditProps) => {
         <ListItemButton onClick={handleEditOpen}>
           <ListItemText primary={t("Edit")} />
         </ListItemButton>
-        <ListItemButton sx={{ color: "error.main" }}>
+        <ListItemButton
+          sx={{ color: "error.main" }}
+          onClick={handleRemoveSlide}
+        >
           <ListItemText primary={t("Remove")} />
         </ListItemButton>
       </Menu>

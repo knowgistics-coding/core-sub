@@ -125,6 +125,10 @@ export class Slideshow {
       }
       return new Slideshow({ ...this });
     },
+    remove: (key: string): Slideshow => {
+      this.slides = this.slides.filter((slide) => slide.key !== key);
+      return new Slideshow({ ...this });
+    },
   };
 
   val(): SlideshowVal {
