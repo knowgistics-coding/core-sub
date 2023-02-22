@@ -164,11 +164,25 @@ export const MapIcon = React.memo((props: MapIconProps) => {
   }
 
   return props.size === "small" ? (
-    <Avatar sx={{ width: 28, height: 28, backgroundColor: color, mr: 1 }}>
+    <Avatar
+      sx={(theme) => ({
+        width: 28,
+        height: 28,
+        backgroundColor: color,
+        color: color ? theme.palette.getContrastText(color) : "inherit",
+        mr: 1,
+      })}
+    >
       <PickIcon size="xs" icon={icon} />
     </Avatar>
   ) : (
-    <Avatar sx={{ backgroundColor: color, mr: 1 }}>
+    <Avatar
+      sx={(theme) => ({
+        backgroundColor: color,
+        color: color ? theme.palette.getContrastText(color) : "inherit",
+        mr: 1,
+      })}
+    >
       <PickIcon icon={icon} />
     </Avatar>
   );
