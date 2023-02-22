@@ -176,7 +176,7 @@ export const SlideShowEditCard = (props: SlideShowEditCardProps) => {
           <Typography variant="caption" color="textSecondary">
             [{props.index + 1}/{props.length}]
           </Typography>
-          <Typography variant="h6">
+          <Typography variant="h6" noWrap>
             {props.data.title || t("No Title")}
           </Typography>
         </TextZone>
