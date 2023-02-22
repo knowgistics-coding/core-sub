@@ -59,19 +59,20 @@ const TextZone = styled(Box)({
 
 //ANCHOR - FeatureZone
 const FeatureZone = styled(Box)(({ theme }) => ({
+  position: "relative",
   backgroundColor: theme.palette.background.paper,
-  flex: 2,
+  flex: 2
 }));
 
 //ANCHOR - Actions
-const Actions = styled(Box, {
-  shouldForwardProp: (prop) => prop !== "anchor",
-})<{ anchor?: "end" }>(({ theme, anchor }) => ({
+const Actions = styled(Box)(({ theme }) => ({
   position: "absolute",
-  top: 0,
+  backgroundColor: "#0004",
+  borderRadius: 8,
+  top: 4,
+  right: 4,
   padding: theme.spacing(0.5),
-  left: anchor === "end" ? "auto" : 0,
-  right: anchor === "end" ? 0 : "auto",
+  backdropFilter: 'blur(3px)'
 }));
 
 //ANCHOR - FAButton
@@ -180,7 +181,7 @@ export const SlideShowEditCard = (props: SlideShowEditCardProps) => {
           </Typography>
         </TextZone>
       </Inner>
-      <Actions anchor="end">
+      <Actions>
         <FAButton icon="arrows" onClick={props.onPosition} />
         <FAButton icon="ellipsis-h" onClick={props.onMenu} />
         <FAButton icon="grip-dots-vertical" {...attributes} {...listeners} />
