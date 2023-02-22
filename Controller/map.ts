@@ -21,6 +21,7 @@ import { VisibilityTabsValue } from "../VisibilityTabs";
 import { db } from "./firebase";
 import L from "leaflet";
 import { getMarkerIcon, MarkerCatDict, MarkerCatType } from "../Maps";
+import { md5 } from "./md5";
 
 export type MapType = "mappack" | "marker" | "route" | "area";
 export type MapPosition = Record<"lat" | "lng", number>;
@@ -222,6 +223,12 @@ export class Map {
     });
   }
 
+  //ANCHOR - getLatLngsKey
+  getLatLngsKey(): string {
+    const str = JSON.stringify(this.latLngs);
+    return md5(str);
+  }
+
   /**
    * ========================================
    *   ____   _          _    _
@@ -273,9 +280,11 @@ export class Map {
       }
     );
   }
-  static async getFromIds(ids:string[]):Promise<Record<string, Map>>{
-    const docs = (await Promise.all(ids.map(async id => ({ [id]: await Map.getOne(id) }))))
-    return Object.assign({}, ...docs)
+  static async getFromIds(ids: string[]): Promise<Record<string, Map>> {
+    const docs = await Promise.all(
+      ids.map(async (id) => ({ [id]: await Map.getOne(id) }))
+    );
+    return Object.assign({}, ...docs);
   }
   static async add(user: User, title: string, type: MapType) {
     const item = new Map({ user: user.uid, title, type });
