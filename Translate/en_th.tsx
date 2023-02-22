@@ -31,6 +31,7 @@ export type LocaleKey =
   | "Box"
   | "Bottom"
   | "Browse"
+  | "Browse $Name"
   | "Cancel"
   | "Categories"
   | "Card"
@@ -378,6 +379,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Box: ["Box", "กล่อง"],
   Bottom: ["Bottom", "ล่าง"],
   Browse: ["Browse", "เลือกไฟล์"],
+  "Browse $Name": ["Browse {{name}}", "เลือก{{name}}"],
   Cancel: ["Cancel", "ยกเลิก"],
   Categories: ["Categories", "หมวดหมู่"],
   Card: ["Card", "การ์ด"],
