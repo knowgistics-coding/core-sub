@@ -56,7 +56,7 @@ export class Slide {
   ];
 
   static options: SwiperProps = {
-    spaceBetween: 50,
+    spaceBetween: 0,
     slidesPerView: 1,
     pagination: {
       el: ".swiper-pagination",
@@ -69,21 +69,30 @@ export class Slide {
     },
     observer: true,
     autoplay: { delay: 3000 },
+    modules: [Autoplay, Navigation, Pagination]
   };
 
-  swiper: Swiper;
+  swiper: Swiper | null;
+  running: boolean;
 
-  constructor(swiper: Swiper) {
-    this.swiper = swiper;
+  constructor(data: Partial<Slide>) {
+    this.swiper = data?.swiper ?? null;
+    this.running = data?.running ?? false;
   }
 
   play(): Slide {
-    this.swiper.autoplay.start();
-    return this;
+    if (this.swiper) {
+      this.swiper.autoplay.start();
+      this.running = true;
+    }
+    return new Slide(this);
   }
 
   pause(): Slide {
-    this.swiper.autoplay.stop();
-    return this;
+    if (this.swiper) {
+      this.swiper.autoplay.stop();
+      this.running = false;
+    }
+    return new Slide(this);
   }
 }
