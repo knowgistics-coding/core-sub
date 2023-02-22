@@ -60,10 +60,10 @@ export const SlideshowEdit = (props: SlideshowEditProps) => {
           <>
             <Button
               variant="outlined"
-              startIcon={<FontAwesomeIcon icon={["far", "folder-open"]} />}
+              startIcon={<FontAwesomeIcon icon={["far", "image"]} />}
               onClick={handleOpen(true)}
             >
-              {t("Browse")}
+              {t("Browse $Name", { name: t("Image") })}
             </Button>
             <Box flex={1} />
             <KuiButton tx="confirm" onClick={handleConfirm} />
