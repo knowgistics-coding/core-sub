@@ -5,12 +5,11 @@ const ButtonStyled = styled(Button)({
   bottom: 0,
   height: "calc(100% - 1rem)",
   zIndex: 1,
-  color: "white",
-  transition: "all 0.25s",
-  backgroundColor: '#FFF8',
-  background: "none",
+  color: "#FFF",
+  background: 'linear-gradient(0deg, #0000 15%, #0001 50%, #0000 85%)',
+  filter: 'drop-shadow(0 0 4px #0008)',
   "&:hover": {
-    background: "linear-gradient(0deg, rgba(255,255,255,0.125) 0%, rgba(255,255,255,0) 100%)",
+    background: "linear-gradient(0deg, #0000 15%, #0004 50%, #0000 85%)",
   }
 });
 
