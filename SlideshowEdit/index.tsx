@@ -73,7 +73,11 @@ export const SlideShowEdit = (props: SlideShowEditProps) => {
 
   return (
     <SlideshowContext.Provider value={{ ...props }}>
-      <MainContainer signInOnly sidebar={<SlideshowEditSidebar />}>
+      <MainContainer
+        title={t("Edit $Name", { name: t("SLIDESHOW") })}
+        signInOnly
+        sidebar={<SlideshowEditSidebar />}
+      >
         <Container maxWidth="md">
           <ContentHeader
             label={value.title}
