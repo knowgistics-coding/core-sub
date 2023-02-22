@@ -181,7 +181,25 @@ export class Feeds {
       );
     const div = document.createElement("div");
     div.innerHTML = html;
-    return div.innerText;
+    const text = div.innerText;
+    return text.length > 360 ? text.slice(0, 360) + "..." : text;
+  }
+
+  //ANCHOR - getFeature
+  getFeature(): StockDisplayProps | undefined {
+    if (this.feature) {
+      return this.feature;
+    }
+
+    const insideImage = this.contents.find(
+      (content) => content.type === "image"
+    );
+    if (insideImage && insideImage.image) {
+      const feature: StockDisplayProps = insideImage.image;
+      return feature;
+    }
+
+    return undefined;
   }
 
   //SECTION - STATIC

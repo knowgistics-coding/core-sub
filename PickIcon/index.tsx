@@ -138,6 +138,7 @@ import {
   faFileImage,
   faFilter,
   faMapLocationDot,
+  faTrophy,
 } from "@fortawesome/pro-regular-svg-icons";
 import { faYoutube, faFacebook } from "@fortawesome/free-brands-svg-icons";
 import {
@@ -287,7 +288,8 @@ const iconLists = [
   faFolderImage,
   faFileImage,
   faFilter,
-  faMapLocationDot
+  faMapLocationDot,
+  faTrophy
 ] as IconDefinition[];
 
 library.add(...iconLists as any[]);
@@ -420,6 +422,7 @@ export type PickIconName =
   | "table"
   | "train"
   | "trash"
+  | "trophy"
   | "tv"
   | "unlink"
   | "upload"

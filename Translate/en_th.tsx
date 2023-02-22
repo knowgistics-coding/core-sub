@@ -231,6 +231,7 @@ export type LocaleKey =
   | "Report"
   | "Restore"
   | "Reverse"
+  | "Reward"
   | "Right Answer"
   | "Role"
   | "Save"
@@ -591,6 +592,7 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   Report: ["Report", "รายงาน"],
   Restore: ["Restore", "คืนค่า"],
   Reverse: ["Reverse", "กลับด้าน"],
+  Reward: ["Reward", "รางวัล"],
   "Right Answer": ["Right answer", "คำตอบที่ถูกต้อง"],
   Role: ["Role", "บทบาท"],
   "Rows per page": ["Row per Page", "จำนวนแถวต่อหน้า"],

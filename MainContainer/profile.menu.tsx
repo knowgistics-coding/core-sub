@@ -26,6 +26,7 @@ import { StockImageTypes, StockPicker } from "../StockPicker";
 import { useNavigate } from "react-router-dom";
 import { UserStatic } from "../Controller";
 import { PickIcon } from "../PickIcon";
+import { RealmProfile } from "../Controller/realm.profile";
 
 const ListItemButtonErrorStyled = styled(ListItemButton)(({ theme }) => ({
   color: theme.palette.error.main,
@@ -61,6 +62,9 @@ export const MCProfileMenu = () => {
       await updateProfile(user.data, {
         photoURL: `https://s1.phra.in:8086/file/id/${_id}/medium`,
       });
+      await RealmProfile.update(user.data, {
+        photoURL: `https://s1.phra.in:8086/file/id/${_id}/medium`,
+      })
       setUser((u) => update(u, { data: { $set: user.data } }));
     }
   };

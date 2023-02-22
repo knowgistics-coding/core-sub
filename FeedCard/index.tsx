@@ -1,6 +1,7 @@
 import {
   Avatar,
   Box,
+  Link,
   List,
   ListItem,
   ListItemAvatar,
@@ -10,6 +11,7 @@ import {
   styled,
   Typography,
 } from "@mui/material";
+import { ReactNode, useCallback } from "react";
 import { useCore } from "../context";
 import { CrossSite } from "../Controller/cross.site";
 import { Feeds } from "../Controller/social";
@@ -42,6 +44,7 @@ export type FeedCardProps = {
   commenting?: boolean;
   onCommenting?: () => void;
   to?: string;
+  profileUrl?: string;
 };
 export const FeedCard = ({ feed, ...props }: FeedCardProps) => {
   const { user } = useCore();
@@ -58,6 +61,31 @@ export const FeedCard = ({ feed, ...props }: FeedCardProps) => {
       }
     }
   };
+
+  const EnhanceProfileName = useCallback(
+    ({ children }: { children?: ReactNode }): JSX.Element => {
+      if (props.profileUrl) {
+        return (
+          <Link
+            href={props.profileUrl}
+            target="_blank"
+            color="inherit"
+            sx={{
+              textDecoration: "none",
+              "&:hover": {
+                textDecoration: "underline",
+              },
+            }}
+          >
+            {children}
+          </Link>
+        );
+      } else {
+        return <>{children}</>;
+      }
+    },
+    [props.profileUrl]
+  );
 
   if (props.loading) {
     return (
@@ -87,11 +115,17 @@ export const FeedCard = ({ feed, ...props }: FeedCardProps) => {
       <Root>
         <ListItem>
           <ListItemAvatar>
-            <Avatar src={feed.userInfo?.photoURL ?? undefined} />
+            <EnhanceProfileName>
+              <Avatar src={feed.userInfo?.photoURL ?? undefined} />
+            </EnhanceProfileName>
           </ListItemAvatar>
           <ListItemText
             primary={
-              feed.userInfo?.displayName ?? feed.userInfo?.email ?? feed.user
+              <EnhanceProfileName>
+                {feed.userInfo?.displayName ??
+                  feed.userInfo?.email ??
+                  feed.user}
+              </EnhanceProfileName>
             }
             secondary={<DateDisplay date={feed.datecreate} />}
             secondaryTypographyProps={{
@@ -107,7 +141,9 @@ export const FeedCard = ({ feed, ...props }: FeedCardProps) => {
           </ListItemSecondaryAction>
         </ListItem>
         <Box onClick={() => props.to && window.open(props.to)}>
-          {feed.feature && <StockDisplay {...feed.feature} ratio={1 / 4} />}
+          {feed.getFeature() && (
+            <StockDisplay {...feed.getFeature()} ratio={1 / 4} />
+          )}
           <Content>
             <Typography variant="h6">
               <PickIcon icon={feed.getIcon()} style={{ marginRight: "1ch" }} />

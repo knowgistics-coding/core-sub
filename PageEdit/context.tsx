@@ -65,6 +65,7 @@ export interface PageEditProps {
   breadcrumbs?: ContentHeaderProps["breadcrumbs"];
   mainContainerProps?: Omit<MainContainerProps, "children" | "sidebar">;
   onPreview?: () => void;
+  sidebarActionsStart?: React.ReactNode;
   sidebarActions?: React.ReactNode;
   prefix?: string;
   linkRender?: (

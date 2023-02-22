@@ -36,6 +36,7 @@ export const PESidebar = () => {
     back,
     onPreview,
     sidebarActions,
+    sidebarActionsStart,
     hash,
   } = usePE();
   const { Popup } = usePopup();
@@ -101,6 +102,7 @@ export const PESidebar = () => {
           </Button>
         </ListItem>
       )}
+      {sidebarActionsStart}
       {show.includes("title") && (
         <TitleDebounce
           value={data.title}
