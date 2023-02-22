@@ -21,7 +21,7 @@ export const CreditDisplay = styled(
                   <PickIcon icon={"copyright"} />
                   &nbsp;
                   <a
-                    href={`https://mek.network/profile/view/${uid}`}
+                    href={`https://mek.network/profile/${uid}`}
                     rel="noreferrer"
                     target="_blank"
                   >
