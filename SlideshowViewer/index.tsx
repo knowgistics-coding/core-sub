@@ -17,7 +17,6 @@ import { SlideItem } from "./slide.item";
 import { SlideRoot } from "./slide.root";
 import "swiper/css";
 import { Slideshow } from "../Controller/slideshow";
-import { Autoplay } from "swiper";
 
 //SECTION - TYPES
 //ANCHOR - SlideValue
@@ -63,12 +62,17 @@ export const SlideShowViewer = React.memo((props: SlideShowProps) => {
     <SlideRoot>
       <Swiper
         {...Slide.options}
-        modules={[Autoplay]}
-        onSlideChange={(swiper) => setSlider(new Slide(swiper))}
+        onSlideChange={(swiper) =>
+          setSlider(
+            new Slide({ swiper, running: Boolean(swiper.autoplay.running) })
+          )
+        }
         // onSwiper={(swiper) => console.log(swiper)}
         onInit={(swiper) => {
           swiper.autoplay.stop();
-          setSlider(new Slide(swiper));
+          setSlider(
+            new Slide({ swiper, running: Boolean(swiper.autoplay.running) })
+          );
         }}
       >
         {props.value && (
@@ -82,32 +86,34 @@ export const SlideShowViewer = React.memo((props: SlideShowProps) => {
             />
           </SwiperSlide>
         )}
-        {props.value?.slides.map((s, index, slides) => {
-          return (
-            <SwiperSlide key={s.key}>
-              <SlideItem
-                title={s.title}
-                image={s.feature}
-                counter={`${index + 1}/${slides.length}`}
-                secondary={s.desc}
-              />
-            </SwiperSlide>
-          );
-        })}
+        {props.value?.slides
+          .filter((slide) => slide.title && slide.feature)
+          .map((s, index, slides) => {
+            return (
+              <SwiperSlide key={s.key}>
+                <SlideItem
+                  title={s.title}
+                  image={s.feature}
+                  counter={`${index + 1}/${slides.length}`}
+                  secondary={s.desc}
+                />
+              </SwiperSlide>
+            );
+          })}
         <PaginationBlock
           className="swiper-pagination"
-          cover={slider?.swiper.activeIndex === 0}
+          cover={slider?.swiper?.activeIndex === 0}
         />
         <NextButton
           className="swiper-button-next"
-          cover={slider?.swiper.activeIndex === 0}
-          disabled={slider?.swiper.isEnd}
+          cover={slider?.swiper?.activeIndex === 0}
+          disabled={slider?.swiper?.isEnd}
         >
           <FontAwesomeIcon size="4x" icon={["far", "chevron-right"]} />
         </NextButton>
         <PrevButton
           className="swiper-button-prev"
-          disabled={slider?.swiper.isBeginning}
+          disabled={slider?.swiper?.isBeginning}
         >
           <FontAwesomeIcon size="4x" icon={["far", "chevron-left"]} />
         </PrevButton>
