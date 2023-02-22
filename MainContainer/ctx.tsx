@@ -19,6 +19,7 @@ export interface MainContainerProps {
   startActions?: React.ReactNode;
   endActions?: React.ReactNode;
   disableSidebarPadding?: boolean;
+  title?: string
   //ANCHOR - logo
   overrideLogo?: string;
 }

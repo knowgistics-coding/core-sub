@@ -43,6 +43,14 @@ export const MainContainer = (props: MainContainerProps) => {
   };
 
   useEffect(() => {
+    if(props.title){
+      document.title = `${props.title} | ${process.env.REACT_APP_SITE_NAME}`
+    } else if(process.env.NODE_ENV === "development") {
+      console.log(`Please add props title to MainContainer`);
+    }
+  }, [props.title])
+
+  useEffect(() => {
     if (user.loading === false && user.data && location.hash) {
       CrossSite.init(user.data, location.hash);
     }
