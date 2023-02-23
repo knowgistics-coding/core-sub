@@ -6,6 +6,7 @@ import { Time } from "../Controller/time";
 import { KuiActionIcon } from "../KuiActionIcon";
 import { VisibilityTabsValue } from "../VisibilityTabs";
 import { Link as RLink } from "react-router-dom";
+import { HTMLAttributeAnchorTarget } from "react";
 
 export const genColumn = {
   //ANCHOR - init
@@ -66,11 +67,15 @@ export const genColumn = {
     align: "center",
   }),
   //ANCHOR - title
-  title: (t: TFunction, to: string): GridEnrichedColDef => ({
+  title: (
+    t: TFunction,
+    to: string,
+    target: HTMLAttributeAnchorTarget = "_blank"
+  ): GridEnrichedColDef => ({
     field: "title",
     headerName: t("Title"),
     renderCell: ({ row, id }) => (
-      <Link component={RLink} to={`${to}/${id}`} target="_blank">
+      <Link component={RLink} to={`${to}/${id}`} target={target}>
         {row.title}
       </Link>
     ),
