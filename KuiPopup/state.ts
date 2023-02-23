@@ -27,6 +27,13 @@ export type PopupReducerAction =
       onAbort?: PopupReducer["onAbort"];
     }
   | { type: "value"; value: string }
+  | {
+      type: "set";
+      alerttype: PopupReducer["type"]
+      value:
+        | Partial<PopupReducer>
+        | ((data: PopupReducer) => Partial<PopupReducer>);
+    }
   | { type: "open"; value: boolean };
 export class PopupReducer {
   readonly timeout: number = 250;
@@ -134,6 +141,14 @@ export class PopupReducer {
         return state.set("value", action.value);
       case "open":
         return state.set("open", action.value);
+      case "set":
+        return new PopupReducer(state.t, {
+          ...(action.value instanceof Function
+            ? action.value(state)
+            : action.value),
+          type: action.alerttype,
+          open: true,
+        });
       default:
         return state;
     }

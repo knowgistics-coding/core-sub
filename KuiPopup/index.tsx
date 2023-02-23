@@ -60,7 +60,7 @@ export const KuiPopup = () => {
     dispatchPopup({ type: "open", value: false });
     setTimeout(() => {
       dispatchPopup({ type: "value", value: "" });
-    }, popup.timeout * 2)
+    }, popup.timeout * 2);
   };
   const handleConfirm = () => {
     if (["confirm", "remove"].includes(popup.type)) {
@@ -83,7 +83,7 @@ export const KuiPopup = () => {
   };
 
   return (
-    <DialogStyled open={popup.open} onClose={handleClose}>
+    <DialogStyled open={popup.open} onClose={handleAbort}>
       <DialogContent>
         <Enhance.ContentCenter>
           {popup.icon && <PickIcon size="2x" icon={popup.icon} />}
@@ -95,9 +95,12 @@ export const KuiPopup = () => {
               label={popup.text}
               value={popup.value}
               onChange={handleChangeValue}
-              onKeyDown={({ key }) =>
-                key === "Enter" && popup.value && handleConfirm()
-              }
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && popup.value) {
+                  e.preventDefault();
+                  handleConfirm();
+                }
+              }}
             />
           ) : (
             <Enhance.Text>{popup.text}</Enhance.Text>
