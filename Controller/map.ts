@@ -55,6 +55,7 @@ export class Map {
     area: "Area",
   };
 
+  //ANCHOR - constructor
   constructor(
     data?: Partial<Map> &
       Partial<{
@@ -80,6 +81,7 @@ export class Map {
     this.cat = data?.cat || "";
   }
 
+  //ANCHOR - dateToNumber
   private dateToNumber(date?: number | Timestamp): number {
     if (typeof date === "number") {
       return date;
@@ -90,6 +92,7 @@ export class Map {
     }
   }
 
+  //ANCHOR - set
   set<T extends keyof this>(field: T, value: this[T]): this {
     this[field] = value;
     return this;
@@ -105,35 +108,47 @@ export class Map {
    *                                   |___/
    * ==================================================
    */
+  //SECTION - LatLangs
 
+  //ANCHOR - setsetLatLngs
   setLatLngs(index: number, latLng: MapPosition): this {
     if (this.latLngs?.[index]) {
       this.latLngs[index] = latLng;
     }
     return this;
   }
+
+  //ANCHOR - appendLatLngs
   appendLatLngs(latLng: MapPosition): this {
     this.latLngs = this.latLngs ? this.latLngs.concat(latLng) : [latLng];
     return this;
   }
+
+  //ANCHOR - insertLatLngs
   insertLatLngs(index: number, latLng: MapPosition): this {
     if (this.latLngs?.[index]) {
       this.latLngs.splice(index, 0, latLng);
     }
     return this;
   }
+
+  //ANCHOR - removeLatLngs
   removeLatLngs(index: number): this {
     if (this.latLngs?.[index]) {
       this.latLngs.splice(index, 1);
     }
     return this;
   }
+
+  //ANCHOR - removeLastLatLngs
   removeLastLatLngs(): this {
     if (this.latLngs?.length) {
       this.latLngs.splice(-1, 1);
     }
     return this;
   }
+
+  //ANCHOR - canClosePathLatLngs
   canClosePathLatLngs(): boolean {
     if (this.latLngs && this.latLngs.length > 2) {
       const first = this.latLngs[0];
@@ -144,12 +159,16 @@ export class Map {
     }
     return false;
   }
+
+  //ANCHOR - closePathLatLngs
   closePathLatLngs(): this {
     if (this.latLngs && this.canClosePathLatLngs()) {
       this.latLngs = this.latLngs.concat(this.latLngs[0]);
     }
     return this;
   }
+
+  //ANCHOR - reverseLatLngs
   reverseLatLngs(): this {
     if (this.latLngs) {
       this.latLngs = this.latLngs.reverse();
@@ -157,10 +176,14 @@ export class Map {
     return this;
   }
 
+  //!SECTION
+
+  //ANCHOR - properType
   properType(): string {
     return this.TypesName[this.type];
   }
 
+  //ANCHOR - toJSON
   toJSON(): MapJson {
     return Object.assign(
       {},
@@ -174,6 +197,7 @@ export class Map {
     );
   }
 
+  //ANCHOR - update
   async update<T extends keyof Map>(field: T, value: Map[T]) {
     await updateDoc(Map.doc(this.id), {
       [field]: value,
@@ -181,6 +205,7 @@ export class Map {
     });
   }
 
+  //ANCHOR - save
   async save() {
     const data = cleanObject(this.toJSON());
     if (data?.user) {
@@ -205,10 +230,12 @@ export class Map {
     }
   }
 
+  //ANCHOR - remove
   async remove() {
     return await deleteDoc(Map.doc(this.id));
   }
 
+  //ANCHOR - getIcon
   getIcon(): L.Icon {
     let url = getMarkerIcon("travel").url;
     if (MarkerCatDict?.[this.cat]) {
@@ -240,22 +267,48 @@ export class Map {
    * ========================================
    */
 
+  //ANCHOR - private
   private static private: string = `${process.env.REACT_APP_PREFIX}`;
+
+  //ANCHOR - genId
   static genId(): string {
     return doc(this.collection()).id;
   }
+
+  //ANCHOR - doc
   static doc(path: string): DocumentReference<DocumentData> {
     return doc(db, "clients", this.private, "documents", path);
   }
+
+  //ANCHOR - collection
   private static collection(): CollectionReference<DocumentData> {
     return collection(db, "clients", this.private, "documents");
   }
+
+  //ANCHOR - getOne
   static async getOne(id: string): Promise<Map | null> {
     const snapshot = await getDoc(this.doc(id));
     return snapshot.exists()
       ? new Map({ ...snapshot.data(), id: snapshot.id })
       : null;
   }
+
+  //ANCHOR - getView
+  static async getView(id: string) {
+    return new Promise<{ data: Map; maps: Record<string, Map> }>(
+      async (resolve, reject) => {
+        const doc = await this.getOne(id);
+        if (doc) {
+          const maps = await this.getFromIds(doc.maps);
+          resolve({ data: doc, maps });
+        } else {
+          reject(new Error("Map not found"));
+        }
+      }
+    );
+  }
+
+  //ANCHOR - watchMy
   static watchMy(
     user: User,
     callback: (docs: Map[]) => void,
@@ -280,12 +333,16 @@ export class Map {
       }
     );
   }
+
+  //ANCHOR - getFromIds
   static async getFromIds(ids: string[]): Promise<Record<string, Map>> {
     const docs = await Promise.all(
       ids.map(async (id) => ({ [id]: await Map.getOne(id) }))
     );
     return Object.assign({}, ...docs);
   }
+
+  //ANCHOR - add
   static async add(user: User, title: string, type: MapType) {
     const item = new Map({ user: user.uid, title, type });
     await item.save().catch((err) => {
@@ -294,6 +351,7 @@ export class Map {
     return item;
   }
 
+  //ANCHOR - validLatLng
   static validLatLng(latLng?: Record<"lat" | "lng", number>): boolean {
     return Boolean(latLng?.lat && latLng.lng);
   }
