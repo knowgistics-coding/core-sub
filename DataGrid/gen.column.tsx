@@ -7,6 +7,7 @@ import { KuiActionIcon } from "../KuiActionIcon";
 import { VisibilityTabsValue } from "../VisibilityTabs";
 import { Link as RLink } from "react-router-dom";
 import { HTMLAttributeAnchorTarget } from "react";
+import { PickIcon } from "../PickIcon";
 
 export const genColumn = {
   //ANCHOR - init
@@ -88,8 +89,14 @@ export const genColumn = {
     renderCell: ({ value }: GridRenderCellParams<any, any, any>) => (
       <Avatar
         variant="square"
-        src={`https://s1.phra.in:8086/file/id/${value?.image?._id}/thumbnail`}
-      />
+        src={
+          value?.image?._id
+            ? `https://s1.phra.in:8086/file/id/${value.image._id}/thumbnail`
+            : undefined
+        }
+      >
+        <PickIcon icon="image" />
+      </Avatar>
     ),
     width: 64,
     sortable: false,
