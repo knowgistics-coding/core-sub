@@ -39,9 +39,9 @@ export const PageViewer = (props: PageViewerProps) => {
         )}
         <Box py={6}>
           <Container maxWidth={props.maxWidth || "post"}>
-            {data.title && (
+            {(data.title || props.overrideHeader) && (
               <ContentHeader
-                label={data.title}
+                label={props.overrideHeader || data.title}
                 breadcrumbs={props.breadcrumbs}
                 secondary={<DateDisplay date={data.datemodified} />}
               />

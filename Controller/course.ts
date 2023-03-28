@@ -1,5 +1,7 @@
 import {
   addDoc,
+  arrayRemove,
+  arrayUnion,
   collection,
   CollectionReference,
   deleteDoc,
@@ -22,7 +24,7 @@ import { db, dbTimestamp } from "./firebase";
 import { SkeMongo } from "./ske";
 import { PageDoc, PageDocInitType } from "./page";
 import moment from "moment";
-import { MainCtl } from "./main.static";
+import { MainCtl, MainStatic } from "./main.static";
 import { VisibilityTabsValue } from "../VisibilityTabs";
 import { User } from "firebase/auth";
 import { ExcludeMethods } from "./map";
@@ -30,10 +32,12 @@ import { arrayShuffle, cleanObject } from "../func";
 import update from "react-addons-update";
 import { arrayMoveImmutable } from "array-move";
 import { genKey } from "draft-js";
-import { MainStatic } from "./main.static";
 import { DateCtl } from "./date.ctl";
-import { Material } from "./course.material";
+import { Material as CourseMaterial } from "./course.material";
 import { User as MekUser } from "./user";
+import { LocaleKey } from "../Translate/en_th";
+import { PickIconName } from "../PickIcon";
+import { FileCtl, FileDocument } from "./files.static";
 
 export interface CourseMongoDocument {
   _id?: string;
@@ -165,6 +169,7 @@ export class Course extends MainCtl {
   feature?: StockDisplayProps;
   syllabus: PageDoc | null;
   type: "course" = "course";
+  prefix: null | string = process.env.REACT_APP_PREFIX ?? null;
   schedule: Schedule;
   user: string;
   visibility: VisibilityTabsValue;
@@ -172,7 +177,7 @@ export class Course extends MainCtl {
   constructor(data?: Partial<Course>) {
     super(data);
 
-    this.id = data?.id ?? Course.genId();
+    this.id = data?.id ?? "";
     this.title = data?.title ?? "";
     this.feature = data?.feature;
     this.syllabus = data?.syllabus ? new PageDoc({ ...data?.syllabus }) : null;
@@ -196,13 +201,12 @@ export class Course extends MainCtl {
     field: T,
     value: this[T] | FieldValue | unknown
   ): Promise<void> {
-    updateDoc(Course.doc(this.id), {
+    updateDoc(Course.doc(this.user, this.id), {
       [field]: value,
       datemodified: serverTimestamp(),
     });
   }
 
-  //FIXME - Course.remove(user)
   async remove(user: User) {
     if (this.id) {
       const quiz = await Quiz.getMany(user, this.id);
@@ -215,31 +219,31 @@ export class Course extends MainCtl {
       ).reduce((total, qs) => total.concat(...qs), []);
       const sections = await Section.getMany(user, this.id);
 
-      await Promise.all(sections.map((section) => section.remove()));
-      await Promise.all(questions.map((question) => question.remove()));
+      await Promise.all(sections.map((section) => section.remove(user)));
+      await Promise.all(questions.map((question) => question.remove(user)));
       await Promise.all(quiz.map((q) => q.remove()));
 
-      await deleteDoc(Course.doc(this.id));
+      await deleteDoc(Course.doc(this.user, this.id));
     }
   }
 
   //SECTION - STATIC
   //ANCHOR - doc
-  private static doc(id: string): DocumentReference<DocumentData> {
-    return doc(db, "lms", this.prefix, "courses", id);
+  static doc(uid: string, id: string): DocumentReference<DocumentData> {
+    return doc(db, "users", uid, "documents", id);
   }
   //ANCHOR - collection
-  private static collection(): CollectionReference<DocumentData> {
-    return collection(db, "lms", this.prefix, "courses");
+  static collection(uid: string): CollectionReference<DocumentData> {
+    return collection(db, "users", uid, "documents");
   }
   //ANCHOR - genId
-  private static genId(): string {
-    return doc(this.collection()).id;
+  private static genId(uid: string): string {
+    return doc(this.collection(uid)).id;
   }
 
   //ANCHOR - watchOne
-  static watchOne(id: string, callback: (doc: Course) => void) {
-    return onSnapshot(this.doc(id), (snapshot) => {
+  static watchOne(user: User, id: string, callback: (doc: Course) => void) {
+    return onSnapshot(this.doc(user.uid, id), (snapshot) => {
       const course = new Course({ ...snapshot.data(), id });
       callback(course);
     });
@@ -249,7 +253,7 @@ export class Course extends MainCtl {
   static watchMany(user: User, callback: (docs: Course[]) => void) {
     return onSnapshot(
       query(
-        this.collection(),
+        this.collection(user.uid),
         where("type", "==", "course"),
         where("user", "==", user.uid)
       ),
@@ -263,8 +267,8 @@ export class Course extends MainCtl {
   }
 
   //ANCHOR - getOne
-  static async getOne(id: string): Promise<Course> {
-    const snapshot = await getDoc(this.doc(id));
+  static async getOne(user: User, id: string): Promise<Course> {
+    const snapshot = await getDoc(this.doc(user.uid, id));
     const course = new Course({ ...snapshot.data(), id });
     return course;
   }
@@ -292,13 +296,58 @@ export class Course extends MainCtl {
       user: user.uid,
       type: "course",
     };
-    return await addDoc(this.collection(), data);
+    return await addDoc(this.collection(user.uid), data);
   }
   //!SECTION
+
+  //ANCHOR - view
+  static view(user: User, id: string) {
+    return new Promise<Course>(async (resolve, reject) => {
+      getDoc(this.doc(user.uid, id)).then((snapshot) => {
+        if (snapshot.exists()) {
+          resolve(new Course(snapshot.data()));
+        } else {
+          reject(new Error("Course Not Found"));
+        }
+      });
+    });
+  }
+}
+//!SECTION
+
+//SECTION - CourseView
+export class CourseView extends Course {
+  sectionName: string;
+
+  //ANCHOR - constructor
+  constructor(data?: Partial<CourseView>) {
+    super(data);
+
+    this.sectionName = data?.sectionName ?? "section_name";
+  }
+
+  //ANCHOR - [static] view
+  static view(user: User, id: string) {
+    return new Promise<CourseView>(async (resolve, reject) => {
+      getDoc(Course.doc(user.uid, id)).then((snapshot) => {
+        if (snapshot.exists()) {
+          resolve(new CourseView(snapshot.data()));
+        } else {
+          reject(new Error("Course Not Found"));
+        }
+      });
+    });
+  }
 }
 //!SECTION
 
 //SECTION - SECTION
+export type SectionValue = ExcludeMethods<
+  Omit<
+    Section,
+    "id" | "datecreate" | "datemodified" | "course" | "userinfo" | "users"
+  >
+>;
 export class Section {
   id: string;
   title: string;
@@ -309,10 +358,12 @@ export class Section {
   students: string[];
   ta: string[];
   type: "section" = "section";
+  prefix: string | null = process.env.REACT_APP_PREFIX ?? null;
   user: string;
   weights: Record<string, { score: number; weight: 6 }>;
   course: null | Course;
   userinfo: null | MekUser;
+  users: MekUser[];
 
   constructor(data?: Partial<Section>) {
     this.id = data?.id ?? "";
@@ -327,6 +378,7 @@ export class Section {
     this.weights = data?.weights ?? {};
     this.course = data?.course ? new Course(data.course) : null;
     this.userinfo = data?.userinfo ? new MekUser(data.userinfo) : null;
+    this.users = data?.users ? data.users.map((u) => new MekUser(u)) : [];
   }
 
   set<T extends keyof this>(field: T, value: this[T]): this {
@@ -337,42 +389,102 @@ export class Section {
   //ANCHOR - update
   async update<T extends keyof this>(
     field: T,
-    value: this[T] | FieldValue | unknown
-  ): Promise<void> {
+    value: ((data: this[T]) => this[T]) | this[T]
+  ): Promise<Section> {
     if (this.id) {
-      await updateDoc(Section.doc(this.id), {
-        [field]: value,
+      await updateDoc(Course.doc(this.user, this.id), {
+        [field]: value instanceof Function ? value(this[field]) : value,
         datemodified: serverTimestamp(),
       });
+      return new Section({
+        ...this,
+        [field]: value instanceof Function ? value(this[field]) : value,
+      });
+    }
+    return new Section(this);
+  }
+
+  async remove(user: User) {
+    if (this.id) {
+      await deleteDoc(Course.doc(user.uid, this.id));
     }
   }
 
-  async remove() {
-    if (this.id) {
-      await deleteDoc(Section.doc(this.id));
-    }
+  val(): SectionValue {
+    const data = Object.entries(this)
+      .filter(
+        ([key, value]) =>
+          value instanceof Function === false &&
+          [
+            "id",
+            "datecreate",
+            "datemodified",
+            "course",
+            "userinfo",
+            "users",
+          ].includes(key) === false
+      )
+      .reduce<SectionValue>(
+        (data, [key, value]) => Object.assign(data, { [key]: value }),
+        {
+          title: "",
+          parent: "",
+          regard: {},
+          students: [],
+          ta: [],
+          type: "section",
+          prefix: "",
+          user: "",
+          weights: {},
+        }
+      );
+    return data;
+  }
+
+  Student() {
+    return {
+      add: async (user: User, uids: string[]) => {
+        return await updateDoc(Course.doc(user.uid, this.id), {
+          students: arrayUnion(...uids),
+          datemodified: dbTimestamp(),
+        });
+      },
+      remove: async (user: User, uids: string[]) => {
+        return await updateDoc(Course.doc(user.uid, this.id), {
+          students: arrayRemove(...uids),
+          datemodified: dbTimestamp(),
+        });
+      },
+    };
   }
 
   //SECTION - STATIC
-  //ANCHOR - prefix
-  static prefix = MainStatic.prefix;
 
-  //ANCHOR - doc
-  private static doc(id: string): DocumentReference<DocumentData> {
-    return doc(db, "lms", `${this.prefix}`, "sections", id);
-  }
-
-  //ANCHOR - collection
-  static collection(): CollectionReference<DocumentData> {
-    return collection(db, "lms", `${this.prefix}`, "sections");
+  //ANCHOR - Watch
+  static Watch() {
+    return {
+      withStudents: (
+        user: User,
+        sectionId: string,
+        callback: (doc: Section) => void
+      ): Unsubscribe => {
+        return onSnapshot(Course.doc(user.uid, sectionId), async (snapshot) => {
+          let doc = new Section({ ...snapshot.data(), id: sectionId });
+          const users = await MekUser.getUsers(user, doc.students);
+          doc = doc.set("users", users);
+          callback(doc);
+        });
+      },
+    };
   }
 
   //ANCHOR - watch
   static watch(
+    user: User,
     sectionId: string,
     callback: (section: Section) => void
   ): Unsubscribe {
-    return onSnapshot(this.doc(sectionId), (snapshot) => {
+    return onSnapshot(Course.doc(user.uid, sectionId), (snapshot) => {
       const section = new Section({ ...snapshot.data(), id: sectionId });
       callback(section);
     });
@@ -382,7 +494,7 @@ export class Section {
   static async getMany(user: User, courseId: string): Promise<Section[]> {
     const snapshot = await getDocs(
       query(
-        this.collection(),
+        Course.collection(user.uid),
         where("user", "==", user.uid),
         where("parent", "==", courseId)
       )
@@ -392,6 +504,66 @@ export class Section {
     );
     return docs;
   }
+
+  //ANCHOR - getMany
+  static watchMany(
+    user: User,
+    courseId: string,
+    callback: (docs: Section[]) => void
+  ): Unsubscribe {
+    return onSnapshot(
+      query(
+        Course.collection(user.uid),
+        where("user", "==", user.uid),
+        where("parent", "==", courseId)
+      ),
+      (snapshot) => {
+        const docs = snapshot.docs
+          .filter((doc) => doc.data().type === "section")
+          .map((doc) => new Section({ ...doc.data(), id: doc.id }));
+        callback(docs);
+      }
+    );
+  }
+
+  static async add(user: User, title: string, courseId: string) {
+    const data = new Section({
+      title,
+      parent: courseId,
+      user: user.uid,
+      type: "section",
+    });
+    return await addDoc(Course.collection(user.uid), {
+      ...data.val(),
+      datecreate: dbTimestamp(),
+      datemodified: dbTimestamp(),
+      user: user.uid,
+    });
+  }
+
+  static Get() {
+    return {
+      one: async (user: User, sectionId: string): Promise<Section> => {
+        const snapshot = await getDoc(Course.doc(user.uid, sectionId));
+        if (snapshot.exists()) {
+          return new Section({ ...snapshot.data(), id: sectionId });
+        } else {
+          throw new Error("Section not found");
+        }
+      },
+      oneWithStudent: async (
+        user: User,
+        sectionId: string
+      ): Promise<Section> => {
+        const snapshot = await getDoc(Course.doc(user.uid, sectionId));
+        let doc = new Section({ ...snapshot.data(), id: snapshot.id });
+        const users = await MekUser.getUsers(user, doc.students);
+        doc = doc.set("users", users);
+        return doc;
+      },
+    };
+  }
+
   //!SECTION
 }
 //!SECTION
@@ -407,7 +579,7 @@ export class Section {
  *  \___$$$\  \______/ \______|\________|
  *      \___|
  */
-
+//SECTION - Quiz
 export class Quiz extends MainCtl {
   id?: string;
   title: string;
@@ -418,6 +590,7 @@ export class Quiz extends MainCtl {
   amount: number;
   attemps: number;
 
+  //ANCHOR - constructor
   constructor(data?: Partial<Quiz>) {
     super(data);
 
@@ -430,19 +603,21 @@ export class Quiz extends MainCtl {
     this.attemps = parseInt(String(data?.attemps ?? 0));
   }
 
+  //ANCHOR - update
   async update<T extends keyof this>(
     field: T,
     value: this[T] | FieldValue | unknown
   ): Promise<void> {
     if (this.id) {
-      await updateDoc(Quiz.doc(this.id), {
+      await updateDoc(Quiz.doc(this.user, this.id), {
         [field]: value,
         datemodified: serverTimestamp(),
       });
     }
   }
 
-  toJSON(): Pick<
+  //ANCHOR - toJSON
+  val(): Pick<
     Quiz,
     "title" | "type" | "visibility" | "parent" | "user" | "amount"
   > {
@@ -456,15 +631,16 @@ export class Quiz extends MainCtl {
     };
   }
 
+  //ANCHOR - save
   async save(): Promise<void> {
     if (this.id) {
-      await updateDoc(Quiz.doc(this.id), {
-        ...cleanObject(this.toJSON()),
+      await updateDoc(Quiz.doc(this.user, this.id), {
+        ...cleanObject(this.val()),
         datemodified: serverTimestamp(),
       });
     } else if (this.parent && this.user) {
-      const doc = await addDoc(Quiz.collection(), {
-        ...cleanObject(this.toJSON()),
+      const doc = await addDoc(Quiz.collection(this.user), {
+        ...cleanObject(this.val()),
         datecreate: serverTimestamp(),
         datemodified: serverTimestamp(),
       });
@@ -474,18 +650,24 @@ export class Quiz extends MainCtl {
     }
   }
 
+  //ANCHOR - remove
   async remove(): Promise<void> {
     if (this.id) {
-      await deleteDoc(Quiz.doc(this.id));
+      await deleteDoc(Quiz.doc(this.user, this.id));
     }
   }
 
-  protected static collection() {
-    return collection(db, "lms", `${this.prefix}`, `questions`);
+  //ANCHOR - [static] collection
+  static collection(uid: string) {
+    return collection(db, "users", uid, "questions");
   }
-  protected static doc(id: string) {
-    return doc(db, "lms", `${this.prefix}`, `questions`, id);
+
+  //ANCHOR - [static] doc
+  static doc(uid: string, id: string) {
+    return doc(db, "users", uid, "questions", id);
   }
+
+  //ANCHOR - [static] watch
   static watch(
     user: User,
     parent: string,
@@ -493,7 +675,7 @@ export class Quiz extends MainCtl {
   ): Unsubscribe {
     return onSnapshot(
       query(
-        this.collection(),
+        this.collection(user.uid),
         where("user", "==", user.uid),
         where("parent", "==", parent),
         where("type", "==", "category")
@@ -506,6 +688,8 @@ export class Quiz extends MainCtl {
       }
     );
   }
+
+  //ANCHOR - [static] watchOne
   static watchOne(
     user: User,
     courseId: string,
@@ -522,15 +706,18 @@ export class Quiz extends MainCtl {
       quiz: true,
       question: true,
     };
-    Course.getOne(courseId).then((course) => {
+    Course.getOne(user, courseId).then((course) => {
       loading.course = false;
       callback({ course, loading: Object.values(loading).some((v) => v) });
     });
-    const unsubscribeQuiz = onSnapshot(Quiz.doc(quizId), (snapshot) => {
-      const quiz = new Quiz({ ...snapshot.data(), id: quizId });
-      loading.quiz = false;
-      callback({ quiz, loading: Object.values(loading).some((v) => v) });
-    });
+    const unsubscribeQuiz = onSnapshot(
+      Quiz.doc(user.uid, quizId),
+      (snapshot) => {
+        const quiz = new Quiz({ ...snapshot.data(), id: quizId });
+        loading.quiz = false;
+        callback({ quiz, loading: Object.values(loading).some((v) => v) });
+      }
+    );
     const unsubscribeQuestions = Question.watchMany(
       user,
       quizId,
@@ -544,48 +731,57 @@ export class Quiz extends MainCtl {
       unsubscribeQuestions();
     };
   }
-  static async getOne(id: string): Promise<Quiz> {
-    const snapshot = await getDoc(Quiz.doc(id));
+
+  //ANCHOR - [static] getOne
+  static async getOne(user: User, id: string): Promise<Quiz> {
+    const snapshot = await getDoc(Quiz.doc(user.uid, id));
     const quiz = new Quiz({ ...snapshot.data(), id });
     return quiz;
   }
   static async getMany(user: User, courseId: string): Promise<Quiz[]> {
     const snapshot = await getDocs(
       query(
-        this.collection(),
+        this.collection(user.uid),
         where("user", "==", user.uid),
         where("parent", "==", courseId)
       )
     );
     return snapshot.docs.map((doc) => new Quiz({ ...doc.data(), id: doc.id }));
   }
+
+  //ANCHOR - [static] preview
   static async preview(
     user: User,
     id: string
-  ): Promise<{ material: Material; questions: Question[] }> {
-    const material = await Material.getOne(id);
+  ): Promise<{ material: CourseMaterial; questions: Question[] }> {
+    const material = await CourseMaterial.getOne(id);
     const questions = await Question.getFromParent(user, material.quizId);
     return {
       material,
       questions: arrayShuffle(questions).slice(0, material.amount),
     };
   }
+
+  //ANCHOR - [static] add
   static async add(user: User, parent: string, title: string): Promise<Quiz> {
     const quiz = new Quiz({ title, parent, user: user.uid });
     await quiz.save();
     return quiz;
   }
 
+  //ANCHOR - [static] managePreview
   static async managerPreview(
     user: User,
     quizId: string
   ): Promise<{ quiz: Quiz; questions: Question[] }> {
-    const quiz = await this.getOne(quizId);
+    const quiz = await this.getOne(user, quizId);
     const questions = await Question.getFromParent(user, quizId);
     return { quiz, questions };
   }
 }
+//!SECTION
 
+//ANCHOR - QuestionData
 export type QuestionData = {
   key: string;
   type: "paragraph" | "image";
@@ -614,12 +810,14 @@ export type QuestionData = {
  * \__|  \__|\__|  \__| \______/ \________|\__/     \__|\________|\__|  \__|
  */
 
+//SECTION - QuestionAnswer
 export class QuestionAnswer {
   answer: string;
   matching: Record<string, string>;
   sorting: string[];
   type: Question["type"];
 
+  //ANCHOR - constructor
   constructor(data?: Partial<QuestionAnswer>) {
     this.answer = data?.answer ?? "";
     this.matching = data?.matching ?? {};
@@ -627,6 +825,7 @@ export class QuestionAnswer {
     this.type = data?.type ?? "multiple";
   }
 
+  //ANCHOR - check
   check(question: Question): boolean {
     if (question.type === "truefalse") {
       return question.answer === this.answer;
@@ -644,21 +843,25 @@ export class QuestionAnswer {
     return false;
   }
 
+  //ANCHOR - setAnswer
   setAnswer(value: string): this {
     this.answer = value;
     return this;
   }
 
+  //ANCHOR - setMatching
   setMatching(key: string, value: string): this {
     this.matching[key] = value;
     return this;
   }
 
+  //ANCHOR - setSorting
   setSorting(sorting: string[]): this {
     this.sorting = sorting;
     return this;
   }
 }
+//!SECTION
 
 /**
  *  $$$$$$\  $$\   $$\ $$$$$$$$\  $$$$$$\ $$$$$$$$\ $$$$$$\  $$$$$$\  $$\   $$\
@@ -671,7 +874,11 @@ export class QuestionAnswer {
  *  \___$$$\  \______/ \________| \______/   \__|   \______| \______/ \__|  \__|
  *      \___|
  */
+
+//ANCHOR - QuestionType
 export type QuestionType = "truefalse" | "matching" | "sorting" | "multiple";
+
+//ANCHOR - QuestionValue
 export type QuestionValue = {
   [key in QuestionType]: {
     answer: string;
@@ -680,6 +887,7 @@ export type QuestionValue = {
   };
 };
 
+//SECTION - Question
 export class Question extends MainCtl {
   id?: string;
   type: "truefalse" | "matching" | "sorting" | "multiple";
@@ -694,6 +902,9 @@ export class Question extends MainCtl {
   answers: string[];
   answer: string;
 
+  visibility: VisibilityTabsValue = "public";
+
+  //ANCHOR - constructor
   constructor(data?: Partial<Question & QuestionValue>) {
     super(data);
 
@@ -714,7 +925,8 @@ export class Question extends MainCtl {
     this.initQuestion();
   }
 
-  toJSON(): Pick<
+  //ANCHOR - val
+  val(): Pick<
     this,
     | "type"
     | "title"
@@ -744,6 +956,7 @@ export class Question extends MainCtl {
     };
   }
 
+  //ANCHOR - set
   set<T extends keyof this>(
     field: T,
     value?: this[T] | null,
@@ -760,6 +973,7 @@ export class Question extends MainCtl {
     return this;
   }
 
+  //ANCHOR - initQuestion
   initQuestion() {
     const keys = [genKey(), genKey()];
     if (this.type === "multiple" && this.options.length < 2) {
@@ -787,6 +1001,7 @@ export class Question extends MainCtl {
     }
   }
 
+  //ANCHOR - addOption
   addOption(): this {
     const key = genKey();
     this.options = this.options.concat({ key, type: "paragraph" });
@@ -794,6 +1009,7 @@ export class Question extends MainCtl {
     return this;
   }
 
+  //ANCHOR - setOption
   setOption(index: number, option: Partial<Omit<QuestionData, "key">>): this {
     if (index < this.options.length) {
       this.options[index] = update(this.options[index], { $merge: option });
@@ -801,6 +1017,7 @@ export class Question extends MainCtl {
     return this;
   }
 
+  //ANCHOR - moveOption
   moveOption(oldIndex: number, newIndex: number): this {
     this.options = arrayMoveImmutable(this.options, oldIndex, newIndex);
     if (this.type === "sorting") {
@@ -809,28 +1026,31 @@ export class Question extends MainCtl {
     return this;
   }
 
+  //ANCHOR - removeOption
   removeOption(key: string): this {
     this.options = this.options.filter((option) => option.key !== key);
     this.answers = this.options.map((option) => option.key);
     return this;
   }
 
+  //ANCHOR - update
   async update<T extends keyof this>(
     field: T,
     value: this[T] | FieldValue | unknown
   ): Promise<void> {
     if (this.id) {
-      await updateDoc(Question.doc(this.id), {
+      await updateDoc(Course.doc(this.user, this.id), {
         [field]: value,
         datemodified: serverTimestamp(),
       });
     }
   }
 
+  //ANCHOR - save
   async save(): Promise<void> {
     if (this.user && this.courseparent && this.questionparent) {
       const newData = cleanObject({
-        ...this.toJSON(),
+        ...this.val(),
         [this.type]: {
           options: this.options,
           answer: this.answer,
@@ -838,12 +1058,12 @@ export class Question extends MainCtl {
         },
       });
       if (this.id) {
-        await updateDoc(Question.doc(this.id), {
+        await updateDoc(Quiz.doc(this.user, this.id), {
           ...newData,
           datemodified: serverTimestamp(),
         });
       } else {
-        const doc = await addDoc(Question.collection(), {
+        const doc = await addDoc(Quiz.collection(this.user), {
           ...newData,
           datecreate: serverTimestamp(),
           datemodified: serverTimestamp(),
@@ -857,20 +1077,16 @@ export class Question extends MainCtl {
     }
   }
 
-  async remove(): Promise<void> {
+  //ANCHOR - remove
+  async remove(user: User): Promise<void> {
     if (this.id) {
-      const quiz = await Quiz.getOne(this.questionparent);
+      const quiz = await Quiz.getOne(user, this.questionparent);
       await quiz.update("amount", increment(1));
-      await deleteDoc(Question.doc(this.id));
+      await deleteDoc(Course.doc(this.user, this.id));
     }
   }
 
-  protected static collection() {
-    return collection(db, "lms", `${this.prefix}`, `questions`);
-  }
-  protected static doc(id: string) {
-    return doc(db, "lms", `${this.prefix}`, `questions`, id);
-  }
+  //ANCHOR - [static] watchMany
   static watchMany(
     user: User,
     quizId: string,
@@ -878,7 +1094,7 @@ export class Question extends MainCtl {
   ) {
     return onSnapshot(
       query(
-        this.collection(),
+        Quiz.collection(user.uid),
         where("user", "==", user.uid),
         where("questionparent", "==", quizId)
       ),
@@ -893,6 +1109,8 @@ export class Question extends MainCtl {
       }
     );
   }
+
+  ///ANCHOR - [static] getFRromParent
   static async getFromParent(
     user: User,
     parentId: string
@@ -900,7 +1118,7 @@ export class Question extends MainCtl {
     const questions = (
       await getDocs(
         query(
-          this.collection(),
+          Quiz.collection(user.uid),
           where("user", "==", user.uid),
           where("questionparent", "==", parentId)
         )
@@ -908,18 +1126,22 @@ export class Question extends MainCtl {
     ).docs.map((doc) => new Question({ ...doc.data(), id: doc.id }));
     return questions;
   }
-  static async getOne(id: string): Promise<Question> {
-    const snapshot = await getDoc(this.doc(id));
+
+  //ANCHOR - [static] getOne
+  static async getOne(user: User, id: string): Promise<Question> {
+    const snapshot = await getDoc(Quiz.doc(user.uid, id));
     const question = new Question({ ...snapshot.data(), id });
     return question;
   }
+
+  //ANCHOR - [static] add
   static async add(
     user: User,
     courseparent: string,
     questionparent: string,
     title: string
   ): Promise<Question> {
-    const quiz = await Quiz.getOne(questionparent);
+    const quiz = await Quiz.getOne(user, questionparent);
     await quiz.update("amount", increment(1));
     const question = new Question({
       title,
@@ -931,6 +1153,7 @@ export class Question extends MainCtl {
     return question;
   }
 }
+//!SECTION
 
 /**
  * $$\       $$$$$$$$\  $$$$$$\   $$$$$$\   $$$$$$\  $$\   $$\
@@ -943,22 +1166,46 @@ export class Question extends MainCtl {
  * \________|\________| \______/  \______/  \______/ \__|  \__|
  */
 
+//SECTION - Lesson
 export class Lesson extends PageDoc {
   id?: string;
   schedule: Schedule;
+  parent: string;
+  user: string;
+  type: "lesson" = "lesson";
+  sort: number;
 
+  //ANCHOR - constructor
   constructor(
-    data?: PageDocInitType & Partial<Pick<Lesson, "id" | "schedule">>
+    data?: PageDocInitType &
+      Partial<Pick<Lesson, "id" | "schedule" | "parent" | "sort">>
   ) {
     super(data);
 
     this.id = data?.id;
     this.schedule = new Schedule(data?.schedule);
+    this.parent = data?.parent ?? "";
+    this.user = data?.user ?? "";
+    this.sort = data?.sort ?? Date.now();
   }
 
+  //ANCHOR - val
+  val(): ExcludeMethods<Lesson> {
+    return Object.entries(this)
+      .filter(
+        ([key, value]) => value instanceof Function === false && key !== "id"
+      )
+      .reduce((data, [key, value]) => {
+        return Object.assign(data, {
+          [key]: value instanceof Schedule ? value.toJSON() : value,
+        });
+      }, {} as ExcludeMethods<Lesson>);
+  }
+
+  //ANCHOR - save
   async save() {
     if (this.id) {
-      await updateDoc(Lesson.doc(this.id), {
+      await updateDoc(Course.doc(this.user, this.id), {
         ...cleanObject(this.toJSON()),
         datemodified: serverTimestamp(),
         schedule: this.schedule.toJSON(),
@@ -966,30 +1213,21 @@ export class Lesson extends PageDoc {
     }
   }
 
-  /**
-   *  $$$$$$\  $$\   $$\  $$$$$$\   $$$$$$\  $$\   $$\
-   * $$  __$$\ $$ |  $$ |$$  __$$\ $$  __$$\ $$ |  $$ |
-   * $$ /  $$ |$$ |  $$ |$$$$$$$$ |$$ |  \__|$$ |  $$ |
-   * $$ |  $$ |$$ |  $$ |$$   ____|$$ |      $$ |  $$ |
-   * \$$$$$$$ |\$$$$$$  |\$$$$$$$\ $$ |      \$$$$$$$ |
-   *  \____$$ | \______/  \_______|\__|       \____$$ |
-   *       $$ |                              $$\   $$ |
-   *       $$ |                              \$$$$$$  |
-   *       \__|                               \______/
-   */
+  //ANCHOR - [static] prefix
   private static prefix: string = `${process.env.REACT_APP_PREFIX}`;
-  protected static collection() {
-    return collection(db, "lms", `${this.prefix}`, `courses`);
+
+  //ANCHOR - [static] getOne
+  static async getOne(user: User, id: string): Promise<Lesson> {
+    return new Lesson({
+      ...(await getDoc(Course.doc(user.uid, id))).data(),
+      id,
+    });
   }
-  protected static doc(id: string) {
-    return doc(db, "lms", `${this.prefix}`, `courses`, id);
-  }
-  static async getOne(id: string): Promise<Lesson> {
-    return new Lesson({ ...(await getDoc(this.doc(id))).data(), id });
-  }
-  static async getLastSort(courseId: string) {
+
+  //ANCHOR - [static] getLastSort
+  static async getLastSort(user: User, courseId: string) {
     const snapshot = await getDocs(
-      query(this.collection(), where("parent", "==", courseId))
+      query(Course.collection(user.uid), where("parent", "==", courseId))
     );
     return (
       snapshot.docs
@@ -997,4 +1235,520 @@ export class Lesson extends PageDoc {
         .reduce((large, doc) => (large < doc?.sort ? doc.sort : large), 0) + 1
     );
   }
+
+  //ANCHOR - [static] add
+  static add(user: User, parent: string, title: string) {
+    return new Promise<DocumentReference<DocumentData>>(
+      async (resolve, reject) => {
+        const lesson = new Lesson({ title, user: user.uid, parent });
+        addDoc(Course.collection(user.uid), {
+          ...lesson.val(),
+          datecreate: serverTimestamp(),
+          datemodified: serverTimestamp(),
+        })
+          .then(resolve)
+          .catch(reject);
+      }
+    );
+  }
 }
+//!SECTION
+
+//SECTION - Assignment
+export type AssignmentFile = { name: string; url: string };
+export class Assignment {
+  id: string;
+  title: string;
+  content: string;
+  datedue: number;
+  schedule: Schedule;
+  files: AssignmentFile[];
+  user: string;
+  datecreate: number;
+  datemodified: number;
+  type: "assignment" = "assignment";
+  parent: string;
+  sort: number;
+
+  constructor(data?: Partial<Assignment>) {
+    this.id = data?.id ?? "";
+    this.title = data?.title ?? "";
+    this.content = data?.content ?? "";
+    this.datedue = DateCtl.toNumber(data?.datedue);
+    this.schedule = new Schedule(data?.schedule);
+    this.files = data?.files ?? [];
+    this.user = data?.user ?? "";
+    this.datecreate = DateCtl.toNumber(data?.datecreate);
+    this.datemodified = DateCtl.toNumber(data?.datemodified);
+    this.type = data?.type ?? "assignment";
+    this.parent = data?.parent ?? "";
+    this.sort = data?.sort ?? Date.now();
+  }
+  // static async getOne(assignmentId: string): Promise<AssignmentDocument> {
+  //   const assignment = (
+  //     await getDoc(this.doc("courses", assignmentId))
+  //   ).data() as AssignmentDocument | null;
+  //   if (!assignment) {
+  //     throw new Error("Assignment not found.");
+  //   }
+  //   return assignment;
+  // }
+  // static async getMany(courseId: string) {
+  //   const snapshot = await getDocs(
+  //     query(
+  //       this.collection("courses"),
+  //       where("parent", "==", courseId),
+  //       where("type", "==", "assignment")
+  //     )
+  //   );
+  //   const docs = snapshot.docs.map((doc) =>
+  //     this.parseDoc<AssignmentDocument>(doc)
+  //   );
+  //   return docs;
+  // }
+  // static async getSubmit(
+  //   sectionId: string,
+  //   assignmentId: string
+  // ): Promise<SubmitDocument[]> {
+  //   const docs = (
+  //     await getDocs(
+  //       query(
+  //         this.collection("sections", sectionId, "submits"),
+  //         where("parent", "==", assignmentId)
+  //       )
+  //     )
+  //   ).docs.map((doc) => this.parseDoc<SubmitDocument>(doc));
+  //   return docs;
+  // }
+  // static add(
+  //   user: User,
+  //   courseId: string,
+  //   data: AssignmentDocumentOptions
+  // ): Promise<DocumentReference<DocumentData>> {
+  //   return new Promise(async (resolve, reject) => {
+  //     const { rawFiles, ...newData } = data;
+  //     const files = await Promise.all(
+  //       (data?.rawFiles || []).map(
+  //         async (file) =>
+  //           await FileCtl.upload(user, file).catch((err) => {
+  //             reject(err);
+  //             return null;
+  //           })
+  //       )
+  //     );
+  //     const newFiles = files
+  //       .filter((file) => file)
+  //       .map((file) => ({
+  //         name: file!.name,
+  //         url: `${this.baseUrl()}/file/id/${file!._id}`,
+  //       }));
+  //     const sort = await Lesson.getLastSort(user, courseId);
+  //     const result = await addDoc(this.collection("courses"), {
+  //       ...cleanObject(newData),
+  //       parent: courseId,
+  //       sort,
+  //       files: newFiles,
+  //       user: user.uid,
+  //       datecreate: dbTimestamp(),
+  //       datemodified: dbTimestamp(),
+  //       type: "assignment",
+  //     });
+  //     resolve(result);
+  //   });
+  // }
+  // static async update(
+  //   user: User,
+  //   assignmentId: string,
+  //   data: Material & { rawFiles?: File[] }
+  // ) {
+  //   const {
+  //     user: us,
+  //     id,
+  //     sort,
+  //     type,
+  //     datecreate,
+  //     parent,
+  //     rawFiles,
+  //     ...newData
+  //   } = data;
+  //   const files = await Promise.all(
+  //     (rawFiles || []).map(async (file) => await FileCtl.upload(user, file))
+  //   );
+  //   const newFiles = files
+  //     .filter((file) => file)
+  //     .map((file) => ({
+  //       name: file!.name,
+  //       url: `${this.baseUrl()}/file/${file!._id}`,
+  //     }));
+  //   return updateDoc(this.doc("courses", assignmentId), {
+  //     ...newData,
+  //     files: (data.files || []).concat(...newFiles),
+  //     schedule: newData.schedule.toJSON(),
+  //     datemodified: dbTimestamp(),
+  //   });
+  // }
+
+  // static async review(
+  //   user: User,
+  //   sectionId: string,
+  //   assignmentId: string
+  // ): Promise<{
+  //   assignment: AssignmentDocument;
+  //   section: SectionDocumentWithStudent;
+  //   course: CourseDocument;
+  //   submit: SubmitDocument[];
+  // }> {
+  //   const { role } = await TeachCtl.getRole(user);
+  //   if (!(["owner", "teacher"] as Role[]).includes(role)) {
+  //     throw new Error("Permission Denied");
+  //   }
+
+  //   const assignment = await this.getOne(assignmentId);
+  //   const section = await SectionCtl.getOneWithStudent(sectionId);
+  //   if (section === null) {
+  //     throw new Error("Section not found");
+  //   }
+
+  //   const course = await CourseCtl.getOne(assignment.parent);
+  //   if (course === null) {
+  //     throw new Error("Course not found");
+  //   }
+
+  //   const submit = await this.getSubmit(sectionId, assignmentId);
+  //   return { assignment, section, course, submit };
+  // }
+
+  // static async updateSubmitScore(
+  //   sectionId: string,
+  //   submitId: string,
+  //   score: number
+  // ) {
+  //   await updateDoc(this.doc("sections", sectionId, "submits", submitId), {
+  //     score,
+  //   });
+  // }
+
+  // static send(
+  //   user: User,
+  //   data: AssignmentSubmitRawDataType,
+  //   sectionId: string,
+  //   assignmentId: string
+  // ) {
+  //   return new Promise(async (resolve) => {
+  //     const files = (
+  //       await Promise.all(data.files.map((file) => FileCtl.upload(user, file)))
+  //     ).map((file) => ({
+  //       name: file.name,
+  //       url: `${this.baseUrl()}/file/id/${file._id}`,
+  //     }));
+  //     const info = await StudentCtl.info(user.uid).catch((err) => {
+  //       throw new Error(err.message);
+  //     });
+
+  //     await addDoc(this.collection("sections", sectionId, "submits"), {
+  //       parent: assignmentId,
+  //       files,
+  //       content: data.content,
+  //       studentId: info.studentId,
+  //       user: user.uid,
+  //       date: dbTimestamp(),
+  //     });
+  //   });
+  // }
+
+  // static unsend(courseId: string, submitId: string) {
+  //   return deleteDoc(this.doc("sections", courseId, "submits", submitId));
+  // }
+  // static status(
+  //   user: User,
+  //   sectionId: string,
+  //   assignmentId: string,
+  //   callback: (doc: AssignmentSubmitDocument | null) => void
+  // ): Unsubscribe {
+  //   return onSnapshot(
+  //     query(
+  //       this.collection("sections", sectionId, "submits"),
+  //       where("user", "==", user.uid),
+  //       where("parent", "==", assignmentId)
+  //     ),
+  //     (snapshot) => {
+  //       const docs = snapshot.docs.map((doc) =>
+  //         this.parseDoc<AssignmentSubmitDocument>(doc)
+  //       );
+  //       callback(docs.length ? docs[0] : null);
+  //     }
+  //   );
+  // }
+  // static isLated(duedate: string, timezone?: string, current?:number): boolean {
+  //   const due = new Date(`${duedate}:00.000${timezone || "+07:00"}`).getTime();
+  //   const now = current || new Date().getTime();
+  //   return due < now;
+  // }
+  // static dueDisplay(duedate: string, timezone?: string): string {
+  //   const due = new Date(`${duedate}:00.000${timezone || "+07:00"}`).getTime();
+  //   return (
+  //     moment(due).format("LLL") +
+  //     (this.isLated(duedate, timezone) ? " - Lated" : "")
+  //   );
+  // }
+}
+//ANCHOR - AssignmentSubmit
+export class AssignmentSubmit {
+  id: string;
+  date: number;
+  type: "assignment-submit" = "assignment-submit";
+  files: AssignmentFile[];
+  message: string;
+  content: string;
+  user: string;
+  score: number;
+  parent: string;
+
+  constructor(data?: Partial<AssignmentSubmit>) {
+    this.id = data?.id ?? "";
+    this.date = DateCtl.toNumber(data?.date);
+    this.type = data?.type ?? "assignment-submit";
+    this.files = data?.files ?? [];
+    this.message = data?.message ?? "";
+    this.content = data?.content ?? "";
+    this.user = data?.user ?? "";
+    this.score = data?.score ?? 0;
+    this.parent = data?.parent ?? "";
+  }
+}
+//!SECTION
+
+//SECTION - Material
+export type MaterialVal = ExcludeMethods<
+  Omit<Material, "id" | "init" | "schedule" | "rawFiles">
+> & { schedule: ExcludeMethods<Schedule> };
+export type MaterialField = keyof ExcludeMethods<Material>;
+export class Material {
+  id: string;
+  title: string;
+  parent: string;
+  point: number;
+  sort: number;
+  user: string;
+  type: "lesson" | "assignment" | "material-quiz";
+  schedule: Schedule;
+  datecreate: number;
+  datemodified: number;
+
+  // Quiz
+  amount: number;
+  attemps: number;
+  quizId: string;
+
+  // Assignment
+  content: string;
+  datedue: string;
+  files: AssignmentFile[];
+
+  weight: number;
+
+  rawFiles: File[];
+
+  //ANCHOR - constructor
+  constructor(data?: Partial<Material> | Record<string, unknown>) {
+    this.id = this.init.str(data?.id);
+    this.title = this.init.str(data?.title);
+    this.parent = this.init.str(data?.parent);
+    this.point = this.init.num(data?.point);
+    this.sort = this.init.num(data?.sort, Date.now());
+    this.user = this.init.str(data?.user);
+    this.type = ["lesson", "assignment", "material-quiz"].includes(
+      `${data?.type}`
+    )
+      ? (data?.type as Material["type"])
+      : "lesson";
+    this.schedule = new Schedule(data?.schedule as Schedule);
+    this.datecreate = DateCtl.toNumber(data?.datecreate);
+    this.datemodified = DateCtl.toNumber(data?.datemodified);
+    this.amount = this.init.num(data?.amount);
+    this.attemps = this.init.num(data?.attemps, -1);
+    this.quizId = this.init.str(data?.quizId);
+
+    this.content = this.init.str(data?.content);
+    this.datedue = this.init.str(data?.datedue, new Date().toString());
+    this.files =
+      data?.files && Array.isArray(data?.files)
+        ? data.files
+            .filter(
+              (file): file is AssignmentFile =>
+                typeof file === "object" && "name" in file && "url" in file
+            )
+            .map<AssignmentFile>((file) => ({ name: file.name, url: file.url }))
+        : [];
+    this.weight = this.init.num(data?.weight);
+
+    this.rawFiles = this.init.files(data?.rawFiles);
+  }
+
+  //ANCHOR - init
+  readonly init = {
+    str: (data: unknown, fallback: string = ""): string =>
+      typeof data === "string" ? data : fallback,
+    num: (data: unknown, fallback: number = 0): number =>
+      typeof data === "number"
+        ? data
+        : typeof data === "string"
+        ? isNaN(parseFloat(data))
+          ? parseFloat(data)
+          : fallback
+        : fallback,
+    files: (data: unknown): File[] =>
+      Array.isArray(data)
+        ? data.filter((file): file is File => file instanceof File)
+        : [],
+  };
+
+  //ANCHOR - setQuiz
+  setQuiz(data: Pick<this, "title" | "quizId" | "amount">): this {
+    const { title, quizId, amount } = data;
+    this.title = title;
+    this.quizId = quizId;
+    this.amount = amount;
+    return this;
+  }
+
+  //ANCHOR - isComplete
+  isComplete(type: Material["type"]): boolean {
+    switch (type) {
+      case "material-quiz":
+        return Boolean(this.quizId && this.title);
+      case "assignment":
+        return Boolean(this.title && this.content && this.datedue);
+      default:
+        return false;
+    }
+  }
+
+  //ANCHOR - set
+  set<T extends MaterialField>(
+    field: T,
+    dispatch: ExcludeMethods<Material>[T] | ((data: this[T]) => this[T])
+  ): Material {
+    return new Material({
+      ...this,
+      [field]: dispatch instanceof Function ? dispatch(this[field]) : dispatch,
+    });
+  }
+
+  //ANCHOR - val
+  val(): MaterialVal {
+    return Object.entries(this)
+      .filter(
+        ([key, value]) =>
+          value instanceof Function === false &&
+          ["id", "init", "rawFiles"].includes(key) === false
+      )
+      .reduce<MaterialVal>(
+        (data, [key, value]) =>
+          Object.assign(data, {
+            [key]: key === "schedule" ? value.toJSON() : value,
+          }),
+        {
+          title: "",
+          parent: "",
+          quizId: "",
+          amount: 0,
+          type: "lesson",
+          point: 0,
+          sort: Date.now(),
+          user: "",
+          schedule: new Schedule().toJSON(),
+          datecreate: DateCtl.toNumber(),
+          datemodified: DateCtl.toNumber(),
+          attemps: -1,
+          content: "",
+          datedue: "",
+          files: [],
+          weight: 0,
+        }
+      );
+  }
+
+  //ANCHOR - save
+  async save(user: User): Promise<Record<"id", string>> {
+    let addedFiles = (
+      await Promise.all(
+        this.rawFiles.map(async (file) => await FileCtl.upload(user, file))
+      )
+    )
+      .filter((file): file is FileDocument => Boolean(file))
+      .map((file) => ({
+        name: file!.name,
+        url: `${MainStatic.baseUrl()}/file/${file!._id}`,
+      }));
+
+    if (this.id) {
+      const { datecreate, datemodified, files, ...data } = this.val();
+      await updateDoc(Course.doc(user.uid, this.id), {
+        ...data,
+        files: files.concat(addedFiles),
+        datemodified: serverTimestamp(),
+      });
+      return { id: this.id };
+    } else {
+      const data = {
+        ...this.val(),
+        files: this.val().files.concat(addedFiles),
+        user: user.uid,
+        datecreate: serverTimestamp(),
+        datemodified: serverTimestamp(),
+      };
+      const result = await addDoc(Course.collection(user.uid), data);
+      return { id: result.id };
+    }
+  }
+
+  //ANCHOR - remove
+  async remove(user: User | null) {
+    if (user) {
+      await deleteDoc(Course.doc(user.uid, this.id));
+    }
+  }
+
+  //ANCHOR - [static] watch
+  static watch(
+    user: User,
+    parent: string,
+    callback: (docs: Material[]) => void
+  ): Unsubscribe {
+    return onSnapshot(
+      query(
+        Course.collection(user.uid),
+        where("type", "in", ["lesson", "assignment", "material-quiz"]),
+        where("parent", "==", parent)
+      ),
+      (snapshot) => {
+        const docs = snapshot.docs
+          .map((doc) => new Material({ ...doc.data(), id: doc.id }))
+          .sort((a, b) => a.datecreate - b.datecreate)
+          .sort((a, b) => a.sort - b.sort);
+        callback(docs);
+      }
+    );
+  }
+
+  //ANCHOR - lists
+  static lists: Record<
+    Material["type"],
+    { label: LocaleKey; icon: PickIconName }
+  > = {
+    lesson: {
+      label: "Lesson",
+      icon: "chalkboard",
+    },
+    assignment: {
+      label: "Assignment",
+      icon: "file-alt",
+    },
+    "material-quiz": {
+      label: "Quiz",
+      icon: "list-ol",
+    },
+  };
+}
+//!SECTION

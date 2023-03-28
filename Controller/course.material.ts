@@ -163,7 +163,7 @@ export class Material {
           files: data.files.concat(...addedFiles),
           datecreate: serverTimestamp(),
           datemodified: serverTimestamp(),
-          sort: await Lesson.getLastSort(this.parent),
+          sort: await Lesson.getLastSort(user, this.parent),
         });
       }
     } else {
