@@ -5,6 +5,7 @@ import {
   collection,
   CollectionReference,
   deleteDoc,
+  deleteField,
   doc,
   DocumentData,
   DocumentReference,
@@ -27,7 +28,7 @@ import moment from "moment";
 import { MainCtl, MainStatic } from "./main.static";
 import { VisibilityTabsValue } from "../VisibilityTabs";
 import { User } from "firebase/auth";
-import { ExcludeMethods } from "./map";
+import { ExcludeMethods, Map } from "./map";
 import { arrayShuffle, cleanObject } from "../func";
 import update from "react-addons-update";
 import { arrayMoveImmutable } from "array-move";
@@ -38,6 +39,7 @@ import { User as MekUser } from "./user";
 import { LocaleKey } from "../Translate/en_th";
 import { PickIconName } from "../PickIcon";
 import { FileCtl, FileDocument } from "./files.static";
+import { PageContentTypes } from "../PageEdit";
 
 export interface CourseMongoDocument {
   _id?: string;
@@ -173,6 +175,8 @@ export class Course extends MainCtl {
   schedule: Schedule;
   user: string;
   visibility: VisibilityTabsValue;
+  path: string;
+  enroll: Record<string, boolean>;
 
   constructor(data?: Partial<Course>) {
     super(data);
@@ -184,6 +188,8 @@ export class Course extends MainCtl {
     this.schedule = new Schedule(data?.schedule);
     this.user = data?.user ?? "";
     this.visibility = this.getVisibiliy(data?.visibility);
+    this.path = data?.path ?? "";
+    this.enroll = data?.enroll ?? {};
   }
 
   getVisibiliy(visibility?: VisibilityTabsValue): VisibilityTabsValue {
@@ -227,6 +233,24 @@ export class Course extends MainCtl {
     }
   }
 
+  async Enroll(user?: User) {
+    const paths = this.path.split("/");
+    if (user && this.id && paths.length === 4) {
+      await updateDoc(Course.doc(paths[1], this.id), {
+        [`enroll.${user.uid}`]: true,
+      });
+    }
+  }
+
+  async Unenroll(user?: User) {
+    const paths = this.path.split("/");
+    if (user && this.id && paths.length === 4) {
+      await updateDoc(Course.doc(paths[1], this.id), {
+        [`enroll.${user.uid}`]: deleteField(),
+      });
+    }
+  }
+
   //SECTION - STATIC
   //ANCHOR - doc
   static doc(uid: string, id: string): DocumentReference<DocumentData> {
@@ -236,15 +260,15 @@ export class Course extends MainCtl {
   static collection(uid: string): CollectionReference<DocumentData> {
     return collection(db, "users", uid, "documents");
   }
-  //ANCHOR - genId
-  private static genId(uid: string): string {
-    return doc(this.collection(uid)).id;
-  }
 
   //ANCHOR - watchOne
   static watchOne(user: User, id: string, callback: (doc: Course) => void) {
     return onSnapshot(this.doc(user.uid, id), (snapshot) => {
-      const course = new Course({ ...snapshot.data(), id });
+      const course = new Course({
+        ...snapshot.data(),
+        path: snapshot.ref.path,
+        id,
+      });
       callback(course);
     });
   }
@@ -259,7 +283,7 @@ export class Course extends MainCtl {
       ),
       (snapshot) => {
         const docs = snapshot.docs.map(
-          (doc) => new Course({ ...doc.data(), id: doc.id })
+          (doc) => new Course({ ...doc.data(), path: doc.ref.path, id: doc.id })
         );
         callback(docs);
       }
@@ -269,7 +293,11 @@ export class Course extends MainCtl {
   //ANCHOR - getOne
   static async getOne(user: User, id: string): Promise<Course> {
     const snapshot = await getDoc(this.doc(user.uid, id));
-    const course = new Course({ ...snapshot.data(), id });
+    const course = new Course({
+      ...snapshot.data(),
+      path: snapshot.ref.path,
+      id,
+    });
     return course;
   }
 
@@ -301,11 +329,13 @@ export class Course extends MainCtl {
   //!SECTION
 
   //ANCHOR - view
-  static view(user: User, id: string) {
+  static view(_user: User, uid: string, id: string) {
     return new Promise<Course>(async (resolve, reject) => {
-      getDoc(this.doc(user.uid, id)).then((snapshot) => {
+      getDoc(this.doc(uid, id)).then((snapshot) => {
         if (snapshot.exists()) {
-          resolve(new Course(snapshot.data()));
+          resolve(
+            new Course({ ...snapshot.data(), id, path: snapshot.ref.path })
+          );
         } else {
           reject(new Error("Course Not Found"));
         }
@@ -331,7 +361,9 @@ export class CourseView extends Course {
     return new Promise<CourseView>(async (resolve, reject) => {
       getDoc(Course.doc(user.uid, id)).then((snapshot) => {
         if (snapshot.exists()) {
-          resolve(new CourseView(snapshot.data()));
+          resolve(
+            new CourseView({ ...snapshot.data(), path: snapshot.ref.path, id })
+          );
         } else {
           reject(new Error("Course Not Found"));
         }
@@ -776,6 +808,20 @@ export class Quiz extends MainCtl {
   ): Promise<{ quiz: Quiz; questions: Question[] }> {
     const quiz = await this.getOne(user, quizId);
     const questions = await Question.getFromParent(user, quizId);
+    return { quiz, questions };
+  }
+
+  //ANCHOR - [static] making
+  static async making(
+    uid: string,
+    itemId: string
+  ): Promise<{ quiz: Material; questions: Question[] }> {
+    const quiz = await Material.Get().one(uid, itemId);
+    const questions = await getDocs(
+      query(this.collection(uid), where("questionparent", "==", quiz.quizId))
+    ).then((snapshot) =>
+      snapshot.docs.map((doc) => new Question({ ...doc.data(), id: doc.id }))
+    );
     return { quiz, questions };
   }
 }
@@ -1520,10 +1566,22 @@ export class AssignmentSubmit {
 
 //SECTION - Material
 export type MaterialVal = ExcludeMethods<
-  Omit<Material, "id" | "init" | "schedule" | "rawFiles">
+  Omit<
+    Material,
+    | "id"
+    | "init"
+    | "schedule"
+    | "rawFiles"
+    | "path"
+    | "feature"
+    | "contents"
+    | "maps"
+  >
 > & { schedule: ExcludeMethods<Schedule> };
 export type MaterialField = keyof ExcludeMethods<Material>;
-export class Material {
+export class Material
+  implements ExcludeMethods<Omit<PageDoc, "stamp" | "visibility">>
+{
   id: string;
   title: string;
   parent: string;
@@ -1534,6 +1592,11 @@ export class Material {
   schedule: Schedule;
   datecreate: number;
   datemodified: number;
+
+  // Lesson
+  feature: PageDoc["feature"];
+  contents: PageDoc["contents"];
+  maps: PageDoc["maps"];
 
   // Quiz
   amount: number;
@@ -1548,6 +1611,7 @@ export class Material {
   weight: number;
 
   rawFiles: File[];
+  path: string;
 
   //ANCHOR - constructor
   constructor(data?: Partial<Material> | Record<string, unknown>) {
@@ -1583,6 +1647,11 @@ export class Material {
     this.weight = this.init.num(data?.weight);
 
     this.rawFiles = this.init.files(data?.rawFiles);
+    this.path = this.init.str(data?.path);
+
+    this.feature = this.init.image(data?.feature);
+    this.contents = this.init.contents(data?.contents);
+    this.maps = this.init.maps(data?.maps);
   }
 
   //ANCHOR - init
@@ -1601,6 +1670,11 @@ export class Material {
       Array.isArray(data)
         ? data.filter((file): file is File => file instanceof File)
         : [],
+    image: (data: unknown): PageDoc["feature"] => data ?? null,
+    contents: (data: unknown): PageDoc["contents"] =>
+      Array.isArray(data) ? data.map((doc) => doc as PageContentTypes) : [],
+    maps: (data: unknown): PageDoc["maps"] =>
+      Array.isArray(data) ? data.map<Map>((doc) => new Map(doc)) : [],
   };
 
   //ANCHOR - setQuiz
@@ -1641,7 +1715,15 @@ export class Material {
       .filter(
         ([key, value]) =>
           value instanceof Function === false &&
-          ["id", "init", "rawFiles"].includes(key) === false
+          [
+            "id",
+            "init",
+            "rawFiles",
+            "feature",
+            "contents",
+            "maps",
+            "path",
+          ].includes(key) === false
       )
       .reduce<MaterialVal>(
         (data, [key, value]) =>
@@ -1667,6 +1749,23 @@ export class Material {
           weight: 0,
         }
       );
+  }
+
+  //ANCHOR - toPageDoc
+  toPageDoc(): PageDoc {
+    const { title, user, datecreate, datemodified, feature, contents, maps } =
+      this;
+    const data = new PageDoc({
+      title,
+      user,
+      datecreate,
+      datemodified,
+      feature,
+      contents,
+      maps,
+      visibility: this.schedule.isPublic() ? "public" : "private",
+    });
+    return data;
   }
 
   //ANCHOR - save
@@ -1724,12 +1823,42 @@ export class Material {
       ),
       (snapshot) => {
         const docs = snapshot.docs
-          .map((doc) => new Material({ ...doc.data(), id: doc.id }))
+          .map(
+            (doc) =>
+              new Material({ ...doc.data(), path: doc.ref.path, id: doc.id })
+          )
           .sort((a, b) => a.datecreate - b.datecreate)
           .sort((a, b) => a.sort - b.sort);
         callback(docs);
       }
     );
+  }
+
+  //ANCHOR - Get
+  static Get() {
+    return {
+      one: (uid: string, itemId: string) =>
+        getDoc(doc(db, "users", uid, "documents", itemId)).then(
+          (doc) => new Material({ ...doc.data(), id: doc.id })
+        ),
+      view: (uid: string, parent: string) => {
+        return getDocs(
+          query(Course.collection(uid), where("parent", "==", parent))
+        ).then((snapshot) =>
+          snapshot.docs
+            .map(
+              (doc) =>
+                new Material({
+                  ...doc.data(),
+                  path: doc.ref.path,
+                  id: doc.id,
+                })
+            )
+            .filter((doc) => doc.schedule.isPublic())
+            .sort((a, b) => a.sort - b.sort)
+        );
+      },
+    };
   }
 
   //ANCHOR - lists
