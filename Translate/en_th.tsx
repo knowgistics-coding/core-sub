@@ -95,6 +95,7 @@ export type LocaleKey =
   | "End"
   | "English"
   | "Enroll"
+  | "Enrollee"
   | "Error"
   | "False"
   | "Feature Image"
@@ -454,7 +455,8 @@ export const locale_en_th: Record<LocaleKey, [string, string]> = {
   "Empty Trash": ["Empty Trash", "ล้างถังขยะ"],
   End: ["End", "สิ้นสุด"],
   English: ["English", "อังกฤษ"],
-  Enroll: ["English", "ลงทะเบียน"],
+  Enroll: ["Enroll", "ลงทะเบียน"],
+  Enrollee: ["Enrollee", "ผู้ลงทะเบียน"],
   Error: ["Error", "เกิดข้อผิดพลาด"],
   False: ["False", "ผิด"],
   "Feature Image": ["Feature Image", "ภาพปก"],
