@@ -251,6 +251,19 @@ export class Course extends MainCtl {
     }
   }
 
+  Teach() {
+    return {
+      unenroll: async (uid: string) => {
+        const paths = this.path.split("/");
+        if (paths.length === 4) {
+          await updateDoc(Course.doc(paths[1], this.id), {
+            [`enroll.${uid}`]: deleteField(),
+          });
+        }
+      },
+    };
+  }
+
   //SECTION - STATIC
   //ANCHOR - doc
   static doc(uid: string, id: string): DocumentReference<DocumentData> {

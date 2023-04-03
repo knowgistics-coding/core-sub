@@ -139,6 +139,7 @@ import {
   faFilter,
   faMapLocationDot,
   faTrophy,
+  faUserXmark,
 } from "@fortawesome/pro-regular-svg-icons";
 import { faYoutube, faFacebook } from "@fortawesome/free-brands-svg-icons";
 import {
@@ -289,7 +290,8 @@ const iconLists = [
   faFileImage,
   faFilter,
   faMapLocationDot,
-  faTrophy
+  faTrophy,
+  faUserXmark
 ] as IconDefinition[];
 
 library.add(...iconLists as any[]);
@@ -429,6 +431,7 @@ export type PickIconName =
   | "user"
   | "user-edit"
   | "user-plus"
+  | "user-xmark"
   | "utensils"
   | "video"
   | "walking"
