@@ -39,7 +39,7 @@ export const PEEditorVideo = ({ index, content }: PEEditorProps) => {
       }
     >
       <Box sx={{ position: "relative", backgroundColor: grey[200] }}>
-        <VideoDisplay content={content?.video} />
+        <VideoDisplay value={content?.video} />
       </Box>
       <SettingDialog
         open={Boolean(open[`videoSetting-${content.key}`])}

@@ -4,7 +4,7 @@ import { YoutubeIframe } from "./youtube.iframe";
 import { facebook_parser, loom_parser, youtube_parser } from "./parser";
 import { FaceBookIframe } from "./facebook.iframe";
 import { LoomIframe } from "./loom.iframe";
-import { PickIcon, PickIconName } from '../PickIcon'
+import { PickIcon, PickIconName } from "../PickIcon";
 
 const VideoJS = lazy(() => import("../VideoJS"));
 
@@ -12,6 +12,16 @@ const icons: Record<string, PickIconName> = {
   youtube: "youtube",
   facebook: "facebook",
 };
+
+export interface VideoContent {
+  value?: string;
+  ratio?: number;
+  from?: "facebook" | "link" | "youtube" | "loom";
+}
+export type VideoDisplayProps = {
+  value?: VideoContent;
+  secondaryActions?: React.ReactNode;
+} & BoxProps;
 
 const Placeholder = styled(({ from, ...props }: { from: string }) => (
   <Box {...props}>
@@ -28,17 +38,15 @@ const Placeholder = styled(({ from, ...props }: { from: string }) => (
   backgroundImage: theme.palette.neutral.main,
 }));
 
-const VDRoot = styled(
-  ({ content, ...props }: { content?: VideoContent } & BoxProps) => (
-    <Box {...props} />
-  )
-)<VideoDisplayProps>(({ theme, content }) => ({
+const VDRoot = styled(({ value, ...props }: VideoDisplayProps) => (
+  <Box {...props} />
+))<VideoDisplayProps>(({ theme, value }) => ({
   position: "relative",
-  backgroundImage: content?.value ? "none" : theme.palette.neutral.main,
+  backgroundImage: value?.value ? "none" : theme.palette.neutral.main,
   "&:after": {
     content: '""',
     display: "block",
-    paddingTop: `calc(100% * ${content?.ratio || 9 / 16})`,
+    paddingTop: `calc(100% * ${value?.ratio || 9 / 16})`,
   },
   "& img": {
     width: "100%",
@@ -46,39 +54,30 @@ const VDRoot = styled(
   },
 }));
 
-export interface VideoContent {
-  value?: string;
-  ratio?: number;
-  from?: "facebook" | "link" | "youtube" | "loom";
-}
-export interface VideoDisplayProps {
-  content?: VideoContent;
-  secondaryActions?: React.ReactNode;
-}
 export const VideoDisplay = ({
-  content,
+  value,
   secondaryActions,
 }: VideoDisplayProps) => {
   return (
-    <VDRoot content={content}>
-      {content?.value &&
-        content?.from &&
+    <VDRoot value={value}>
+      {value?.value &&
+        value?.from &&
         (() => {
-          switch (content.from) {
+          switch (value.from) {
             case "facebook":
-              if (facebook_parser(content.value)) {
-                return <FaceBookIframe src={facebook_parser(content.value)} />;
+              if (facebook_parser(value.value)) {
+                return <FaceBookIframe src={facebook_parser(value.value)} />;
               }
-              return <Placeholder from={content.from} />;
+              return <Placeholder from={value.from} />;
             case "link":
-              if (content.value) {
+              if (value.value) {
                 return (
                   <Suspense fallback={<div>Loading...</div>}>
                     <VideoJS
                       options={{
                         sources: [
                           {
-                            src: content.value,
+                            src: value.value,
                             type: "video/mp4",
                           },
                         ],
@@ -87,19 +86,19 @@ export const VideoDisplay = ({
                   </Suspense>
                 );
               }
-              return <Placeholder from={content.from} />;
+              return <Placeholder from={value.from} />;
             case "youtube":
-              if (youtube_parser(content.value)) {
-                return <YoutubeIframe yid={youtube_parser(content.value)} />;
+              if (youtube_parser(value.value)) {
+                return <YoutubeIframe yid={youtube_parser(value.value)} />;
               }
-              return <Placeholder from={content.from} />;
+              return <Placeholder from={value.from} />;
             case "loom":
-              if (loom_parser(content.value)) {
-                return <LoomIframe src={loom_parser(content.value)} />;
+              if (loom_parser(value.value)) {
+                return <LoomIframe src={loom_parser(value.value)} />;
               }
               return <Placeholder from="link" />;
             default:
-              return <Placeholder from={content.from} />;
+              return <Placeholder from={value.from} />;
           }
         })()}
       {secondaryActions}

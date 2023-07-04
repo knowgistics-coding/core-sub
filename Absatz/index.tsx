@@ -43,6 +43,10 @@ const Root = styled(Box, {
     ...theme.typography[variant || "body2"],
     border: view ? undefined : `solid 1px ${theme.palette.divider}`,
     borderTop: "none",
+    "img": {
+      display: "flex",
+      maxWidth: "100%",
+    }
   },
   '& div[data-block="true"]': {
     overflow: "hidden",
