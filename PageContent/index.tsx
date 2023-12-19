@@ -79,7 +79,7 @@ export const PageContent = ({ data, ...props }: PageContentProps) => {
           case "video":
             return (
               <Wrapper key={content.key}>
-                <VideoDisplay content={content?.video} />
+                <VideoDisplay value={content?.video} />
               </Wrapper>
             );
           case "table":

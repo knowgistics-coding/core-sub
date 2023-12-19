@@ -33,11 +33,6 @@ export const DataGrid = ({
   const searchFilter = (): readonly any[] => {
     if (q) {
       const splited = `${q}`.split(" ");
-      console.log(
-        rows.filter((row) =>
-          splited.every((txt) => JSON.stringify(row).includes(txt))
-        )
-      );
       return rows.filter((row) =>
         splited.every((txt) => JSON.stringify(row).includes(txt))
       );
