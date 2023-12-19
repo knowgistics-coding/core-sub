@@ -2,6 +2,7 @@ import * as React from "react";
 import {
   GoogleMap,
   GoogleMapProps,
+  Libraries,
   Marker,
   useJsApiLoader,
 } from "@react-google-maps/api";
@@ -36,13 +37,7 @@ export interface GoogleMapsProps
   onSearchEnd?: (places: google.maps.places.PlaceResult[]) => void;
 }
 
-const libs: (
-  | "places"
-  | "drawing"
-  | "geometry"
-  | "localContext"
-  | "visualization"
-)[] = ["places"];
+const libs: Libraries = ["places"];
 
 export const GoogleMaps = React.memo(
   ({

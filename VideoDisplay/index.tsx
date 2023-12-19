@@ -4,7 +4,7 @@ import { YoutubeIframe } from "./youtube.iframe";
 import { facebook_parser, loom_parser, youtube_parser } from "./parser";
 import { FaceBookIframe } from "./facebook.iframe";
 import { LoomIframe } from "./loom.iframe";
-import { PickIcon, PickIconName } from '../PickIcon'
+import { PickIcon, PickIconName } from "../PickIcon";
 
 const VideoJS = lazy(() => import("../VideoJS"));
 
@@ -29,7 +29,10 @@ const Placeholder = styled(({ from, ...props }: { from: string }) => (
 }));
 
 const VDRoot = styled(
-  ({ content, ...props }: { content?: VideoContent } & BoxProps) => (
+  ({
+    content,
+    ...props
+  }: { content?: VideoContent } & Omit<BoxProps, "content">) => (
     <Box {...props} />
   )
 )<VideoDisplayProps>(({ theme, content }) => ({
